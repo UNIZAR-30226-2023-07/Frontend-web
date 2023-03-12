@@ -161,7 +161,7 @@ Argon Dashboard React
     │   │   ├── Header.jsx
     │   │   └── UserHeader.jsx
     │   ├── Navbars
-    │   │   ├── AdminNavbar.jsx
+    │   │   ├── UserNavbar.jsx
     │   │   └── AuthNavbar.jsx
     │   └── Sidebar
     │       └── Sidebar.jsx

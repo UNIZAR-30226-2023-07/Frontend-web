@@ -29,7 +29,7 @@ import {
   Col
 } from "reactstrap";
 
-const AdminNavbar = () => {
+const UserNavbar = () => {
   return (
     <>
       <Navbar className="navbar-top navbar-horizontal navbar-dark" expand="md">
@@ -103,4 +103,4 @@ const AdminNavbar = () => {
   );
 };
 
-export default AdminNavbar;
+export default UserNavbar;

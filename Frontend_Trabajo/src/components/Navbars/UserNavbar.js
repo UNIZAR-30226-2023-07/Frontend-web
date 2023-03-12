@@ -34,7 +34,7 @@ import {
   Media
 } from "reactstrap";
 
-const AdminNavbar = (props) => {
+const UserNavbar = (props) => {
   return (
     <>
       <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
@@ -44,6 +44,24 @@ const AdminNavbar = (props) => {
             to="/"
           >
             {props.brandText}
+          </Link>
+          <Link
+            className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
+            to="/admin/tables"
+          >
+            Perfil
+          </Link>
+          <Link
+            className="h4 mb-0 text-white text-uppercase d-lg-none d-lg-inline-block"
+            to="/admin/tables"
+          >
+            Amig@s
+          </Link>
+          <Link
+            className="h4 mb-0 text-white text-uppercase d-lg-none d-lg-inline-block"
+            to="/admin/tables"
+          >
+            Ajustes
           </Link>
           <Form className="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
             <FormGroup className="mb-0">
@@ -108,4 +126,4 @@ const AdminNavbar = (props) => {
   );
 };
 
-export default AdminNavbar;
+export default UserNavbar;
