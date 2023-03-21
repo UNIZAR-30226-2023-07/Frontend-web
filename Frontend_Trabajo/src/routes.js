@@ -99,5 +99,12 @@ var routes = [
     component: Perfil_Usuario,
     layout: "/admin"
   },
+  /*{
+    path: "",
+    name: "",
+    icon: "ni ni-circle-08 text-pink",
+    component: ,
+    layout: "/tablero_rabino"
+  },*/
 ];
 export default routes;
