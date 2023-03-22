@@ -1,4 +1,4 @@
-export const numbers = [
+  export const numbers = [
     {
       id: 0,
       number: 1,
