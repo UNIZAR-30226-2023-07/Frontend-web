@@ -8,12 +8,12 @@ const CenterCardElement = ({ number, symbol, name }) => {
         return (
           <span className="centerCard" key={index}>
             <span className="center-symbol-sigle">
-              {number >= 0 && number <= 10 ? symbol : ""}
+              {number > 0 && number <= 10 ? symbol : ""}
             </span>
           </span>
         );
       })}
-      {number === 11 || number === 12 || number === 13 ? (
+      {number === 11 || number === 12 || number === 13 || number === 0? (
         <FigureCardCenter number={number} name={name} />
       ) : (
         ""

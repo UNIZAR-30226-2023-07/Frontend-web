@@ -10,6 +10,8 @@ import QueenOfClub from "../figureComponents/QueenOfClub";
 import QuennOfDiamond from "../figureComponents/QueenOfDiamond";
 import QueenOfHeart from "../figureComponents/QueenOfHeart";
 import QueenOfSpade from "../figureComponents/QueenOfSpade";
+//NUEVO
+import Joker from "../figureComponents/Joker_rabino";
 
 const FigureCardCenter = ({ name, number }) => {
   const FigureContent = () => {
@@ -56,6 +58,9 @@ const FigureCardCenter = ({ name, number }) => {
           return <KingOfDiamond />;
         }
         break;
+      case 0:
+        return <Joker />;
+    
       default:
         break;
     }

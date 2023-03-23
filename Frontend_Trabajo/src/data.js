@@ -51,6 +51,10 @@
       id: 12,
       number: 13,
     },
+    {
+      id: 13,
+      number: 0,
+    },
   ];
   
   export const colors = [
@@ -84,5 +88,10 @@
       id: 3,
       symbol: "♦",
       name: "diamond",
+    },
+    {
+      id: 4,
+      symbol: "J",
+      name: "joker",
     },
   ];
