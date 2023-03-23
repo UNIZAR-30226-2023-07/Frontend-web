@@ -48,7 +48,7 @@ import {
                         <img
                           alt="..."
                           className="rounded-circle"
-                          src={require("../../assets/img/Imgs_7_Reinas/Ficha_de_rabino.png")}
+                          src={require("../../assets/img/Imgs_7_Reinas/Slifer_sky_dragon.png")}
                         />
                       </a>
                     </div>
