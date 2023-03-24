@@ -125,9 +125,10 @@ import {
                   </label>
                 </div>
                 <div className="text-center">
-                  <Button className="my-4" color="primary" type="submit">
+                  <Link to= "/admin/perfil_usuario"><Button className="my-4" color="primary" type="submit">
                     Iniciar Sesión
                   </Button>
+                  </Link>
                 </div>
               </Form>
             </CardBody>

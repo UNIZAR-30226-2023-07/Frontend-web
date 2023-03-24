@@ -25,6 +25,7 @@ import Icons from "views/examples/Icons.js";
 //NUEVO
 import Login_R from "views/examples/Login_Reinas.js";
 import Register_R from "views/examples/Register_Reinas.js";
+import Perfil_Usuario from "views/examples/Perfil_Usuario";
 
 var routes = [
   {
@@ -90,6 +91,20 @@ var routes = [
     icon: "ni ni-circle-08 text-pink",
     component: Register_R,
     layout: "/pagina_login"
-  }
+  },
+  {
+    path: "/perfil_usuario",
+    name: "Perfil_Usuario",
+    icon: "ni ni-single-02 text-yellow",
+    component: Perfil_Usuario,
+    layout: "/admin"
+  },
+  /*{
+    path: "",
+    name: "",
+    icon: "ni ni-circle-08 text-pink",
+    component: ,
+    layout: "/tablero_rabino"
+  },*/
 ];
 export default routes;
