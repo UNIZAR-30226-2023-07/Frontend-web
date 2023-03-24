@@ -15,7 +15,11 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
+import { NavLink as NavLinkRRD, Link } from "react-router-dom";
+// nodejs library to set properties for components
+import { PropTypes } from "prop-types";
+
 // reactstrap components
 import {
   DropdownMenu,
@@ -28,23 +32,45 @@ import {
   InputGroupText,
   Input,
   InputGroup,
+  NavbarBrand,
   Navbar,
+  NavItem,
+  NavLink,
   Nav,
   Container,
   Media
 } from "reactstrap";
 
 const UserNavbar = (props) => {
+
+  const { bgColor, logo } = props;
+  let navbarBrandProps;
+  if (logo && logo.innerLink) {
+    navbarBrandProps = {
+      to: logo.innerLink,
+      tag: Link
+    };
+  } else if (logo && logo.outterLink) {
+    navbarBrandProps = {
+      href: logo.outterLink,
+      target: "_blank"
+    };
+  }
+
   return (
     <>
       <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
         <Container fluid>
-          <Link
-            className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
-            to="/"
-          >
-            {props.brandText}
-          </Link>
+          {logo ? (
+            <NavbarBrand className="pt-0" {...navbarBrandProps}>
+              <img
+                alt={logo.imgAlt}
+                className="navbar-brand-img"
+                src={logo.imgSrc}
+                width="300"
+              />
+            </NavbarBrand>
+          ) : null}
           <Link
             className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
             to="/admin/tables"
@@ -124,6 +150,22 @@ const UserNavbar = (props) => {
       </Navbar>
     </>
   );
+};
+
+UserNavbar.propTypes = {
+  // links that will be displayed inside the component
+  logo: PropTypes.shape({
+    // innerLink is for links that will direct the user within the app
+    // it will be rendered as <Link to="...">...</Link> tag
+    innerLink: PropTypes.string,
+    // outterLink is for links that will direct the user outside the app
+    // it will be rendered as simple <a href="...">...</a> tag
+    outterLink: PropTypes.string,
+    // the image src of the logo
+    imgSrc: PropTypes.string.isRequired,
+    // the alt for the img
+    imgAlt: PropTypes.string.isRequired
+  })
 };
 
 export default UserNavbar;

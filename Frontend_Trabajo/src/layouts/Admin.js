@@ -25,6 +25,8 @@ import AdminFooter from "components/Footers/AdminFooter.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 
 import routes from "routes.js";
+import friends from "friends.js";
+import friendRequests from "friendRequests.js";
 
 const Admin = (props) => {
   const mainContent = React.useRef(null);
@@ -69,16 +71,18 @@ const Admin = (props) => {
       <Sidebar
         {...props}
         routes={routes}
-        logo={{
-          innerLink: "/admin/index",
-          imgSrc: require("../assets/img/brand/argon-react.png"),
-          imgAlt: "..."
-        }}
+        friends={friends}
+        friendRequests={friendRequests}
       />
       <div className="main-content" ref={mainContent}>
         <UserNavbar
           {...props}
           brandText={getBrandText(props.location.pathname)}
+          logo={{
+            innerLink: "/admin/index",
+            imgSrc: require("../assets/img/brand/large-white.png"),
+            imgAlt: "..."
+          }}
         />
         <Switch>
           {getRoutes(routes)}

@@ -54,6 +54,7 @@ import {
 
 var ps;
 
+
 const Sidebar = (props) => {
   const [collapseOpen, setCollapseOpen] = useState();
   // verifies if routeName is the one active (in browser input)
@@ -86,8 +87,94 @@ const Sidebar = (props) => {
       );
     });
   };
+  // creates the links that appear in the right menu / Sidebar
+  const showFriendRequests = (friendRqs) => {
+    return friendRqs.map((prop, key) => {
+      return (
+        <Nav className="d-none d-md-flex" navbar>
+          <UncontrolledDropdown nav>
+            <DropdownToggle className="pr-0" nav>
+              <Media className="align-items-center">
+                <span className="avatar avatar-sm rounded-circle">
+                  <img
+                    alt="..."
+                    src={require("../../assets/img/theme/team-4-800x800.jpg")}
+                  />
+                </span>
+                <Media className="ml-2 d-none d-lg-block">
+                  <span className="mb-0 text-sm font-weight-bold">
+                  {prop.nick}<span className="text-xs"><br/>Clic para gestionar</span>
+                  </span>
+                </Media>
+              </Media>
+            </DropdownToggle>
+            <DropdownMenu className="dropdown-menu-arrow" right>
+              <DropdownItem className="noti-title" header tag="div">
+                <h6 className="text-overflow m-0">{prop.nick}</h6>
+              </DropdownItem>
+              <DropdownItem to="/admin/user-profile" tag={Link}>
+                <i className="ni ni-single-02" />
+                <span>Profile</span>
+              </DropdownItem>
+              <DropdownItem to="/admin/user-profile" tag={Link}>
+                <i className="ni ni-settings-gear-65" />
+                <span>Aceptar</span>
+              </DropdownItem>
+              <DropdownItem to="/admin/user-profile" tag={Link}>
+                <i className="ni ni-calendar-grid-58" />
+                <span>Rechazar</span>
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+        </Nav>
+      );
+    });
+  };
+  // creates the links that appear in the right menu / Sidebar
+  const showFriends = (friends) => {
+    return friends.map((prop, key) => {
+      return (
+        <Nav className="d-none d-md-flex" navbar>
+          <UncontrolledDropdown nav>
+            <DropdownToggle className="pr-0" nav>
+              <Media className="align-items-center">
+                <span className="avatar avatar-sm rounded-circle">
+                  <img
+                    alt="..."
+                    src={require("../../assets/img/theme/team-4-800x800.jpg")}
+                  />
+                </span>
+                <Media className="ml-2 d-none d-lg-block">
+                  <span className="mb-0 text-sm font-weight-bold">
+                  {prop.nick}<span className="text-xs"><br/>{prop.pts} puntos</span>
+                  </span>
+                </Media>
+              </Media>
+            </DropdownToggle>
+            <DropdownMenu className="dropdown-menu-arrow" right>
+              <DropdownItem className="noti-title" header tag="div">
+                <h6 className="text-overflow m-0">{prop.nick}</h6>
+              </DropdownItem>
+              <DropdownItem to="/admin/user-profile" tag={Link}>
+                <i className="ni ni-settings-gear-65" />
+                <span>Chat</span>
+              </DropdownItem>
+              <DropdownItem to="/admin/user-profile" tag={Link}>
+                <i className="ni ni-single-02" />
+                <span>Profile</span>
+              </DropdownItem>
+              <DropdownItem to="/admin/user-profile" tag={Link}>
+                <i className="ni ni-calendar-grid-58" />
+                <span>Unfriend</span>
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+        </Nav>
+      );
+    });
+  };
 
-  const { bgColor, routes, logo } = props;
+  const { bgColor, routes, friends, friendRequests, logo } = props;
   let navbarBrandProps;
   if (logo && logo.innerLink) {
     navbarBrandProps = {
@@ -229,13 +316,18 @@ const Sidebar = (props) => {
             </InputGroup>
           </Form>
           {/* Navigation */}
-          <Nav navbar>{createLinks(routes)}</Nav>
+          {/* <Nav navbar>{createLinks(routes)}</Nav> */}
+          <h6 className="navbar-heading text-muted">Peticiones de amistad</h6>
+          {showFriendRequests(friendRequests)}
+          <h6 className="navbar-heading text-muted">Amistades</h6>
+          {showFriends(friends)}
+          {/* <Nav navbar>{showFriends(friends)}</Nav> */}
           {/* Divider */}
-          <hr className="my-3" />
+          {/* <hr className="my-3" /> */}
           {/* Heading */}
-          <h6 className="navbar-heading text-muted">Documentation</h6>
+          {/* <h6 className="navbar-heading text-muted">Documentation</h6> */}
           {/* Navigation */}
-          <Nav className="mb-md-3" navbar>
+          {/* <Nav className="mb-md-3" navbar>
             <NavItem>
               <NavLink href="https://demos.creative-tim.com/argon-dashboard-react/#/documentation/overview?ref=adr-admin-sidebar">
                 <i className="ni ni-spaceship" />
@@ -274,7 +366,7 @@ const Sidebar = (props) => {
                 Upgrade to PRO
               </NavLink>
             </NavItem>
-          </Nav>
+          </Nav> */}
         </Collapse>
       </Container>
     </Navbar>
@@ -282,12 +374,16 @@ const Sidebar = (props) => {
 };
 
 Sidebar.defaultProps = {
-  routes: [{}]
+  routes: [{}],
+  friends: [{}],
+  friendRequests: [{}]
 };
 
 Sidebar.propTypes = {
   // links that will be displayed inside the component
   routes: PropTypes.arrayOf(PropTypes.object),
+  friends: PropTypes.arrayOf(PropTypes.object),
+  friendRequests: PropTypes.arrayOf(PropTypes.object),
   logo: PropTypes.shape({
     // innerLink is for links that will direct the user within the app
     // it will be rendered as <Link to="...">...</Link> tag
