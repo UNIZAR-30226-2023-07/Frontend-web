@@ -5,7 +5,8 @@ import CardsWrapper from "components/Cartas_Rabino/CardWrapper.js";
 function App() {
   return (
     <div className="App">
-      <CardsWrapper cardsNumber="5" />
+      <CardsWrapper cardsNumber="14"/>
+      <button onClick={() => window.location.reload()}>Reload Cards</button>
     </div>
   );
 }

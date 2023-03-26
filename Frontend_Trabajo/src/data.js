@@ -91,7 +91,7 @@
     },
     {
       id: 4,
-      symbol: "J",
+      symbol: "⚛",
       name: "joker",
     },
   ];
