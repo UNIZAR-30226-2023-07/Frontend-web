@@ -1,6 +1,11 @@
 import Card from "./card.js";
 
 import { numbers, colors, symbols } from "../../data";
+
+import { 
+  Button
+} from "reactstrap";
+
 //import {  colors } from "../../data";
 //import useRandomValueFromArray from "../../hooks/useRandomValueFromArray";
 
@@ -21,6 +26,7 @@ const CardsWrapper = ({cartas, cardsNumber}) => {
         indice = indice + 1;
 
       return (
+        <Button onClick={() => console.log('The link was clicked.')} className="card-button">
         <Card
           key={index}
           name={carta_Symbols.name}
@@ -32,6 +38,7 @@ const CardsWrapper = ({cartas, cardsNumber}) => {
           }
           symbol={carta_Symbols.symbol}
         />
+        </Button>
       );
       })}
     </div>

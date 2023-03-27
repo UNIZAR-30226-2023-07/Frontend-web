@@ -33,7 +33,7 @@
     width: 14rem;
     height: 20rem;
     border-radius: 7px;
-    margin: 10px;
+    margin: -13px;
   }
   .card-content__inner,
   .card-content-inner__border-top,
@@ -176,13 +176,21 @@
   .figure-picture {
     transform: scale(0.94) translate(0, 10px);
   }
+  /*Nuevo*/
   .img-joker{
     width: 60%;
     height: 60%;
     border-radius: 10%;
     vertical-align: top;
     margin-right: 1.5rem;
-    margin-left: 2.85rem;
+    margin-left: 1.7rem;
+  }
+  .card-button {
+    background: #fff;
+    width: 15rem;
+    height: 21rem;
+    border-radius: 7px;
+    margin: 10px;
   }
   
   /* BUTTON SECTION */
