@@ -19,6 +19,7 @@
 import { NavLink as NavLinkRRD, Link } from "react-router-dom";
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
+import SoundEnvironment from "../SoundEnvironment/SoundEnvironment.js"
 
 // reactstrap components
 import {
@@ -73,7 +74,7 @@ const UserNavbar = (props) => {
           ) : null}
           <Link
             className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
-            to="/admin/tables"
+            to="/admin/perfil_usuario"
           >
             Perfil
           </Link>
@@ -85,7 +86,7 @@ const UserNavbar = (props) => {
           </Link>
           <Link
             className="h4 mb-0 text-white text-uppercase d-lg-none d-lg-inline-block"
-            to="/admin/tables"
+            to="/admin/settings"
           >
             Ajustes
           </Link>
@@ -101,6 +102,11 @@ const UserNavbar = (props) => {
               </InputGroup>
             </FormGroup>
           </Form>
+          <SoundEnvironment
+            handleSoundLoading = {() => {}}
+            handleSoundPlaying = {() => {}}
+            handleSoundFinishedPlaying = {() => {}}
+          />
           <Nav className="align-items-center d-none d-md-flex" navbar>
             <UncontrolledDropdown nav>
               <DropdownToggle className="pr-0" nav>

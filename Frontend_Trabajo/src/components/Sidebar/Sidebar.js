@@ -174,19 +174,19 @@ const Sidebar = (props) => {
     });
   };
 
-  const { bgColor, routes, friends, friendRequests, logo } = props;
-  let navbarBrandProps;
-  if (logo && logo.innerLink) {
-    navbarBrandProps = {
-      to: logo.innerLink,
-      tag: Link
-    };
-  } else if (logo && logo.outterLink) {
-    navbarBrandProps = {
-      href: logo.outterLink,
-      target: "_blank"
-    };
-  }
+  const { bgColor, routes, friends, friendRequests } = props;
+  // let navbarBrandProps;
+  // if (logo && logo.innerLink) {
+  //   navbarBrandProps = {
+  //     to: logo.innerLink,
+  //     tag: Link
+  //   };
+  // } else if (logo && logo.outterLink) {
+  //   navbarBrandProps = {
+  //     href: logo.outterLink,
+  //     target: "_blank"
+  //   };
+  // }
 
   return (
     <Navbar
@@ -196,15 +196,15 @@ const Sidebar = (props) => {
     >
       <Container fluid>
         {/* Toggler */}
-        <button
+        {/* <button
           className="navbar-toggler"
           type="button"
           onClick={toggleCollapse}
         >
           <span className="navbar-toggler-icon" />
-        </button>
+        </button> */}
         {/* Brand */}
-        {logo ? (
+        {/*logo ? (
           <NavbarBrand className="pt-0" {...navbarBrandProps}>
             <img
               alt={logo.imgAlt}
@@ -212,9 +212,9 @@ const Sidebar = (props) => {
               src={logo.imgSrc}
             />
           </NavbarBrand>
-        ) : null}
+        ) : null*/}
         {/* User */}
-        <Nav className="align-items-center d-md-none">
+        {/* <Nav className="align-items-center d-md-none">
           <UncontrolledDropdown nav>
             <DropdownToggle nav className="nav-link-icon">
               <i className="ni ni-bell-55" />
@@ -268,11 +268,11 @@ const Sidebar = (props) => {
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
-        </Nav>
+        </Nav> */}
         {/* Collapse */}
         <Collapse navbar isOpen={collapseOpen}>
           {/* Collapse header */}
-          <div className="navbar-collapse-header d-md-none">
+          {/* <div className="navbar-collapse-header d-md-none">
             <Row>
               {logo ? (
                 <Col className="collapse-brand" xs="6">
@@ -298,9 +298,9 @@ const Sidebar = (props) => {
                 </button>
               </Col>
             </Row>
-          </div>
+          </div> */}
           {/* Form */}
-          <Form className="mt-4 mb-3 d-md-none">
+          {/* <Form className="mt-4 mb-3 d-md-none">
             <InputGroup className="input-group-rounded input-group-merge">
               <Input
                 aria-label="Search"
@@ -314,7 +314,7 @@ const Sidebar = (props) => {
                 </InputGroupText>
               </InputGroupAddon>
             </InputGroup>
-          </Form>
+          </Form> */}
           {/* Navigation */}
           {/* <Nav navbar>{createLinks(routes)}</Nav> */}
           <h6 className="navbar-heading text-muted">Peticiones de amistad</h6>
@@ -383,19 +383,7 @@ Sidebar.propTypes = {
   // links that will be displayed inside the component
   routes: PropTypes.arrayOf(PropTypes.object),
   friends: PropTypes.arrayOf(PropTypes.object),
-  friendRequests: PropTypes.arrayOf(PropTypes.object),
-  logo: PropTypes.shape({
-    // innerLink is for links that will direct the user within the app
-    // it will be rendered as <Link to="...">...</Link> tag
-    innerLink: PropTypes.string,
-    // outterLink is for links that will direct the user outside the app
-    // it will be rendered as simple <a href="...">...</a> tag
-    outterLink: PropTypes.string,
-    // the image src of the logo
-    imgSrc: PropTypes.string.isRequired,
-    // the alt for the img
-    imgAlt: PropTypes.string.isRequired
-  })
+  friendRequests: PropTypes.arrayOf(PropTypes.object)
 };
 
 export default Sidebar;
