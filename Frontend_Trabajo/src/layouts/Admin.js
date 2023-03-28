@@ -27,6 +27,7 @@ import Sidebar from "components/Sidebar/Sidebar.js";
 import routes from "routes.js";
 import friends from "friends.js";
 import friendRequests from "friendRequests.js";
+import sessionUser from "sessionUser.js";
 
 const Admin = (props) => {
   const mainContent = React.useRef(null);
@@ -44,7 +45,13 @@ const Admin = (props) => {
         return (
           <Route
             path={prop.layout + prop.path}
-            component={prop.component}
+            // Añadir props: https://ui.dev/react-router-pass-props-to-components
+            render={(props) => <prop.component
+                                  {...props}
+                                  sessionUser={sessionUser} 
+                                  friends={friends}
+                                  friendRequests={friendRequests}
+                                /> }
             key={key}
           />
         );

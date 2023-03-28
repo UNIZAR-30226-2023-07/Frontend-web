@@ -19,11 +19,13 @@ import {
     DropdownMenu,
     DropdownItem
   } from "reactstrap";
+  import { PropTypes } from "prop-types";
   // core components
   //import UserHeader from "components/Headers/UserHeader.js";
   import Header from "components/Headers/Header.js";
   
-  const Perfil_Usuario = () => {
+  const Perfil_Usuario = (props) => {
+    const { bgColor, routes, sessionUser } = props;
     const victorias = 18; //Esta información se cogería del sevidor
     const derrotas = 32;
     const num_amigos = 25;
@@ -74,13 +76,13 @@ import {
                     <h3>
                       <span className="font-weight-bold">Usuario:</span>
                       <div>
-                      <span className="font-weight-light">Jessica Jones</span>
+                      <span className="font-weight-light">{sessionUser.nick}</span>
                       </div>
                     </h3>
                     <h3>
                       <span className="font-weight-bold">Correo:</span>
                       <div>
-                      <span className="font-weight-light">jjones@gmail.com</span>
+                      <span className="font-weight-light">{sessionUser.email}</span>
                       </div>
                     </h3>
                   </div>
@@ -106,28 +108,29 @@ import {
                       <td>
                         <Media className="align-items-center">
                           <span className="mb-0 text-sm text-sm-center">
-                          {victorias}
+                          {sessionUser.won}
                           </span>
                         </Media>
                       </td>
                       <td>
                         <span className="mb-0 text-sm text-sm-center">
-                          {derrotas}
+                          {sessionUser.lost}
                         </span>
                       </td>
                       <td>
                         <span className="mb-0 text-sm text-sm-center">
-                          {derrotas + victorias}
+                          {sessionUser.won + sessionUser.lost}
                         </span>
                       </td>
                       <td>
                       <div className="d-flex align-items-center">
-                        <span className="mr-2">{porcentaje_victorias(victorias, derrotas)}%</span>
+                        <span className="mr-2">{Math.round(porcentaje_victorias(sessionUser.won, sessionUser.lost))}%</span>
                         <div>
                           <Progress
                             max="100"
-                            value={porcentaje_victorias(victorias, derrotas)}
-                            barClassName="bg-danger"
+                            value={porcentaje_victorias(sessionUser.won, sessionUser.lost)}
+                            barClassName={Math.round(porcentaje_victorias(sessionUser.won, sessionUser.lost)) < 30 ? "bg-danger" :
+                                          Math.round(porcentaje_victorias(sessionUser.won, sessionUser.lost)) < 70 ? "bg-info" : "bg-success"}
                           />
                         </div>
                       </div>
@@ -142,6 +145,21 @@ import {
       </>
     );
   };
+
+  Perfil_Usuario.propTypes = {
+    sessionUser: PropTypes.checkPropTypes({
+      nick: PropTypes.string,
+      email: PropTypes.string,
+      friends: PropTypes.number,
+      won: PropTypes.number,
+      lost: PropTypes.number,
+      picture: PropTypes.string
+    })
+  };
   
+  Perfil_Usuario.defaultProps = {
+    sessionUser: {}
+  };
+
   export default Perfil_Usuario;
   
