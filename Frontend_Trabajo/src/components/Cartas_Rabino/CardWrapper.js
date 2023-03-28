@@ -6,6 +6,8 @@ import {
   Button
 } from "reactstrap";
 
+import { useState } from "react";
+
 //import {  colors } from "../../data";
 //import useRandomValueFromArray from "../../hooks/useRandomValueFromArray";
 
@@ -26,7 +28,8 @@ const CardsWrapper = ({cartas, cardsNumber}) => {
         indice = indice + 1;
 
       return (
-        <Button onClick={() => console.log('The link was clicked.')} className="card-button">
+        <Button onClick={() => console.log('The link was clicked.')} 
+        className="card-button" /*style={{ backgroundColor: active ? "black" : "white" }}*/>
         <Card
           key={index}
           name={carta_Symbols.name}

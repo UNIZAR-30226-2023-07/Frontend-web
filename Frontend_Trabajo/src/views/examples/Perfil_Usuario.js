@@ -28,11 +28,48 @@ import {
     const derrotas = 32;
     const num_amigos = 25;
     const ranking = 5;
+    const correo_usuario = "jjones@gmail.com";
+    const nombre_usuario = "Jessica Jones";
 
     function porcentaje_victorias(vic, der){
       return (vic/(vic + der))*100;
     };
 
+    //Los huecos de modificación
+    /*
+    <FormGroup>
+                        <label
+                          className="form-control-label"
+                          htmlFor="input-nombre_usiario"
+                        >
+                          Usuario:
+                        </label>
+                        <Input
+                          className="form-control-alternative"
+                          defaultValue={nombre_usuario}
+                          id="input-nombre_usiario"
+                          placeholder="Usuario"
+                          type="text"
+                        />
+                      </FormGroup>
+    */
+   /*
+   <FormGroup>
+                        <label
+                          className="form-control-label"
+                          htmlFor="input-correo"
+                        >
+                          Correo:
+                        </label>
+                        <Input
+                          className="form-control-alternative"
+                          defaultValue={correo_usuario}
+                          id="input-correo"
+                          placeholder="Correo"
+                          type="text"
+                        />
+                      </FormGroup>
+   */
     return (
       <>
         <Header />

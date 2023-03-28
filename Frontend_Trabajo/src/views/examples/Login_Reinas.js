@@ -148,6 +148,19 @@ import {
                 </NavItem>
               </Nav>
             </Col>
+            <Col className="text-right" xs="4">
+              <Nav className="m-auto" navbar>
+                <NavItem>
+                  <NavLink
+                    className="nav-link-icon text-light"
+                    to="/pagina_login/register_reinas"
+                    tag={Link}
+                  >
+                    <small>¿Ha olvidado su contraseña?</small>
+                  </NavLink>
+                </NavItem>
+              </Nav>
+            </Col>
           </Row>
         </Col>
       </>
