@@ -26,6 +26,7 @@ import Icons from "views/examples/Icons.js";
 import Login_R from "views/examples/Login_Reinas.js";
 import Register_R from "views/examples/Register_Reinas.js";
 import Perfil_Usuario from "views/examples/Perfil_Usuario";
+import Password_O from "views/examples/Password_Olvidada";
 
 var routes = [
   {
@@ -90,6 +91,13 @@ var routes = [
     name: "Register_R",
     icon: "ni ni-circle-08 text-pink",
     component: Register_R,
+    layout: "/pagina_login"
+  },
+  {
+    path: "/password_olvidada",
+    name: "Password_O",
+    icon: "ni ni-circle-08 text-pink",
+    component: Password_O,
     layout: "/pagina_login"
   },
   {
