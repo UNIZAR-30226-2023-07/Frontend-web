@@ -20,8 +20,6 @@ import {
     DropdownItem
   } from "reactstrap";
   import { PropTypes } from "prop-types";
-  import { Link } from "react-router-dom";
-
   // core components
   //import UserHeader from "components/Headers/UserHeader.js";
   import Header from "components/Headers/Header.js";
@@ -30,7 +28,7 @@ import {
   import Juego from "../../assets/img/Imgs_7_Reinas/Fondo_Pantalla_Inicio.png";
   import As_p from "../../assets/img/Imgs_7_Reinas/As_de_picas.png";
   
-  const Perfil_Usuario = (props) => {
+  const Ajustes_Perfil = (props) => {
     const { bgColor, routes, sessionUser } = props;
     const victorias = 18; //Esta información se cogería del sevidor
     const derrotas = 32;
@@ -118,10 +116,14 @@ import {
                 </Row>
                 <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
                   <div className="d-flex justify-content-between">
-                    <Link to= "/admin/ajustes_perfil"><Button as={Link} variant="primary" className="mr-4" color="info" size="sm">
+                    <Button
+                      className="mr-4"
+                      color="info"
+                      onClick={(e) => e.preventDefault()}
+                      size="sm"
+                    >
                       Ajustar
                     </Button>
-                    </Link>
                   </div>
                 </CardHeader>
                 <CardBody className="pt-0 pt-md-4">
@@ -213,20 +215,5 @@ import {
     );
   };
 
-  Perfil_Usuario.propTypes = {
-    sessionUser: PropTypes.checkPropTypes({
-      nick: PropTypes.string,
-      email: PropTypes.string,
-      friends: PropTypes.number,
-      won: PropTypes.number,
-      lost: PropTypes.number,
-      picture: PropTypes.string
-    })
-  };
-  
-  Perfil_Usuario.defaultProps = {
-    sessionUser: {}
-  };
-
-  export default Perfil_Usuario;
+  export default Ajustes_Perfil;
   

@@ -27,6 +27,7 @@ import Login_R from "views/examples/Login_Reinas.js";
 import Register_R from "views/examples/Register_Reinas.js";
 import Perfil_Usuario from "views/examples/Perfil_Usuario";
 import Password_O from "views/examples/Password_Olvidada";
+import Ajustes_Perfil from "views/examples/Ajustes_Perfil";
 
 var routes = [
   {
@@ -105,6 +106,13 @@ var routes = [
     name: "Perfil_Usuario",
     icon: "ni ni-single-02 text-yellow",
     component: Perfil_Usuario,
+    layout: "/admin"
+  },
+  {
+    path: "/ajustes_perfil",
+    name: "Ajustes_Perfil",
+    icon: "ni ni-single-02 text-yellow",
+    component: Ajustes_Perfil,
     layout: "/admin"
   },
   /*{
