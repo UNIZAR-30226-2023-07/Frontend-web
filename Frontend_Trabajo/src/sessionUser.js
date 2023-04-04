@@ -4,7 +4,7 @@ var sessionUser = {
     friends: 25,
     won: 2,
     lost: 32,
-    picture: "../../assets/img/Imgs_7_Reinas/Slifer_sky_dragon.png"
+    picture: 1
 };
 
 export default sessionUser;

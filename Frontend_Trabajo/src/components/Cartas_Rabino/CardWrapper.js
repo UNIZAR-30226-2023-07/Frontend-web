@@ -29,7 +29,7 @@ const CardsWrapper = ({cartas, cardsNumber}) => {
 
       return (
         <Button onClick={() => console.log('The link was clicked.')} 
-        className="card-button" /*style={{ backgroundColor: active ? "black" : "white" }}*/>
+        className="card-button" /*style={{ backgroundColor: active ? "black" : "white" }}*/ >
         <Card
           key={index}
           name={carta_Symbols.name}

@@ -115,16 +115,7 @@ import {
                   </Col>
                 </Row>
                 <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-                  <div className="d-flex justify-content-between">
-                    <Button
-                      className="mr-4"
-                      color="info"
-                      onClick={(e) => e.preventDefault()}
-                      size="sm"
-                    >
-                      Ajustar
-                    </Button>
-                  </div>
+                  
                 </CardHeader>
                 <CardBody className="pt-0 pt-md-4">
                   <Row>
@@ -161,48 +152,93 @@ import {
             <Col className="order-xl-1" xl="8">
               <Card className="bg-secondary shadow">
                 <CardHeader className="border-0">
-                    <h3 className="mb-0">Estadísticas del Jugador</h3>
+                    <h3 className="mb-0">Modificar Datos de Perfil</h3>
                 </CardHeader>
+                  <div className="pl-lg-4">
+                      <Col lg="6">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-username"
+                          >
+                            Usuario
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            defaultValue={sessionUser.nick}
+                            id="input-nombre_usiario"
+                            placeholder="Usuario"
+                            type="text"
+                          />
+                        </FormGroup>
+                      </Col>
+                  </div>
                 <Table className="align-items-center table-flush" responsive>
                     <thead className="thead-normal">
                     <tr>
-                      <th scope="col">Partidas Ganadas</th>
-                      <th scope="col">Partidas Perdidas</th>
-                      <th scope="col">Partidas Jugadas</th>
-                      <th scope="col">% de Victorias</th>
+                      <th scope="col">Slifer Sky Dragon</th>
+                      <th scope="col">Ficha de Rabino</th>
+                      <th scope="col">Pista de Juego</th>
+                      <th scope="col">As de Picas</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                       <td>
-                        <Media className="align-items-center">
-                          <span className="mb-0 text-sm text-sm-center">
-                          {sessionUser.won}
-                          </span>
-                        </Media>
-                      </td>
-                      <td>
-                        <span className="mb-0 text-sm text-sm-center">
-                          {sessionUser.lost}
-                        </span>
-                      </td>
-                      <td>
-                        <span className="mb-0 text-sm text-sm-center">
-                          {sessionUser.won + sessionUser.lost}
-                        </span>
-                      </td>
-                      <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">{Math.round(porcentaje_victorias(sessionUser.won, sessionUser.lost))}%</span>
-                        <div>
-                          <Progress
-                            max="100"
-                            value={porcentaje_victorias(sessionUser.won, sessionUser.lost)}
-                            barClassName={Math.round(porcentaje_victorias(sessionUser.won, sessionUser.lost)) < 30 ? "bg-danger" :
-                                          Math.round(porcentaje_victorias(sessionUser.won, sessionUser.lost)) < 70 ? "bg-info" : "bg-success"}
+                        <Row>
+                          <img
+                            alt="..."
+                            className="avatar-lg rounded-circle mr-3"
+                            src={Slifer}
                           />
-                        </div>
-                      </div>
+                          <div>
+                            <Button onClick={() => console.log('The link was clicked.')}>
+                              <i className="ni ni-check-bold" />
+                            </Button>
+                          </div>
+                        </Row>
+                      </td>
+                      <td>
+                        <Row>
+                            <img
+                              alt="..."
+                              className="avatar-lg rounded-circle mr-3"
+                              src={Ficha_R}
+                            />
+                            <div>
+                              <Button onClick={() => console.log('The link was clicked.')}>
+                                <i className="ni ni-check-bold" />
+                              </Button>
+                            </div>
+                          </Row>
+                      </td>
+                      <td>
+                        <Row>
+                            <img
+                              alt="..."
+                              className="avatar-lg rounded-circle mr-3"
+                              src={Juego}
+                            />
+                            <div>
+                              <Button onClick={() => console.log('The link was clicked.')}>
+                                <i className="ni ni-check-bold" />
+                              </Button>
+                            </div>
+                          </Row>
+                      </td>
+                      <td>
+                        <Row>
+                            <img
+                              alt="..."
+                              className="avatar-lg rounded-circle mr-3"
+                              src={As_p}
+                            />
+                            <div>
+                              <Button onClick={() => console.log('The link was clicked.')}>
+                                <i className="ni ni-check-bold" />
+                              </Button>
+                            </div>
+                          </Row>
                       </td>
                     </tr>
                     </tbody>

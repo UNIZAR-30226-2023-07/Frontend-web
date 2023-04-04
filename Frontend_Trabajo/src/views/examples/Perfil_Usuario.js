@@ -32,13 +32,8 @@ import {
   
   const Perfil_Usuario = (props) => {
     const { bgColor, routes, sessionUser } = props;
-    const victorias = 18; //Esta información se cogería del sevidor
-    const derrotas = 32;
     const num_amigos = 25;
     const puntos = 1500;
-    const imagen = 1;
-    const correo_usuario = "jjones@gmail.com";
-    const nombre_usuario = "Jessica Jones";
 
     function porcentaje_victorias(vic, der){
       return (vic/(vic + der))*100;
@@ -110,7 +105,7 @@ import {
                         <img
                           alt="..."
                           className="rounded-circle"
-                          src={imagen_usuario(imagen)}
+                          src={imagen_usuario(sessionUser.picture)}
                         />
                       </a>
                     </div>
@@ -220,7 +215,7 @@ import {
       friends: PropTypes.number,
       won: PropTypes.number,
       lost: PropTypes.number,
-      picture: PropTypes.string
+      picture: PropTypes.number
     })
   };
   
