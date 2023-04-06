@@ -20,6 +20,12 @@ import {
     DropdownItem
   } from "reactstrap";
   import { PropTypes } from "prop-types";
+
+  import React, {useState} from "react"
+
+  import { BrowserRouter, Route, Switch, Redirect, Link, useHistory} from "react-router-dom";
+
+
   // core components
   //import UserHeader from "components/Headers/UserHeader.js";
   import Header from "components/Headers/Header.js";
@@ -27,20 +33,27 @@ import {
   import Ficha_R from "../../assets/img/Imgs_7_Reinas/Ficha_de_rabino.png";
   import Juego from "../../assets/img/Imgs_7_Reinas/Fondo_Pantalla_Inicio.png";
   import As_p from "../../assets/img/Imgs_7_Reinas/As_de_picas.png";
-  
+
   const Ajustes_Perfil = (props) => {
-    const { bgColor, routes, sessionUser } = props;
-    const victorias = 18; //Esta información se cogería del sevidor
-    const derrotas = 32;
     const num_amigos = 25;
     const puntos = 1500;
-    const imagen = 1;
-    const correo_usuario = "jjones@gmail.com";
-    const nombre_usuario = "Jessica Jones";
+    const history = useHistory();
 
-    function porcentaje_victorias(vic, der){
-      return (vic/(vic + der))*100;
+    const [Imagen, setImagen] = useState(props.sessionUser.picture);
+    const [Nombre_U, setNombre_U] = useState(props.sessionUser.nick);
+
+    const handleNombre_UChange = event => {
+      setNombre_U(event.target.value)
     };
+
+    function modificar_usuario(){
+      console.log('Se ejecuta modificar_usuario.')
+      props.sessionUser.picture = Imagen;
+      props.sessionUser.nick = Nombre_U;
+
+      history.push("/admin/perfil_usuario");
+      /*Petición HTTP para enviar datos al servidor*/
+    }
 
     function imagen_usuario(imagen_elegida){
       switch (imagen_elegida) {
@@ -93,6 +106,15 @@ import {
                         />
                       </FormGroup>
    */
+
+                      /*const navigate = useNavigate();      navigate("/admin/perfil_usuario")
+<Redirect from="*" to="/admin/index" />
+                  <Link to= "/admin/perfil_usuario"><Button className="my-4 mx-5" as={Link} color="primary" onClick={modificar_usuario()}>
+                    Modificar
+                  </Button>
+                  </Link>
+*/
+
     return (
       <>
         <Header />
@@ -108,16 +130,15 @@ import {
                         <img
                           alt="..."
                           className="rounded-circle"
-                          src={imagen_usuario(imagen)}
+                          src={imagen_usuario(Imagen)}
                         />
                       </a>
                     </div>
                   </Col>
                 </Row>
                 <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-                  
                 </CardHeader>
-                <CardBody className="pt-0 pt-md-4">
+                <CardBody className="pt-0 pt-md-5">
                   <Row>
                     <div className="col">
                       <div className="card-profile-stats d-flex justify-content-center mt-md-4">
@@ -136,13 +157,13 @@ import {
                     <h3>
                       <span className="font-weight-bold">Usuario:</span>
                       <div>
-                      <span className="font-weight-light">{sessionUser.nick}</span>
+                      <span className="font-weight-light">{props.sessionUser.nick}</span>
                       </div>
                     </h3>
                     <h3>
                       <span className="font-weight-bold">Correo:</span>
                       <div>
-                      <span className="font-weight-light">{sessionUser.email}</span>
+                      <span className="font-weight-light">{props.sessionUser.email}</span>
                       </div>
                     </h3>
                   </div>
@@ -165,10 +186,12 @@ import {
                           </label>
                           <Input
                             className="form-control-alternative"
-                            defaultValue={sessionUser.nick}
+                            defaultValue={props.sessionUser.nick}
                             id="input-nombre_usiario"
                             placeholder="Usuario"
                             type="text"
+                            onChange={handleNombre_UChange}
+                            value={Nombre_U}
                           />
                         </FormGroup>
                       </Col>
@@ -192,7 +215,7 @@ import {
                             src={Slifer}
                           />
                           <div>
-                            <Button onClick={() => console.log('The link was clicked.')}>
+                            <Button onClick={() => setImagen(1)}>
                               <i className="ni ni-check-bold" />
                             </Button>
                           </div>
@@ -206,7 +229,7 @@ import {
                               src={Ficha_R}
                             />
                             <div>
-                              <Button onClick={() => console.log('The link was clicked.')}>
+                              <Button onClick={() => setImagen(2)}>
                                 <i className="ni ni-check-bold" />
                               </Button>
                             </div>
@@ -220,7 +243,7 @@ import {
                               src={Juego}
                             />
                             <div>
-                              <Button onClick={() => console.log('The link was clicked.')}>
+                              <Button onClick={() => setImagen(3)}>
                                 <i className="ni ni-check-bold" />
                               </Button>
                             </div>
@@ -234,7 +257,7 @@ import {
                               src={As_p}
                             />
                             <div>
-                              <Button onClick={() => console.log('The link was clicked.')}>
+                              <Button onClick={() => setImagen(4)}>
                                 <i className="ni ni-check-bold" />
                               </Button>
                             </div>
@@ -243,12 +266,33 @@ import {
                     </tr>
                     </tbody>
                 </Table>
+                
+                <Col lg="4" md={{ span: 4, offset: 4 }}>
+                  <Button className="my-4 mx-5" color="primary" onClick={() => modificar_usuario()}>
+                    Modificar
+                  </Button>
+                </Col>
               </Card>
             </Col>
           </Row>
         </Container>
       </>
     );
+  };
+
+  Ajustes_Perfil.propTypes = {
+    sessionUser: PropTypes.checkPropTypes({
+      nick: PropTypes.string,
+      email: PropTypes.string,
+      friends: PropTypes.number,
+      won: PropTypes.number,
+      lost: PropTypes.number,
+      picture: PropTypes.number
+    })
+  };
+  
+  Ajustes_Perfil.defaultProps = {
+    sessionUser: {}
   };
 
   export default Ajustes_Perfil;
