@@ -16,7 +16,7 @@ import {
   } from "reactstrap";
   
   import React, {useState} from "react"
-  import { Link } from "react-router-dom";
+  import { Link, useHistory } from "react-router-dom";
   
   /*
   import Cookies from 'universal-cookie';
@@ -32,6 +32,9 @@ import {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     
+    //Elemento para cambiar de pantalla de forma imperativa
+    const history = useHistory();
+
     //Guardar el cambio en los atributos
     const handleEmailChange = event => {
       setEmail(event.target.value)
@@ -62,6 +65,7 @@ import {
       //Mandamos la request con el email y la contraseña
       xhr.send(JSON.stringify({ email: email , password: password }))
   
+      history.push("/admin/perfil_usuario");
     };
     
     
@@ -125,10 +129,9 @@ import {
                   </label>
                 </div>
                 <div className="text-center">
-                  <Link to= "/admin/perfil_usuario"><Button className="my-4" color="primary" type="submit">
+                  <Button className="my-4" color="primary" type="submit">
                     Iniciar Sesión
                   </Button>
-                  </Link>
                 </div>
               </Form>
             </CardBody>
