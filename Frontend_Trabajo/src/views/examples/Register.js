@@ -74,7 +74,7 @@ const Register = () => {
     xhr.open('POST', 'http://localhost:3001/api/auth/register')
     
     //Mandamos la request con el email y la contraseña
-    xhr.send(JSON.stringify({ name: name, email: email , password: password }))
+    xhr.send(JSON.stringify({ nombre: name, email: email, contra: password }))
 
   };
 
