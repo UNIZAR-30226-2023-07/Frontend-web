@@ -60,14 +60,14 @@ import {
       })
   
       // Abrimos una request de tipo post en nuestro servidor
-      xhr.open('POST', 'http://localhost:3001/api/pagina_login/login_reinas')
+      xhr.open('POST', 'http://51.103.94.220:3001/api/auth/login')
       
       //Mandamos la request con el email y la contraseña
-      xhr.send(JSON.stringify({ email: email , password: password }))
-  
-      history.push("/admin/perfil_usuario");
+      xhr.send(JSON.stringify({ email: email , contra: password }))
+      
+      //history.push("/admin/perfil_usuario");
     };
-    
+      
     
     return (
       <>

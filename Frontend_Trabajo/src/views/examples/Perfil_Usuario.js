@@ -201,6 +201,20 @@ import {
                     </tbody>
                 </Table>
               </Card>
+              <div className="mb-5"></div>
+              <Card className="bg-secondary shadow">
+                <CardHeader className="border-0">
+                    <h3 className="mb-0">Descripción</h3>
+                </CardHeader>
+                <div className="text-left ml-4">
+                    <h3>
+                      <span className="font-weight-bold">Usuario:</span>
+                      <div>
+                      <span className="font-weight-light">{sessionUser.nick}</span>
+                      </div>
+                    </h3>
+                  </div>
+              </Card>
             </Col>
           </Row>
         </Container>
