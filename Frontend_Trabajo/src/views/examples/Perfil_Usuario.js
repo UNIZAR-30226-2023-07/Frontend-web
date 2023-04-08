@@ -32,8 +32,6 @@ import {
   
   const Perfil_Usuario = (props) => {
     const { bgColor, routes, sessionUser } = props;
-    const num_amigos = 25;
-    const puntos = 1500;
 
     function porcentaje_victorias(vic, der){
       return (vic/(vic + der))*100;
@@ -124,11 +122,11 @@ import {
                     <div className="col">
                       <div className="card-profile-stats d-flex justify-content-center mt-md-4">
                         <div>
-                          <span className="heading">{num_amigos}</span>
-                          <span className="description">Amigos</span>
+                          <span className="heading">{sessionUser.codigo}</span>
+                          <span className="description">Código</span>
                         </div>
                         <div>
-                          <span className="heading">{puntos}</span>
+                          <span className="heading">{sessionUser.puntos}</span>
                           <span className="description">#Puntos</span>
                         </div>
                       </div>
@@ -208,10 +206,7 @@ import {
                 </CardHeader>
                 <div className="text-left ml-4">
                     <h3>
-                      <span className="font-weight-bold">Usuario:</span>
-                      <div>
-                      <span className="font-weight-light">{sessionUser.nick}</span>
-                      </div>
+                      <span className="font-weight-light">{sessionUser.descrp}</span>
                     </h3>
                   </div>
               </Card>
@@ -226,10 +221,12 @@ import {
     sessionUser: PropTypes.checkPropTypes({
       nick: PropTypes.string,
       email: PropTypes.string,
-      friends: PropTypes.number,
+      codigo: PropTypes.number,
       won: PropTypes.number,
       lost: PropTypes.number,
-      picture: PropTypes.number
+      picture: PropTypes.number,
+      descrp: PropTypes.string,
+      puntos: PropTypes.number
     })
   };
   

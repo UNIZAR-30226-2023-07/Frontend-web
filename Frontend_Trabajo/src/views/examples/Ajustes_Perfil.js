@@ -41,19 +41,56 @@ import {
 
     const [Imagen, setImagen] = useState(props.sessionUser.picture);
     const [Nombre_U, setNombre_U] = useState(props.sessionUser.nick);
+    const [Email_U, setEmail_U] = useState(props.sessionUser.email);
+    const [Descrp_U, setDescrp_U] = useState(props.sessionUser.descrp);
 
     const handleNombre_UChange = event => {
       setNombre_U(event.target.value)
     };
 
-    function modificar_usuario(){
-      console.log('Se ejecuta modificar_usuario.')
-      props.sessionUser.picture = Imagen;
-      props.sessionUser.nick = Nombre_U;
+    const handleEmail_UChange = event => {
+      setEmail_U(event.target.value)
+    };
 
-      history.push("/admin/perfil_usuario");
-      /*Petición HTTP para enviar datos al servidor*/
+    const handleDescrp_UChange = event => {
+      setDescrp_U(event.target.value)
+    };
+
+
+  //Submit al servidor
+  const modificar_usuario = event => {
+    event.preventDefault();
+    alert(`Your state values: 
+          Imagen: ${Imagen} 
+          Nombre: ${Nombre_U}
+          Email: ${Email_U}
+          Descrp: ${Descrp_U}
+          Se ha mandado al servidor la información`);
+    
+    //Petición http
+    var xhr = new XMLHttpRequest()
+    xhr.addEventListener('load', () => {
+    // update the state of the component with the result here
+      console.log(xhr.responseText)
+    })
+    
+    xhr.onload = function() { //Se dispara cuando se recibe la respuesta del servidor
+      if(xhr.status === 202){ //Si recibe un OK
+        props.sessionUser.picture = Imagen;
+        props.sessionUser.nick = Nombre_U;
+        props.sessionUser.email = Email_U;
+        props.sessionUser.descrp = Descrp_U;
+        history.push("/admin/perfil_usuario");
+      } else {
+        alert(`Se a producido un error, vuelve a intentarlo`);
+      }
     }
+    // Abrimos una request de tipo post en nuestro servidor
+    xhr.open('POST', 'http://52.174.124.24:3001/api/jugador/mod')
+        
+    //Mandamos la request con el email y la contraseña
+    xhr.send(JSON.stringify({ email: Email_U, nombre: Nombre_U, foto: Imagen , descp: Descrp_U }))
+  };
 
     function imagen_usuario(imagen_elegida){
       switch (imagen_elegida) {
@@ -176,7 +213,8 @@ import {
                     <h3 className="mb-0">Modificar Datos de Perfil</h3>
                 </CardHeader>
                   <div className="pl-lg-4">
-                      <Col lg="6">
+                    <Row>
+                      <Col lg="5">
                         <FormGroup>
                           <label
                             className="form-control-label"
@@ -195,6 +233,47 @@ import {
                           />
                         </FormGroup>
                       </Col>
+                      <Col lg="5">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-email"
+                          >
+                            Email
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            defaultValue={props.sessionUser.email}
+                            id="input-email_usiario"
+                            placeholder="Email"
+                            type="email"
+                            onChange={handleEmail_UChange}
+                            value={Email_U}
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col md="10">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-descrip"
+                          >
+                            Descripción
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            defaultValue={props.sessionUser.descrp}
+                            id="input-descrip"
+                            placeholder="Descripción"
+                            type="text"
+                            onChange={handleDescrp_UChange}
+                            value={Descrp_U}
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
                   </div>
                 <Table className="align-items-center table-flush" responsive>
                     <thead className="thead-normal">
@@ -268,7 +347,7 @@ import {
                 </Table>
                 
                 <Col lg="4" md={{ span: 4, offset: 4 }}>
-                  <Button className="my-4 mx-5" color="primary" onClick={() => modificar_usuario()}>
+                  <Button className="my-4 mx-5" color="primary" onClick={modificar_usuario}>
                     Modificar
                   </Button>
                 </Col>
@@ -284,10 +363,12 @@ import {
     sessionUser: PropTypes.checkPropTypes({
       nick: PropTypes.string,
       email: PropTypes.string,
-      friends: PropTypes.number,
+      codigo: PropTypes.number,
       won: PropTypes.number,
       lost: PropTypes.number,
-      picture: PropTypes.number
+      picture: PropTypes.number,
+      descrp: PropTypes.string,
+      puntos: PropTypes.number
     })
   };
   
