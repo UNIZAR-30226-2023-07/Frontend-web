@@ -41,15 +41,10 @@ import {
 
     const [Imagen, setImagen] = useState(props.sessionUser.picture);
     const [Nombre_U, setNombre_U] = useState(props.sessionUser.nick);
-    const [Email_U, setEmail_U] = useState(props.sessionUser.email);
     const [Descrp_U, setDescrp_U] = useState(props.sessionUser.descrp);
 
     const handleNombre_UChange = event => {
       setNombre_U(event.target.value)
-    };
-
-    const handleEmail_UChange = event => {
-      setEmail_U(event.target.value)
     };
 
     const handleDescrp_UChange = event => {
@@ -59,11 +54,11 @@ import {
 
   //Submit al servidor
   const modificar_usuario = event => {
-    event.preventDefault();
+    //event.preventDefault();
     alert(`Your state values: 
           Imagen: ${Imagen} 
           Nombre: ${Nombre_U}
-          Email: ${Email_U}
+          Email: ${props.sessionUser.email}
           Descrp: ${Descrp_U}
           Se ha mandado al servidor la información`);
     
@@ -78,7 +73,6 @@ import {
       if(xhr.status === 202){ //Si recibe un OK
         props.sessionUser.picture = Imagen;
         props.sessionUser.nick = Nombre_U;
-        props.sessionUser.email = Email_U;
         props.sessionUser.descrp = Descrp_U;
         history.push("/admin/perfil_usuario");
       } else {
@@ -89,7 +83,7 @@ import {
     xhr.open('POST', 'http://52.174.124.24:3001/api/jugador/mod')
         
     //Mandamos la request con el email y la contraseña
-    xhr.send(JSON.stringify({ email: Email_U, nombre: Nombre_U, foto: Imagen , descp: Descrp_U }))
+    xhr.send(JSON.stringify({ email: props.sessionUser.email, nombre: Nombre_U, foto: Imagen , descp: Descrp_U }))
   };
 
     function imagen_usuario(imagen_elegida){
@@ -180,8 +174,8 @@ import {
                     <div className="col">
                       <div className="card-profile-stats d-flex justify-content-center mt-md-4">
                         <div>
-                          <span className="heading">{num_amigos}</span>
-                          <span className="description">Amigos</span>
+                          <span className="heading">{props.sessionUser.codigo}</span>
+                          <span className="description">Código</span>
                         </div>
                         <div>
                           <span className="heading">{puntos}</span>
@@ -230,25 +224,6 @@ import {
                             type="text"
                             onChange={handleNombre_UChange}
                             value={Nombre_U}
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg="5">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-email"
-                          >
-                            Email
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue={props.sessionUser.email}
-                            id="input-email_usiario"
-                            placeholder="Email"
-                            type="email"
-                            onChange={handleEmail_UChange}
-                            value={Email_U}
                           />
                         </FormGroup>
                       </Col>
