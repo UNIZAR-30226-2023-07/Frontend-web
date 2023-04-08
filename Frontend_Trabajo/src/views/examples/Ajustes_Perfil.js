@@ -53,8 +53,7 @@ import {
 
 
   //Submit al servidor
-  const modificar_usuario = event => {
-    //event.preventDefault();
+  const modificar_usuario = () => {
     alert(`Your state values: 
           Imagen: ${Imagen} 
           Nombre: ${Nombre_U}
@@ -70,7 +69,10 @@ import {
     })
     
     xhr.onload = function() { //Se dispara cuando se recibe la respuesta del servidor
-      if(xhr.status === 202){ //Si recibe un OK
+
+      const respuesta = JSON.parse(xhr.response);
+
+      if(xhr.status === 202 && respuesta.res === "ok"){ //Si recibe un OK
         props.sessionUser.picture = Imagen;
         props.sessionUser.nick = Nombre_U;
         props.sessionUser.descrp = Descrp_U;
