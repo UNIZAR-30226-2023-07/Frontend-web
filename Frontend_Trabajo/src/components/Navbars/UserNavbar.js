@@ -73,19 +73,19 @@ const UserNavbar = (props) => {
             </NavbarBrand>
           ) : null}
           <Link
-            className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
+            className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block ml-3"
             to="/admin/perfil_usuario"
           >
             Perfil
           </Link>
           <Link
-            className="h4 mb-0 text-white text-uppercase d-lg-none d-lg-inline-block"
+            className="h4 mb-0 text-white text-uppercase d-lg-none d-lg-inline-block ml-3"
             to="/admin/tables"
           >
             Amig@s
           </Link>
           <Link
-            className="h4 mb-0 text-white text-uppercase d-lg-none d-lg-inline-block"
+            className="h4 mb-0 text-white text-uppercase d-lg-none d-lg-inline-block ml-3"
             to="/admin/settings"
           >
             Ajustes
