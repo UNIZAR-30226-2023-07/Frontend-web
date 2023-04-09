@@ -75,6 +75,17 @@ const Admin = (props) => {
 
   return (
     <>
+      <div className="topbar">
+        <UserNavbar
+          {...props}
+          brandText={getBrandText(props.location.pathname)}
+          logo={{
+            innerLink: "/admin/index",
+            imgSrc: require("../assets/img/brand/large-white.png"),
+            imgAlt: "..."
+          }}
+        />
+      </div>
       <Sidebar
         {...props}
         routes={routes}
@@ -82,7 +93,7 @@ const Admin = (props) => {
         friendRequests={friendRequests}
       />
       <div className="main-content" ref={mainContent}>
-        <div className="topbar">
+        {/* <div className="topbar">
           <UserNavbar
             {...props}
             brandText={getBrandText(props.location.pathname)}
@@ -92,7 +103,7 @@ const Admin = (props) => {
               imgAlt: "..."
             }}
           />
-        </div>
+        </div> */}
         <Switch>
           {getRoutes(routes)}
           <Redirect from="*" to="/admin/index" />

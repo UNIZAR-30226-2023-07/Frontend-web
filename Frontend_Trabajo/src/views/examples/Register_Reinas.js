@@ -17,15 +17,22 @@ import {
   } from "reactstrap";
   
   import React, {useState} from "react"
-  import { Link } from "react-router-dom";
+  import { Link, useHistory } from "react-router-dom";
+  import CryptoJS from 'crypto-js';
 
   
-  const Register = () => {
+  const Register = (props) => {
   
     //Cosas que vamos a guardar para el formulario
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [password2, setPassword2] = useState('')
     const [name, setName] = useState('')
+
+    const { sessionUser } = props;
+
+    //Elemento para cambiar de pantalla de forma imperativa
+    const history = useHistory();
     
     //Guardar el cambio en los atributos
     const handleEmailChange = event => {
@@ -34,6 +41,10 @@ import {
   
     const handlePasswordChange = event => {
       setPassword(event.target.value)
+    };
+  
+    const handlePassword2Change = event => {
+      setPassword2(event.target.value)
     };
   
     const handleNameChange = event => {
@@ -63,6 +74,75 @@ import {
       xhr.send(JSON.stringify({ name: name, email: email , password: password }))
   
     };
+
+    const register_user = event => {
+      event.preventDefault();
+      alert(`Your state values:
+                nombre: ${name}
+                email: ${email} 
+                password: ${password}
+                password2: ${password2}
+                Se ha mandado al servidor la información`);
+      
+      const encryptPassword = (password) => {
+        const wordArray = CryptoJS.enc.Utf8.parse(password); // Convierte la contraseña a un objeto WordArray
+        const hash = CryptoJS.SHA256(wordArray); // Realiza el hash SHA256
+        return hash.toString(CryptoJS.enc.Hex); // Convierte el resultado a una cadena hexadecimal
+      };
+  
+      let encryptedPassword = encryptPassword(password);
+  
+      alert(encryptedPassword);
+  
+      //Petición http
+      let xhr = new XMLHttpRequest();
+      xhr.addEventListener('load', () => {
+        // update the state of the component with the result here
+        console.log(xhr.responseText);
+      })
+  
+      xhr.onload = function () { //Se dispara cuando se recibe la respuesta del servidor
+        alert(`Se ha recibido la respuesta del servidor`);
+        console.log(xhr.status);
+        if (xhr.status === 202) { //Si recibe un OK
+          alert(`Login correcto`);
+          let xhr2 = new XMLHttpRequest()
+          xhr2.addEventListener('load', () => {
+            // update the state of the component with the result here
+            console.log(xhr.responseText);
+          })
+          xhr2.onload = function () {
+            if (xhr2.status === 202) {
+              sessionUser.nick = xhr2.response.nick;
+              sessionUser.email = email;
+              sessionUser.codigo = xhr2.response.codigo;
+              sessionUser.won = xhr2.response.pganadas;
+              sessionUser.lost = xhr2.response.pjugadas - xhr2.response.pganadas;
+              sessionUser.picture = xhr2.response.foto;
+              sessionUser.descrp = xhr2.response.descrp;
+              sessionUser.puntos = xhr2.response.puntos;
+              history.push("/admin/");
+            } else {
+              alert(`Se ha producido un erroral obtener los datos de usuario, vuelve a intentarlo`);
+            }
+          }
+  
+          // Abrimos una request de tipo post en nuestro servidor
+          xhr.open('GET', `http://52.174.124.24:3001/api/jugador/get/${email}`);
+      
+          //Mandamos la request
+          xhr.send();
+          
+        } else {
+          alert(`Se ha producido un error en el login, vuelve a intentarlo`);
+        }
+      }
+      // Abrimos una request de tipo post en nuestro servidor
+      xhr.open('POST', 'http://52.174.124.24:3001/api/auth/login');
+  
+      //Mandamos la request con el email y la contraseña
+      xhr.send(JSON.stringify({ email: email, contra: encryptedPassword }));
+    };
   
     return (
       <>
@@ -75,7 +155,7 @@ import {
               <div className="text-center text-muted mb-4">
                 <small>Introduzca sus datos para poder registrarse</small>
               </div>
-              <Form role="form" onSubmit={registerSubmit}>
+              <Form role="form" onSubmit={register_user}>
                 <FormGroup>
                   <InputGroup className="input-group-alternative mb-3">
                     <InputGroupAddon addonType="prepend">
@@ -84,7 +164,7 @@ import {
                       </InputGroupText>
                     </InputGroupAddon>
                     <Input 
-                      placeholder="Nombre de avatar" 
+                      placeholder="Nombre de usuario" 
                       type="text" 
                       onChange={handleNameChange}
                       value={name}
@@ -99,7 +179,7 @@ import {
                       </InputGroupText>
                     </InputGroupAddon>
                     <Input
-                      placeholder="Email"
+                      placeholder="Correo electrónico"
                       type="email"
                       autoComplete="new-email"
                       onChange={handleEmailChange}
@@ -116,6 +196,22 @@ import {
                     </InputGroupAddon>
                     <Input
                       placeholder="Contraseña"
+                      type="password"
+                      autoComplete="new-password"
+                      onChange={handlePasswordChange}
+                      value={password}
+                    />
+                  </InputGroup>
+                </FormGroup>
+                <FormGroup>
+                  <InputGroup className="input-group-alternative">
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <i className="ni ni-lock-circle-open" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <Input
+                      placeholder="Confirmar contraseña"
                       type="password"
                       autoComplete="new-password"
                       onChange={handlePasswordChange}

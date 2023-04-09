@@ -91,7 +91,7 @@ const Sidebar = (props) => {
   const showFriendRequests = (friendRqs) => {
     return friendRqs.map((prop, key) => {
       return (
-        <Nav className="d-none d-md-flex" navbar>
+        <Nav className="d-none d-md-flex" navbar key={key}>
           <UncontrolledDropdown nav>
             <DropdownToggle className="pr-0" nav>
               <Media className="align-items-center">
@@ -134,7 +134,7 @@ const Sidebar = (props) => {
   const showFriends = (friends) => {
     return friends.map((prop, key) => {
       return (
-        <Nav className="d-none d-md-flex" navbar>
+        <Nav className="d-none d-md-flex" navbar key={key}>
           <UncontrolledDropdown nav>
             <DropdownToggle className="pr-0" nav>
               <Media className="align-items-center">

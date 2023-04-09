@@ -11,7 +11,8 @@
 .topbar{
     height: 100px;
     width: 100%;
-    position: flex;
+    position: fixed;
+    z-index: 10000;
     top: 0;
     left: 0;
     background-color: #000000;

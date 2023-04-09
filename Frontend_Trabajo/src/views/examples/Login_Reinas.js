@@ -34,6 +34,8 @@ const Login_Reinas = (props) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const { sessionUser } = props;
+
   //Elemento para cambiar de pantalla de forma imperativa
   const history = useHistory();
 
@@ -96,23 +98,27 @@ const Login_Reinas = (props) => {
     })
 
     xhr.onload = function () { //Se dispara cuando se recibe la respuesta del servidor
+      alert(`Se ha recibido la respuesta del servidor`);
       console.log(xhr.status);
       if (xhr.status === 202) { //Si recibe un OK
+        alert(`Login correcto`);
         let xhr2 = new XMLHttpRequest()
         xhr2.addEventListener('load', () => {
           // update the state of the component with the result here
           console.log(xhr.responseText);
         })
         xhr2.onload = function () {
-          if (xhr2.status === 202) {
-            props.sessionUser.nick = xhr2.response.nick;
-            props.sessionUser.email = email;
-            props.sessionUser.codigo = xhr2.response.codigo;
-            props.sessionUser.won = xhr2.response.pganadas;
-            props.sessionUser.lost = xhr2.response.pjugadas - xhr2.response.pganadas;
-            props.sessionUser.picture = xhr2.response.foto;
-            props.sessionUser.descrp = xhr2.response.descrp;
-            props.sessionUser.puntos = xhr2.response.puntos;
+          if (xhr2.status === 200) {
+            const datosUsuario = JSON.parse(xhr2.response);
+            console.log(datosUsuario);
+            sessionUser.nick = datosUsuario.nombre;
+            sessionUser.email = email;
+            sessionUser.codigo = datosUsuario.codigo;
+            sessionUser.won = datosUsuario.pganadas;
+            sessionUser.lost = datosUsuario.pjugadas - datosUsuario.pganadas;
+            sessionUser.picture = datosUsuario.foto;
+            sessionUser.descrp = datosUsuario.descrp;
+            sessionUser.puntos = datosUsuario.puntos;
             history.push("/admin/");
           } else {
             alert(`Se ha producido un erroral obtener los datos de usuario, vuelve a intentarlo`);
@@ -120,10 +126,10 @@ const Login_Reinas = (props) => {
         }
 
         // Abrimos una request de tipo post en nuestro servidor
-        xhr.open('GET', `http://52.174.124.24:3001/api/jugador/get/${email}`);
+        xhr2.open('GET', `http://52.174.124.24:3001/api/jugador/get/${email}`);
     
-        //Mandamos la request con el email y la contraseña
-        xhr.send();
+        //Mandamos la request
+        xhr2.send();
         
       } else {
         alert(`Se ha producido un error en el login, vuelve a intentarlo`);
@@ -239,18 +245,9 @@ const Login_Reinas = (props) => {
 
 };
 
-Login_Reinas.propTypes = {
-  sessionUser: PropTypes.shape({
-    nick: PropTypes.string,
-    email: PropTypes.string,
-    codigo: PropTypes.number,
-    won: PropTypes.number,
-    lost: PropTypes.number,
-    picture: PropTypes.number,
-    descrp: PropTypes.string,
-    puntos: PropTypes.number
-  }).isRequired
-};
+// Login_Reinas.propTypes = {
+//   sessionUser: PropTypes.object
+// };
 
 Login_Reinas.defaultProps = {
   sessionUser: {}

@@ -8,6 +8,7 @@ import AuthFooter from "components/Footers/AuthFooter.js";
 
 import routes from "routes.js";
 import logo from './../assets/img/Imgs_7_Reinas/logo.png';
+import sessionUser from "sessionUser.js";
 
 const Pagina_Login = (props) => {
   const mainContent = React.useRef(null);
@@ -31,7 +32,10 @@ const Pagina_Login = (props) => {
         return (
           <Route
             path={prop.layout + prop.path}
-            component={prop.component}
+            render={(props) => <prop.component
+                                  {...props}
+                                  sessionUser={sessionUser}
+                                /> }
             key={key}
           />
         );
