@@ -1,0 +1,18 @@
+/* styles.css */
+
+.align-center{
+    text-align: center;
+}
+
+.percent10{
+    background-color: indigo;
+}
+
+.topbar{
+    height: 100px;
+    width: 100%;
+    position: flex;
+    top: 0;
+    left: 0;
+    background-color: #000000;
+}

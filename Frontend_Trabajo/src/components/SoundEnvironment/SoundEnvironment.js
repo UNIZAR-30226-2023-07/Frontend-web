@@ -3,7 +3,7 @@ import Sound from 'react-sound';
 import BackgroundMusic from 'assets/sounds/background.mp3';
 import { Button } from 'reactstrap';
 
-
+var volumen = 50;
 
 const SoundEnvironment = (
   handleSongLoading,
@@ -23,6 +23,7 @@ const SoundEnvironment = (
         // onLoading={handleSongLoading}
         // onPlaying={handleSongPlaying}
         // onFinishedPlaying={handleSongFinishedPlaying}
+        volume={volumen}
         loop={true}
       />
     </div>

@@ -82,15 +82,17 @@ const Admin = (props) => {
         friendRequests={friendRequests}
       />
       <div className="main-content" ref={mainContent}>
-        <UserNavbar
-          {...props}
-          brandText={getBrandText(props.location.pathname)}
-          logo={{
-            innerLink: "/admin/index",
-            imgSrc: require("../assets/img/brand/large-white.png"),
-            imgAlt: "..."
-          }}
-        />
+        <div className="topbar">
+          <UserNavbar
+            {...props}
+            brandText={getBrandText(props.location.pathname)}
+            logo={{
+              innerLink: "/admin/index",
+              imgSrc: require("../assets/img/brand/large-white.png"),
+              imgAlt: "..."
+            }}
+          />
+        </div>
         <Switch>
           {getRoutes(routes)}
           <Redirect from="*" to="/admin/index" />

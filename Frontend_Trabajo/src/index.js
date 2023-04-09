@@ -29,6 +29,8 @@ import InicioLayout from "layouts/Inicio.js";
 import P_LoginLayout from "layouts/Pagina_Login.js";
 import T_RabinoLayout from "layouts/Tablero_Rabino.js";
 
+import sessionUser from "sessionUser.js";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
@@ -36,7 +38,7 @@ root.render(
     <Switch>
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
       <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
-      <Route path="/pagina_login" render={(props) => <P_LoginLayout {...props} />} />
+      <Route path="/pagina_login" render={(props) => <P_LoginLayout {...props} sessionUser={sessionUser} />} />
       <Route path="/inicio" render={(props) => <InicioLayout {...props} />} />
       <Route path="/tablero_rabino" render={(props) => <T_RabinoLayout {...props} />} />
       <Redirect from="/" to="/inicio" /> /** Indicamos que es la redireccion ha hacer inicialmente */
