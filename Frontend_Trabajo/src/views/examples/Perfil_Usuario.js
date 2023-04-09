@@ -189,8 +189,11 @@ import {
                           <Progress
                             max="100"
                             value={porcentaje_victorias(sessionUser.won, sessionUser.lost)}
-                            barClassName={Math.round(porcentaje_victorias(sessionUser.won, sessionUser.lost)) < 30 ? "bg-danger" :
-                                          Math.round(porcentaje_victorias(sessionUser.won, sessionUser.lost)) < 70 ? "bg-info" : "bg-success"}
+                            barClassName={Math.round(porcentaje_victorias(sessionUser.won, sessionUser.lost)) < 10 ? "percent10" :
+                                          Math.round(porcentaje_victorias(sessionUser.won, sessionUser.lost)) < 30 ? "percent30" :
+                                          Math.round(porcentaje_victorias(sessionUser.won, sessionUser.lost)) < 50 ? "percent50" :
+                                          Math.round(porcentaje_victorias(sessionUser.won, sessionUser.lost)) < 70 ? "percent70" :
+                                          Math.round(porcentaje_victorias(sessionUser.won, sessionUser.lost)) < 90 ? "percent90" : "percent100"}
                           />
                         </div>
                       </div>
