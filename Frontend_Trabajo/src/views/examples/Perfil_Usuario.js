@@ -25,32 +25,13 @@ import {
   // core components
   //import UserHeader from "components/Headers/UserHeader.js";
   import Header from "components/Headers/Header.js";
-  import Slifer from "../../assets/img/Imgs_7_Reinas/Slifer_sky_dragon.png";
-  import Ficha_R from "../../assets/img/Imgs_7_Reinas/Ficha_de_rabino.png";
-  import Juego from "../../assets/img/Imgs_7_Reinas/Fondo_Pantalla_Inicio.png";
-  import As_p from "../../assets/img/Imgs_7_Reinas/As_de_picas.png";
+  import SelectImgUser from "hooks/SelectImgUser.js";
   
   const Perfil_Usuario = (props) => {
     const { bgColor, routes, sessionUser } = props;
 
     function porcentaje_victorias(vic, der){
       return (vic/(vic + der))*100;
-    };
-
-    function imagen_usuario(imagen_elegida){
-      switch (imagen_elegida) {
-        case 1:
-          return Slifer;
-        
-        case 2:
-          return Ficha_R;
-        
-        case 3:
-          return Juego;
-
-        default:
-          return As_p;
-      }
     };
 
     //Los huecos de modificación
@@ -103,7 +84,7 @@ import {
                         <img
                           alt="..."
                           className="rounded-circle"
-                          src={imagen_usuario(sessionUser.picture)}
+                          src={SelectImgUser(sessionUser.picture)}
                         />
                       </a>
                     </div>

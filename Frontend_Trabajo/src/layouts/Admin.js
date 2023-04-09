@@ -28,6 +28,7 @@ import routes from "routes.js";
 import friends from "friends.js";
 import friendRequests from "friendRequests.js";
 import sessionUser from "sessionUser.js";
+import informacion_Web from "informacion_Web.js";
 
 const Admin = (props) => {
   const mainContent = React.useRef(null);
@@ -84,6 +85,8 @@ const Admin = (props) => {
             imgSrc: require("../assets/img/brand/large-white.png"),
             imgAlt: "..."
           }}
+          sessionUser={sessionUser}
+          informacion_Web={informacion_Web}
         />
       </div>
       <Sidebar
@@ -102,6 +105,8 @@ const Admin = (props) => {
               imgSrc: require("../assets/img/brand/large-white.png"),
               imgAlt: "..."
             }}
+            sessionUser={sessionUser}
+            informacion_Web={informacion_Web}
           />
         </div> */}
         <Switch>

@@ -39,12 +39,29 @@ import {
   NavLink,
   Nav,
   Container,
-  Media
+  Media,
+  Row,
+  Col
 } from "reactstrap";
+
+import React, {useState} from "react"
+
+//Imagenes de Usuario
+import SelectImgUser from "hooks/SelectImgUser.js";
 
 const UserNavbar = (props) => {
 
-  const { bgColor, logo } = props;
+  const { bgColor, logo, sessionUser, informacion_Web} = props;
+
+  //Variable que guarda el volumen de la música
+  const [Volumen_mus, setVolumen_mus] = useState(informacion_Web.volumen);
+
+  //Funcion para modificar el volumen de la música
+  const handleVolumen_musChange = event => {
+    setVolumen_mus(event.target.value)
+  };
+
+  
   let navbarBrandProps;
   if (logo && logo.innerLink) {
     navbarBrandProps = {
@@ -73,24 +90,21 @@ const UserNavbar = (props) => {
             </NavbarBrand>
           ) : null}
           <Link
-            className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block ml-3"
+            className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block ml--7"
             to="/admin/perfil_usuario"
           >
             Perfil
           </Link>
           <Link
-            className="h4 mb-0 text-white text-uppercase d-lg-none d-lg-inline-block ml-3"
+            className="h4 mb-0 text-white text-uppercase d-lg-none d-lg-inline-block ml--9"
             to="/admin/tables"
           >
             Amig@s
           </Link>
-          <Link
-            className="h4 mb-0 text-white text-uppercase d-lg-none d-lg-inline-block ml-3"
-            to="/admin/settings"
-          >
-            Ajustes
-          </Link>
-          <Form className="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
+          <span className="mr--8"></span>
+          <span className="mr-5"></span>
+          
+          {/* <Form className="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
             <FormGroup className="mb-0">
               <InputGroup className="input-group-alternative">
                 <InputGroupAddon addonType="prepend">
@@ -101,38 +115,55 @@ const UserNavbar = (props) => {
                 <Input placeholder="Search" type="text" />
               </InputGroup>
             </FormGroup>
-          </Form>
+          </Form> */}
           <SoundEnvironment
-            handleSoundLoading = {() => {}}
-            handleSoundPlaying = {() => {}}
-            handleSoundFinishedPlaying = {() => {}}
+            //handleSoundLoading = {() => {}}
+            //handleSoundPlaying = {() => {}}
+            //handleSoundFinishedPlaying = {() => {}}
+            {...props}
+            volumen={Volumen_mus}
           />
-          <Nav className="align-items-center d-none d-md-flex" navbar>
+          <Nav className="align-items-center d-none d-md-flex ml--9 mr-5" navbar>
             <UncontrolledDropdown nav>
               <DropdownToggle className="pr-0" nav>
                 <Media className="align-items-center">
                   <span className="avatar avatar-sm rounded-circle">
                     <img
                       alt="..."
-                      src={require("../../assets/img/theme/team-4-800x800.jpg")}
+                      src={SelectImgUser(sessionUser.picture)}
                     />
                   </span>
                   <Media className="ml-2 d-none d-lg-block">
                     <span className="mb-0 text-sm font-weight-bold">
-                      Jessica Jones
+                      {sessionUser.nick}
                     </span>
                   </Media>
                 </Media>
               </DropdownToggle>
               <DropdownMenu className="dropdown-menu-arrow" right>
                 <DropdownItem className="noti-title" header tag="div">
-                  <h6 className="text-overflow m-0">Welcome!</h6>
+                  <h6 className="text-overflow m-0">Ajustes de Sonido</h6>
                 </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
-                  <i className="ni ni-single-02" />
-                  <span>My profile</span>
+                <DropdownItem>
+                  <Row>
+                    <Col xl="2">
+                      <i className="ni ni-note-03 ml--1" />
+                      <span className="ml-1 mr-3">{Volumen_mus}</span>
+                    </Col>
+                    <Col xl="10">
+                      <Input
+                        type="range"
+                        min={0}
+                        max={100}
+                        step={2}
+                        value={Volumen_mus}
+                        onChange={handleVolumen_musChange}
+                        className="ml-2"
+                      />
+                    </Col>
+                  </Row>
                 </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
+                {/* <DropdownItem to="/admin/user-profile" tag={Link}>
                   <i className="ni ni-settings-gear-65" />
                   <span>Settings</span>
                 </DropdownItem>
@@ -143,9 +174,9 @@ const UserNavbar = (props) => {
                 <DropdownItem to="/admin/user-profile" tag={Link}>
                   <i className="ni ni-support-16" />
                   <span>Support</span>
-                </DropdownItem>
+                </DropdownItem> */}
                 <DropdownItem divider />
-                <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
+                <DropdownItem to="/inicio" tag={Link}>
                   <i className="ni ni-user-run" />
                   <span>Logout</span>
                 </DropdownItem>
@@ -171,7 +202,22 @@ UserNavbar.propTypes = {
     imgSrc: PropTypes.string.isRequired,
     // the alt for the img
     imgAlt: PropTypes.string.isRequired
+
+  }),
+  sessionUser: PropTypes.checkPropTypes({
+    nick: PropTypes.string,
+    email: PropTypes.string,
+    codigo: PropTypes.number,
+    won: PropTypes.number,
+    lost: PropTypes.number,
+    picture: PropTypes.number,
+    descrp: PropTypes.string,
+    puntos: PropTypes.number
+  }),
+  informacion_Web: PropTypes.checkPropTypes({
+    volumen: PropTypes.number
   })
+
 };
 
 export default UserNavbar;

@@ -34,6 +34,8 @@ import {
   import Juego from "../../assets/img/Imgs_7_Reinas/Fondo_Pantalla_Inicio.png";
   import As_p from "../../assets/img/Imgs_7_Reinas/As_de_picas.png";
 
+  import SelectImgUser from "hooks/SelectImgUser.js";
+
   const Ajustes_Perfil = (props) => {
     const num_amigos = 25;
     const puntos = 1500;
@@ -88,22 +90,6 @@ import {
     xhr.send(JSON.stringify({ email: props.sessionUser.email, nombre: Nombre_U, foto: Imagen , descp: Descrp_U }))
   };
 
-    function imagen_usuario(imagen_elegida){
-      switch (imagen_elegida) {
-        case 1:
-          return Slifer;
-        
-        case 2:
-          return Ficha_R;
-        
-        case 3:
-          return Juego;
-
-        default:
-          return As_p;
-      }
-    };
-
     //Los huecos de modificación
     /*
     <FormGroup>
@@ -147,6 +133,11 @@ import {
                   </Button>
                   </Link>
 */
+// import Switch_button from "react-switch";
+// <div>
+// <Switch_button className="ml-4" onChange={handleMusica_HabilitadaChange} checked={Musica_Habilitada}/>
+// <span> Como se encuentra: {Musica_Habilitada && "hola"}</span>
+// </div>
 
     return (
       <>
@@ -163,7 +154,7 @@ import {
                         <img
                           alt="..."
                           className="rounded-circle"
-                          src={imagen_usuario(Imagen)}
+                          src={SelectImgUser(Imagen)}
                         />
                       </a>
                     </div>

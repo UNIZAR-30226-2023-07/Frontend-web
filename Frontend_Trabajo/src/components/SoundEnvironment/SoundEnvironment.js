@@ -3,14 +3,15 @@ import Sound from 'react-sound';
 import BackgroundMusic from 'assets/sounds/background.mp3';
 import { Button } from 'reactstrap';
 
-var volumen = 50;
 
 const SoundEnvironment = (
-  handleSongLoading,
-  handleSongPlaying,
-  handleSongFinishedPlaying
+  //handleSongLoading,
+  //handleSongPlaying,
+  //handleSongFinishedPlaying
+  props
 ) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const {volumen} = props;
   return (
     <div>
       <Button onClick={() => setIsPlaying(!isPlaying)}>
