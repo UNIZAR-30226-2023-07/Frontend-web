@@ -18,49 +18,60 @@
 
 var friends = [
   {
-    nick: "goku",
-    pts: "100"
+    "Nombre": "goku",
+    "Foto": 1,
+    "Descr": "hola"
   },
   {
-    nick: "silfer sky dragon",
-    pts: "90"
+    "Nombre": "silfer sky dragon",
+    "Foto": 1,
+    "Descr": "hola"
   },
   {
-    nick: "rayo mcqueen",
-    pts: "80"
+    "Nombre": "rayo mcqueen",
+    "Foto": 1,
+    "Descr": "hola"
   },
   {
-    nick: "dra polo",
-    pts: "70"
+    "Nombre": "dra polo",
+    "Foto": 1,
+    "Descr": "hola"
   },
   {
-    nick: "gato borratxo",
-    pts: "60"
+    "Nombre": "gato borratxo",
+    "Foto": 1,
+    "Descr": "hola"
   },
   {
-    nick: "gato bluet00ch",
-    pts: "50"
+    "Nombre": "gato bluet00ch",
+    "Foto": 1,
+    "Descr": "hola"
   },
   {
-    nick: "cielo bonito",
-    pts: "40"
+    "Nombre": "cielo bonito",
+    "Foto": 1,
+    "Descr": "hola"
   },
   {
-    nick: "anekakaneculo",
-    pts: "30"
+    "Nombre": "anekakaneculo",
+    "Foto": 1,
+    "Descr": "hola"
   },
   {
-    nick: "si",
-    pts: "20"
+    "Nombre": "si",
+    "Foto": 1,
+    "Descr": "hola"
   },
   {
-    nick: "hendrix",
-    pts: "10"
-
+    "Nombre": "hendrix",
+    "Foto": 1,
+    "Descr": "hola"
+  
   },
   {
-    nick: "monja de la anunciata",
-    pts: "0"
+    "Nombre": "monja de la anunciata",
+    "Foto": 1,
+    "Descr": "hola"
   }
 ];
 export default friends;

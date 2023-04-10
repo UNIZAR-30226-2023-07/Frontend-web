@@ -165,7 +165,7 @@ import {
                       </td>
                       <td>
                       <div className="d-flex align-items-center">
-                        <span className="mr-2">{Math.round(porcentaje_victorias(sessionUser.won, sessionUser.lost))}%</span>
+                      <span className="mr-2">{sessionUser.won + sessionUser.lost > 0 ? Math.round(porcentaje_victorias(sessionUser.won, sessionUser.lost)) : 50}%</span>
                         <div>
                           <Progress
                             max="100"

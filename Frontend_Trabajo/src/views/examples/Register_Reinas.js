@@ -18,7 +18,7 @@ import {
   
   import React, {useState} from "react"
   import { Link, useHistory } from "react-router-dom";
-  import CryptoJS from 'crypto-js';
+  import encryptPassword from "hooks/encryptPassword";
 
   
   const Register = (props) => {
@@ -83,65 +83,60 @@ import {
                 password: ${password}
                 password2: ${password2}
                 Se ha mandado al servidor la información`);
-      
-      const encryptPassword = (password) => {
-        const wordArray = CryptoJS.enc.Utf8.parse(password); // Convierte la contraseña a un objeto WordArray
-        const hash = CryptoJS.SHA256(wordArray); // Realiza el hash SHA256
-        return hash.toString(CryptoJS.enc.Hex); // Convierte el resultado a una cadena hexadecimal
-      };
-  
-      let encryptedPassword = encryptPassword(password);
-  
-      alert(encryptedPassword);
-  
-      //Petición http
-      let xhr = new XMLHttpRequest();
-      xhr.addEventListener('load', () => {
-        // update the state of the component with the result here
-        console.log(xhr.responseText);
-      })
-  
-      xhr.onload = function () { //Se dispara cuando se recibe la respuesta del servidor
-        alert(`Se ha recibido la respuesta del servidor`);
-        console.log(xhr.status);
-        if (xhr.status === 202) { //Si recibe un OK
-          alert(`Login correcto`);
-          let xhr2 = new XMLHttpRequest()
-          xhr2.addEventListener('load', () => {
-            // update the state of the component with the result here
-            console.log(xhr.responseText);
-          })
-          xhr2.onload = function () {
-            if (xhr2.status === 202) {
-              sessionUser.nick = xhr2.response.nick;
-              sessionUser.email = email;
-              sessionUser.codigo = xhr2.response.codigo;
-              sessionUser.won = xhr2.response.pganadas;
-              sessionUser.lost = xhr2.response.pjugadas - xhr2.response.pganadas;
-              sessionUser.picture = xhr2.response.foto;
-              sessionUser.descrp = xhr2.response.descrp;
-              sessionUser.puntos = xhr2.response.puntos;
-              history.push("/admin/");
-            } else {
-              alert(`Se ha producido un erroral obtener los datos de usuario, vuelve a intentarlo`);
+
+      if (password === password2) {
+        let encryptedPassword = encryptPassword(password);
+        let xhr = new XMLHttpRequest();
+        xhr.addEventListener('load', () => {
+          // update the state of the component with the result here
+          console.log(xhr.responseText);
+        })
+    
+        xhr.onload = function () { //Se dispara cuando se recibe la respuesta del servidor
+          alert(`Se ha recibido la respuesta del servidor`);
+          console.log(xhr.status);
+          if (xhr.status === 202) { //Si recibe un OK
+            alert(`Registro correcto`);
+            let xhr2 = new XMLHttpRequest()
+            xhr2.addEventListener('load', () => {
+              // update the state of the component with the result here
+              console.log(xhr.responseText);
+            })
+            xhr2.onload = function () {
+              if (xhr2.status === 200) {
+                sessionUser.nick = xhr2.response.nick;
+                sessionUser.email = email;
+                sessionUser.codigo = xhr2.response.codigo;
+                sessionUser.won = xhr2.response.pganadas;
+                sessionUser.lost = xhr2.response.pjugadas - xhr2.response.pganadas;
+                sessionUser.picture = xhr2.response.foto;
+                sessionUser.descrp = xhr2.response.descrp;
+                sessionUser.puntos = xhr2.response.puntos;
+                history.push("/admin/");
+              } else {
+                alert(`Se ha producido un erroral obtener los datos de usuario, vuelve a intentarlo`);
+              }
             }
+    
+            // Abrimos una request de tipo post en nuestro servidor
+            xhr2.open('GET', `http://52.174.124.24:3001/api/jugador/get/${email}`);
+        
+            //Mandamos la request
+            xhr2.send();
+            
+          } else {
+            alert(`Se ha producido un error al registrarse, vuelve a intentarlo`);
           }
-  
-          // Abrimos una request de tipo post en nuestro servidor
-          xhr.open('GET', `http://52.174.124.24:3001/api/jugador/get/${email}`);
-      
-          //Mandamos la request
-          xhr.send();
-          
-        } else {
-          alert(`Se ha producido un error en el login, vuelve a intentarlo`);
         }
+        // Abrimos una request de tipo post en nuestro servidor
+        xhr.open('POST', 'http://52.174.124.24:3001/api/auth/register');
+    
+        //Mandamos la request con el email y la contraseña
+        xhr.send(JSON.stringify({ nombre: name, email: email, contra: encryptedPassword }));
+      } else {
+        alert(`Las contraseñas no coinciden`);
       }
-      // Abrimos una request de tipo post en nuestro servidor
-      xhr.open('POST', 'http://52.174.124.24:3001/api/auth/login');
-  
-      //Mandamos la request con el email y la contraseña
-      xhr.send(JSON.stringify({ email: email, contra: encryptedPassword }));
+
     };
   
     return (
@@ -214,8 +209,8 @@ import {
                       placeholder="Confirmar contraseña"
                       type="password"
                       autoComplete="new-password"
-                      onChange={handlePasswordChange}
-                      value={password}
+                      onChange={handlePassword2Change}
+                      value={password2}
                     />
                   </InputGroup>
                 </FormGroup>
@@ -245,10 +240,9 @@ import {
                   </Col>
                 </Row>
                 <div className="text-center">
-                  <Link to= "/pagina_login/login_reinas"><Button className="mt-4" color="primary" type="submit">
+                  <Button className="mt-4" color="primary" type="submit">
                     Crear cuenta
                   </Button>
-                  </Link>
                 </div>
               </Form>
             </CardBody>

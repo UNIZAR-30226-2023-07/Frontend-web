@@ -16,16 +16,19 @@ import {
     Nav
   } from "reactstrap";
   
-  import React, {useState} from "react"
-  import { Link } from "react-router-dom";
+  import React, {useState} from "react";
+  import { Link, useHistory } from "react-router-dom";
+  import encryptPassword from "hooks/encryptPassword";
 
-  
   const Register = () => {
   
     //Cosas que vamos a guardar para el formulario
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    var password_validacion;
+    const [password2, setPassword2] = useState('')
+
+    //Elemento para cambiar de pantalla de forma imperativa
+    const history = useHistory();
     
     //Guardar el cambio en los atributos
     const handleEmailChange = event => {
@@ -35,41 +38,46 @@ import {
     const handlePasswordChange = event => {
       setPassword(event.target.value)
     };
-
-    const handlePasswordValidation = event => {
-      password_validacion = event.target.value;
+  
+    const handlePassword2Change = event => {
+      setPassword2(event.target.value)
     };
     
-    //Submit al servidor
-    const registerSubmit = event => {
-      if(password_validacion == password){
-        event.preventDefault();
-        alert(`Your state values:
-                email: ${email}
+    const modify_password = event => {
+      event.preventDefault();
+      alert(`Your state values:
+                email: ${email} 
                 password: ${password}
-                validacion: ${password_validacion}
+                password2: ${password2}
                 Se ha mandado al servidor la información`);
-    
-        //Petición http
-        var xhr = new XMLHttpRequest()
+
+      if (password === password2) {
+        let encryptedPassword = encryptPassword(password);
+        let xhr = new XMLHttpRequest();
         xhr.addEventListener('load', () => {
           // update the state of the component with the result here
-          console.log(xhr.responseText)
+          console.log(xhr.responseText);
         })
     
+        xhr.onload = function () { //Se dispara cuando se recibe la respuesta del servidor
+          alert(`Se ha recibido la respuesta del servidor`);
+          console.log(xhr.status);
+          if (xhr.status === 202) { //Si recibe un OK
+            alert(`La contraseña ha sido cambiada correctamente. Vuelve a iniciar sesión.`);
+            history.push('/pagina_login/');
+          } else {
+            alert(`Se ha producido un error al cambiar la contraseña, vuelve a intentarlo.`);
+          }
+        }
         // Abrimos una request de tipo post en nuestro servidor
-        xhr.open('POST', 'http://localhost:3001/api/auth/register')
-        
+        xhr.open('POST', 'http://52.174.124.24:3001/api/auth/mod-login');
+    
         //Mandamos la request con el email y la contraseña
-        xhr.send(JSON.stringify({ email: email , password: password }))
-
+        xhr.send(JSON.stringify({ email: email, contra: encryptedPassword }));
       } else {
-        alert(`Contraseñas distintas:
-                email: ${email}
-                password: ${password}
-                validacion: ${password_validacion}`);
+        alert(`Las contraseñas no coinciden.`);
       }
-  
+
     };
   
     return (
@@ -83,7 +91,7 @@ import {
               <div className="text-center text-muted mb-4">
                 <small>Introduzca sus datos para cambiar de contraseña</small>
               </div>
-              <Form role="form" onSubmit={registerSubmit}>
+              <Form role="form" onSubmit={modify_password}>
                 <FormGroup>
                   <InputGroup className="input-group-alternative mb-3">
                     <InputGroupAddon addonType="prepend">
@@ -124,11 +132,11 @@ import {
                       </InputGroupText>
                     </InputGroupAddon>
                     <Input
-                      placeholder="Repetir Contraseña"
+                      placeholder="Confirmar contraseña"
                       type="password"
                       autoComplete="new-password"
-                      onChange={handlePasswordValidation}
-                      value={password_validacion}
+                      onChange={handlePassword2Change}
+                      value={password2}
                     />
                   </InputGroup>
                 </FormGroup>

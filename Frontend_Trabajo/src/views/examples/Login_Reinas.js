@@ -18,7 +18,7 @@ import {
 import React, { useState } from "react"
 import { PropTypes } from "prop-types";
 import { Link, useHistory } from "react-router-dom";
-import CryptoJS from 'crypto-js';
+import encryptPassword from "hooks/encryptPassword";
 
 /*
 import Cookies from 'universal-cookie';
@@ -34,7 +34,7 @@ const Login_Reinas = (props) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const { sessionUser } = props;
+  let { sessionUser, friends } = props;
 
   //Elemento para cambiar de pantalla de forma imperativa
   const history = useHistory();
@@ -75,20 +75,8 @@ const Login_Reinas = (props) => {
 
   const login_user = event => {
     event.preventDefault();
-    alert(`Your state values: 
-              email: ${email} 
-              password: ${password}
-              Se ha mandado al servidor la información`);
-    
-    const encryptPassword = (password) => {
-      const wordArray = CryptoJS.enc.Utf8.parse(password); // Convierte la contraseña a un objeto WordArray
-      const hash = CryptoJS.SHA256(wordArray); // Realiza el hash SHA256
-      return hash.toString(CryptoJS.enc.Hex); // Convierte el resultado a una cadena hexadecimal
-    };
 
     let encryptedPassword = encryptPassword(password);
-
-    alert(encryptedPassword);
 
     //Petición http
     let xhr = new XMLHttpRequest();
@@ -98,14 +86,12 @@ const Login_Reinas = (props) => {
     })
 
     xhr.onload = function () { //Se dispara cuando se recibe la respuesta del servidor
-      alert(`Se ha recibido la respuesta del servidor`);
       console.log(xhr.status);
       if (xhr.status === 202) { //Si recibe un OK
-        alert(`Login correcto`);
         let xhr2 = new XMLHttpRequest()
         xhr2.addEventListener('load', () => {
           // update the state of the component with the result here
-          console.log(xhr.responseText);
+          console.log(xhr2.responseText);
         })
         xhr2.onload = function () {
           if (xhr2.status === 200) {
@@ -119,9 +105,25 @@ const Login_Reinas = (props) => {
             sessionUser.picture = datosUsuario.foto;
             sessionUser.descrp = datosUsuario.descrp;
             sessionUser.puntos = datosUsuario.puntos;
-            history.push("/admin/");
+            let xhr3 = new XMLHttpRequest()
+            xhr3.addEventListener('load', () => {
+              // update the state of the component with the result here
+              console.log(xhr3.responseText);
+            })
+            xhr3.onload = function () {
+              if (xhr3.status === 200) {
+                friends = JSON.parse(xhr3.response);
+                console.log(friends);
+                history.push("/admin/");
+              } else {
+                alert(`Se ha producido un error al obtener los datos de amigos.`);
+              }
+            }
+            xhr3.open('GET', `http://52.174.124.24:3001/api/amistad/get/${sessionUser.codigo}`);
+            xhr3.send();
+            
           } else {
-            alert(`Se ha producido un erroral obtener los datos de usuario, vuelve a intentarlo`);
+            alert(`Se ha producido un error al obtener los datos de usuario, vuelve a intentarlo.`);
           }
         }
 
@@ -132,7 +134,7 @@ const Login_Reinas = (props) => {
         xhr2.send();
         
       } else {
-        alert(`Se ha producido un error en el login, vuelve a intentarlo`);
+        alert(`Se ha producido un error en el login, vuelve a intentarlo.`);
       }
     }
     // Abrimos una request de tipo post en nuestro servidor
@@ -245,12 +247,14 @@ const Login_Reinas = (props) => {
 
 };
 
-// Login_Reinas.propTypes = {
-//   sessionUser: PropTypes.object
-// };
+Login_Reinas.propTypes = {
+  sessionUser: PropTypes.object,
+  friends: PropTypes.arrayOf(PropTypes.object)
+};
 
 Login_Reinas.defaultProps = {
-  sessionUser: {}
+  sessionUser: {},
+  friends: [{}]
 };
 
 export default Login_Reinas;

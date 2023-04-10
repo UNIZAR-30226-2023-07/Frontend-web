@@ -20,6 +20,7 @@ import { useState } from "react";
 import { NavLink as NavLinkRRD, Link } from "react-router-dom";
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
+import SelectImgUser from "hooks/SelectImgUser";
 
 // reactstrap components
 import {
@@ -141,19 +142,19 @@ const Sidebar = (props) => {
                 <span className="avatar avatar-sm rounded-circle">
                   <img
                     alt="Imagen de perfil"
-                    src={require("../../assets/img/theme/team-4-800x800.jpg")}
+                    src={SelectImgUser(prop.Foto)}
                   />
                 </span>
                 <Media className="ml-2 d-none d-lg-block">
                   <span className="mb-0 text-sm font-weight-bold">
-                  {prop.nick}<span className="text-xs"><br/>{prop.pts} puntos</span>
+                  {prop.Nombre}<span className="text-xs"><br/>{prop.Descr}</span>
                   </span>
                 </Media>
               </Media>
             </DropdownToggle>
             <DropdownMenu className="dropdown-menu-arrow" right>
               <DropdownItem className="noti-title" header tag="div">
-                <h6 className="text-overflow m-0">{prop.nick}</h6>
+                <h6 className="text-overflow m-0">{prop.Nombre}</h6>
               </DropdownItem>
               <DropdownItem to="/admin/user-profile" tag={Link}>
                 <i className="ni ni-send" />
