@@ -97,7 +97,7 @@ const Sidebar = (props) => {
               <Media className="align-items-center">
                 <span className="avatar avatar-sm rounded-circle">
                   <img
-                    alt="..."
+                    alt="Imagen de perfil"
                     src={require("../../assets/img/theme/team-4-800x800.jpg")}
                   />
                 </span>
@@ -113,15 +113,15 @@ const Sidebar = (props) => {
                 <h6 className="text-overflow m-0">{prop.nick}</h6>
               </DropdownItem>
               <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-single-02" />
+                <i className="ni ni-circle-08" />
                 <span>Profile</span>
               </DropdownItem>
               <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-settings-gear-65" />
+                <i className="ni ni-check-bold" />
                 <span>Aceptar</span>
               </DropdownItem>
               <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-calendar-grid-58" />
+                <i className="ni ni-fat-remove" />
                 <span>Rechazar</span>
               </DropdownItem>
             </DropdownMenu>
@@ -140,7 +140,7 @@ const Sidebar = (props) => {
               <Media className="align-items-center">
                 <span className="avatar avatar-sm rounded-circle">
                   <img
-                    alt="..."
+                    alt="Imagen de perfil"
                     src={require("../../assets/img/theme/team-4-800x800.jpg")}
                   />
                 </span>
@@ -156,15 +156,15 @@ const Sidebar = (props) => {
                 <h6 className="text-overflow m-0">{prop.nick}</h6>
               </DropdownItem>
               <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-settings-gear-65" />
+                <i className="ni ni-send" />
                 <span>Chat</span>
               </DropdownItem>
               <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-single-02" />
+                <i className="ni ni-circle-08" />
                 <span>Profile</span>
               </DropdownItem>
               <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-calendar-grid-58" />
+                <i className="ni ni-fat-remove" />
                 <span>Unfriend</span>
               </DropdownItem>
             </DropdownMenu>
