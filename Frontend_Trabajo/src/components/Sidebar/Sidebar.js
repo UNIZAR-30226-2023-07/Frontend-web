@@ -190,7 +190,7 @@ const Sidebar = (props) => {
 
   return (
     <Navbar
-      className="navbar-vertical fixed-right navbar-light bg-white"
+      className="navbar-vertical fixed-right navbar-light bg-white mt-7"
       expand="md"
       id="sidenav-main"
     >
@@ -317,7 +317,7 @@ const Sidebar = (props) => {
           </Form> */}
           {/* Navigation */}
           {/* <Nav navbar>{createLinks(routes)}</Nav> */}
-          <h6 className="navbar-heading text-muted">Peticiones de amistad</h6>
+          <h6 className="navbar-heading text-muted mt--5">Peticiones de amistad</h6>
           {showFriendRequests(friendRequests)}
           <h6 className="navbar-heading text-muted">Amistades</h6>
           {showFriends(friends)}
