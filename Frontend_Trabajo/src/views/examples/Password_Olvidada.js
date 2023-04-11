@@ -45,11 +45,6 @@ import {
     
     const modify_password = event => {
       event.preventDefault();
-      alert(`Your state values:
-                email: ${email} 
-                password: ${password}
-                password2: ${password2}
-                Se ha mandado al servidor la información`);
 
       if (password === password2) {
         let encryptedPassword = encryptPassword(password);
@@ -60,7 +55,6 @@ import {
         })
     
         xhr.onload = function () { //Se dispara cuando se recibe la respuesta del servidor
-          alert(`Se ha recibido la respuesta del servidor`);
           console.log(xhr.status);
           if (xhr.status === 202) { //Si recibe un OK
             alert(`La contraseña ha sido cambiada correctamente. Vuelve a iniciar sesión.`);

@@ -74,6 +74,8 @@ const Admin = (props) => {
     return "Brand";
   };
 
+  console.log(friends);
+
   return (
     <>
       <div className="topbar">
@@ -92,6 +94,7 @@ const Admin = (props) => {
       <Sidebar
         {...props}
         routes={routes}
+        sessionUser={sessionUser}
         friends={friends}
         friendRequests={friendRequests}
       />

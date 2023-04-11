@@ -91,16 +91,22 @@ const UserNavbar = (props) => {
           ) : null}
           <Link
             className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block ml--7"
+            to="/admin/"
+          >
+            Jugar
+          </Link>
+          <Link
+            className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block ml--7"
             to="/admin/perfil_usuario"
           >
             Perfil
           </Link>
-          <Link
+          {/* <Link
             className="h4 mb-0 text-white text-uppercase d-lg-none d-lg-inline-block ml--9"
             to="/admin/tables"
           >
             Amig@s
-          </Link>
+          </Link> */}
           <span className="mr--8"></span>
           <span className="mr-5"></span>
           
@@ -178,7 +184,7 @@ const UserNavbar = (props) => {
                 <DropdownItem divider />
                 <DropdownItem to="/inicio" tag={Link}>
                   <i className="ni ni-user-run" />
-                  <span>Logout</span>
+                  <span>Cerrar sesión</span>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>

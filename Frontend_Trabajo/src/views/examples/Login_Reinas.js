@@ -112,7 +112,9 @@ const Login_Reinas = (props) => {
             })
             xhr3.onload = function () {
               if (xhr3.status === 200) {
-                friends = JSON.parse(xhr3.response);
+                const datosAmigxs = JSON.parse(xhr3.response);
+                console.log(datosAmigxs.amistad);
+                friends = datosAmigxs.amistad;
                 console.log(friends);
                 history.push("/admin/");
               } else {

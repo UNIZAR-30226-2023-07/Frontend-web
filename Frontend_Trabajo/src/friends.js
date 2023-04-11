@@ -18,60 +18,59 @@
 
 var friends = [
   {
-    "Nombre": "goku",
+    "Nombre": "mario#310",
     "Foto": 1,
-    "Descr": "hola"
+    "Descr": "It's a me!"
   },
   {
-    "Nombre": "silfer sky dragon",
-    "Foto": 1,
-    "Descr": "hola"
+    "Nombre": "silfer sky dragon#542",
+    "Foto": 2,
+    "Descr": "Flyin' high!"
   },
   {
-    "Nombre": "rayo mcqueen",
-    "Foto": 1,
-    "Descr": "hola"
+    "Nombre": "leonor#748",
+    "Foto": 3,
+    "Descr": "Futura REINA."
   },
   {
-    "Nombre": "dra polo",
-    "Foto": 1,
-    "Descr": "hola"
+    "Nombre": "dra polo#152",
+    "Foto": 4,
+    "Descr": "CASO CERRADO"
   },
   {
-    "Nombre": "gato borratxo",
+    "Nombre": "pedro pascal#609",
     "Foto": 1,
-    "Descr": "hola"
+    "Descr": "yasssss"
   },
   {
-    "Nombre": "gato bluet00ch",
-    "Foto": 1,
-    "Descr": "hola"
+    "Nombre": "jiafei#666",
+    "Foto": 2,
+    "Descr": "ALL POTAXIES WITH ME"
   },
   {
-    "Nombre": "cielo bonito",
-    "Foto": 1,
-    "Descr": "hola"
+    "Nombre": "belen esteban#500",
+    "Foto": 3,
+    "Descr": "PÁ GÁ MÉ"
   },
   {
-    "Nombre": "anekakaneculo",
-    "Foto": 1,
-    "Descr": "hola"
+    "Nombre": "park bom#845",
+    "Foto": 4,
+    "Descr": "anekakaneculo"
   },
   {
-    "Nombre": "si",
+    "Nombre": "ternure#082",
     "Foto": 1,
-    "Descr": "hola"
+    "Descr": "good afternoon fellas"
   },
   {
-    "Nombre": "hendrix",
-    "Foto": 1,
-    "Descr": "hola"
-  
+    "Nombre": "hendrix#404",
+    "Foto": 2,
+    "Descr": "..."
   },
   {
-    "Nombre": "monja de la anunciata",
-    "Foto": 1,
-    "Descr": "hola"
+    "Nombre": "elizabeth ii#712",
+    "Foto": 4,
+    "Descr": "de parranda"
   }
 ];
 export default friends;

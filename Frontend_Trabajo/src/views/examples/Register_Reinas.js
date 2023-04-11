@@ -77,12 +77,6 @@ import {
 
     const register_user = event => {
       event.preventDefault();
-      alert(`Your state values:
-                nombre: ${name}
-                email: ${email} 
-                password: ${password}
-                password2: ${password2}
-                Se ha mandado al servidor la información`);
 
       if (password === password2) {
         let encryptedPassword = encryptPassword(password);
@@ -93,10 +87,8 @@ import {
         })
     
         xhr.onload = function () { //Se dispara cuando se recibe la respuesta del servidor
-          alert(`Se ha recibido la respuesta del servidor`);
           console.log(xhr.status);
           if (xhr.status === 202) { //Si recibe un OK
-            alert(`Registro correcto`);
             let xhr2 = new XMLHttpRequest()
             xhr2.addEventListener('load', () => {
               // update the state of the component with the result here
@@ -104,17 +96,19 @@ import {
             })
             xhr2.onload = function () {
               if (xhr2.status === 200) {
-                sessionUser.nick = xhr2.response.nick;
+                const datosUsuario = JSON.parse(xhr2.response);
+                console.log(datosUsuario);
+                sessionUser.nick = datosUsuario.nombre;
                 sessionUser.email = email;
-                sessionUser.codigo = xhr2.response.codigo;
-                sessionUser.won = xhr2.response.pganadas;
-                sessionUser.lost = xhr2.response.pjugadas - xhr2.response.pganadas;
-                sessionUser.picture = xhr2.response.foto;
-                sessionUser.descrp = xhr2.response.descrp;
-                sessionUser.puntos = xhr2.response.puntos;
+                sessionUser.codigo = datosUsuario.codigo;
+                sessionUser.won = datosUsuario.pganadas;
+                sessionUser.lost = datosUsuario.pjugadas - datosUsuario.pganadas;
+                sessionUser.picture = datosUsuario.foto;
+                sessionUser.descrp = datosUsuario.descrp;
+                sessionUser.puntos = datosUsuario.puntos;
                 history.push("/admin/");
               } else {
-                alert(`Se ha producido un erroral obtener los datos de usuario, vuelve a intentarlo`);
+                alert(`Se ha producido un error al obtener los datos de usuario, vuelve a intentarlo.`);
               }
             }
     
@@ -125,7 +119,7 @@ import {
             xhr2.send();
             
           } else {
-            alert(`Se ha producido un error al registrarse, vuelve a intentarlo`);
+            alert(`Se ha producido un error al registrarse, vuelve a intentarlo.`);
           }
         }
         // Abrimos una request de tipo post en nuestro servidor
@@ -134,7 +128,7 @@ import {
         //Mandamos la request con el email y la contraseña
         xhr.send(JSON.stringify({ nombre: name, email: email, contra: encryptedPassword }));
       } else {
-        alert(`Las contraseñas no coinciden`);
+        alert(`Las contraseñas no coinciden.`);
       }
 
     };

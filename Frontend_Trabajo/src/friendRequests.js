@@ -18,10 +18,14 @@
 
 var friendRequests = [
   {
-    nick: "tu madre"
+    "Nombre": "daisy#128",
+    "Foto": 4,
+    "Descr": "IM DAISY"
   },
   {
-    nick: "chuu"
+    "Nombre": "picas#010",
+    "Foto": 2,
+    "Descr": "el mejor palo"
   }
 ];
 export default friendRequests;

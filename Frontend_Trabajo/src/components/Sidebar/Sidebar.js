@@ -52,6 +52,7 @@ import {
   Row,
   Col
 } from "reactstrap";
+import sessionUser from "sessionUser";
 
 var ps;
 
@@ -70,23 +71,14 @@ const Sidebar = (props) => {
   const closeCollapse = () => {
     setCollapseOpen(false);
   };
-  // creates the links that appear in the right menu / Sidebar
-  const createLinks = (routes) => {
-    return routes.map((prop, key) => {
+  const showFriendRqsTitle = (friendRqs) => {
+    if (friendRqs.length > 0) {
       return (
-        <NavItem key={key}>
-          <NavLink
-            to={prop.layout + prop.path}
-            tag={NavLinkRRD}
-            onClick={closeCollapse}
-            activeClassName="active"
-          >
-            <i className={prop.icon} />
-            {prop.name}
-          </NavLink>
-        </NavItem>
+        <h6 className="navbar-heading text-muted mt--5">
+          Peticiones de amistad
+        </h6>
       );
-    });
+    }
   };
   // creates the links that appear in the right menu / Sidebar
   const showFriendRequests = (friendRqs) => {
@@ -99,19 +91,19 @@ const Sidebar = (props) => {
                 <span className="avatar avatar-sm rounded-circle">
                   <img
                     alt="Imagen de perfil"
-                    src={require("../../assets/img/theme/team-4-800x800.jpg")}
+                    src={SelectImgUser(prop.Foto)}
                   />
                 </span>
                 <Media className="ml-2 d-none d-lg-block">
                   <span className="mb-0 text-sm font-weight-bold">
-                  {prop.nick}<span className="text-xs"><br/>Clic para gestionar</span>
+                  {prop.Nombre}<span className="text-xs"><br/>Clic para gestionar</span>
                   </span>
                 </Media>
               </Media>
             </DropdownToggle>
             <DropdownMenu className="dropdown-menu-arrow" right>
               <DropdownItem className="noti-title" header tag="div">
-                <h6 className="text-overflow m-0">{prop.nick}</h6>
+                <h6 className="text-overflow m-0">{prop.Nombre}</h6>
               </DropdownItem>
               <DropdownItem to="/admin/user-profile" tag={Link}>
                 <i className="ni ni-circle-08" />
@@ -130,6 +122,15 @@ const Sidebar = (props) => {
         </Nav>
       );
     });
+  };
+  const showFriendsTitle = (friends) => {
+    if (friends.length > 0) {
+      return (
+        <h6 className="navbar-heading text-muted">
+          Amistades
+        </h6>
+      );
+    }
   };
   // creates the links that appear in the right menu / Sidebar
   const showFriends = (friends) => {
@@ -175,7 +176,24 @@ const Sidebar = (props) => {
     });
   };
 
-  const { bgColor, routes, friends, friendRequests } = props;
+  let { sessionUser, friends, friendRequests } = props;
+
+  // creates the links that appear in the right menu / Sidebar
+  const getFriends = function (ident, frs) {
+    let xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        console.log('ok');
+        const datos = JSON.parse(xhr.response);
+        console.log(datos);
+        frs = datos.amistad;
+      }
+    }
+    xhr.open("GET", `http://52.174.124.24:3001/api/amistad/get/${ident}`);
+    xhr.send();
+  };
+
+  getFriends(sessionUser.codigo, friends);
   // let navbarBrandProps;
   // if (logo && logo.innerLink) {
   //   navbarBrandProps = {
@@ -318,9 +336,9 @@ const Sidebar = (props) => {
           </Form> */}
           {/* Navigation */}
           {/* <Nav navbar>{createLinks(routes)}</Nav> */}
-          <h6 className="navbar-heading text-muted mt--5">Peticiones de amistad</h6>
+          {showFriendRqsTitle(friendRequests)}
           {showFriendRequests(friendRequests)}
-          <h6 className="navbar-heading text-muted">Amistades</h6>
+          {showFriendsTitle(friends)}
           {showFriends(friends)}
           {/* <Nav navbar>{showFriends(friends)}</Nav> */}
           {/* Divider */}
