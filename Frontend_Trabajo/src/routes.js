@@ -26,6 +26,7 @@ import Icons from "views/examples/Icons.js";
 import Login_R from "views/examples/Login_Reinas.js";
 import Register_R from "views/examples/Register_Reinas.js";
 import Perfil_Usuario from "views/examples/Perfil_Usuario";
+import Perfil_Otro_Usuario from "views/examples/Perfil_Otro_Usuario";
 import Password_O from "views/examples/Password_Olvidada";
 import Ajustes_Perfil from "views/examples/Ajustes_Perfil";
 
@@ -106,6 +107,13 @@ var routes = [
     name: "Perfil_Usuario",
     icon: "ni ni-single-02 text-yellow",
     component: Perfil_Usuario,
+    layout: "/admin"
+  },
+  {
+    path: "/usuario/:id",
+    name: "Perfil_Otro_Usuario",
+    icon: "ni ni-single-02 text-yellow",
+    component: Perfil_Otro_Usuario,
     layout: "/admin"
   },
   {

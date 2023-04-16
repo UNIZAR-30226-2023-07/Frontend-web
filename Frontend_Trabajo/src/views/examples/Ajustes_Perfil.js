@@ -25,6 +25,8 @@ import {
 
   import { BrowserRouter, Route, Switch, Redirect, Link, useHistory} from "react-router-dom";
 
+  import getUser from "hooks/getter/getUser";
+
 
   // core components
   //import UserHeader from "components/Headers/UserHeader.js";
@@ -37,13 +39,13 @@ import {
   import SelectImgUser from "hooks/SelectImgUser.js";
 
   const Ajustes_Perfil = (props) => {
-    const num_amigos = 25;
-    const puntos = 1500;
     const history = useHistory();
 
-    const [Imagen, setImagen] = useState(props.sessionUser.picture);
-    const [Nombre_U, setNombre_U] = useState(props.sessionUser.nick);
-    const [Descrp_U, setDescrp_U] = useState(props.sessionUser.descrp);
+    let sessionUser = JSON.parse(localStorage.getItem("sessionUser"));
+
+    const [Imagen, setImagen] = useState(sessionUser.foto);
+    const [Nombre_U, setNombre_U] = useState(sessionUser.nombre);
+    const [Descrp_U, setDescrp_U] = useState(sessionUser.descrp);
 
     const handleNombre_UChange = event => {
       setNombre_U(event.target.value)
@@ -59,7 +61,7 @@ import {
     alert(`Your state values: 
           Imagen: ${Imagen} 
           Nombre: ${Nombre_U}
-          Email: ${props.sessionUser.email}
+          Email: ${sessionUser.correo}
           Descrp: ${Descrp_U}
           Se ha mandado al servidor la información`);
     
@@ -75,10 +77,10 @@ import {
       const respuesta = JSON.parse(xhr.response);
 
       if(xhr.status === 202 && respuesta.res === "ok"){ //Si recibe un OK
-        props.sessionUser.picture = Imagen;
-        props.sessionUser.nick = Nombre_U;
-        props.sessionUser.descrp = Descrp_U;
-        history.push("/admin/perfil_usuario");
+        getUser(sessionUser.correo, () => {
+          history.push("/admin/perfil_usuario");
+        });
+        //history.push("/admin/perfil_usuario");
       } else {
         alert(`Se a producido un error, vuelve a intentarlo`);
       }
@@ -87,7 +89,7 @@ import {
     xhr.open('POST', 'http://52.174.124.24:3001/api/jugador/mod')
         
     //Mandamos la request con el email y la contraseña
-    xhr.send(JSON.stringify({ email: props.sessionUser.email, nombre: Nombre_U, foto: Imagen , descp: Descrp_U }))
+    xhr.send(JSON.stringify({ email: sessionUser.correo, nombre: Nombre_U, foto: Imagen , descp: Descrp_U }))
   };
 
     //Los huecos de modificación
@@ -167,11 +169,11 @@ import {
                     <div className="col">
                       <div className="card-profile-stats d-flex justify-content-center mt-md-4">
                         <div>
-                          <span className="heading">{props.sessionUser.codigo}</span>
+                          <span className="heading">{sessionUser.codigo}</span>
                           <span className="description">Código</span>
                         </div>
                         <div>
-                          <span className="heading">{puntos}</span>
+                          <span className="heading">{sessionUser.puntos}</span>
                           <span className="description">#Puntos</span>
                         </div>
                       </div>
@@ -181,13 +183,13 @@ import {
                     <h3>
                       <span className="font-weight-bold">Usuario:</span>
                       <div>
-                      <span className="font-weight-light">{props.sessionUser.nick}</span>
+                      <span className="font-weight-light">{sessionUser.nombre}</span>
                       </div>
                     </h3>
                     <h3>
                       <span className="font-weight-bold">Correo:</span>
                       <div>
-                      <span className="font-weight-light">{props.sessionUser.email}</span>
+                      <span className="font-weight-light">{sessionUser.correo}</span>
                       </div>
                     </h3>
                   </div>
@@ -211,7 +213,7 @@ import {
                           </label>
                           <Input
                             className="form-control-alternative"
-                            defaultValue={props.sessionUser.nick}
+                            defaultValue={sessionUser.nombre}
                             id="input-nombre_usiario"
                             placeholder="Usuario"
                             type="text"
@@ -232,7 +234,7 @@ import {
                           </label>
                           <Input
                             className="form-control-alternative"
-                            defaultValue={props.sessionUser.descrp}
+                            defaultValue={sessionUser.descrp}
                             id="input-descrip"
                             placeholder="Descripción"
                             type="text"
@@ -327,22 +329,22 @@ import {
     );
   };
 
-  Ajustes_Perfil.propTypes = {
-    sessionUser: PropTypes.checkPropTypes({
-      nick: PropTypes.string,
-      email: PropTypes.string,
-      codigo: PropTypes.number,
-      won: PropTypes.number,
-      lost: PropTypes.number,
-      picture: PropTypes.number,
-      descrp: PropTypes.string,
-      puntos: PropTypes.number
-    })
-  };
+  // Ajustes_Perfil.propTypes = {
+  //   sessionUser: PropTypes.checkPropTypes({
+  //     nick: PropTypes.string,
+  //     email: PropTypes.string,
+  //     codigo: PropTypes.number,
+  //     won: PropTypes.number,
+  //     lost: PropTypes.number,
+  //     picture: PropTypes.number,
+  //     descrp: PropTypes.string,
+  //     puntos: PropTypes.number
+  //   })
+  // };
   
-  Ajustes_Perfil.defaultProps = {
-    sessionUser: {}
-  };
+  // Ajustes_Perfil.defaultProps = {
+  //   sessionUser: {}
+  // };
 
   export default Ajustes_Perfil;
   

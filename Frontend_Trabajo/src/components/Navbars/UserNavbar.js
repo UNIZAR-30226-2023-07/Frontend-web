@@ -48,10 +48,12 @@ import React, {useState} from "react"
 
 //Imagenes de Usuario
 import SelectImgUser from "hooks/SelectImgUser.js";
+import logOut from "hooks/getter/logOut.js";
 
 const UserNavbar = (props) => {
 
-  const { bgColor, logo, sessionUser, informacion_Web} = props;
+  const { bgColor, logo, informacion_Web} = props;
+  let sessionUser = JSON.parse(localStorage.getItem("sessionUser"));
 
   //Variable que guarda el volumen de la música
   const [Volumen_mus, setVolumen_mus] = useState(informacion_Web.volumen);
@@ -136,12 +138,12 @@ const UserNavbar = (props) => {
                   <span className="avatar avatar-sm rounded-circle">
                     <img
                       alt="..."
-                      src={SelectImgUser(sessionUser.picture)}
+                      src={SelectImgUser(sessionUser.foto)}
                     />
                   </span>
                   <Media className="ml-2 d-none d-lg-block">
                     <span className="mb-0 text-sm font-weight-bold">
-                      {sessionUser.nick}
+                      {sessionUser.nombre}
                     </span>
                   </Media>
                 </Media>
@@ -182,7 +184,7 @@ const UserNavbar = (props) => {
                   <span>Support</span>
                 </DropdownItem> */}
                 <DropdownItem divider />
-                <DropdownItem to="/inicio" tag={Link}>
+                <DropdownItem to="/inicio" tag={Link} onClick={logOut}>
                   <i className="ni ni-user-run" />
                   <span>Cerrar sesión</span>
                 </DropdownItem>
@@ -210,16 +212,16 @@ UserNavbar.propTypes = {
     imgAlt: PropTypes.string.isRequired
 
   }),
-  sessionUser: PropTypes.checkPropTypes({
-    nick: PropTypes.string,
-    email: PropTypes.string,
-    codigo: PropTypes.number,
-    won: PropTypes.number,
-    lost: PropTypes.number,
-    picture: PropTypes.number,
-    descrp: PropTypes.string,
-    puntos: PropTypes.number
-  }),
+  // sessionUser: PropTypes.checkPropTypes({
+  //   nick: PropTypes.string,
+  //   email: PropTypes.string,
+  //   codigo: PropTypes.number,
+  //   won: PropTypes.number,
+  //   lost: PropTypes.number,
+  //   picture: PropTypes.number,
+  //   descrp: PropTypes.string,
+  //   puntos: PropTypes.number
+  // }),
   informacion_Web: PropTypes.checkPropTypes({
     volumen: PropTypes.number
   })

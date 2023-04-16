@@ -52,13 +52,16 @@ import {
   Row,
   Col
 } from "reactstrap";
-import sessionUser from "sessionUser";
+import unfriend from "hooks/setter/unfriend";
 
 var ps;
 
 
 const Sidebar = (props) => {
   const [collapseOpen, setCollapseOpen] = useState();
+  let sessionUser = JSON.parse(localStorage.getItem("sessionUser"));
+  let friends = JSON.parse(localStorage.getItem("amigxs7reinas"));
+  let friendRequests = JSON.parse(localStorage.getItem("solicitudes7reinas"));
   // verifies if routeName is the one active (in browser input)
   const activeRoute = (routeName) => {
     return props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
@@ -72,7 +75,7 @@ const Sidebar = (props) => {
     setCollapseOpen(false);
   };
   const showFriendRqsTitle = (friendRqs) => {
-    if (friendRqs.length > 0) {
+    if (friendRqs != null) {
       return (
         <h6 className="navbar-heading text-muted mt--5">
           Peticiones de amistad
@@ -82,6 +85,9 @@ const Sidebar = (props) => {
   };
   // creates the links that appear in the right menu / Sidebar
   const showFriendRequests = (friendRqs) => {
+    if (friendRqs == null) {
+      return;
+    }
     return friendRqs.map((prop, key) => {
       return (
         <Nav className="d-none d-md-flex" navbar key={key}>
@@ -124,7 +130,7 @@ const Sidebar = (props) => {
     });
   };
   const showFriendsTitle = (friends) => {
-    if (friends.length > 0) {
+    if (friends != null) {
       return (
         <h6 className="navbar-heading text-muted">
           Amistades
@@ -134,6 +140,9 @@ const Sidebar = (props) => {
   };
   // creates the links that appear in the right menu / Sidebar
   const showFriends = (friends) => {
+    if (friends == null) {
+      return;
+    }
     return friends.map((prop, key) => {
       return (
         <Nav className="d-none d-md-flex" navbar key={key}>
@@ -148,7 +157,7 @@ const Sidebar = (props) => {
                 </span>
                 <Media className="ml-2 d-none d-lg-block">
                   <span className="mb-0 text-sm font-weight-bold">
-                  {prop.Nombre}<span className="text-xs"><br/>{prop.Descr}</span>
+                  {prop.Nombre}<br/>{prop.Puntos} <span className="text-xs">puntos</span>
                   </span>
                 </Media>
               </Media>
@@ -161,11 +170,11 @@ const Sidebar = (props) => {
                 <i className="ni ni-send" />
                 <span>Chat</span>
               </DropdownItem>
-              <DropdownItem to="/admin/user-profile" tag={Link}>
+              <DropdownItem to={`/admin/usuario/${prop.Codigo}`} tag={Link}>
                 <i className="ni ni-circle-08" />
                 <span>Profile</span>
               </DropdownItem>
-              <DropdownItem to="/admin/user-profile" tag={Link}>
+              <DropdownItem onClick={() => unfriend(sessionUser.codigo, prop.Codigo)}>
                 <i className="ni ni-fat-remove" />
                 <span>Unfriend</span>
               </DropdownItem>
@@ -176,10 +185,8 @@ const Sidebar = (props) => {
     });
   };
 
-  let { sessionUser, friends, friendRequests } = props;
-
   // creates the links that appear in the right menu / Sidebar
-  const getFriends = function (ident, frs) {
+  /*const getFriends = function (ident, frs) {
     let xhr = new XMLHttpRequest();
     xhr.onload = function () {
       if (xhr.status === 200) {
@@ -191,9 +198,11 @@ const Sidebar = (props) => {
     }
     xhr.open("GET", `http://52.174.124.24:3001/api/amistad/get/${ident}`);
     xhr.send();
-  };
+  };*/
 
-  getFriends(sessionUser.codigo, friends);
+  //getFriends(sessionUser.codigo, friends);
+
+  console.log(localStorage.getItem('amigxs7reinas'));
   // let navbarBrandProps;
   // if (logo && logo.innerLink) {
   //   navbarBrandProps = {
