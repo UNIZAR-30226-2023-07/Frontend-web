@@ -15,7 +15,7 @@ const SoundEnvironment = (
   return (
     <div>
       <Button onClick={() => setIsPlaying(!isPlaying)}>
-        {isPlaying ? 'Pause' : 'Play'}
+        {isPlaying ? <i className="ni ni-button-pause" /> : <i className="ni ni-button-play" />}
       </Button>
       <Sound
         url={BackgroundMusic}
