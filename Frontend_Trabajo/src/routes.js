@@ -29,6 +29,8 @@ import Perfil_Usuario from "views/examples/Perfil_Usuario";
 import Perfil_Otro_Usuario from "views/examples/Perfil_Otro_Usuario";
 import Password_O from "views/examples/Password_Olvidada";
 import Ajustes_Perfil from "views/examples/Ajustes_Perfil";
+import Crear_Partida_N from "views/examples/Crear_Partida_N";
+
 
 var routes = [
   {
@@ -123,6 +125,14 @@ var routes = [
     component: Ajustes_Perfil,
     layout: "/admin"
   },
+  {
+    path: "/crear_patido_n",
+    name: "Crear_Partida_N",
+    icon: "ni ni-single-02 text-yellow",
+    component: Crear_Partida_N,
+    layout: "/admin"
+  },
+
   /*{
     path: "",
     name: "",

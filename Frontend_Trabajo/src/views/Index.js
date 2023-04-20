@@ -49,6 +49,8 @@ import {
   chartExample2
 } from "variables/charts.js";
 
+import { Link } from "react-router-dom";
+
 import Header from "components/Headers/Header.js";
 
 const Index = (props) => {
@@ -91,65 +93,39 @@ const Index = (props) => {
                   </CardBody>
                 </Card>
               </Col>
-            <Col lg="6" xl="4">
-                <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
-                    <Row>
-                      <div className="col">
-                        <CardTitle
-                          tag="h5"
-                          className="text-uppercase text-muted mb-0"
-                        >
-                          Traffic
-                        </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">
-                          Nueva partida
-                        </span>
-                      </div>
-                      <Col className="col-auto">
-                        <div className="icon icon-shape bg-danger text-white rounded-circle shadow">
-                          <i className="fas fa-chart-bar" />
+              <Col lg="6" xl="4">
+                <Link to= "/admin/crear_patido_n"><Button as={Link} variant="primary">
+                    <Card className="card-stats mb-4 mb-xl-0">
+                      <CardBody>
+                        <div className="col">
+                          <CardTitle
+                            tag="h5"
+                            className="h2 font-weight-bold align-center mb-0"
+                          >
+                            Crear Partida Normal
+                          </CardTitle>
                         </div>
-                      </Col>
-                    </Row>
-                    <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
-                        <i className="fa fa-arrow-up" /> 3.48%
-                      </span>{" "}
-                      <span className="text-nowrap">Since last month</span>
-                    </p>
-                  </CardBody>
-                </Card>
+                      </CardBody>
+                    </Card>
+                    </Button>
+                </Link>
               </Col>
               <Col lg="6" xl="4">
-                <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
-                    <Row>
+                <Link to= "/admin/crear_patido_n"><Button as={Link} variant="primary">
+                  <Card className="card-stats mb-4 mb-xl-0">
+                    <CardBody>
                       <div className="col">
                         <CardTitle
                           tag="h5"
-                          className="text-uppercase text-muted mb-0"
+                          className="h2 font-weight-bold align-center mb-0"
                         >
-                          Traffic
+                          Crear Partida Clasificatoria
                         </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">
-                          Nueva partida
-                        </span>
                       </div>
-                      <Col className="col-auto">
-                        <div className="icon icon-shape bg-danger text-white rounded-circle shadow">
-                          <i className="fas fa-chart-bar" />
-                        </div>
-                      </Col>
-                    </Row>
-                    <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
-                        <i className="fa fa-arrow-up" /> 3.48%
-                      </span>{" "}
-                      <span className="text-nowrap">Since last month</span>
-                    </p>
-                  </CardBody>
-                </Card>
+                    </CardBody>
+                  </Card>
+                </Button>
+              </Link>
               </Col>
             </Row>
           </div>
