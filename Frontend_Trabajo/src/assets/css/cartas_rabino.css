@@ -30,8 +30,8 @@
   
   .card-container {
     background: #fff;
-    width: 14rem;
-    height: 20rem;
+    width: 7rem;
+    height: 10rem;
     border-radius: 7px;
     margin: -13px;
   }
@@ -42,7 +42,7 @@
   }
   .card-content-inner__border-top,
   .card-content-inner__border-bottom {
-    height: 10%;
+    height: 5%;
   }
   .card-content__inner {
     display: flex;
@@ -57,11 +57,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 22px;
+    font-size: 15px;
   }
   
   .card-content-inner__center {
-    width: 100%;
+    width: 90%;
     height: 14rem;
     display: flex;
     align-items: center;
@@ -185,10 +185,119 @@
     margin-right: 1.5rem;
     margin-left: 1.7rem;
   }
+
+  .img-jack-1{
+    width: 60%;
+    height: 60%;
+    border-radius: 10%;
+    vertical-align: top;
+    margin-right: 1.5rem;
+    margin-left: 1.7rem;
+  }
+
+  .img-jack-2{
+    width: 60%;
+    height: 60%;
+    border-radius: 10%;
+    vertical-align: top;
+    margin-right: 1.5rem;
+    margin-left: 1.7rem;
+  }
+
+  .img-jack-3{
+    width: 60%;
+    height: 60%;
+    border-radius: 10%;
+    vertical-align: top;
+    margin-right: 1.5rem;
+    margin-left: 1.7rem;
+  }
+
+  .img-jack-4{
+    width: 60%;
+    height: 60%;
+    border-radius: 10%;
+    vertical-align: top;
+    margin-right: 1.5rem;
+    margin-left: 1.7rem;
+  }
+
+  .img-queen-1{
+    width: 60%;
+    height: 60%;
+    border-radius: 10%;
+    vertical-align: top;
+    margin-right: 1.5rem;
+    margin-left: 1.7rem;
+  }
+
+  .img-queen-2{
+    width: 60%;
+    height: 60%;
+    border-radius: 10%;
+    vertical-align: top;
+    margin-right: 1.5rem;
+    margin-left: 1.7rem;
+  }
+
+  .img-queen-3{
+    width: 60%;
+    height: 60%;
+    border-radius: 10%;
+    vertical-align: top;
+    margin-right: 1.5rem;
+    margin-left: 1.7rem;
+  }
+
+  .img-queen-4{
+    width: 60%;
+    height: 60%;
+    border-radius: 10%;
+    vertical-align: top;
+    margin-right: 1.5rem;
+    margin-left: 1.7rem;
+  }
+
+  .img-king-1{
+    width: 60%;
+    height: 60%;
+    border-radius: 10%;
+    vertical-align: top;
+    margin-right: 1.5rem;
+    margin-left: 1.7rem;
+  }
+
+  .img-king-2{
+    width: 60%;
+    height: 60%;
+    border-radius: 10%;
+    vertical-align: top;
+    margin-right: 1.5rem;
+    margin-left: 1.7rem;
+  }
+
+  .img-king-3{
+    width: 60%;
+    height: 60%;
+    border-radius: 10%;
+    vertical-align: top;
+    margin-right: 1.5rem;
+    margin-left: 1.7rem;
+  }
+
+  .img-king-4{
+    width: 60%;
+    height: 60%;
+    border-radius: 10%;
+    vertical-align: top;
+    margin-right: 1.5rem;
+    margin-left: 1.7rem;
+  }
+
   .card-button {
     background: #fff;
-    width: 15rem;
-    height: 21rem;
+    width: 8rem;
+    height: 11rem;
     border-radius: 7px;
     margin: 10px;
   }
