@@ -64,7 +64,7 @@ import {
       var xhr = new XMLHttpRequest()
       xhr.addEventListener('load', () => {
         // update the state of the component with the result here
-        console.log(xhr.responseText)
+        //console.log(xhr.responseText)
       })
   
       // Abrimos una request de tipo post en nuestro servidor
@@ -83,21 +83,21 @@ import {
         let xhr = new XMLHttpRequest();
         xhr.addEventListener('load', () => {
           // update the state of the component with the result here
-          console.log(xhr.responseText);
+          //console.log(xhr.responseText);
         })
     
         xhr.onload = function () { //Se dispara cuando se recibe la respuesta del servidor
-          console.log(xhr.status);
+          //console.log(xhr.status);
           if (xhr.status === 202) { //Si recibe un OK
             let xhr2 = new XMLHttpRequest()
             xhr2.addEventListener('load', () => {
               // update the state of the component with the result here
-              console.log(xhr.responseText);
+              //console.log(xhr.responseText);
             })
             xhr2.onload = function () {
               if (xhr2.status === 200) {
                 const datosUsuario = JSON.parse(xhr2.response);
-                console.log(datosUsuario);
+                //console.log(datosUsuario);
                 sessionUser.nick = datosUsuario.nombre;
                 sessionUser.email = email;
                 sessionUser.codigo = datosUsuario.codigo;

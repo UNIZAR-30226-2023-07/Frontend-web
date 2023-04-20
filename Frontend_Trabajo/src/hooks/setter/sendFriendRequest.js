@@ -1,4 +1,4 @@
-export default function sendFriendRequest (me, another, doNext) {
+export default function sendFriendRequest (me, another, doNext, ifFailed) {
 
     let xhr = new XMLHttpRequest();
 
@@ -9,13 +9,11 @@ export default function sendFriendRequest (me, another, doNext) {
 
     xhr.onload = function () {
         if (xhr.status === 202) {
-            alert (`Solicitud de amistad enviada.`);
-            container = JSON.parse(xhr.response);
             doNext();
         } else {
-            alert(`Se ha producido un error al enviar la solicitud de amistad.`);
+            ifFailed();
         }
     }
-    xhr.open('POST', `http://api/amistad/add`);
+    xhr.open('POST', `http://52.174.124.24:3001/api/amistad/add`);
     xhr.send(JSON.stringify({ emisor: me, receptor: another }));
 }

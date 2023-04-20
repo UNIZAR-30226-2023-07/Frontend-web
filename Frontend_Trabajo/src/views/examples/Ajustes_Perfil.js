@@ -69,7 +69,7 @@ import {
     var xhr = new XMLHttpRequest()
     xhr.addEventListener('load', () => {
     // update the state of the component with the result here
-      console.log(xhr.responseText)
+      //console.log(xhr.responseText)
     })
     
     xhr.onload = function() { //Se dispara cuando se recibe la respuesta del servidor

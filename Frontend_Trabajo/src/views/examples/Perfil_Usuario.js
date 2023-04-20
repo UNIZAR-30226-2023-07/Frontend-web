@@ -30,8 +30,6 @@ import {
   const Perfil_Usuario = (props) => {
     let sessionUser = JSON.parse (localStorage.getItem("sessionUser"));
 
-    console.log("hola");
-
     function porcentaje_victorias(vic, der){
       return (vic/(vic + der))*100;
     };

@@ -14,7 +14,7 @@ const SoundEnvironment = (
   const {volumen} = props;
   return (
     <div>
-      <Button onClick={() => setIsPlaying(!isPlaying)}>
+      <Button className="rounded-circle " onClick={() => setIsPlaying(!isPlaying)}>
         {isPlaying ? <i className="ni ni-button-pause" /> : <i className="ni ni-button-play" />}
       </Button>
       <Sound

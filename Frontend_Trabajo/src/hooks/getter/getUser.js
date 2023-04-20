@@ -4,7 +4,7 @@ export default function getUser (mail, doNext) {
 
     xhr.addEventListener('load', () => {
         // update the state of the component with the result here
-        console.log(xhr.responseText);
+        //console.log(xhr.responseText);
     });
 
     xhr.onload = function () {

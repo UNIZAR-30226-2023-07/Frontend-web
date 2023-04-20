@@ -63,7 +63,7 @@ const Login_Reinas = (props) => {
     var xhr = new XMLHttpRequest()
     xhr.addEventListener('load', () => {
       // update the state of the component with the result here
-      console.log(xhr.responseText)
+      //console.log(xhr.responseText)
     })
 
     // Abrimos una request de tipo post en nuestro servidor
@@ -85,13 +85,12 @@ const Login_Reinas = (props) => {
     let xhr = new XMLHttpRequest();
     xhr.addEventListener('load', () => {
       // update the state of the component with the result here
-      console.log(xhr.responseText);
+      //console.log(xhr.responseText);
     })
 
     xhr.onload = function () { //Se dispara cuando se recibe la respuesta del servidor
-      console.log(xhr.status);
+      //console.log(xhr.status);
       if (xhr.status === 202) { //Si recibe un OK
-        let okTillNow = false;
         getUser(email, () => {
           let sessionUser = JSON.parse(localStorage.getItem('sessionUser'));
           getFriends(sessionUser.codigo, () => {
@@ -100,37 +99,6 @@ const Login_Reinas = (props) => {
             })
           });
         });
-        // let xhr2 = new XMLHttpRequest()
-        // xhr2.addEventListener('load', () => {
-        //   // update the state of the component with the result here
-        //   console.log(xhr2.responseText);
-        // })
-        // xhr2.onload = async function () {
-        //   if (xhr2.status === 200) {
-        //     const datosUsuario = JSON.parse(xhr2.response);
-        //     console.log(datosUsuario);
-        //     sessionUser.nick = datosUsuario.nombre;
-        //     sessionUser.email = email;
-        //     sessionUser.codigo = datosUsuario.codigo;
-        //     sessionUser.won = datosUsuario.pganadas;
-        //     sessionUser.lost = datosUsuario.pjugadas - datosUsuario.pganadas;
-        //     sessionUser.picture = datosUsuario.foto;
-        //     sessionUser.descrp = datosUsuario.descrp;
-        //     sessionUser.puntos = datosUsuario.puntos;
-        //     getFriends(sessionUser.codigo, () => {
-        //       history.push("/admin/");
-        //     });
-            
-        //   } else {
-        //     alert(`Se ha producido un error al obtener los datos de usuario, vuelve a intentarlo.`);
-        //   }
-        // }
-
-        // // Abrimos una request de tipo post en nuestro servidor
-        // xhr2.open('GET', `http://52.174.124.24:3001/api/jugador/get/${email}`);
-    
-        // //Mandamos la request
-        // xhr2.send();
         
       } else {
         alert(`Se ha producido un error en el login, vuelve a intentarlo.`);

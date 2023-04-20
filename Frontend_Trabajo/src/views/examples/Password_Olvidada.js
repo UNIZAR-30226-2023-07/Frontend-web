@@ -51,11 +51,11 @@ import {
         let xhr = new XMLHttpRequest();
         xhr.addEventListener('load', () => {
           // update the state of the component with the result here
-          console.log(xhr.responseText);
+          //console.log(xhr.responseText);
         })
     
         xhr.onload = function () { //Se dispara cuando se recibe la respuesta del servidor
-          console.log(xhr.status);
+          //console.log(xhr.status);
           if (xhr.status === 202) { //Si recibe un OK
             alert(`La contraseña ha sido cambiada correctamente. Vuelve a iniciar sesión.`);
             history.push('/pagina_login/');

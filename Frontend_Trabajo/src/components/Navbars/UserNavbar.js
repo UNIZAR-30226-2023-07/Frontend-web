@@ -79,7 +79,7 @@ const UserNavbar = (props) => {
 
   return (
     <>
-      <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
+      <Navbar className="navbar-top navbar-dark py-4" expand="md" id="navbar-main">
         <Container fluid>
           {logo ? (
             <NavbarBrand className="pt-0" {...navbarBrandProps}>
@@ -171,18 +171,6 @@ const UserNavbar = (props) => {
                     </Col>
                   </Row>
                 </DropdownItem>
-                {/* <DropdownItem to="/admin/user-profile" tag={Link}>
-                  <i className="ni ni-settings-gear-65" />
-                  <span>Settings</span>
-                </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
-                  <i className="ni ni-calendar-grid-58" />
-                  <span>Activity</span>
-                </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
-                  <i className="ni ni-support-16" />
-                  <span>Support</span>
-                </DropdownItem> */}
                 <DropdownItem divider />
                 <DropdownItem to="/inicio" tag={Link} onClick={logOut}>
                   <i className="ni ni-user-run" />

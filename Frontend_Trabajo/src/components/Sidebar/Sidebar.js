@@ -52,16 +52,46 @@ import {
   Row,
   Col
 } from "reactstrap";
+import sendFriendRequest from "hooks/setter/sendFriendRequest";
+import acceptFriendRequest from "hooks/setter/acceptFriendRequest";
+import denyFriendRequest from "hooks/setter/denyFriendRequest";
 import unfriend from "hooks/setter/unfriend";
-
-var ps;
+import getFriends from "hooks/getter/getFriendRequests";
+import getFriendRequests from "hooks/getter/getFriendRequests";
 
 
 const Sidebar = (props) => {
   const [collapseOpen, setCollapseOpen] = useState();
-  let sessionUser = JSON.parse(localStorage.getItem("sessionUser"));
-  let friends = JSON.parse(localStorage.getItem("amigxs7reinas"));
-  let friendRequests = JSON.parse(localStorage.getItem("solicitudes7reinas"));
+  const [showAddFriend, setShowAddFriend] = useState(false);
+  const [newFriend, setNewFriend] = useState("");
+  const [addFriendState, setAddFriendState] = useState("");
+
+  const [sessionUser, setSessionUser] = useState(JSON.parse(localStorage.getItem("sessionUser")));
+  const [friends, setFriends] = useState(JSON.parse(localStorage.getItem("amigxs7reinas")));
+  const [friendRequests, setFriendRequests] = useState(JSON.parse(localStorage.getItem("solicitudes7reinas")));
+
+  const updateFriends = () => {
+    getFriends(sessionUser.codigo, () => {
+      setFriends(JSON.parse(localStorage.getItem("amigxs7reinas")));
+      console.log(friends);
+    });
+  }
+  const updateFriendRequests = () => {
+    getFriendRequests(sessionUser.codigo, () => {
+      setFriendRequests(JSON.parse(localStorage.getItem("solicitudes7reinas")));
+      console.log(friendRequests);
+    });
+  }
+
+  const toggleShowAddFriend = () => {
+    setShowAddFriend(!showAddFriend);
+    setNewFriend("");
+    setAddFriendState("");
+  }
+  const handleCodeChange = event => {
+    setNewFriend(event.target.value);
+    setAddFriendState("");
+  }
   // verifies if routeName is the one active (in browser input)
   const activeRoute = (routeName) => {
     return props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
@@ -74,29 +104,75 @@ const Sidebar = (props) => {
   const closeCollapse = () => {
     setCollapseOpen(false);
   };
-  const showFriendRqsTitle = (friendRqs) => {
-    if (friendRqs != null) {
+
+  const addFriendInterface = (show) => {
+    if (show) return (
+      <Card className="m-0 p-2">
+        <CardBody className="m-0 p-0">
+          <Button className="w-100" color="primary" onClick={toggleShowAddFriend}>
+            Cerrar
+          </Button>
+          <Form role="form" onSubmit={event => {
+              event.preventDefault();
+              sendFriendRequest(sessionUser.codigo, newFriend,
+                () => setAddFriendState("Enviado con éxito."),
+                () => setAddFriendState("No existe el usuario indicado o ya le has agregado."));
+            }}>
+            <FormGroup className="my-2">
+              <InputGroup className="input-group-alternative">
+                <InputGroupAddon addonType="prepend">
+                  <InputGroupText>
+                    <i className="ni ni-single-02" />
+                  </InputGroupText>
+                </InputGroupAddon>
+                <Input
+                  placeholder="Código de amig@"
+                  type="text"
+                  autoComplete=""
+                  //
+                  onChange={handleCodeChange}
+                  value={newFriend}
+                />
+              </InputGroup>
+            </FormGroup>
+            <div className="text-center">
+              <Button className="w-100" color="primary" type="submit">
+                Añadir amig@
+              </Button>
+            </div>
+          </Form>
+          {addFriendState != "" && <p className="text-center text-xs m-0 p-0 lh-120">{addFriendState}</p>}
+        </CardBody>
+      </Card>
+    );
+    else return (
+      <Button color="primary" onClick={() => {toggleShowAddFriend()}}>
+        Añadir amig@
+      </Button>)
+  }
+  const showFriendRqsTitle = () => {
+    if (friendRequests != null) {
       return (
-        <h6 className="navbar-heading text-muted mt--5">
+        <h6 className="text-center navbar-heading text-muted my-2">
           Peticiones de amistad
         </h6>
       );
     }
   };
   // creates the links that appear in the right menu / Sidebar
-  const showFriendRequests = (friendRqs) => {
-    if (friendRqs == null) {
+  const showFriendRequests = () => {
+    if (friendRequests == null) {
       return;
     }
-    return friendRqs.map((prop, key) => {
+    return friendRequests.map((prop, key) => {
       return (
-        <Nav className="d-none d-md-flex" navbar key={key}>
+        <Nav className="d-md-flex" navbar key={key}>
           <UncontrolledDropdown nav>
-            <DropdownToggle className="pr-0" nav>
+            <DropdownToggle className="py-1" nav>
               <Media className="align-items-center">
                 <span className="avatar avatar-sm rounded-circle">
                   <img
-                    alt="Imagen de perfil"
+                    alt={"Imagen de perfil de " + prop.Nombre}
                     src={SelectImgUser(prop.Foto)}
                   />
                 </span>
@@ -112,14 +188,18 @@ const Sidebar = (props) => {
                 <h6 className="text-overflow m-0">{prop.Nombre}</h6>
               </DropdownItem>
               <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-circle-08" />
-                <span>Profile</span>
+                <i className="ni ni-single-02" />
+                <span>Perfil</span>
               </DropdownItem>
-              <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-check-bold" />
+              <DropdownItem onClick={() => {acceptFriendRequest(sessionUser.codigo, prop.Codigo, () => {
+                  updateFriends(); updateFriendRequests();
+                })}}>
+                <i className="ni ni-fat-add" />
                 <span>Aceptar</span>
               </DropdownItem>
-              <DropdownItem to="/admin/user-profile" tag={Link}>
+              <DropdownItem onClick={() => {denyFriendRequest(sessionUser.codigo, prop.Codigo, () => {
+                  updateFriendRequests();
+                })}}>
                 <i className="ni ni-fat-remove" />
                 <span>Rechazar</span>
               </DropdownItem>
@@ -129,25 +209,25 @@ const Sidebar = (props) => {
       );
     });
   };
-  const showFriendsTitle = (friends) => {
+  const showFriendsTitle = () => {
     if (friends != null) {
       return (
-        <h6 className="navbar-heading text-muted">
+        <h6 className="text-center navbar-heading text-muted my-2">
           Amistades
         </h6>
       );
     }
   };
   // creates the links that appear in the right menu / Sidebar
-  const showFriends = (friends) => {
+  const showFriends = () => {
     if (friends == null) {
       return;
     }
     return friends.map((prop, key) => {
       return (
-        <Nav className="d-none d-md-flex" navbar key={key}>
+        <Nav className="d-md-flex" navbar key={key}>
           <UncontrolledDropdown nav>
-            <DropdownToggle className="pr-0" nav>
+            <DropdownToggle className="py-1" nav>
               <Media className="align-items-center">
                 <span className="avatar avatar-sm rounded-circle">
                   <img
@@ -174,7 +254,9 @@ const Sidebar = (props) => {
                 <i className="ni ni-circle-08" />
                 <span>Profile</span>
               </DropdownItem>
-              <DropdownItem onClick={() => unfriend(sessionUser.codigo, prop.Codigo)}>
+              <DropdownItem onClick={() => {unfriend(sessionUser.codigo, prop.Codigo, () => {
+                  updateFriends();
+                })}}>
                 <i className="ni ni-fat-remove" />
                 <span>Unfriend</span>
               </DropdownItem>
@@ -185,233 +267,24 @@ const Sidebar = (props) => {
     });
   };
 
-  // creates the links that appear in the right menu / Sidebar
-  /*const getFriends = function (ident, frs) {
-    let xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-      if (xhr.status === 200) {
-        console.log('ok');
-        const datos = JSON.parse(xhr.response);
-        console.log(datos);
-        frs = datos.amistad;
-      }
-    }
-    xhr.open("GET", `http://52.174.124.24:3001/api/amistad/get/${ident}`);
-    xhr.send();
-  };*/
-
-  //getFriends(sessionUser.codigo, friends);
-
-  console.log(localStorage.getItem('amigxs7reinas'));
-  // let navbarBrandProps;
-  // if (logo && logo.innerLink) {
-  //   navbarBrandProps = {
-  //     to: logo.innerLink,
-  //     tag: Link
-  //   };
-  // } else if (logo && logo.outterLink) {
-  //   navbarBrandProps = {
-  //     href: logo.outterLink,
-  //     target: "_blank"
-  //   };
-  // }
 
   return (
     <Navbar
-      className="navbar-vertical fixed-right navbar-light bg-white mt-7"
+      className="navbar-vertical fixed-right navbar-light bg-white mt-6"
       expand="md"
       id="sidenav-main"
     >
       <Container fluid>
-        {/* Toggler */}
-        {/* <button
-          className="navbar-toggler"
-          type="button"
-          onClick={toggleCollapse}
-        >
-          <span className="navbar-toggler-icon" />
-        </button> */}
-        {/* Brand */}
-        {/*logo ? (
-          <NavbarBrand className="pt-0" {...navbarBrandProps}>
-            <img
-              alt={logo.imgAlt}
-              className="navbar-brand-img"
-              src={logo.imgSrc}
-            />
-          </NavbarBrand>
-        ) : null*/}
-        {/* User */}
-        {/* <Nav className="align-items-center d-md-none">
-          <UncontrolledDropdown nav>
-            <DropdownToggle nav className="nav-link-icon">
-              <i className="ni ni-bell-55" />
-            </DropdownToggle>
-            <DropdownMenu
-              aria-labelledby="navbar-default_dropdown_1"
-              className="dropdown-menu-arrow"
-              right
-            >
-              <DropdownItem>Action</DropdownItem>
-              <DropdownItem>Another action</DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem>Something else here</DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
-          <UncontrolledDropdown nav>
-            <DropdownToggle nav>
-              <Media className="align-items-center">
-                <span className="avatar avatar-sm rounded-circle">
-                  <img
-                    alt="..."
-                    src={require("../../assets/img/theme/team-1-800x800.jpg")}
-                  />
-                </span>
-              </Media>
-            </DropdownToggle>
-            <DropdownMenu className="dropdown-menu-arrow" right>
-              <DropdownItem className="noti-title" header tag="div">
-                <h6 className="text-overflow m-0">Welcome!</h6>
-              </DropdownItem>
-              <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-single-02" />
-                <span>My profile</span>
-              </DropdownItem>
-              <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-settings-gear-65" />
-                <span>Settings</span>
-              </DropdownItem>
-              <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-calendar-grid-58" />
-                <span>Activity</span>
-              </DropdownItem>
-              <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-support-16" />
-                <span>Support</span>
-              </DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
-                <i className="ni ni-user-run" />
-                <span>Logout</span>
-              </DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
-        </Nav> */}
-        {/* Collapse */}
         <Collapse navbar isOpen={collapseOpen}>
-          {/* Collapse header */}
-          {/* <div className="navbar-collapse-header d-md-none">
-            <Row>
-              {logo ? (
-                <Col className="collapse-brand" xs="6">
-                  {logo.innerLink ? (
-                    <Link to={logo.innerLink}>
-                      <img alt={logo.imgAlt} src={logo.imgSrc} />
-                    </Link>
-                  ) : (
-                    <a href={logo.outterLink}>
-                      <img alt={logo.imgAlt} src={logo.imgSrc} />
-                    </a>
-                  )}
-                </Col>
-              ) : null}
-              <Col className="collapse-close" xs="6">
-                <button
-                  className="navbar-toggler"
-                  type="button"
-                  onClick={toggleCollapse}
-                >
-                  <span />
-                  <span />
-                </button>
-              </Col>
-            </Row>
-          </div> */}
-          {/* Form */}
-          {/* <Form className="mt-4 mb-3 d-md-none">
-            <InputGroup className="input-group-rounded input-group-merge">
-              <Input
-                aria-label="Search"
-                className="form-control-rounded form-control-prepended"
-                placeholder="Search"
-                type="search"
-              />
-              <InputGroupAddon addonType="prepend">
-                <InputGroupText>
-                  <span className="fa fa-search" />
-                </InputGroupText>
-              </InputGroupAddon>
-            </InputGroup>
-          </Form> */}
-          {/* Navigation */}
-          {/* <Nav navbar>{createLinks(routes)}</Nav> */}
-          {showFriendRqsTitle(friendRequests)}
-          {showFriendRequests(friendRequests)}
-          {showFriendsTitle(friends)}
-          {showFriends(friends)}
-          {/* <Nav navbar>{showFriends(friends)}</Nav> */}
-          {/* Divider */}
-          {/* <hr className="my-3" /> */}
-          {/* Heading */}
-          {/* <h6 className="navbar-heading text-muted">Documentation</h6> */}
-          {/* Navigation */}
-          {/* <Nav className="mb-md-3" navbar>
-            <NavItem>
-              <NavLink href="https://demos.creative-tim.com/argon-dashboard-react/#/documentation/overview?ref=adr-admin-sidebar">
-                <i className="ni ni-spaceship" />
-                Getting started
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="https://demos.creative-tim.com/argon-dashboard-react/#/documentation/overview?ref=adr-admin-sidebar">
-                <i className="ni ni-spaceship" />
-                Getting started
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="https://demos.creative-tim.com/argon-dashboard-react/#/documentation/overview?ref=adr-admin-sidebar">
-                <i className="ni ni-spaceship" />
-                Getting started
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="https://demos.creative-tim.com/argon-dashboard-react/#/documentation/colors?ref=adr-admin-sidebar">
-                <i className="ni ni-palette" />
-                Foundation
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="https://demos.creative-tim.com/argon-dashboard-react/#/documentation/alerts?ref=adr-admin-sidebar">
-                <i className="ni ni-ui-04" />
-                Components
-              </NavLink>
-            </NavItem>
-          </Nav>
-          <Nav className="mb-md-3" navbar>
-            <NavItem className="active-pro active">
-              <NavLink href="https://www.creative-tim.com/product/argon-dashboard-pro-react?ref=adr-admin-sidebar">
-                <i className="ni ni-spaceship" />
-                Upgrade to PRO
-              </NavLink>
-            </NavItem>
-          </Nav> */}
+          {addFriendInterface (showAddFriend)}
+          {showFriendRqsTitle()}
+          {showFriendRequests()}
+          {showFriendsTitle()}
+          {showFriends()}
         </Collapse>
       </Container>
     </Navbar>
   );
-};
-
-Sidebar.defaultProps = {
-  routes: [{}],
-  friends: [{}],
-  friendRequests: [{}]
-};
-
-Sidebar.propTypes = {
-  // links that will be displayed inside the component
-  routes: PropTypes.arrayOf(PropTypes.object),
-  friends: PropTypes.arrayOf(PropTypes.object),
-  friendRequests: PropTypes.arrayOf(PropTypes.object)
 };
 
 export default Sidebar;

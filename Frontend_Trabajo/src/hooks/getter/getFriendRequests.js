@@ -4,15 +4,15 @@ export default function getFriends (user, doNext) {
 
     xhr.addEventListener('load', () => {
         // update the state of the component with the result here
-        console.log(xhr.responseText);
+        // console.log(xhr.responseText);
     });
 
     xhr.onload = function () {
         if (xhr.status === 200) {
             const datosSolicitudes = JSON.parse(xhr.response);
-            console.log(datosSolicitudes.amistad);
+            //console.log(datosSolicitudes.amistad);
             localStorage.setItem('solicitudes7reinas', JSON.stringify(datosSolicitudes.amistad));
-            console.log(localStorage.getItem('solicitudes7reinas'));
+            //console.log(localStorage.getItem('solicitudes7reinas'));
             doNext();
         } else {
             alert(`Se ha producido un error al obtener los datos de solicitudes de amistad.`);

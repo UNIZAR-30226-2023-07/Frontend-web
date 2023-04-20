@@ -68,7 +68,7 @@ const Login = () => {
     var xhr = new XMLHttpRequest()
     xhr.addEventListener('load', () => {
       // update the state of the component with the result here
-      console.log(xhr.responseText)
+      //console.log(xhr.responseText)
     })
 
     // Abrimos una request de tipo post en nuestro servidor

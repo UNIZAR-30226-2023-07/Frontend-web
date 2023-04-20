@@ -17,6 +17,7 @@
 */
 import React from "react";
 import { useLocation, Route, Switch, Redirect } from "react-router-dom";
+import WebSocket from "websocket";
 // reactstrap components
 import { Container } from "reactstrap";
 // core components
@@ -74,7 +75,7 @@ const Admin = (props) => {
     return "Brand";
   };
 
-  console.log(friends);
+  //console.log(friends);
 
   return (
     <>
