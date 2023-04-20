@@ -61,7 +61,8 @@
     "react-sound": "^1.2.0",
     "react-switch": "^7.0.0",
     "reactstrap": "8.9.0",
-    "sass": "1.54.5"
+    "sass": "1.54.5",
+    "websocket": "^1.0.34"
   },
   "devDependencies": {
     "gulp": "4.0.2",
