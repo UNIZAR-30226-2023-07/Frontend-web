@@ -31,11 +31,13 @@ import {
   // core components
   //import UserHeader from "components/Headers/UserHeader.js";
   import Header from "components/Headers/Header.js";
+  import PepoClown from "../../assets/img/Imgs_7_Reinas/pepoclown.jpg";
   import Slifer from "../../assets/img/Imgs_7_Reinas/Slifer_sky_dragon.png";
-  import Ficha_R from "../../assets/img/Imgs_7_Reinas/Ficha_de_rabino.png";
-  import Juego from "../../assets/img/Imgs_7_Reinas/Fondo_Pantalla_Inicio.png";
-  import As_p from "../../assets/img/Imgs_7_Reinas/As_de_picas.png";
-
+  import Bot from "../../assets/img/Imgs_7_Reinas/bot.jpg";
+  import Jaime from "../../assets/img/Imgs_7_Reinas/jaime.jpg";
+  import Lucia from "../../assets/img/Imgs_7_Reinas/lucia.jpg";
+  import Patricia from "../../assets/img/Imgs_7_Reinas/patricia.jpg";
+  
   import SelectImgUser from "hooks/SelectImgUser.js";
 
   const Ajustes_Perfil = (props) => {
@@ -246,16 +248,25 @@ import {
                     </Row>
                   </div>
                 <Table className="align-items-center table-flush" responsive>
-                    <thead className="thead-normal">
-                    <tr>
-                      <th scope="col">Slifer Sky Dragon</th>
-                      <th scope="col">Ficha de Rabino</th>
-                      <th scope="col">Pista de Juego</th>
-                      <th scope="col">As de Picas</th>
-                    </tr>
-                    </thead>
+                    <Row className="ml-4">
+                      <span className="form-control-label">Imágenes de Usuario</span>
+                    </Row>
                     <tbody>
                     <tr>
+                      <td>
+                        <Row>
+                          <img
+                            alt="..."
+                            className="ml-4 avatar-lg rounded-circle mr-3"
+                            src={PepoClown}
+                          />
+                          <div className="ml-4">
+                            <Button onClick={() => setImagen(0)}>
+                              <i className="ni ni-check-bold" />
+                            </Button>
+                          </div>
+                        </Row>
+                      </td>
                       <td>
                         <Row>
                           <img
@@ -275,7 +286,7 @@ import {
                             <img
                               alt="..."
                               className="avatar-lg rounded-circle mr-3"
-                              src={Ficha_R}
+                              src={Bot}
                             />
                             <div>
                               <Button onClick={() => setImagen(2)}>
@@ -289,7 +300,7 @@ import {
                             <img
                               alt="..."
                               className="avatar-lg rounded-circle mr-3"
-                              src={Juego}
+                              src={Jaime}
                             />
                             <div>
                               <Button onClick={() => setImagen(3)}>
@@ -303,10 +314,24 @@ import {
                             <img
                               alt="..."
                               className="avatar-lg rounded-circle mr-3"
-                              src={As_p}
+                              src={Lucia}
                             />
                             <div>
                               <Button onClick={() => setImagen(4)}>
+                                <i className="ni ni-check-bold" />
+                              </Button>
+                            </div>
+                          </Row>
+                      </td>
+                      <td>
+                        <Row>
+                            <img
+                              alt="..."
+                              className="avatar-lg rounded-circle mr-3"
+                              src={Patricia}
+                            />
+                            <div>
+                              <Button onClick={() => setImagen(5)}>
                                 <i className="ni ni-check-bold" />
                               </Button>
                             </div>

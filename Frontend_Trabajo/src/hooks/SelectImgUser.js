@@ -1,10 +1,11 @@
-import Slifer from "../assets/img/Imgs_7_Reinas/Slifer_sky_dragon.png";
-import As_p from "../assets/img/Imgs_7_Reinas/As_de_picas.png";
 import PepoClown from "../assets/img/Imgs_7_Reinas/pepoclown.jpg";
+import Slifer from "../assets/img/Imgs_7_Reinas/Slifer_sky_dragon.png";
 import Bot from "../assets/img/Imgs_7_Reinas/bot.jpg";
 import Jaime from "../assets/img/Imgs_7_Reinas/jaime.jpg";
 import Lucia from "../assets/img/Imgs_7_Reinas/lucia.jpg";
 import Patricia from "../assets/img/Imgs_7_Reinas/patricia.jpg";
+import As_p from "../assets/img/Imgs_7_Reinas/As_de_picas.png";
+
 
 const SelectImgUser = (imagen_elegida) => {
     switch (imagen_elegida) {
