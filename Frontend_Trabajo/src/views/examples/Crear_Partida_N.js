@@ -20,6 +20,7 @@ import {
     DropdownItem
   } from "reactstrap";
   import { PropTypes } from "prop-types";
+  import React, {useState} from "react"
   import { Link } from "react-router-dom";
 
   // core components
@@ -27,99 +28,93 @@ import {
   import Header from "components/Headers/Header.js";
   import SelectImgUser from "hooks/SelectImgUser.js";
   
-  const Perfil_Usuario = (props) => {
-    let sessionUser = JSON.parse (localStorage.getItem("sessionUser"));
+  const Crear_Partida_N = (props) => { 
+    const json_j_default = '{"Nombre": "Sin jugador", "Foto": 6}';
+    const j_default = JSON.parse(json_j_default);
+
+    const [Jugador1, setJugador1] = useState(j_default);
+    const [Jugador2, setJugador2] = useState(j_default);
+    const [Jugador3, setJugador3] = useState(j_default);
+    const [Jugador4, setJugador4] = useState(j_default);
+
+    const handleJugador1 = jugador => {
+      setJugador1(jugador)
+    };
+
+    const handleJugador2 = jugador => {
+      setJugador2(jugador)
+    };
+
+    const handleJugador3 = jugador => {
+      setJugador3(jugador)
+    };
+
+    const handleJugador4 = jugador => {
+      setJugador4(jugador)
+    };
+
 
     function porcentaje_victorias(vic, der){
       return (vic/(vic + der))*100;
     };
 
-    //Los huecos de modificación
-    /*
-    <FormGroup>
-                        <label
-                          className="form-control-label"
-                          htmlFor="input-nombre_usiario"
-                        >
-                          Usuario:
-                        </label>
-                        <Input
-                          className="form-control-alternative"
-                          defaultValue={nombre_usuario}
-                          id="input-nombre_usiario"
-                          placeholder="Usuario"
-                          type="text"
-                        />
-                      </FormGroup>
-    */
-   /*
-   <FormGroup>
-                        <label
-                          className="form-control-label"
-                          htmlFor="input-correo"
-                        >
-                          Correo:
-                        </label>
-                        <Input
-                          className="form-control-alternative"
-                          defaultValue={correo_usuario}
-                          id="input-correo"
-                          placeholder="Correo"
-                          type="text"
-                        />
-                      </FormGroup>
-   */
     return (
       <>
         <Header />
         {/* Page content */}
         <Container className="mt-6" fluid>
           <Row>
-            <Col className="order-xl-1" xl="8">
-              <Card className="bg-secondary shadow">
+            <Col className="order-xl-1" xl="11">
+              <Card className="bg-secondary shadow ml-7">
                 <CardHeader className="border-0">
                     <h3 className="mb-0">Jugadores</h3>
                 </CardHeader>
-                <Table className="align-items-center table-flush" responsive>
-                    <tbody>
-                    <tr>
-                      <td>
-                        <Media className="align-items-center">
-                          <span className="mb-0 text-sm text-sm-center">
-                          {sessionUser.pganadas}
-                          </span>
-                        </Media>
-                      </td>
-                      <td>
-                        <span className="mb-0 text-sm text-sm-center">
-                          {sessionUser.pperdidas}
-                        </span>
-                      </td>
-                      <td>
-                        <span className="mb-0 text-sm text-sm-center">
-                          {sessionUser.pjugadas}
-                        </span>
-                      </td>
-                      <td>
-                      <div className="d-flex align-items-center">
-                      <span className="mr-2">{sessionUser.pjugadas > 0 ? Math.round(porcentaje_victorias(sessionUser.pganadas, sessionUser.pperdidas)) : 50}%</span>
-                        <div>
-                          <Progress
-                            max="100"
-                            value={porcentaje_victorias(sessionUser.ppganadas, sessionUser.pperdidas)}
-                            barClassName={Math.round(porcentaje_victorias(sessionUser.ppganadas, sessionUser.pperdidas)) < 10 ? "percent10" :
-                                          Math.round(porcentaje_victorias(sessionUser.ppganadas, sessionUser.pperdidas)) < 30 ? "percent30" :
-                                          Math.round(porcentaje_victorias(sessionUser.ppganadas, sessionUser.pperdidas)) < 50 ? "percent50" :
-                                          Math.round(porcentaje_victorias(sessionUser.ppganadas, sessionUser.pperdidas)) < 70 ? "percent70" :
-                                          Math.round(porcentaje_victorias(sessionUser.ppganadas, sessionUser.pperdidas)) < 90 ? "percent90" : "percent100"}
-                          />
-                        </div>
-                      </div>
-                      </td>
-                    </tr>
-                    </tbody>
-                </Table>
+                <Row className="mt-3 mb-3">
+                  <Col  className="ml-4" lg="5">
+                      <img
+                        alt="..."
+                        className="avatar-lg rounded-circle mr-3"
+                        src={SelectImgUser(Jugador1.Foto)}
+                      />
+                      <span className="mt-6">{Jugador1.Nombre}</span>
+                  </Col>
+                  <Col  className="ml-4" lg="5">
+                    <img
+                      alt="..."
+                      className="avatar-lg rounded-circle mr-3"
+                      src={SelectImgUser(Jugador2.Foto)}
+                    />
+                      <span className="mt-6">{Jugador2.Nombre}</span>
+                  </Col>
+                  <Col  className="ml-4 mt-3" lg="5">
+                    <img
+                      alt="..."
+                      className="avatar-lg rounded-circle mr-3"
+                      src={SelectImgUser(Jugador3.Foto)}
+                    />
+                    <span className="mt-6">{Jugador3.Nombre}</span>
+                  </Col>
+                  <Col  className="ml-4 mt-3" lg="5">
+                    <img
+                      alt="..."
+                      className="avatar-lg rounded-circle mr-3"
+                      src={SelectImgUser(Jugador4.Foto)}
+                    />
+                      <span className="mt-6">{Jugador4.Nombre}</span>
+                  </Col>
+                </Row>
               </Card>
+              <Row>
+                <Col lg="5"></Col>
+                <Col lg="5">
+                  <p className="mt-4 ml-5">
+                      <Link to= "admin/crear_partida_n"><Button as={Link} variant="primary" color="primary">
+                        INICIAR PARTIDA
+                      </Button>
+                      </Link>
+                  </p>
+                </Col>
+              </Row>
             </Col>
           </Row>
         </Container>
@@ -127,22 +122,5 @@ import {
     );
   };
 
-  Perfil_Usuario.propTypes = {
-    sessionUser: PropTypes.checkPropTypes({
-      nick: PropTypes.string,
-      email: PropTypes.string,
-      codigo: PropTypes.number,
-      won: PropTypes.number,
-      lost: PropTypes.number,
-      picture: PropTypes.number,
-      descrp: PropTypes.string,
-      puntos: PropTypes.number
-    })
-  };
-  
-  Perfil_Usuario.defaultProps = {
-    sessionUser: {}
-  };
-
-  export default Perfil_Usuario;
+  export default Crear_Partida_N;
   

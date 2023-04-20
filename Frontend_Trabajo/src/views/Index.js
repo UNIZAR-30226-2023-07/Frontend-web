@@ -94,7 +94,7 @@ const Index = (props) => {
                 </Card>
               </Col>
               <Col lg="6" xl="4">
-                <Link to= "/admin/crear_patido_n"><Button as={Link} variant="primary">
+                <Link to= "/admin/crear_partida_n"><Button as={Link} variant="primary">
                     <Card className="card-stats mb-4 mb-xl-0">
                       <CardBody>
                         <div className="col">
@@ -111,7 +111,7 @@ const Index = (props) => {
                 </Link>
               </Col>
               <Col lg="6" xl="4">
-                <Link to= "/admin/crear_patido_n"><Button as={Link} variant="primary">
+                <Link to= "/admin/crear_partida_n"><Button as={Link} variant="primary">
                   <Card className="card-stats mb-4 mb-xl-0">
                     <CardBody>
                       <div className="col">
