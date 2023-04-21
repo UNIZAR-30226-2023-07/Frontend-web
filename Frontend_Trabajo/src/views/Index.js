@@ -36,7 +36,8 @@ import {
   Table,
   Container,
   Row,
-  Col
+  Col,
+  Media
 } from "reactstrap";
 
 import "assets/css/user-styles.css";
@@ -74,27 +75,30 @@ const Index = (props) => {
 
 
       <>
-      <div className="pt-md-8">
+      <div className="pt-md-5">
         <Container fluid>
           <div className="header-body">
             {/* Card stats */}
             <Row>
-            <Col lg="6" xl="4">
-                <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
-                    <div className="col">
-                      <CardTitle
-                        tag="h5"
-                        className="h2 font-weight-bold align-center mb-0"
-                      >
-                        Nueva partida
-                      </CardTitle>
-                    </div>
-                  </CardBody>
-                </Card>
+              <Col xs="4">
+                <Link to= "/admin/crear_partida_n"><Button as={Link} variant="primary" className="ml-5">
+                  <Card className="card-stats mb-4 mb-xl-0">
+                    <CardBody>
+                      <div className="col">
+                        <CardTitle
+                          tag="h5"
+                          className="h2 font-weight-bold align-center mb-0"
+                        >
+                          Unirse a partida
+                        </CardTitle>
+                      </div>
+                    </CardBody>
+                  </Card>
+                  </Button>
+                </Link>
               </Col>
-              <Col lg="6" xl="4">
-                <Link to= "/admin/crear_partida_n"><Button as={Link} variant="primary">
+              <Col xs="4">
+                <Link to= "/admin/crear_partida_n"><Button as={Link} variant="primary" className="ml--5">
                     <Card className="card-stats mb-4 mb-xl-0">
                       <CardBody>
                         <div className="col">
@@ -110,8 +114,8 @@ const Index = (props) => {
                     </Button>
                 </Link>
               </Col>
-              <Col lg="6" xl="4">
-                <Link to= "/admin/crear_partida_n"><Button as={Link} variant="primary">
+              <Col xs="4">
+                <Link to= "/admin/crear_partida_n"><Button as={Link} variant="primary" className="ml--7">
                   <Card className="card-stats mb-4 mb-xl-0">
                     <CardBody>
                       <div className="col">
@@ -127,6 +131,43 @@ const Index = (props) => {
                 </Button>
               </Link>
               </Col>
+
+              <div className="mb-8"></div>
+              
+              <Col className="order-xl-1 ml-4" xl="11">
+              <Card className="bg-secondary shadow">
+                <CardHeader className="border-0">
+                  <Row>
+                    <Col>
+                      <h3 className="mb-0">Torneo</h3>
+                    </Col>
+                    <Col>
+                      <h3 className="mb-0">Ranking</h3>
+                    </Col>
+                  </Row>
+                </CardHeader>
+                <Table className="align-items-center table-flush" responsive>
+                    <tbody>
+                    <tr>
+                      <td>
+                        <Media className="align-items-center">
+                          <span className="mb-0 text-sm text-sm-center">
+                          {"Patida 1"}
+                          </span>
+                        </Media>
+                      </td>
+                      <td>
+                        <span className="mb-0 text-sm text-sm-center">
+                          {"Patida 2"}
+                        </span>
+                      </td>
+                    </tr>
+                    </tbody>
+                </Table>
+              </Card>
+              <div className="mb-5"></div>
+            </Col>
+
             </Row>
           </div>
         </Container>
