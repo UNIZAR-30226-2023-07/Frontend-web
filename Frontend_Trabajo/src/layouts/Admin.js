@@ -16,11 +16,10 @@
 
 */
 import { useLocation, Route, Switch, Redirect } from "react-router-dom";
-<<<<<<< Updated upstream
 //import WebSocket from "websocket";
-=======
+import React from "react";
+
 import { w3cwebsocket as W3CWebSocket } from "websocket";
->>>>>>> Stashed changes
 // reactstrap components
 import { Container } from "reactstrap";
 // core components
