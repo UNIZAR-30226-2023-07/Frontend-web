@@ -89,7 +89,7 @@
     align-items: flex-end;
   }
   .center-symbol-sigle {
-    font-size: 70px;
+    font-size: (70*(90/100))px;
   }
   
   /* DYNAMIC COLOR CLASS SECTION */
@@ -109,6 +109,17 @@
     justify-content: space-evenly;
   }
   
+  .grid-1 {
+    transform: scale(3) translate(0.26rem, 0rem);
+  }
+  .grid-2 {
+    transform: scale(1.75) translate(0.45rem, -0.1rem);
+  }
+
+  .grid-3 {
+    transform: scale(1.75) translate(0.4rem, 0.1rem);
+  }
+
   .grid-4,
   .grid-5,
   .grid-6,
@@ -125,54 +136,48 @@
     text-align: center;
   }
   .grid-4 {
-    grid-gap: 5px;
+    transform: scale(1) translate(0.7rem, 0.1rem);
   }
   
   .grid-5 .centerCard:last-child {
     position: absolute;
-    transform: translate(5rem, 1.5rem);
+    transform: translate(1.75rem, 0rem);
   }
   .grid-5 {
-    grid-gap: 54px;
-    transform: translate(0, -1.5rem);
+    transform: scale(1) translate(0.7rem, 0.1rem);
   }
   .grid-6 {
-    grid-gap: 11px;
-    transform: translate(0, -3.5rem);
+    transform: scale(1.1) translate(0.7rem, 0.1rem);
   }
   .grid-7 {
-    grid-gap: 14px;
-    transform: translate(0, -3.5rem);
+    transform: scale(1.1) translate(0.7rem, 0.1rem);
   }
   .grid-7 .centerCard:last-child {
     position: absolute;
-    transform: translate(80px, -20px);
+    transform: translate(1.6rem, -1rem);
   }
   .grid-8 {
-    grid-row-gap: -100px;
-    transform: scale(0.75) translate(0, -5.8rem);
+    transform: scale(1.1) translate(0.7rem, -0.3rem);
   }
   .grid-9 {
-    transform: scale(0.75) translate(0, -5.8rem);
+    transform: scale(1.1) translate(0.7rem, -0.3rem);
   }
   .grid-10 {
-    transform: scale(0.75) translate(0, -5.8rem);
-    grid-row-gap: 0px;
-    grid-column-gap: 34px;
+    transform: scale(1.1) translate(0.7rem, -0.3rem);
   }
   
   .grid-9 .centerCard:last-child {
     position: absolute;
-    transform: translate(5rem, 0);
+    transform: translate(1.7rem, -1rem);
   }
   
   .grid-10 .centerCard:last-child {
     position: absolute;
-    transform: translate(5rem, -2rem);
+    transform: translate(1.75rem, -1rem);
   }
   .grid-10 .centerCard:nth-child(9) {
     position: absolute;
-    transform: translate(79px, 137px);
+    transform: translate(1.75rem, 1.5rem);
   }
   .figure-picture {
     transform: scale(0.94) translate(0, 10px);

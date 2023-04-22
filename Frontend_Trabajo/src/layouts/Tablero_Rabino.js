@@ -26,6 +26,10 @@ function App() {
       number: 13, //K
       symbol: 4,
     },
+    {
+      number: 10, //K
+      symbol: 2,
+    },
   ];
 
   const CSelecion= [];
