@@ -95,8 +95,11 @@ const Index = (props) => {
     xhr.onload = function() { //Se dispara cuando se recibe la respuesta del servidor
 
       const respuesta = JSON.parse(xhr.response);
-      console.log(respuesta)
+      
       if(xhr.status === 202 || xhr.status === 200){ //Si recibe un OK
+
+        console.log(respuesta);
+
         localStorage.setItem('code_partida_actual', JSON.stringify(respuesta.clave)); //Guardamos la clave de la partida
         
         history.push("/admin/crear_partida_n");
@@ -127,21 +130,24 @@ const Index = (props) => {
     xhr.onload = function() { //Se dispara cuando se recibe la respuesta del servidor
 
       const respuesta = JSON.parse(xhr.response);
-      console.log(respuesta)
-      if(xhr.status === 202 || xhr.status === 200){ //Si recibe un OK
+      
+      if( (xhr.status === 202 || xhr.status === 200) && respuesta.res === "ok"){ //Si recibe un OK
+        //Mostramos por consola la respuesta recibida del servidor
+        console.log(respuesta);
+
         localStorage.setItem('code_partida_actual', JSON.stringify(respuesta.clave)); //Guardamos la clave de la partida
         
         history.push("/admin/crear_partida_n");
         
       } else {
-        alert(`No se ha podido crear una partida`);
+        alert(`No se ha podido unirse a una partida`);
       }
     }
     // Abrimos una request de tipo post en nuestro servidor
     xhr.open('POST', 'http://52.174.124.24:3001/api/partida/join')
         
     //Mandamos la request con el email y la contraseña
-    xhr.send(JSON.stringify({ codigo: sessionUser.codigo, clave: sessionUser.codigo }))
+    xhr.send(JSON.stringify({ codigo: sessionUser.codigo, clave: Clave }))
   };
 
 
@@ -158,7 +164,7 @@ const Index = (props) => {
           <div className="header-body">
             {/* Card stats */}
             <Row>
-              <Col xs="4">
+              <Col xs="5">
                   <Card className="card-stats mb-4 mb-xl-0 ml-5">
                     <div className="col">
                         <CardTitle
@@ -168,7 +174,7 @@ const Index = (props) => {
                           Unirse a partida
                         </CardTitle>
                       </div>
-                    <CardBody className="mt--2">
+                    <CardBody className="mt--1 mb--3">
                       <Row>
                         <Col xs="9">
                           <FormGroup>
@@ -192,46 +198,32 @@ const Index = (props) => {
                     </CardBody>
                   </Card>
               </Col>
-              <Col xs="4">
-                <Button className="my-4 mx-5" color="primary" onClick={crear_partida}>
-                  Crear Partida Normal
-                </Button>
-
-                {/* <Button variant="primary" color="primary" className="ml--4" onClick={crear_partida}>
-                  <Card className="card-stats mb-4 mb-xl-0">
-                    <CardBody>
-                      <div className="col">
+              <Col xs="6">
+                <Card className="card-stats mb-4 mb-xl-0 ml-3">
+                    <div className="col">
                         <CardTitle
                           tag="h5"
                           className="h2 font-weight-bold align-center mb-0"
                         >
-                          Crear Partida Normal
+                          Crear Partida
                         </CardTitle>
                       </div>
-                    </CardBody>
-                  </Card>
-                </Button> */}
-              </Col>
-              <Col xs="4">
-                <Button className="my-4 mx-5" color="primary" onClick={crear_partida}>
-                  Crear Partida Clasificatoria
-                </Button>
+                    <CardBody className="mt--2">
+                      <Row>
+                      <Col xs="6">
+                        <Button className="ml-6" color="primary" onClick={crear_partida}>
+                          Partida Normal
+                        </Button>
+                      </Col>
+                      <Col xs="6">
+                        <Button className="ml-3" color="primary" onClick={crear_partida}>
+                          Partida Clasificatoria
+                        </Button>
+                      </Col>
 
-                {/* <Link to= "/admin/crear_partida_n"><Button as={Link} variant="primary" color="primary" className="ml--7">
-                  <Card className="card-stats mb-4 mb-xl-0">
-                    <CardBody>
-                      <div className="col">
-                        <CardTitle
-                          tag="h5"
-                          className="h2 font-weight-bold align-center mb-0"
-                        >
-                          Crear Partida Clasificatoria
-                        </CardTitle>
-                      </div>
+                      </Row>
                     </CardBody>
                   </Card>
-                </Button>
-              </Link> */}
               </Col>
 
               <div className="mb-8"></div>
