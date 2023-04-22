@@ -126,7 +126,7 @@ var routes = [
     layout: "/admin"
   },
   {
-    path: "/crear_patido_n",
+    path: "/crear_partida_n",
     name: "Crear_Partida_N",
     icon: "ni ni-single-02 text-yellow",
     component: Crear_Partida_N,

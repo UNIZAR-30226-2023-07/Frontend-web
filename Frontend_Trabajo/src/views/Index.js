@@ -29,6 +29,8 @@ import {
   CardHeader,
   CardBody,
   CardTitle,
+  FormGroup,
+  Input,
   NavItem,
   NavLink,
   Nav,
@@ -36,7 +38,8 @@ import {
   Table,
   Container,
   Row,
-  Col
+  Col,
+  Media
 } from "reactstrap";
 
 import "assets/css/user-styles.css";
@@ -49,13 +52,23 @@ import {
   chartExample2
 } from "variables/charts.js";
 
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import Header from "components/Headers/Header.js";
 
 const Index = (props) => {
+  const history = useHistory();//Permite cambiar de pantalla
+
+  let sessionUser = JSON.parse(localStorage.getItem("sessionUser"));
+  const [Clave, setClave] = useState(""); //Guarda el clave de la partida a unirse
+
   const [activeNav, setActiveNav] = useState(1);
   const [chartExample1Data, setChartExample1Data] = useState("data1");
+  
+
+  const handleClaveChange = event => {
+    setClave(event.target.value)
+  };
 
   if (window.Chart) {
     parseOptions(Chart, chartOptions());
@@ -66,6 +79,78 @@ const Index = (props) => {
     setActiveNav(index);
     setChartExample1Data("data" + index);
   };
+
+  const crear_partida = () => {
+    // alert(`Your state values: 
+    //       Codigo: ${sessionUser.codigo} 
+    //       Se ha mandado al servidor la información`);
+    
+    //Petición http
+    var xhr = new XMLHttpRequest()
+    xhr.addEventListener('load', () => {
+    // update the state of the component with the result here
+      //console.log(xhr.responseText)
+    })
+    
+    xhr.onload = function() { //Se dispara cuando se recibe la respuesta del servidor
+
+      const respuesta = JSON.parse(xhr.response);
+      
+      if(xhr.status === 202 || xhr.status === 200){ //Si recibe un OK
+
+        console.log(respuesta);
+
+        localStorage.setItem('code_partida_actual', JSON.stringify(respuesta.clave)); //Guardamos la clave de la partida
+        
+        history.push("/admin/crear_partida_n");
+        
+      } else {
+        alert(`No se ha podido crear una partida`);
+      }
+    }
+    // Abrimos una request de tipo post en nuestro servidor
+    xhr.open('POST', 'http://52.174.124.24:3001/api/partida/crear')
+        
+    //Mandamos la request con el email y la contraseña
+    xhr.send(JSON.stringify({ tipo: "amistosa", anfitrion: sessionUser.codigo }))
+  };
+
+  const unirse_partida = () => {
+    alert(`Your state values: 
+           Codigo: ${sessionUser.codigo}
+           Se ha mandado al servidor la información`);
+    
+    //Petición http
+    var xhr = new XMLHttpRequest()
+    xhr.addEventListener('load', () => {
+    // update the state of the component with the result here
+      //console.log(xhr.responseText)
+    })
+    
+    xhr.onload = function() { //Se dispara cuando se recibe la respuesta del servidor
+
+      const respuesta = JSON.parse(xhr.response);
+      
+      if( (xhr.status === 202 || xhr.status === 200) && respuesta.res === "ok"){ //Si recibe un OK
+        //Mostramos por consola la respuesta recibida del servidor
+        console.log(respuesta);
+
+        localStorage.setItem('code_partida_actual', JSON.stringify(respuesta.clave)); //Guardamos la clave de la partida
+        
+        history.push("/admin/crear_partida_n");
+        
+      } else {
+        alert(`No se ha podido unirse a una partida`);
+      }
+    }
+    // Abrimos una request de tipo post en nuestro servidor
+    xhr.open('POST', 'http://52.174.124.24:3001/api/partida/join')
+        
+    //Mandamos la request con el email y la contraseña
+    xhr.send(JSON.stringify({ codigo: sessionUser.codigo, clave: Clave }))
+  };
+
+
   return (
     <>
       <Header />
@@ -74,59 +159,109 @@ const Index = (props) => {
 
 
       <>
-      <div className="pt-md-8">
+      <div className="pt-md-5">
         <Container fluid>
           <div className="header-body">
             {/* Card stats */}
             <Row>
-            <Col lg="6" xl="4">
-                <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
+              <Col xs="5">
+                  <Card className="card-stats mb-4 mb-xl-0 ml-5">
                     <div className="col">
-                      <CardTitle
-                        tag="h5"
-                        className="h2 font-weight-bold align-center mb-0"
-                      >
-                        Nueva partida
-                      </CardTitle>
-                    </div>
-                  </CardBody>
-                </Card>
-              </Col>
-              <Col lg="6" xl="4">
-                <Link to= "/admin/crear_patido_n"><Button as={Link} variant="primary">
-                    <Card className="card-stats mb-4 mb-xl-0">
-                      <CardBody>
-                        <div className="col">
-                          <CardTitle
-                            tag="h5"
-                            className="h2 font-weight-bold align-center mb-0"
-                          >
-                            Crear Partida Normal
-                          </CardTitle>
-                        </div>
-                      </CardBody>
-                    </Card>
-                    </Button>
-                </Link>
-              </Col>
-              <Col lg="6" xl="4">
-                <Link to= "/admin/crear_patido_n"><Button as={Link} variant="primary">
-                  <Card className="card-stats mb-4 mb-xl-0">
-                    <CardBody>
-                      <div className="col">
                         <CardTitle
                           tag="h5"
                           className="h2 font-weight-bold align-center mb-0"
                         >
-                          Crear Partida Clasificatoria
+                          Unirse a partida
                         </CardTitle>
                       </div>
+                    <CardBody className="mt--1 mb--3">
+                      <Row>
+                        <Col xs="9">
+                          <FormGroup>
+                              <Input
+                                className="form-control-alternative"
+                                defaultValue={""}
+                                id="input-nombre_usiario"
+                                placeholder="#clave de partida"
+                                type="text"
+                                onChange={handleClaveChange}
+                                value={Clave}
+                              />
+                          </FormGroup>
+                        </Col>
+                        <Col xs="2" className="ml--6">
+                          <Button variant="primary" color="primary" className="ml-5"  onClick={unirse_partida}>
+                            Unirse
+                          </Button>
+                        </Col>
+                      </Row>
                     </CardBody>
                   </Card>
-                </Button>
-              </Link>
               </Col>
+              <Col xs="6">
+                <Card className="card-stats mb-4 mb-xl-0 ml-3">
+                    <div className="col">
+                        <CardTitle
+                          tag="h5"
+                          className="h2 font-weight-bold align-center mb-0"
+                        >
+                          Crear Partida
+                        </CardTitle>
+                      </div>
+                    <CardBody className="mt--2">
+                      <Row>
+                      <Col xs="6">
+                        <Button className="ml-6" color="primary" onClick={crear_partida}>
+                          Partida Normal
+                        </Button>
+                      </Col>
+                      <Col xs="6">
+                        <Button className="ml-3" color="primary" onClick={crear_partida}>
+                          Partida Clasificatoria
+                        </Button>
+                      </Col>
+
+                      </Row>
+                    </CardBody>
+                  </Card>
+              </Col>
+
+              <div className="mb-8"></div>
+              
+              <Col className="order-xl-1 ml-4" xl="11">
+              <Card className="bg-secondary shadow">
+                <CardHeader className="border-0">
+                  <Row>
+                    <Col>
+                      <h3 className="mb-0">Torneo</h3>
+                    </Col>
+                    <Col>
+                      <h3 className="mb-0">Ranking</h3>
+                    </Col>
+                  </Row>
+                </CardHeader>
+                <Table className="align-items-center table-flush" responsive>
+                    <tbody>
+                    <tr>
+                      <td>
+                        <Media className="align-items-center">
+                          <span className="mb-0 text-sm text-sm-center">
+                          {"Patida 1"}
+                          </span>
+                        </Media>
+                      </td>
+                      <td>
+                        <span className="mb-0 text-sm text-sm-center">
+                          {"Patida 2"}
+                        </span>
+                      </td>
+                    </tr>
+                    </tbody>
+                </Table>
+              </Card>
+              <div className="mb-5"></div>
+            </Col>
+
             </Row>
           </div>
         </Container>
