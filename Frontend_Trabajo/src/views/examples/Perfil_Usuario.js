@@ -201,7 +201,7 @@ import {
     );
   };
 
-  Perfil_Usuario.propTypes = {
+  /*Perfil_Usuario.propTypes = {
     sessionUser: PropTypes.checkPropTypes({
       nick: PropTypes.string,
       email: PropTypes.string,
@@ -216,7 +216,7 @@ import {
   
   Perfil_Usuario.defaultProps = {
     sessionUser: {}
-  };
+  };*/
 
   export default Perfil_Usuario;
   
