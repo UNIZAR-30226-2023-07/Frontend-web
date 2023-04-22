@@ -29,6 +29,8 @@ import {
   CardHeader,
   CardBody,
   CardTitle,
+  FormGroup,
+  Input,
   NavItem,
   NavLink,
   Nav,
@@ -50,13 +52,23 @@ import {
   chartExample2
 } from "variables/charts.js";
 
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import Header from "components/Headers/Header.js";
 
 const Index = (props) => {
+  const history = useHistory();//Permite cambiar de pantalla
+
+  let sessionUser = JSON.parse(localStorage.getItem("sessionUser"));
+  const [Clave, setClave] = useState(""); //Guarda el clave de la partida a unirse
+
   const [activeNav, setActiveNav] = useState(1);
   const [chartExample1Data, setChartExample1Data] = useState("data1");
+  
+
+  const handleClaveChange = event => {
+    setClave(event.target.value)
+  };
 
   if (window.Chart) {
     parseOptions(Chart, chartOptions());
@@ -67,6 +79,72 @@ const Index = (props) => {
     setActiveNav(index);
     setChartExample1Data("data" + index);
   };
+
+  const crear_partida = () => {
+    // alert(`Your state values: 
+    //       Codigo: ${sessionUser.codigo} 
+    //       Se ha mandado al servidor la información`);
+    
+    //Petición http
+    var xhr = new XMLHttpRequest()
+    xhr.addEventListener('load', () => {
+    // update the state of the component with the result here
+      //console.log(xhr.responseText)
+    })
+    
+    xhr.onload = function() { //Se dispara cuando se recibe la respuesta del servidor
+
+      const respuesta = JSON.parse(xhr.response);
+      console.log(respuesta)
+      if(xhr.status === 202 || xhr.status === 200){ //Si recibe un OK
+        localStorage.setItem('code_partida_actual', JSON.stringify(respuesta.clave)); //Guardamos la clave de la partida
+        
+        history.push("/admin/crear_partida_n");
+        
+      } else {
+        alert(`No se ha podido crear una partida`);
+      }
+    }
+    // Abrimos una request de tipo post en nuestro servidor
+    xhr.open('POST', 'http://52.174.124.24:3001/api/partida/crear')
+        
+    //Mandamos la request con el email y la contraseña
+    xhr.send(JSON.stringify({ tipo: "amistosa", anfitrion: sessionUser.codigo }))
+  };
+
+  const unirse_partida = () => {
+    alert(`Your state values: 
+           Codigo: ${sessionUser.codigo}
+           Se ha mandado al servidor la información`);
+    
+    //Petición http
+    var xhr = new XMLHttpRequest()
+    xhr.addEventListener('load', () => {
+    // update the state of the component with the result here
+      //console.log(xhr.responseText)
+    })
+    
+    xhr.onload = function() { //Se dispara cuando se recibe la respuesta del servidor
+
+      const respuesta = JSON.parse(xhr.response);
+      console.log(respuesta)
+      if(xhr.status === 202 || xhr.status === 200){ //Si recibe un OK
+        localStorage.setItem('code_partida_actual', JSON.stringify(respuesta.clave)); //Guardamos la clave de la partida
+        
+        history.push("/admin/crear_partida_n");
+        
+      } else {
+        alert(`No se ha podido crear una partida`);
+      }
+    }
+    // Abrimos una request de tipo post en nuestro servidor
+    xhr.open('POST', 'http://52.174.124.24:3001/api/partida/join')
+        
+    //Mandamos la request con el email y la contraseña
+    xhr.send(JSON.stringify({ codigo: sessionUser.codigo, clave: sessionUser.codigo }))
+  };
+
+
   return (
     <>
       <Header />
@@ -81,10 +159,8 @@ const Index = (props) => {
             {/* Card stats */}
             <Row>
               <Col xs="4">
-                <Link to= "/admin/crear_partida_n"><Button as={Link} variant="primary" className="ml-5">
-                  <Card className="card-stats mb-4 mb-xl-0">
-                    <CardBody>
-                      <div className="col">
+                  <Card className="card-stats mb-4 mb-xl-0 ml-5">
+                    <div className="col">
                         <CardTitle
                           tag="h5"
                           className="h2 font-weight-bold align-center mb-0"
@@ -92,30 +168,56 @@ const Index = (props) => {
                           Unirse a partida
                         </CardTitle>
                       </div>
+                    <CardBody className="mt--2">
+                      <Row>
+                        <Col xs="9">
+                          <FormGroup>
+                              <Input
+                                className="form-control-alternative"
+                                defaultValue={""}
+                                id="input-nombre_usiario"
+                                placeholder="#clave de partida"
+                                type="text"
+                                onChange={handleClaveChange}
+                                value={Clave}
+                              />
+                          </FormGroup>
+                        </Col>
+                        <Col xs="2" className="ml--6">
+                          <Button variant="primary" color="primary" className="ml-5"  onClick={unirse_partida}>
+                            Unirse
+                          </Button>
+                        </Col>
+                      </Row>
                     </CardBody>
                   </Card>
-                  </Button>
-                </Link>
               </Col>
               <Col xs="4">
-                <Link to= "/admin/crear_partida_n"><Button as={Link} variant="primary" className="ml--5">
-                    <Card className="card-stats mb-4 mb-xl-0">
-                      <CardBody>
-                        <div className="col">
-                          <CardTitle
-                            tag="h5"
-                            className="h2 font-weight-bold align-center mb-0"
-                          >
-                            Crear Partida Normal
-                          </CardTitle>
-                        </div>
-                      </CardBody>
-                    </Card>
-                    </Button>
-                </Link>
+                <Button className="my-4 mx-5" color="primary" onClick={crear_partida}>
+                  Crear Partida Normal
+                </Button>
+
+                {/* <Button variant="primary" color="primary" className="ml--4" onClick={crear_partida}>
+                  <Card className="card-stats mb-4 mb-xl-0">
+                    <CardBody>
+                      <div className="col">
+                        <CardTitle
+                          tag="h5"
+                          className="h2 font-weight-bold align-center mb-0"
+                        >
+                          Crear Partida Normal
+                        </CardTitle>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </Button> */}
               </Col>
               <Col xs="4">
-                <Link to= "/admin/crear_partida_n"><Button as={Link} variant="primary" className="ml--7">
+                <Button className="my-4 mx-5" color="primary" onClick={crear_partida}>
+                  Crear Partida Clasificatoria
+                </Button>
+
+                {/* <Link to= "/admin/crear_partida_n"><Button as={Link} variant="primary" color="primary" className="ml--7">
                   <Card className="card-stats mb-4 mb-xl-0">
                     <CardBody>
                       <div className="col">
@@ -129,7 +231,7 @@ const Index = (props) => {
                     </CardBody>
                   </Card>
                 </Button>
-              </Link>
+              </Link> */}
               </Col>
 
               <div className="mb-8"></div>
