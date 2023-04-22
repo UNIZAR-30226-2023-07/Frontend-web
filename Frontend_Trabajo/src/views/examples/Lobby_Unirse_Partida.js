@@ -28,7 +28,7 @@ import {
   import Header from "components/Headers/Header.js";
   import SelectImgUser from "hooks/SelectImgUser.js";
   
-  const Crear_Partida_N = (props) => { 
+  const Lobby_Unirse_Partida = (props) => { 
     const json_j_default = '{"Nombre": "Sin jugador", "Foto": 6}';
     const j_default = JSON.parse(json_j_default);
 
@@ -102,11 +102,8 @@ import {
               <Row>
                 <Col lg="5"></Col>
                 <Col lg="5">
-                  <p className="mt-4 ml-5">
-                      <Link to= "admin/crear_partida_n"><Button as={Link} variant="primary" color="primary">
-                        INICIAR PARTIDA
-                      </Button>
-                      </Link>
+                  <p className="mt-4 ml-4">
+                      Esperando inicio de partida...
                   </p>
                 </Col>
               </Row>
@@ -117,5 +114,5 @@ import {
     );
   };
 
-  export default Crear_Partida_N;
+  export default Lobby_Unirse_Partida;
   

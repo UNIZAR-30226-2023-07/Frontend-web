@@ -61,6 +61,8 @@ const Index = (props) => {
 
   let sessionUser = JSON.parse(localStorage.getItem("sessionUser"));
   const [Clave, setClave] = useState(""); //Guarda el clave de la partida a unirse
+  const [ErrorUnirse, setErrorUnirse] = useState(false); //Señala si saca un mensaje de error
+  const [ErrorCrear, setErrorCrear] = useState(false); //Señala si saca un mensaje de error
 
   const [activeNav, setActiveNav] = useState(1);
   const [chartExample1Data, setChartExample1Data] = useState("data1");
@@ -105,7 +107,8 @@ const Index = (props) => {
         history.push("/admin/crear_partida_n");
         
       } else {
-        alert(`No se ha podido crear una partida`);
+        //alert(`No se ha podido crear una partida`);
+        setErrorCrear(true);
       }
     }
     // Abrimos una request de tipo post en nuestro servidor
@@ -116,9 +119,9 @@ const Index = (props) => {
   };
 
   const unirse_partida = () => {
-    alert(`Your state values: 
-           Codigo: ${sessionUser.codigo}
-           Se ha mandado al servidor la información`);
+    // alert(`Your state values: 
+    //        Codigo: ${sessionUser.codigo}
+    //        Se ha mandado al servidor la información`);
     
     //Petición http
     var xhr = new XMLHttpRequest()
@@ -128,19 +131,23 @@ const Index = (props) => {
     })
     
     xhr.onload = function() { //Se dispara cuando se recibe la respuesta del servidor
-
-      const respuesta = JSON.parse(xhr.response);
       
-      if( (xhr.status === 202 || xhr.status === 200) && respuesta.res === "ok"){ //Si recibe un OK
-        //Mostramos por consola la respuesta recibida del servidor
-        console.log(respuesta);
+      if( (xhr.status === 202 || xhr.status === 200)){ //Si recibe un OK
 
-        localStorage.setItem('code_partida_actual', JSON.stringify(respuesta.clave)); //Guardamos la clave de la partida
-        
-        history.push("/admin/crear_partida_n");
+        const respuesta = JSON.parse(xhr.response);
+
+        if( respuesta.res === "ok"){
+          //Mostramos por consola la respuesta recibida del servidor
+          console.log(respuesta);
+
+          localStorage.setItem('code_partida_actual', JSON.stringify(respuesta.clave)); //Guardamos la clave de la partida
+          
+          history.push("/admin/lobby_unirse_partida");
+        }
         
       } else {
-        alert(`No se ha podido unirse a una partida`);
+        //alert(`No se ha podido unir a la partida`);
+        setErrorUnirse(true);
       }
     }
     // Abrimos una request de tipo post en nuestro servidor
@@ -195,6 +202,7 @@ const Index = (props) => {
                           </Button>
                         </Col>
                       </Row>
+                      {ErrorUnirse && <p className="red mb--1 mt--4"> Error al unirse</p>}
                     </CardBody>
                   </Card>
               </Col>
@@ -211,7 +219,7 @@ const Index = (props) => {
                     <CardBody className="mt--2">
                       <Row>
                       <Col xs="6">
-                        <Button className="ml-6" color="primary" onClick={crear_partida}>
+                        <Button className="ml-4" color="primary" onClick={crear_partida}>
                           Partida Normal
                         </Button>
                       </Col>
@@ -222,6 +230,8 @@ const Index = (props) => {
                       </Col>
 
                       </Row>
+                      {ErrorCrear && <p className="red ml-9 mb--3"> Error al crear una partida</p>}
+                      
                     </CardBody>
                   </Card>
               </Col>
