@@ -2,7 +2,12 @@ import "./../assets/css/cartas_rabino.css";
 //import Card from "components/Cartas_Rabino/card.js";
 import React, { useEffect } from 'react';
 import CardsWrapper from "components/Cartas_Rabino/CardWrapper.js";
-import { Container, Row, Col, Nav, NavItem, NavLink } from "reactstrap";
+import { Container, Row, Col, Nav, NavItem, NavLink, Button } from "reactstrap";
+
+import Card from "components/Cartas_Rabino/card.js";
+
+import Reverso_carta from "../assets/img/Imgs_7_Reinas/Reverso_carta.png";
+
 
 function App() {
   useEffect(() => {
@@ -29,6 +34,38 @@ function App() {
     {
       number: 10, //K
       symbol: 2,
+    },
+    {
+      number: 10, //K
+      symbol: 2,
+    },
+    {
+      number: 10, //K
+      symbol: 2,
+    },
+    {
+      number: 10, //K
+      symbol: 2,
+    },
+    {
+      number: 10, //K
+      symbol: 2,
+    },
+    {
+      number: 10, //K
+      symbol: 2,
+    },
+    {
+      number: 10, //K
+      symbol: 2,
+    },
+
+  ];
+
+  const descartes = [
+    {
+      number: 0, //JOKER
+      symbol: 0,
     },
   ];
 
@@ -103,10 +140,32 @@ function App() {
               </div>
             ))}
           </div>
-          <div style={{ backgroundColor: 'brown', padding: '10px', width: '100%' }}>
-            <CardsWrapper cartas={cartas_mano} cardsNumber={cartas_mano.length} />
+          <div style={{ backgroundColor: 'brown', padding: '10px', width: '100%'}}>
+            <Row className="mt--2 mr--4">
+              <Col xs="3" style={{backgroundColor: 'black'}}>
+                <Row>
+                  <Col>
+                    <div className="ml-4">
+                      <Button onClick={() => console.log('The link was clicked.')}
+                      className="card-button">
+                        <img src={Reverso_carta} alt="..." style={{ width:'100%', height:'90%'}}/>
+                      </Button>
+                    </div>
+                  </Col>
+                  <Col>
+                    <CardsWrapper cartas={descartes} cardsNumber={descartes.length} />
+                  </Col>
+                </Row>
+              </Col>
+              
+              <Col xs="9">
+                <div style={{ width:'100%', overflowX: 'scroll', height:'180px'}}>
+                  <CardsWrapper cartas={cartas_mano} cardsNumber={cartas_mano.length} />
+                </div>
+              </Col>
+            </Row>
           </div>
-          <button onClick={() => window.location.reload()}>Reload Cards</button>
+          {/* <button onClick={() => window.location.reload()}>Reload Cards</button> */}
         </div>
         <div style={{ backgroundColor: 'grey', width: '20%', minWidth: '200px' }}>
           <Row>
