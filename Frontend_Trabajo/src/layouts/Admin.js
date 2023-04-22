@@ -15,9 +15,12 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
 import { useLocation, Route, Switch, Redirect } from "react-router-dom";
+<<<<<<< Updated upstream
 //import WebSocket from "websocket";
+=======
+import { w3cwebsocket as W3CWebSocket } from "websocket";
+>>>>>>> Stashed changes
 // reactstrap components
 import { Container } from "reactstrap";
 // core components
@@ -34,6 +37,26 @@ import informacion_Web from "informacion_Web.js";
 const Admin = (props) => {
   const mainContent = React.useRef(null);
   const location = useLocation();
+  const ws = new WebSocket(`ws://52.174.124.24:3001/api/ws/chat/1`);
+
+  ws.onopen = () => {
+    console.log('Conexión abierta');
+    ws.send(JSON.stringify({emisor:"1", receptor:"2", contenido:"tonto el que lo lea"}));
+  };
+  
+  ws.onclose = () => {
+    console.log('Conexión cerrada');
+  };
+  
+  ws.onmessage = (message) => {
+    console.log(`Mensaje recibido: ${message.data}`);
+  };
+
+  ws.onerror = (error) => {
+    console.log(`Error: ${error.message}`);
+  }
+
+  
 
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
