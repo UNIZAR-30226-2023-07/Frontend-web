@@ -59,6 +59,34 @@ function App() {
       number: 10, //K
       symbol: 2,
     },
+    {
+      number: 10, //K
+      symbol: 2,
+    },
+    {
+      number: 10, //K
+      symbol: 2,
+    },
+    {
+      number: 10, //K
+      symbol: 2,
+    },
+    {
+      number: 10, //K
+      symbol: 2,
+    },
+    {
+      number: 10, //K
+      symbol: 2,
+    },
+    {
+      number: 10, //K
+      symbol: 2,
+    },
+    {
+      number: 10, //K
+      symbol: 2,
+    },
 
   ];
 
@@ -140,7 +168,7 @@ function App() {
               </div>
             ))}
           </div>
-          <div style={{ backgroundColor: 'brown', padding: '10px', width: '100%'}}>
+          <div style={{ backgroundColor: 'brown', padding: '10px', width: '1250px'}}>
             <Row className="mt--2 mr--4">
               <Col xs="3" style={{backgroundColor: 'black'}}>
                 <Row>
@@ -159,7 +187,7 @@ function App() {
               </Col>
               
               <Col xs="9">
-                <div style={{ width:'100%', overflowX: 'scroll', height:'180px'}}>
+                <div style={{ width:'100%', overflowY: 'scroll', height:'180px'}}>
                   <CardsWrapper cartas={cartas_mano} cardsNumber={cartas_mano.length} />
                 </div>
               </Col>
