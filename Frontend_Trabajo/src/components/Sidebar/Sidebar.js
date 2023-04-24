@@ -70,6 +70,8 @@ const Sidebar = (props) => {
   const [friends, setFriends] = useState(JSON.parse(localStorage.getItem("amigxs7reinas")));
   const [friendRequests, setFriendRequests] = useState(JSON.parse(localStorage.getItem("solicitudes7reinas")));
 
+  const { setChatOpen, setChatUser } = props;
+
   const updateFriends = () => {
     getFriends(sessionUser.codigo, () => {
       setFriends(JSON.parse(localStorage.getItem("amigxs7reinas")));
@@ -246,7 +248,7 @@ const Sidebar = (props) => {
               <DropdownItem className="noti-title" header tag="div">
                 <h6 className="text-overflow m-0">{prop.Nombre}</h6>
               </DropdownItem>
-              <DropdownItem to="/admin/user-profile" tag={Link}>
+              <DropdownItem onClick={() => {setChatUser(key); setChatOpen(true);}}>
                 <i className="ni ni-send" />
                 <span>Chat</span>
               </DropdownItem>

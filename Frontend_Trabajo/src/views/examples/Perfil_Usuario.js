@@ -80,13 +80,13 @@ import {
                 <Row className="justify-content-center">
                   <Col className="order-lg-2" lg="3">
                     <div className="card-profile-image">
-                      <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                      {/* <a href="#pablo" onClick={(e) => e.preventDefault()}> */}
                         <img
                           alt="..."
                           className="rounded-circle"
                           src={SelectImgUser(sessionUser.foto)}
                         />
-                      </a>
+                      {/* </a> */}
                     </div>
                   </Col>
                 </Row>

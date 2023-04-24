@@ -1,5 +1,9 @@
 /* styles.css */
 
+:root {
+    --contrast: #94a4ff;
+}
+
 .align-center{
     text-align: center;
 }
@@ -36,4 +40,134 @@
 
 .separator{
     padding-left: 10px;
+}
+
+.chat-closed {
+    position: fixed;
+    bottom: 0;
+    right: 17rem;
+    margin-left: 1rem;
+    padding-left: 0.5rem;
+    /* alinear el texto en el centro verticalmente */
+    font-size: 1.25rem;
+    font-weight: bold;
+    width: 10rem;
+    height: 4rem;
+    border: 1px solid #ccc;
+    background-color: #00cad8;
+    color: white;
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.chat-open-header {
+    position: fixed;
+    bottom: 24rem;
+    right: 17rem;
+    margin-left: 1rem;
+    /* margin-bottom: 20rem; */
+    padding-left: 0.5rem;
+    /* alinear el texto en el centro verticalmente */
+    
+    font-size: 1.25rem;
+    font-weight: bold;
+    width: 20rem;
+    height: 4rem;
+    border: 1px solid #ccc;
+    background-color: #d87700;
+    color: white;
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.chat-open-body {
+    position: fixed;
+    bottom: 4rem;
+    right: 17rem;
+    margin-left: 1rem;
+    padding: 0.5rem;
+    /* alinear el texto en el centro verticalmente */
+    width: 20rem;
+    height: 20rem;
+    border: 1px solid #ccc;
+    background-color: #94a4ff;
+    color: white;
+    border-radius: 0 0 0 0;
+    overflow-y: scroll;
+}
+
+.chat-open-input {
+    position: fixed;
+    bottom: 0;
+    right: 17rem;
+    margin-left: 1rem;
+    padding: 0;
+    /* alinear el texto en el centro verticalmente */
+    font-size: 1.25rem;
+    font-weight: bold;
+    width: 20rem;
+    height: 4rem;
+    border: 1px solid #ccc;
+    background-color: #00cad8;
+    color: white;
+    border-radius: 0 0 0 0;
+    overflow-y: scroll;
+}
+
+.chat-header :hover{
+    cursor: pointer;
+}
+
+.chat-input {
+    position: fixed;
+    bottom: 0;
+    right: 21rem;
+    margin-left: 1rem;
+    padding: 0;
+    width: 16rem;
+    height: 4rem;
+    border: none;
+    color: black;
+    background-color: white;
+    border-radius: 0 0 0 0;
+    display: inline;
+}
+
+.chat-input :focus {
+    color: white;
+    background-color: black;
+    outline: none;
+}
+
+.chat-send {
+    position: fixed;
+    bottom: 0;
+    right: 17rem;
+    margin-left: 1rem;
+    padding: 0;
+    width: 4rem;
+    height: 4rem;
+    border: none;
+    background-color: #00cad8;
+    color: white;
+    border-radius: 0 0 0 0;
+}
+
+.chat-msg {
+    color:black;
+    margin-bottom: 0.5rem;
+}
+
+.chat-msg-friend-read {
+    background-color: aliceblue;
+    margin-right: 3rem;
+}
+
+.chat-msg-friend-not-read {
+    background-color: #00cad8;
+    margin-right: 3rem;
+}
+
+.chat-msg-mine {
+    /* text-align: right; */
+    background-color: aquamarine;
+    margin-left: 3rem;
 }

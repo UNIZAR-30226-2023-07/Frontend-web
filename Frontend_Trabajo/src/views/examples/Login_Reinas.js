@@ -22,6 +22,7 @@ import encryptPassword from "hooks/encryptPassword";
 import getUser from "hooks/getter/getUser";
 import getFriends from "hooks/getter/getFriends";
 import getFriendRequests from "hooks/getter/getFriendRequests";
+import getFriendMessages from "hooks/getter/getFriendMessages";
 
 /*
 import Cookies from 'universal-cookie';
@@ -95,7 +96,9 @@ const Login_Reinas = (props) => {
           let sessionUser = JSON.parse(localStorage.getItem('sessionUser'));
           getFriends(sessionUser.codigo, () => {
             getFriendRequests(sessionUser.codigo, () => {
-              history.push("/admin/");
+              getFriendMessages(sessionUser.codigo, () => {
+                history.push("/admin/");
+              });
             })
           });
         });

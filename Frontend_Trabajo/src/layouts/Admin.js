@@ -17,7 +17,7 @@
 */
 import { useLocation, Route, Switch, Redirect } from "react-router-dom";
 //import WebSocket from "websocket";
-import React from "react";
+import React, { useState } from "react";
 
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 // reactstrap components
@@ -26,6 +26,7 @@ import { Container } from "reactstrap";
 import UserNavbar from "components/Navbars/UserNavbar.js";
 import AdminFooter from "components/Footers/AdminFooter.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
+import Chat from "components/Chat/Chat.js";
 
 import routes from "routes.js";
 import friends from "friends.js";
@@ -36,26 +37,28 @@ import informacion_Web from "informacion_Web.js";
 const Admin = (props) => {
   const mainContent = React.useRef(null);
   const location = useLocation();
-  const ws = new WebSocket(`ws://52.174.124.24:3001/api/ws/chat/1`);
+	const [chatOpen, setChatOpen] = useState(false);
+  const [chatUser, setChatUser] = useState(-1);
+	const [sePuedeEnviar, setSePuedeEnviar] = useState(false);
 
-  ws.onopen = () => {
+  const wsChat = new WebSocket(`ws://52.174.124.24:3001/api/ws/chat/1`);
+
+  wsChat.onopen = () => {
     console.log('Conexión abierta');
-    ws.send(JSON.stringify({emisor:"1", receptor:"2", contenido:"tonto el que lo lea"}));
+		setSePuedeEnviar(true);
   };
   
-  ws.onclose = () => {
+  wsChat.onclose = () => {
     console.log('Conexión cerrada');
   };
   
-  ws.onmessage = (message) => {
+  wsChat.onmessage = (message) => {
     console.log(`Mensaje recibido: ${message.data}`);
   };
 
-  ws.onerror = (error) => {
+  wsChat.onerror = (error) => {
     console.log(`Error: ${error.message}`);
   }
-
-  
 
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
@@ -120,6 +123,8 @@ const Admin = (props) => {
         sessionUser={sessionUser}
         friends={friends}
         friendRequests={friendRequests}
+        setChatOpen={setChatOpen}
+        setChatUser={setChatUser}
       />
       <div className="main-content" ref={mainContent}>
         {/* <div className="topbar">
@@ -142,6 +147,14 @@ const Admin = (props) => {
         {/* <Container fluid>
           <AdminFooter />
         </Container> */}
+        <Chat
+          {...props}
+          chatOpen={chatOpen}
+          setChatOpen={setChatOpen}
+          chatUser={chatUser}
+          wsChat={wsChat}
+          sePuedeEnviar={sePuedeEnviar}
+        />
       </div>
     </>
   );
