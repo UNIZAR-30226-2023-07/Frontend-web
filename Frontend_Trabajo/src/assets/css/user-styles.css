@@ -42,46 +42,50 @@
     padding-left: 10px;
 }
 
-.chat-closed {
+.chat-header {
     position: fixed;
-    bottom: 0;
-    right: 17rem;
-    margin-left: 1rem;
-    padding-left: 0.5rem;
-    /* alinear el texto en el centro verticalmente */
-    font-size: 1.25rem;
-    font-weight: bold;
-    width: 10rem;
-    height: 4rem;
-    border: 1px solid #ccc;
-    background-color: #00cad8;
-    color: white;
-    border-radius: 0.5rem 0.5rem 0 0;
-}
-
-.chat-open-header {
-    position: fixed;
-    bottom: 24rem;
-    right: 17rem;
     margin-left: 1rem;
     /* margin-bottom: 20rem; */
-    padding-left: 0.5rem;
+    padding: 0.5rem;
     /* alinear el texto en el centro verticalmente */
     
     font-size: 1.25rem;
     font-weight: bold;
     width: 20rem;
-    height: 4rem;
+    height: 3.5rem;
     border: 1px solid #ccc;
     background-color: #d87700;
     color: white;
-    border-radius: 0.5rem 0.5rem 0 0;
+    border-radius: 1.35rem 1.35rem 0 0;
 }
 
-.chat-open-body {
+.chat-header :hover{
+    cursor: pointer !important;
+}
+
+.chat-text-xxl {
+    font-size: 1.7rem !important;
+}
+
+.chat-friends {
+    right: 17rem;
+}
+
+.chat-game {
+    right: 38.5rem;
+}
+
+.chat-header-open {
+    bottom: 24rem;
+}
+
+.chat-header-closed {
+    bottom: 0;
+}
+
+.chat-body {
     position: fixed;
     bottom: 4rem;
-    right: 17rem;
     margin-left: 1rem;
     padding: 0.5rem;
     /* alinear el texto en el centro verticalmente */
@@ -94,41 +98,34 @@
     overflow-y: scroll;
 }
 
-.chat-open-input {
-    position: fixed;
-    bottom: 0;
-    right: 17rem;
-    margin-left: 1rem;
-    padding: 0;
-    /* alinear el texto en el centro verticalmente */
-    font-size: 1.25rem;
-    font-weight: bold;
-    width: 20rem;
-    height: 4rem;
-    border: 1px solid #ccc;
-    background-color: #00cad8;
-    color: white;
-    border-radius: 0 0 0 0;
-    overflow-y: scroll;
-}
-
 .chat-header :hover{
-    cursor: pointer;
+    cursor: pointer !important;
 }
 
 .chat-input {
     position: fixed;
     bottom: 0;
-    right: 21rem;
     margin-left: 1rem;
-    padding: 0;
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+    padding-top: 0;
+    padding-bottom: 0;
+    box-sizing: "border-box";
+    resize: none;
     width: 16rem;
-    height: 4rem;
+    height: 4rem !important;
     border: none;
     color: black;
     background-color: white;
     border-radius: 0 0 0 0;
-    display: inline;
+}
+
+.chat-input-friends {
+    right: 21rem;
+}
+
+.chat-input-game {
+    right: 42.5rem;
 }
 
 .chat-input :focus {
@@ -140,13 +137,12 @@
 .chat-send {
     position: fixed;
     bottom: 0;
-    right: 17rem;
     margin-left: 1rem;
     padding: 0;
     width: 4rem;
     height: 4rem;
     border: none;
-    background-color: #00cad8;
+    /* background-color: #00cad8; */
     color: white;
     border-radius: 0 0 0 0;
 }

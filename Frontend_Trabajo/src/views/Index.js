@@ -187,7 +187,6 @@ const Index = (props) => {
                           <FormGroup>
                               <Input
                                 className="form-control-alternative"
-                                defaultValue={""}
                                 id="input-nombre_usiario"
                                 placeholder="#clave de partida"
                                 type="text"

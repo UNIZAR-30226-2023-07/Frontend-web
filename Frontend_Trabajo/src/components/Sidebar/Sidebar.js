@@ -58,6 +58,7 @@ import denyFriendRequest from "hooks/setter/denyFriendRequest";
 import unfriend from "hooks/setter/unfriend";
 import getFriends from "hooks/getter/getFriendRequests";
 import getFriendRequests from "hooks/getter/getFriendRequests";
+import markAsRead from "hooks/setter/markAsRead";
 
 
 const Sidebar = (props) => {
@@ -70,13 +71,10 @@ const Sidebar = (props) => {
   const [friends, setFriends] = useState(JSON.parse(localStorage.getItem("amigxs7reinas")));
   const [friendRequests, setFriendRequests] = useState(JSON.parse(localStorage.getItem("solicitudes7reinas")));
 
-  const { setChatOpen, setChatUser } = props;
+  const { setChatOpen, chatUser, setChatUser, messages, setMessages } = props;
 
   const updateFriends = () => {
-    getFriends(sessionUser.codigo, () => {
-      setFriends(JSON.parse(localStorage.getItem("amigxs7reinas")));
-      console.log(friends);
-    });
+    setFriends(friends.filter(fr => fr.codigo != chatUser.codigo));
   }
   const updateFriendRequests = () => {
     getFriendRequests(sessionUser.codigo, () => {
@@ -244,11 +242,22 @@ const Sidebar = (props) => {
                 </Media>
               </Media>
             </DropdownToggle>
-            <DropdownMenu className="dropdown-menu-arrow" right>
+            <DropdownMenu className="dropdown-menu-arrow" positionFixed>
               <DropdownItem className="noti-title" header tag="div">
                 <h6 className="text-overflow m-0">{prop.Nombre}</h6>
+                <h6>{prop.Descp}</h6>
               </DropdownItem>
-              <DropdownItem onClick={() => {setChatUser(key); setChatOpen(true);}}>
+              <DropdownItem onClick={() => {
+                if (chatUser >= 0)
+                  setMessages(messages.map((msg) => {
+                    if (msg.Emisor == friends[chatUser].Codigo) msg.Leido = 1;
+                    return msg;
+                  }));
+                  localStorage.setItem("mensajes7reinas", JSON.stringify(messages));
+                setChatUser(key);
+                markAsRead(sessionUser.codigo, prop.Codigo, () => {});
+                setChatOpen(true);
+              }}>
                 <i className="ni ni-send" />
                 <span>Chat</span>
               </DropdownItem>
@@ -257,7 +266,8 @@ const Sidebar = (props) => {
                 <span>Profile</span>
               </DropdownItem>
               <DropdownItem onClick={() => {unfriend(sessionUser.codigo, prop.Codigo, () => {
-                  updateFriends();
+                  setFriends(friends.filter(fr => fr.Codigo != prop.Codigo));
+                  localStorage.setItem("amigxs7reinas", JSON.stringify(friends));
                 })}}>
                 <i className="ni ni-fat-remove" />
                 <span>Unfriend</span>
@@ -269,14 +279,20 @@ const Sidebar = (props) => {
     });
   };
 
+  document.addEventListener("wheel", function(event) {
+    // Desplazar el elemento que contiene el contenido de la página
+    document.body.scrollTop += event.deltaY;
+  });
+
 
   return (
     <Navbar
       className="navbar-vertical fixed-right navbar-light bg-white mt-6"
       expand="md"
       id="sidenav-main"
+      // style={{"overflow":"hidden"}}
     >
-      <Container fluid>
+      <Container fluid >
         <Collapse navbar isOpen={collapseOpen}>
           {addFriendInterface (showAddFriend)}
           {showFriendRqsTitle()}

@@ -200,19 +200,7 @@ UserNavbar.propTypes = {
     imgAlt: PropTypes.string.isRequired
 
   }),
-  // sessionUser: PropTypes.checkPropTypes({
-  //   nick: PropTypes.string,
-  //   email: PropTypes.string,
-  //   codigo: PropTypes.number,
-  //   won: PropTypes.number,
-  //   lost: PropTypes.number,
-  //   picture: PropTypes.number,
-  //   descrp: PropTypes.string,
-  //   puntos: PropTypes.number
-  // }),
-  informacion_Web: PropTypes.checkPropTypes({
-    volumen: PropTypes.number
-  })
+  volumen: PropTypes.number
 
 };
 

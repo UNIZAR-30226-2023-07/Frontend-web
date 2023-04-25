@@ -44,7 +44,7 @@ function Inicio() {
             
 
             <p className="inicio--texto">
-              <p className="inicio--titulo">¡¡EL ENTRETENIMIENTO TE ESPERA!!</p>
+              <span className="inicio--titulo">¡¡EL ENTRETENIMIENTO TE ESPERA!!</span><br/>
               Pulse INICIAR para entrar
             </p>
             <p>
