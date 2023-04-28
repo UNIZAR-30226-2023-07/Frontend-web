@@ -55,7 +55,7 @@ import {
 
     return (
       <>
-        <Header />
+        {/* <Header /> */}
         {/* Page content */}
         <Container className="mt-6" fluid>
           <Row>
@@ -103,7 +103,7 @@ import {
                 <Col lg="5"></Col>
                 <Col lg="5">
                   <p className="mt-4 ml-5">
-                      <Link to= "admin/crear_partida_n"><Button as={Link} variant="primary" color="primary">
+                      <Link to= "partida"><Button as={Link} variant="primary" color="primary">
                         INICIAR PARTIDA
                       </Button>
                       </Link>

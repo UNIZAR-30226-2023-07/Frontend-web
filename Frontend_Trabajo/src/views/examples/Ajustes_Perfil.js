@@ -145,7 +145,7 @@ import {
 
     return (
       <>
-        <Header />
+        {/* <Header /> */}
         {/* Page content */}
         <Container className="mt-6" fluid>
           <Row>

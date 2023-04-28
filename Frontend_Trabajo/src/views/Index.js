@@ -160,7 +160,7 @@ const Index = (props) => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       {/* Page content */}
 
 

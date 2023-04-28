@@ -21,6 +21,7 @@ import { NavLink as NavLinkRRD, Link } from "react-router-dom";
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
 import SelectImgUser from "hooks/SelectImgUser";
+import "assets/css/user-styles.css";
 
 // reactstrap components
 import {
@@ -287,7 +288,7 @@ const Sidebar = (props) => {
 
   return (
     <Navbar
-      className="navbar-vertical fixed-right navbar-light bg-white mt-6"
+      className="user-sidebar navbar-vertical fixed-right bg-white"
       expand="md"
       id="sidenav-main"
       // style={{"overflow":"hidden"}}

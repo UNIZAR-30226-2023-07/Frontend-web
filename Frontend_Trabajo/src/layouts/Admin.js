@@ -128,20 +128,7 @@ const Admin = (props) => {
         messages={messages}
         setMessages={setMessages}
       />
-      <div className="main-content" ref={mainContent}>
-        {/* <div className="topbar">
-          <UserNavbar
-            {...props}
-            brandText={getBrandText(props.location.pathname)}
-            logo={{
-              innerLink: "/admin/index",
-              imgSrc: require("../assets/img/brand/large-white.png"),
-              imgAlt: "..."
-            }}
-            sessionUser={sessionUser}
-            informacion_Web={informacion_Web}
-          />
-        </div> */}
+      <div className="user-content" ref={mainContent}>
         <Switch>
           {getRoutes(routes)}
           <Redirect from="*" to="/admin/index" />
@@ -149,27 +136,27 @@ const Admin = (props) => {
         {/* <Container fluid>
           <AdminFooter />
         </Container> */}
-        <Chat
-          {...props}
-          chatOpen={chatOpen}
-          setChatOpen={setChatOpen}
-          chatUser={chatUser}
-          wsChat={wsChat}
-          messages={messages}
-          setMessages={setMessages}
-          sePuedeEnviar={sePuedeEnviar}
-        />
-        <ChatGame
-          {...props}
-          chatOpen={chatGameOpen}
-          setChatOpen={setChatGameOpen}
-          chatUser={chatUser}
-          wsChat={wsChat}
-          messages={messages}
-          setMessages={setMessages}
-          sePuedeEnviar={sePuedeEnviar}
-        />
       </div>
+      <Chat
+        {...props}
+        chatOpen={chatOpen}
+        setChatOpen={setChatOpen}
+        chatUser={chatUser}
+        wsChat={wsChat}
+        messages={messages}
+        setMessages={setMessages}
+        sePuedeEnviar={sePuedeEnviar}
+      />
+      <ChatGame
+        {...props}
+        chatOpen={chatGameOpen}
+        setChatOpen={setChatGameOpen}
+        chatUser={chatUser}
+        wsChat={wsChat}
+        messages={messages}
+        setMessages={setMessages}
+        sePuedeEnviar={sePuedeEnviar}
+      />
     </>
   );
 };

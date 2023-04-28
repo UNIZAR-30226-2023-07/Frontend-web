@@ -258,14 +258,14 @@ function App() {
     <div className="App">
       <div style={{ display: 'flex', width: '100%', flexDirection: 'row' }}>
         <div style={{ flexGrow: 1 }}>
-          <div style={{backgroundColor: 'green', height: 'calc(95vh - 15%)',width: '1250px', overflowY: 'scroll' }}>
+          <div style={{backgroundColor: 'green', height: 'calc(100vh - 18em)', width: 'calc(100vw - 15rem)', overflowY: 'scroll' }}>
             {t.map((fila, i) => (
               <div key={i} style={{ display: 'flex', flexDirection: 'row',borderBottom: '1px solid white' }}>
                 <CardsWrapper cartas={fila} cardsNumber={fila.length} />
               </div>
             ))}
           </div>
-          <div style={{ backgroundColor: 'brown', padding: '10px', width: '1250px', height: '190px'}}>
+          <div style={{ backgroundColor: 'brown', padding: '10px', width: 'calc(100vw - 15rem)', height: '12rem'}}>
             <Row className="mt--2 mr--4">
               <Col xs="3" >
                 <Row>
@@ -286,7 +286,7 @@ function App() {
               </Col>
               
               <Col xs="9">
-                <div style={{ width:'100%', overflowY: 'scroll', height:'180px'}}>
+                <div style={{ width:'100%', overflowY: 'scroll', height:'12rem'}}>
                   <CardsWrapper cartas={cartas_mano} cardsNumber={cartas_mano.length} />
                 </div>
               </Col>

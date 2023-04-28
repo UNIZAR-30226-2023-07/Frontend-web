@@ -30,12 +30,75 @@
 .topbar{
     /* height: 100px; */
     width: 100%;
+    height: 6rem;
     position: fixed;
     vertical-align: middle;
     z-index: 10000;
     top: 0;
     left: 0;
     background-color: #000000;
+}
+
+.navbar-reinas {
+    height: 3rem;
+}
+
+.logo-7-reinas {
+    height: 2.9rem;
+}
+
+.play-button {
+    width: 2.9rem;
+    height: 2.9rem;
+    padding: 0;
+    padding-top: 0.2rem;
+    align-content: center;
+}
+
+.user-content {
+    position: absolute;
+    height: calc(100vh - 6rem);
+    width: calc(100vw - 15rem) !important;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    background-color: transparent;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    background: linear-gradient(87deg, #b9cce8 0, #c196e2 100%) !important;
+    overflow-y: auto;
+
+}
+
+.user-sidebar {
+    top: auto !important;
+    bottom: 0 !important;
+    width: 15rem !important;
+    height: calc(100vh - 6rem) !important;
+    margin-bottom: 0;
+
+    /* flex: 1 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem; */
+    
+    /* display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    flex-direction: row;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    flex-wrap: nowrap;
+    overflow: visible;
+    flex-basis: auto;
+    flex-flow: row nowrap;
+    justify-content: flex-start; */
 }
 
 .separator{
@@ -57,9 +120,10 @@
     background-color: #d87700;
     color: white;
     border-radius: 1.35rem 1.35rem 0 0;
+    z-index: 1000;
 }
 
-.chat-header :hover{
+.chat-header :hover {
     cursor: pointer !important;
 }
 
@@ -95,11 +159,8 @@
     background-color: #94a4ff;
     color: white;
     border-radius: 0 0 0 0;
-    overflow-y: scroll;
-}
-
-.chat-header :hover{
-    cursor: pointer !important;
+    overflow-y: auto;
+    z-index: 1000;
 }
 
 .chat-input {
@@ -118,6 +179,7 @@
     color: black;
     background-color: white;
     border-radius: 0 0 0 0;
+    z-index: 1000;
 }
 
 .chat-input-friends {
@@ -132,6 +194,7 @@
     color: white;
     background-color: black;
     outline: none;
+    z-index: 1000;
 }
 
 .chat-send {
@@ -145,6 +208,7 @@
     /* background-color: #00cad8; */
     color: white;
     border-radius: 0 0 0 0;
+    z-index: 1000;
 }
 
 .chat-msg {
