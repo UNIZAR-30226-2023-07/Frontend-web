@@ -250,24 +250,37 @@ const Index = (props) => {
                     </Col>
                   </Row>
                 </CardHeader>
-                <Table className="align-items-center table-flush" responsive>
-                    <tbody>
-                    <tr>
-                      <td>
-                        <Media className="align-items-center">
-                          <span className="mb-0 text-sm text-sm-center">
-                          {"Patida 1"}
-                          </span>
-                        </Media>
-                      </td>
-                      <td>
-                        <span className="mb-0 text-sm text-sm-center">
-                          {"Patida 2"}
-                        </span>
-                      </td>
-                    </tr>
-                    </tbody>
-                </Table>
+                <Row>
+                  <Col>
+                    <Table className="align-items-center table-flush" responsive>
+                        <tbody>
+                        <tr>
+                          <td>
+                            <Media className="align-items-center">
+                              <span className="mb-0 text-sm text-sm-center">
+                              {"Patida 1"}
+                              </span>
+                            </Media>
+                          </td>
+                        </tr>
+                        </tbody>
+                    </Table>
+                  </Col>
+                
+                  <Col>
+                    <Table className="align-items-center table-flush" responsive>
+                        <tbody>
+                        <tr>
+                          <td>
+                            <span className="mb-0 text-sm text-sm-center">
+                              {"Patida 2"}
+                            </span>
+                          </td>
+                        </tr>
+                        </tbody>
+                    </Table>
+                  </Col>
+                </Row>
               </Card>
               <div className="mb-5"></div>
             </Col>
