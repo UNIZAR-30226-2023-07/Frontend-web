@@ -270,7 +270,7 @@ function App() {
               <Col xs="3" >
                 <Row>
                   <Col>
-                    <div className="ml-4">
+                    <div className="ml-3">
                       <p className="mb--2 ml-4" style={{ color: 'white'}} >Mazo</p>
                       <Button onClick={() => console.log('Roba una carta')}
                       className="card-button">
@@ -279,7 +279,7 @@ function App() {
                     </div>
                   </Col>
                   <Col>
-                    <p className="mb--2 ml-4" style={{ color: 'white'}} >Descartes</p>
+                    <p className="mb--2 ml-3" style={{ color: 'white'}} >Descartes</p>
                     <CardsWrapper cartas={descartes} cardsNumber={descartes.length} />
                   </Col>
                 </Row>
