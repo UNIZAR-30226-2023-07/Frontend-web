@@ -255,7 +255,7 @@ function App() {
     ]
   ];
   return (
-    <div className="App">
+    <div className="App" style={{overflowY: 'hidden', overflowX: 'hidden'}}>
       <div style={{ display: 'flex', width: '100%', flexDirection: 'row' }}>
         <div style={{ flexGrow: 1 }}>
           <div style={{backgroundColor: 'green', height: 'calc(100vh - 18em)', width: 'calc(100vw - 15rem)', overflowY: 'scroll' }}>
