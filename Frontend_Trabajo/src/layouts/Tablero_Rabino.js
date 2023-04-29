@@ -254,6 +254,29 @@ function App() {
     }
     ]
   ];
+
+  const jugadorInfo = (jugador) => {
+    return (
+      <Col  className="ml-4">
+        <Row className="mt--2 mb--1">
+          <img
+            alt="..."
+            className="avatar-lg rounded-circle mr-3 ml--4"
+            src={SelectImgUser(jugador.Foto)}
+          />
+          <Col className="ml--4">
+            <Col className="ml--2">
+              <span className="mt-1">{jugador.Nombre}</span>
+            </Col>
+            <Col className="ml--2">
+              <span className="mt-0">{jugador.Mano} cartas</span>
+            </Col>
+          </Col>
+        </Row>
+      </Col>
+    );
+  }
+
   return (
     <div className="App" style={{overflowY: 'hidden', overflowX: 'hidden'}}>
       <div style={{ display: 'flex', width: '100%', flexDirection: 'row' }}>
@@ -270,8 +293,8 @@ function App() {
               <Col xs="3" >
                 <Row>
                   <Col>
-                    <div className="ml-3">
-                      <p className="mb--2 ml-4" style={{ color: 'white'}} >Mazo</p>
+                    <div className="ml-1">
+                      <p className="mb--2" style={{ color: 'white', textAlign: 'center'}} >Mazo</p>
                       <Button onClick={() => console.log('Roba una carta')}
                       className="card-button">
                         <img src={Reverso_carta} alt="..." style={{ width:'100%', height:'90%'}}/>
@@ -279,7 +302,7 @@ function App() {
                     </div>
                   </Col>
                   <Col>
-                    <p className="mb--2 ml-3" style={{ color: 'white'}} >Descartes</p>
+                    <p className="mb--2" style={{ color: 'white', textAlign: 'center'}} >Descartes</p>
                     <CardsWrapper cartas={descartes} cardsNumber={descartes.length} />
                   </Col>
                 </Row>
@@ -294,7 +317,7 @@ function App() {
           </div>
           {/* <button onClick={() => window.location.reload()}>Reload Cards</button> */}
         </div>
-        <div style={{ backgroundColor: 'white', width: '20%', minWidth: '200px' }}>
+        <div style={{ position: 'absolute', backgroundColor: 'white', width: '15rem', minWidth: '200px', right: '0'}}>
           <Row>
             <Col>
               <Nav className="" navbar>
@@ -338,87 +361,23 @@ function App() {
                   <h3 className="mb--4 mt--3">Turno de: {TurnoJugador.Nombre}</h3>
                 </CardHeader>
                 <Col className="mt-3 mb-2">
-                  <Col  className="ml-4">
-                    <Row className="mt--2 mb--1">
-                      <img
-                        alt="..."
-                        className="avatar-lg rounded-circle mr-3 ml--4"
-                        src={SelectImgUser(Jugador1.Foto)}
-                      />
-                      <Col className="ml--4">
-                        <Col className="ml--2">
-                          <span className="mt-1">{Jugador1.Nombre}</span>
-                        </Col>
-                        <Col className="ml--2">
-                          <span className="mt-0">Cartas en mano: {Jugador1.Mano}</span>
-                        </Col>
-                      </Col>
-                    </Row>
-                  </Col>
+                  {jugadorInfo(Jugador1)}
                   <DropdownItem divider />
-                  <Col  className="ml-4">
-                    <Row className="mt--1 mb--1">
-                      <img
-                        alt="..."
-                        className="avatar-lg rounded-circle mr-3 ml--4"
-                        src={SelectImgUser(Jugador2.Foto)}
-                      />
-                      <Col className="ml--4">
-                        <Col className="ml--2">
-                          <span className="mt-1">{Jugador2.Nombre}</span>
-                        </Col>
-                        <Col className="ml--2">
-                          <span className="mt-0">Cartas en mano: {Jugador2.Mano}</span>
-                        </Col>
-                      </Col>
-                    </Row>
-                  </Col>
+                  {jugadorInfo(Jugador2)}
                   <DropdownItem divider />
-                  <Col  className="ml-4">
-                    <Row className="mt--1 mb--1">
-                      <img
-                        alt="..."
-                        className="avatar-lg rounded-circle mr-3 ml--4"
-                        src={SelectImgUser(Jugador3.Foto)}
-                      />
-                      <Col className="ml--4">
-                        <Col className="ml--2">
-                          <span className="mt-1">{Jugador3.Nombre}</span>
-                        </Col>
-                        <Col className="ml--2">
-                          <span className="mt-0">Cartas en mano: {Jugador3.Mano}</span>
-                        </Col>
-                      </Col>
-                    </Row>
-                  </Col>
+                  {jugadorInfo(Jugador3)}
                   <DropdownItem divider />
-                  <Col  className="ml-4">
-                    <Row className="mt--1 mb--1">
-                      <img
-                        alt="..."
-                        className="avatar-lg rounded-circle mr-3 ml--4"
-                        src={SelectImgUser(Jugador4.Foto)}
-                      />
-                      <Col className="ml--4">
-                        <Col className="ml--2">
-                          <span className="mt-1">{Jugador4.Nombre}</span>
-                        </Col>
-                        <Col className="ml--2">
-                          <span className="mt-0">Cartas en mano: {Jugador4.Mano}</span>
-                        </Col>
-                      </Col>
-                    </Row>
-                  </Col>
+                  {jugadorInfo(Jugador4)}
                 </Col>
               </Card>
 
             </Col>
           </Row>
-          <Row>
+          {/* <Row>
             <Col>
               <Button color='primary' onClick={() => console.log('Abrir chat')}>Abrir chat</Button>
             </Col>
-          </Row>
+          </Row> */}
         </div>
       </div>
     </div>
