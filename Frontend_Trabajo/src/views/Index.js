@@ -55,6 +55,8 @@ import {
 import { Link, useHistory } from "react-router-dom";
 
 import Header from "components/Headers/Header.js";
+import SelectImgUser from "hooks/SelectImgUser.js";
+
 
 const Index = (props) => {
   const history = useHistory();//Permite cambiar de pantalla
@@ -66,7 +68,13 @@ const Index = (props) => {
 
   const [activeNav, setActiveNav] = useState(1);
   const [chartExample1Data, setChartExample1Data] = useState("data1");
-  
+
+  //Codigo que tiene la lista de ranking
+  const json_r_default = '{ "ranking": [ {"Nombre": "Pedro", "Foto": 5, "P_vict": 34}, {"Nombre": "Javier", "Foto": 1, "P_vict": 35} ] }';
+  const r_default = JSON.parse(json_r_default);
+
+  const [ranking_jug, setRanking_jug] = useState(JSON.parse(JSON.stringify(r_default.ranking)));
+
 
   const handleClaveChange = event => {
     setClave(event.target.value)
@@ -158,6 +166,35 @@ const Index = (props) => {
   };
 
 
+  //Función para mostrar el ranking
+  const showRanking_jug = () => {
+    if (ranking_jug == null) {
+      return;
+    }
+    return ranking_jug.map((prop, key) => {
+      return (
+        <tr key={key}>
+          <td>
+              <span className="h1">{key+1+"º"}</span>
+          </td>
+          <td>
+            <img
+            alt="..."
+            className="avatar-lg rounded-circle mr-3"
+            src={SelectImgUser(prop.Foto)}
+            />
+          </td>
+          <td>
+              <span className="h3">{prop.Nombre}</span>
+          </td>
+          <td>
+              <span className="h3">{prop.P_vict}%</span>
+          </td>
+        </tr>
+      );
+    });
+  };
+
   return (
     <>
       {/* <Header /> */}
@@ -238,7 +275,7 @@ const Index = (props) => {
               <div className="mb-8"></div>
               
               <Col className="order-xl-1 ml-4" xl="11">
-              <Card className="bg-secondary shadow">
+              <Card className="bg-secondary shadow" style={{height: '400px', overflowY: 'scroll', overflowX: 'hidden'}} >
                 <CardHeader className="border-0">
                   <Row>
                     <Col>
@@ -268,15 +305,19 @@ const Index = (props) => {
                 
                   <Col>
                     <Table className="align-items-center table-flush" responsive>
-                        <tbody>
-                        <tr>
-                          <td>
-                            <span className="mb-0 text-sm text-sm-center">
-                              {"Patida 2"}
-                            </span>
-                          </td>
-                        </tr>
-                        </tbody>
+                    <thead className="thead-light">
+                      <tr>
+                        <th scope="col">Puesto</th>
+                        <th scope="col">Foto de Perfil</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">% de Victorias</th>
+                        <th scope="col" />
+                      </tr>
+                    </thead>
+
+                      <tbody>
+                        {showRanking_jug()}
+                      </tbody>
                     </Table>
                   </Col>
                 </Row>
