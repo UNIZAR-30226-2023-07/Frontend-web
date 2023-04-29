@@ -70,11 +70,15 @@ const Index = (props) => {
   const [chartExample1Data, setChartExample1Data] = useState("data1");
 
   //Codigo que tiene la lista de ranking
-  const json_r_default = '{ "ranking": [ {"Nombre": "Pedro", "Foto": 5, "P_vict": 34}, {"Nombre": "Javier", "Foto": 1, "P_vict": 35} ] }';
-  const r_default = JSON.parse(json_r_default);
 
-  const [ranking_jug, setRanking_jug] = useState(JSON.parse(JSON.stringify(r_default.ranking)));
+  //const json_r_default = '{ "ranking": [ {"Nombre": "Pedro", "Foto": 5, "P_vict": 34}, {"Nombre": "Javier", "Foto": 1, "P_vict": 35} ] }';
+  //const r_default = JSON.parse(json_r_default);
+  //const [ranking_jug, setRanking_jug] = useState(JSON.parse(JSON.stringify(r_default.ranking)));
+  const [ranking_jug, setRanking_jug] = useState(JSON.parse(localStorage.getItem("amigxs7reinas")));
 
+  const updateRanking = () => {
+    setRanking_jug(JSON.parse(localStorage.getItem("amigxs7reinas")));
+  }
 
   const handleClaveChange = event => {
     setClave(event.target.value)
@@ -188,7 +192,7 @@ const Index = (props) => {
               <span className="h3">{prop.Nombre}</span>
           </td>
           <td>
-              <span className="h3">{prop.P_vict}%</span>
+              <span className="h3">{prop.Puntos}</span>
           </td>
         </tr>
       );
@@ -310,7 +314,7 @@ const Index = (props) => {
                         <th scope="col">Puesto</th>
                         <th scope="col">Foto de Perfil</th>
                         <th scope="col">Nombre</th>
-                        <th scope="col">% de Victorias</th>
+                        <th scope="col">Puntos</th>
                         <th scope="col" />
                       </tr>
                     </thead>
