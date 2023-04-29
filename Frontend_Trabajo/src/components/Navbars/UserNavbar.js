@@ -80,14 +80,13 @@ const UserNavbar = (props) => {
   return (
     <>
       <Navbar className="navbar-top navbar-dark py-4" expand="md" id="navbar-main">
-        <Container fluid>
+        <Container fluid className="navbar-reinas">
           {logo ? (
             <NavbarBrand className="pt-0" {...navbarBrandProps}>
               <img
                 alt={logo.imgAlt}
-                className="navbar-brand-img"
+                className="navbar-brand-img logo-7-reinas"
                 src={logo.imgSrc}
-                width="300"
               />
             </NavbarBrand>
           ) : null}
@@ -200,19 +199,7 @@ UserNavbar.propTypes = {
     imgAlt: PropTypes.string.isRequired
 
   }),
-  // sessionUser: PropTypes.checkPropTypes({
-  //   nick: PropTypes.string,
-  //   email: PropTypes.string,
-  //   codigo: PropTypes.number,
-  //   won: PropTypes.number,
-  //   lost: PropTypes.number,
-  //   picture: PropTypes.number,
-  //   descrp: PropTypes.string,
-  //   puntos: PropTypes.number
-  // }),
-  informacion_Web: PropTypes.checkPropTypes({
-    volumen: PropTypes.number
-  })
+  volumen: PropTypes.number
 
 };
 

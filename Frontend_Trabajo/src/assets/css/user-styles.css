@@ -30,6 +30,7 @@
 .topbar{
     /* height: 100px; */
     width: 100%;
+    height: 6rem;
     position: fixed;
     vertical-align: middle;
     z-index: 10000;
@@ -38,50 +39,117 @@
     background-color: #000000;
 }
 
+.navbar-reinas {
+    height: 3rem;
+}
+
+.logo-7-reinas {
+    height: 2.9rem;
+}
+
+.play-button {
+    width: 2.9rem;
+    height: 2.9rem;
+    padding: 0;
+    padding-top: 0.2rem;
+    align-content: center;
+}
+
+.user-content {
+    position: absolute;
+    height: calc(100vh - 6rem);
+    width: calc(100vw - 15rem) !important;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    background-color: transparent;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    background: linear-gradient(87deg, #b9cce8 0, #c196e2 100%) !important;
+    overflow-y: auto;
+
+}
+
+.user-sidebar {
+    top: auto !important;
+    bottom: 0 !important;
+    width: 15rem !important;
+    height: calc(100vh - 6rem) !important;
+    margin-bottom: 0;
+
+    /* flex: 1 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem; */
+    
+    /* display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    flex-direction: row;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    flex-wrap: nowrap;
+    overflow: visible;
+    flex-basis: auto;
+    flex-flow: row nowrap;
+    justify-content: flex-start; */
+}
+
 .separator{
     padding-left: 10px;
 }
 
-.chat-closed {
+.chat-header {
     position: fixed;
-    bottom: 0;
-    right: 17rem;
-    margin-left: 1rem;
-    padding-left: 0.5rem;
-    /* alinear el texto en el centro verticalmente */
-    font-size: 1.25rem;
-    font-weight: bold;
-    width: 10rem;
-    height: 4rem;
-    border: 1px solid #ccc;
-    background-color: #00cad8;
-    color: white;
-    border-radius: 0.5rem 0.5rem 0 0;
-}
-
-.chat-open-header {
-    position: fixed;
-    bottom: 24rem;
-    right: 17rem;
     margin-left: 1rem;
     /* margin-bottom: 20rem; */
-    padding-left: 0.5rem;
+    padding: 0.5rem;
     /* alinear el texto en el centro verticalmente */
     
     font-size: 1.25rem;
     font-weight: bold;
     width: 20rem;
-    height: 4rem;
+    height: 3.5rem;
     border: 1px solid #ccc;
     background-color: #d87700;
     color: white;
-    border-radius: 0.5rem 0.5rem 0 0;
+    border-radius: 1.35rem 1.35rem 0 0;
+    z-index: 1000;
 }
 
-.chat-open-body {
+.chat-header :hover {
+    cursor: pointer !important;
+}
+
+.chat-text-xxl {
+    font-size: 1.7rem !important;
+}
+
+.chat-friends {
+    right: 17rem;
+}
+
+.chat-game {
+    right: 38.5rem;
+}
+
+.chat-header-open {
+    bottom: 24rem;
+}
+
+.chat-header-closed {
+    bottom: 0;
+}
+
+.chat-body {
     position: fixed;
     bottom: 4rem;
-    right: 17rem;
     margin-left: 1rem;
     padding: 0.5rem;
     /* alinear el texto en el centro verticalmente */
@@ -91,64 +159,56 @@
     background-color: #94a4ff;
     color: white;
     border-radius: 0 0 0 0;
-    overflow-y: scroll;
-}
-
-.chat-open-input {
-    position: fixed;
-    bottom: 0;
-    right: 17rem;
-    margin-left: 1rem;
-    padding: 0;
-    /* alinear el texto en el centro verticalmente */
-    font-size: 1.25rem;
-    font-weight: bold;
-    width: 20rem;
-    height: 4rem;
-    border: 1px solid #ccc;
-    background-color: #00cad8;
-    color: white;
-    border-radius: 0 0 0 0;
-    overflow-y: scroll;
-}
-
-.chat-header :hover{
-    cursor: pointer;
+    overflow-y: auto;
+    z-index: 1000;
 }
 
 .chat-input {
     position: fixed;
     bottom: 0;
-    right: 21rem;
     margin-left: 1rem;
-    padding: 0;
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+    padding-top: 0;
+    padding-bottom: 0;
+    box-sizing: "border-box";
+    resize: none;
     width: 16rem;
-    height: 4rem;
+    height: 4rem !important;
     border: none;
     color: black;
     background-color: white;
     border-radius: 0 0 0 0;
-    display: inline;
+    z-index: 1000;
+}
+
+.chat-input-friends {
+    right: 21rem;
+}
+
+.chat-input-game {
+    right: 42.5rem;
 }
 
 .chat-input :focus {
     color: white;
     background-color: black;
     outline: none;
+    z-index: 1000;
 }
 
 .chat-send {
     position: fixed;
     bottom: 0;
-    right: 17rem;
     margin-left: 1rem;
     padding: 0;
     width: 4rem;
     height: 4rem;
     border: none;
-    background-color: #00cad8;
+    /* background-color: #00cad8; */
     color: white;
     border-radius: 0 0 0 0;
+    z-index: 1000;
 }
 
 .chat-msg {

@@ -13,7 +13,7 @@ import {
 	Media
 } from "reactstrap";
 
-const Chat = (props) => {
+const ChatGame = (props) => {
 	const [message, setMessage] = useState("");
 
 	const obtenerMensajesDeChat = (amigx, mensajes) => {
@@ -54,24 +54,10 @@ const Chat = (props) => {
 	if (chatOpen)
 	return (
 		<>
-			<Card className={"chat-header chat-friends chat-header-open " + (chatUser < 0 ? "chat-text-xxl" : "")} color="primary" onClick = {() => setChatOpen(!chatOpen)}>
-				{chatUser < 0 ? "Chat" :
-					<Media className="align-items-center">
-						<span className="avatar avatar-sm rounded-circle">
-							<img
-								alt="Imagen de perfil"
-								src={SelectImgUser(friends[chatUser].Foto)}
-							/>
-						</span>
-						<Media className="ml-2 d-none d-lg-block">
-							<span className="mb-0 text-lg font-weight-bold">
-								{friends[chatUser].Nombre}
-							</span>
-						</Media>
-					</Media>
-				}
+			<Card className="chat-header chat-game chat-header-open chat-text-xxl" color="primary" onClick = {() => setChatOpen(!chatOpen)}>
+				Chat de partida
 			</Card>
-			<Card className="chat-body chat-friends" color="contrast">
+			<Card className="chat-body chat-game" color="contrast">
 				{chatUser < 0 ? "Selecciona un@ amig@ de la lista de amig@s y pulsa \"Chat\"." : obtenerMensajesDeChat(friends[chatUser].Codigo, messages)}
 			</Card>
 			<Form onSubmit={event => {
@@ -84,14 +70,14 @@ const Chat = (props) => {
 				setMessage("");
 			}}>
 				<Input
-					className="chat-input chat-input-friends"
+					className="chat-input chat-input-game"
 					type="textarea"
 					placeholder="Escribe un mensaje"
 					onChange={handleMsgChange}
 					value={message}
 				/>
 				<Button
-					className="chat-send chat-friends"
+					className="chat-send chat-game"
 					color="primary"
 					type="submit"
 				>
@@ -117,24 +103,10 @@ const Chat = (props) => {
 	);
 	else
 	return (
-		<Card className={"chat-header chat-friends chat-header-closed " + (chatUser < 0 ? "chat-text-xxl" : "")} color="primary" onClick = {() => setChatOpen(!chatOpen)}>
-			{chatUser < 0 ? "Chat" :
-				<Media className="align-items-center">
-					<span className="avatar avatar-sm rounded-circle">
-						<img
-							alt="Imagen de perfil"
-							src={SelectImgUser(friends[chatUser].Foto)}
-						/>
-					</span>
-					<Media className="ml-2 d-none d-lg-block">
-						<span className="mb-0 text-lg font-weight-bold">
-							{friends[chatUser].Nombre}
-						</span>
-					</Media>
-				</Media>
-			}
+		<Card className="chat-header chat-game chat-header-closed chat-text-xxl" color="primary" onClick = {() => setChatOpen(!chatOpen)}>
+			Chat de partida
 		</Card>
 	);
 }
 
-export default Chat;
+export default ChatGame;

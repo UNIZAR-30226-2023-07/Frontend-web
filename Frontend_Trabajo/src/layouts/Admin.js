@@ -27,6 +27,7 @@ import UserNavbar from "components/Navbars/UserNavbar.js";
 import AdminFooter from "components/Footers/AdminFooter.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import Chat from "components/Chat/Chat.js";
+import ChatGame from "components/Chat/ChatGame.js";
 
 import routes from "routes.js";
 import friends from "friends.js";
@@ -38,8 +39,10 @@ const Admin = (props) => {
   const mainContent = React.useRef(null);
   const location = useLocation();
 	const [chatOpen, setChatOpen] = useState(false);
+	const [chatGameOpen, setChatGameOpen] = useState(false);
   const [chatUser, setChatUser] = useState(-1);
 	const [sePuedeEnviar, setSePuedeEnviar] = useState(false);
+	const [messages, setMessages] = useState(JSON.parse(localStorage.getItem("mensajes7reinas")));
 
   const wsChat = new WebSocket(`ws://52.174.124.24:3001/api/ws/chat/1`);
 
@@ -50,10 +53,6 @@ const Admin = (props) => {
   
   wsChat.onclose = () => {
     console.log('Conexión cerrada');
-  };
-  
-  wsChat.onmessage = (message) => {
-    console.log(`Mensaje recibido: ${message.data}`);
   };
 
   wsChat.onerror = (error) => {
@@ -124,22 +123,12 @@ const Admin = (props) => {
         friends={friends}
         friendRequests={friendRequests}
         setChatOpen={setChatOpen}
+        chatUser={chatUser}
         setChatUser={setChatUser}
+        messages={messages}
+        setMessages={setMessages}
       />
-      <div className="main-content" ref={mainContent}>
-        {/* <div className="topbar">
-          <UserNavbar
-            {...props}
-            brandText={getBrandText(props.location.pathname)}
-            logo={{
-              innerLink: "/admin/index",
-              imgSrc: require("../assets/img/brand/large-white.png"),
-              imgAlt: "..."
-            }}
-            sessionUser={sessionUser}
-            informacion_Web={informacion_Web}
-          />
-        </div> */}
+      <div className="user-content" ref={mainContent}>
         <Switch>
           {getRoutes(routes)}
           <Redirect from="*" to="/admin/index" />
@@ -147,15 +136,27 @@ const Admin = (props) => {
         {/* <Container fluid>
           <AdminFooter />
         </Container> */}
-        <Chat
-          {...props}
-          chatOpen={chatOpen}
-          setChatOpen={setChatOpen}
-          chatUser={chatUser}
-          wsChat={wsChat}
-          sePuedeEnviar={sePuedeEnviar}
-        />
       </div>
+      <Chat
+        {...props}
+        chatOpen={chatOpen}
+        setChatOpen={setChatOpen}
+        chatUser={chatUser}
+        wsChat={wsChat}
+        messages={messages}
+        setMessages={setMessages}
+        sePuedeEnviar={sePuedeEnviar}
+      />
+      <ChatGame
+        {...props}
+        chatOpen={chatGameOpen}
+        setChatOpen={setChatGameOpen}
+        chatUser={chatUser}
+        wsChat={wsChat}
+        messages={messages}
+        setMessages={setMessages}
+        sePuedeEnviar={sePuedeEnviar}
+      />
     </>
   );
 };

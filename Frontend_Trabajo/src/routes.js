@@ -31,6 +31,7 @@ import Password_O from "views/examples/Password_Olvidada";
 import Ajustes_Perfil from "views/examples/Ajustes_Perfil";
 import Crear_Partida_N from "views/examples/Crear_Partida_N";
 import Lobby_Unirse_Partida from "views/examples/Lobby_Unirse_Partida";
+import Tablero_Rabino from "layouts/Tablero_Rabino";
 
 
 var routes = [
@@ -138,6 +139,13 @@ var routes = [
     name: "Lobby_Unirse_Partida",
     icon: "ni ni-single-02 text-yellow",
     component: Lobby_Unirse_Partida,
+    layout: "/admin"
+  },
+  {
+    path: "/partida",
+    name: "Partida",
+    icon: "ni ni-single-02 text-yellow",
+    component: Tablero_Rabino,
     layout: "/admin"
   },
 
