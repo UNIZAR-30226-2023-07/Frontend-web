@@ -75,7 +75,9 @@ const Sidebar = (props) => {
   const { setChatOpen, chatUser, setChatUser, messages, setMessages } = props;
 
   const updateFriends = () => {
-    setFriends(friends.filter(fr => fr.codigo != chatUser.codigo));
+    getFriends(sessionUser.codigo, () => {
+      setFriends(friends.filter(fr => fr.codigo != chatUser.codigo));
+    });
   }
   const updateFriendRequests = () => {
     getFriendRequests(sessionUser.codigo, () => {
@@ -267,9 +269,10 @@ const Sidebar = (props) => {
                 <span>Profile</span>
               </DropdownItem>
               <DropdownItem onClick={() => {unfriend(sessionUser.codigo, prop.Codigo, () => {
-                  setFriends(friends.filter(fr => fr.Codigo != prop.Codigo));
-                  localStorage.setItem("amigxs7reinas", JSON.stringify(friends));
-                })}}>
+                updateFriends();
+                // setFriends(friends.filter(fr => fr.Codigo != prop.Codigo));
+                // localStorage.setItem("amigxs7reinas", JSON.stringify(friends));
+              })}}>
                 <i className="ni ni-fat-remove" />
                 <span>Unfriend</span>
               </DropdownItem>
