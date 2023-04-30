@@ -1,4 +1,4 @@
-export default function joinGame (me, clavePartida, doNext) {
+export default function joinGame (me, clavePartida, doNext, doOnError) {
 
     let xhr = new XMLHttpRequest();
 
@@ -14,7 +14,7 @@ export default function joinGame (me, clavePartida, doNext) {
             localStorage.setItem('juego7reinas', clavePartida);
             doNext();
         } else {
-            alert(`Se ha producido un error al enviar la solicitud de amistad.`);
+            doOnError();
         }
     }
     xhr.open('POST', `http://52.174.124.24:3001/api/partida/join`);

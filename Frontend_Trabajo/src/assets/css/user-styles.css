@@ -214,6 +214,8 @@
 .chat-msg {
     color:black;
     margin-bottom: 0.5rem;
+    padding: 0.3rem;
+    border-radius: 0.75rem;
 }
 
 .chat-msg-friend-read {
@@ -230,4 +232,9 @@
     /* text-align: right; */
     background-color: aquamarine;
     margin-left: 3rem;
+}
+
+.chat-icon {
+    flex-grow: 0 !important;
+    vertical-align: middle !important;
 }

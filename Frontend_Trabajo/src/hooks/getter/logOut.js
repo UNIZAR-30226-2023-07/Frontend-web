@@ -1,6 +1,8 @@
 export default function logOut () {
-    localStorage.setItem('sessionUser', null);
-    localStorage.setItem('amigxs7reinas', null);
-    localStorage.setItem('solicitudes7reinas', null);
-    localStorage.setItem('code_partida_actual', null);
+    localStorage.removeItem('sessionUser');
+    localStorage.removeItem('amigxs7reinas');
+    localStorage.removeItem('solicitudes7reinas');
+    localStorage.removeItem('mensajes7reinas');
+    localStorage.removeItem('msjsjuego7reinas');
+    localStorage.removeItem('juego7reinas');
 }

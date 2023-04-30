@@ -56,6 +56,8 @@ import { Link, useHistory } from "react-router-dom";
 
 import Header from "components/Headers/Header.js";
 import SelectImgUser from "hooks/SelectImgUser.js";
+import createGame from "hooks/setter/createGame";
+import joinGame from "hooks/setter/joinGame";
 
 
 const Index = (props) => {
@@ -237,7 +239,11 @@ const Index = (props) => {
                           </FormGroup>
                         </Col>
                         <Col xs="2" className="ml--6">
-                          <Button variant="primary" color="primary" className="ml-5"  onClick={unirse_partida}>
+                          <Button variant="primary" color="primary" className="ml-5" onClick={() => {
+                            joinGame(sessionUser.codigo, Clave,
+                              () => history.push("/admin/lobby_unirse_partida"),
+                              () => setErrorCrear(true)
+                          )}}>
                             Unirse
                           </Button>
                         </Col>
@@ -259,12 +265,20 @@ const Index = (props) => {
                     <CardBody className="mt--2">
                       <Row>
                       <Col xs="6">
-                        <Button className="ml-4" color="primary" onClick={crear_partida}>
+                        <Button className="ml-4" color="primary" onClick={() => {
+                          createGame(sessionUser.codigo, "amistosa",
+                            () => history.push("/admin/crear_partida_n"),
+                            () => setErrorCrear(true)
+                        )}}>
                           Partida Normal
                         </Button>
                       </Col>
                       <Col xs="6">
-                        <Button className="ml-3" color="primary" onClick={crear_partida}>
+                        <Button className="ml-3" color="primary" onClick={() => {
+                          createGame(sessionUser.codigo, "torneo",
+                            () => history.push("/admin/crear_partida_n"),
+                            () => setErrorCrear(true)
+                        )}}>
                           Partida Clasificatoria
                         </Button>
                       </Col>

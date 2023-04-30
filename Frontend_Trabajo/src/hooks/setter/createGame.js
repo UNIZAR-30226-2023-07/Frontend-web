@@ -1,4 +1,4 @@
-export default function createGame (me, tipoPartida, doNext) {
+export default function createGame (me, tipoPartida, doNext, doOnError) {
 
     let xhr = new XMLHttpRequest();
 
@@ -14,7 +14,7 @@ export default function createGame (me, tipoPartida, doNext) {
             localStorage.setItem('juego7reinas', datos.clave);
             doNext();
         } else {
-            alert(`Se ha producido un error al enviar la solicitud de amistad.`);
+            doOnError();
         }
     }
     xhr.open('POST', `http://52.174.124.24:3001/api/partida/crear`);

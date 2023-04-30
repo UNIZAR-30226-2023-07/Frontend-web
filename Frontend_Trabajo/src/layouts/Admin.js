@@ -43,6 +43,8 @@ const Admin = (props) => {
   const [chatUser, setChatUser] = useState(-1);
 	const [sePuedeEnviar, setSePuedeEnviar] = useState(false);
 	const [messages, setMessages] = useState(JSON.parse(localStorage.getItem("mensajes7reinas")));
+  const [msgsGame, setMsgsGame] = useState(JSON.parse(localStorage.getItem("msjsjuego7reinas")));
+  let partidaActual = JSON.parse(localStorage.getItem("juego7reinas"));
 
   const wsChat = new WebSocket(`ws://52.174.124.24:3001/api/ws/chat/1`);
 
@@ -58,6 +60,10 @@ const Admin = (props) => {
   wsChat.onerror = (error) => {
     console.log(`Error: ${error.message}`);
   }
+
+  let wsChatGame;
+  if (partidaActual !== null & partidaActual !== undefined && partidaActual !== "")
+    wsChatGame = new WebSocket(`ws://52.174.124.24:3001/api/ws/chat/lobby/${partidaActual}`);
 
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
@@ -151,11 +157,9 @@ const Admin = (props) => {
         {...props}
         chatOpen={chatGameOpen}
         setChatOpen={setChatGameOpen}
-        chatUser={chatUser}
-        wsChat={wsChat}
-        messages={messages}
-        setMessages={setMessages}
-        sePuedeEnviar={sePuedeEnviar}
+        messages={msgsGame}
+        setMessages={setMsgsGame}
+        wsChat={wsChatGame}
       />
     </>
   );

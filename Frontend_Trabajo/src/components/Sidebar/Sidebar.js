@@ -16,7 +16,7 @@
 
 */
 /*eslint-disable*/
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { NavLink as NavLinkRRD, Link } from "react-router-dom";
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
@@ -57,7 +57,7 @@ import sendFriendRequest from "hooks/setter/sendFriendRequest";
 import acceptFriendRequest from "hooks/setter/acceptFriendRequest";
 import denyFriendRequest from "hooks/setter/denyFriendRequest";
 import unfriend from "hooks/setter/unfriend";
-import getFriends from "hooks/getter/getFriendRequests";
+import getFriends from "hooks/getter/getFriends";
 import getFriendRequests from "hooks/getter/getFriendRequests";
 import markAsRead from "hooks/setter/markAsRead";
 
@@ -76,7 +76,8 @@ const Sidebar = (props) => {
 
   const updateFriends = () => {
     getFriends(sessionUser.codigo, () => {
-      setFriends(friends.filter(fr => fr.codigo != chatUser.codigo));
+      setFriends(JSON.parse(localStorage.getItem("amigxs7reinas")));
+      console.log(friends);
     });
   }
   const updateFriendRequests = () => {
@@ -118,7 +119,7 @@ const Sidebar = (props) => {
           <Form role="form" onSubmit={event => {
               event.preventDefault();
               sendFriendRequest(sessionUser.codigo, newFriend,
-                () => setAddFriendState("Enviado con éxito."),
+                () => {setAddFriendState("Enviado con éxito."); updateFriendRequests();},
                 () => setAddFriendState("No existe el usuario indicado o ya le has agregado."));
             }}>
             <FormGroup className="my-2">
@@ -168,7 +169,7 @@ const Sidebar = (props) => {
       return;
     }
     return friendRequests.map((prop, key) => {
-      return (
+      if (prop.Estado == "pendiente") return (
         <Nav className="d-md-flex" navbar key={key}>
           <UncontrolledDropdown nav>
             <DropdownToggle className="py-1" nav>
@@ -181,7 +182,7 @@ const Sidebar = (props) => {
                 </span>
                 <Media className="ml-2 d-none d-lg-block">
                   <span className="mb-0 text-sm font-weight-bold">
-                  {prop.Nombre}<span className="text-xs"><br/>Clic para gestionar</span>
+                  {prop.Nombre}<span className="text-xs"><br/>Petición recibida</span>
                   </span>
                 </Media>
               </Media>
@@ -205,6 +206,42 @@ const Sidebar = (props) => {
                 })}}>
                 <i className="ni ni-fat-remove" />
                 <span>Rechazar</span>
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+        </Nav>
+      );
+      if (prop.Estado == "esp_confirmacion") return (
+        <Nav className="d-md-flex" navbar key={key}>
+          <UncontrolledDropdown nav>
+            <DropdownToggle className="py-1" nav>
+              <Media className="align-items-center">
+                <span className="avatar avatar-sm rounded-circle">
+                  <img
+                    alt={"Imagen de perfil de " + prop.Nombre}
+                    src={SelectImgUser(prop.Foto)}
+                  />
+                </span>
+                <Media className="ml-2 d-none d-lg-block">
+                  <span className="mb-0 text-sm font-weight-bold">
+                  {prop.Nombre}<span className="text-xs"><br/>Petición enviada</span>
+                  </span>
+                </Media>
+              </Media>
+            </DropdownToggle>
+            <DropdownMenu className="dropdown-menu-arrow" right>
+              <DropdownItem className="noti-title" header tag="div">
+                <h6 className="text-overflow m-0">{prop.Nombre}</h6>
+              </DropdownItem>
+              <DropdownItem to="/admin/user-profile" tag={Link}>
+                <i className="ni ni-single-02" />
+                <span>Perfil</span>
+              </DropdownItem>
+              <DropdownItem onClick={() => {denyFriendRequest(prop.Codigo, sessionUser.codigo, () => {
+                  updateFriendRequests();
+                })}}>
+                <i className="ni ni-fat-remove" />
+                <span>Cancelar</span>
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
@@ -251,7 +288,7 @@ const Sidebar = (props) => {
                 <h6>{prop.Descp}</h6>
               </DropdownItem>
               <DropdownItem onClick={() => {
-                if (chatUser >= 0)
+                if (chatUser >= 0 && messages != null)
                   setMessages(messages.map((msg) => {
                     if (msg.Emisor == friends[chatUser].Codigo) msg.Leido = 1;
                     return msg;
@@ -288,6 +325,16 @@ const Sidebar = (props) => {
     document.body.scrollTop += event.deltaY;
   });
 
+  const intervalRef = useRef(null);
+
+  useEffect(() => {
+    // Guarda el valor de retorno de setInterval en la referencia
+    intervalRef.current = setInterval(() => {updateFriends(), updateFriendRequests();}, 20000);
+    return () => {
+      // Limpia el intervalo cuando se desmonte el componente
+      clearInterval(intervalRef.current);
+    };
+  }, []);
 
   return (
     <Navbar
