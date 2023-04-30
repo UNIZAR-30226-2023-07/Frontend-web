@@ -43,6 +43,7 @@ const Admin = (props) => {
   const [chatUser, setChatUser] = useState(-1);
 	const [sePuedeEnviar, setSePuedeEnviar] = useState(false);
 	const [messages, setMessages] = useState(JSON.parse(localStorage.getItem("mensajes7reinas")));
+	const [sePuedeEnviarGame, setSePuedeEnviarGame] = useState(false);
   const [msgsGame, setMsgsGame] = useState(JSON.parse(localStorage.getItem("msjsjuego7reinas")));
   let partidaActual = JSON.parse(localStorage.getItem("juego7reinas"));
 
@@ -62,8 +63,29 @@ const Admin = (props) => {
   }
 
   let wsChatGame;
-  if (partidaActual !== null & partidaActual !== undefined && partidaActual !== "")
+  if (partidaActual !== null && partidaActual !== undefined && partidaActual !== "") {
     wsChatGame = new WebSocket(`ws://52.166.36.105:3001/api/ws/chat/lobby/${partidaActual}`);
+  
+    wsChatGame.onopen = () => {
+      console.log(`Conectado al chat de partida ${partidaActual}`);
+      setSePuedeEnviarGame(true);
+    }
+    wsChatGame.onclose = () => {
+      console.log(`Desconectado del chat de partida ${partidaActual}`);
+      setSePuedeEnviar(false);
+    }
+    wsChatGame.onmessage = (event) => {
+      let msg = JSON.parse(event.data);
+      console.log(msg);
+      let todosLosMensajes = JSON.parse(localStorage.getItem("msjsjuego7reinas"));
+      setMsgsGame(todosLosMensajes == null ? [msg] : [...todosLosMensajes, msg]);
+      localStorage.setItem("msjsjuego7reinas", JSON.stringify(todosLosMensajes == null ? [msg] : [...todosLosMensajes, msg]));
+    }
+    wsChatGame.onerror = (error) => {
+      console.log(`Error en el chat de partida ${partidaActual}: ${error}`);
+      setSePuedeEnviar(false);
+    }
+  }
 
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
@@ -160,6 +182,7 @@ const Admin = (props) => {
         messages={msgsGame}
         setMessages={setMsgsGame}
         wsChat={wsChatGame}
+        sePuedeEnviar={sePuedeEnviarGame}
       />
     </>
   );

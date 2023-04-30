@@ -16,7 +16,6 @@ import {
 } from "reactstrap";
 
 const ChatGame = (props) => {
-	const [sePuedeEnviar, setSePuedeEnviar] = useState(false);
 	const [message, setMessage] = useState("");
 
 	let sessionUser = JSON.parse(localStorage.getItem("sessionUser"));
@@ -53,32 +52,14 @@ const ChatGame = (props) => {
 		});
 	}
 
-	let { chatOpen, setChatOpen, messages, setMessages, wsChat } = props;
+	let { chatOpen, setChatOpen, messages, setMessages, wsChat, sePuedeEnviar } = props;
 
 	const handleMsgChange = event => {
 		setMessage(event.target.value);
 	};
 
 
-	if (codigoPartida !== null & codigoPartida !== undefined && codigoPartida !== "") {
-		wsChat.onopen = () => {
-			console.log(`Conectado al chat de partida ${codigoPartida}`);
-			setSePuedeEnviar(true);
-		}
-		wsChat.onclose = () => {
-			console.log(`Desconectado del chat de partida ${codigoPartida}`);
-			setSePuedeEnviar(false);
-		}
-		wsChat.onmessage = (event) => {
-			let msg = JSON.parse(event.data);
-			console.log(msg);
-			setMessages(messages == null ? [msg] : [...messages, msg]);
-			localStorage.setItem("msjsjuego7reinas", JSON.stringify(messages == null ? [msg] : [...messages, msg]));
-		}
-		wsChat.onerror = (error) => {
-			console.log(`Error en el chat de partida ${codigoPartida}: ${error}`);
-			setSePuedeEnviar(false);
-		}
+	if (codigoPartida !== null && codigoPartida !== undefined && codigoPartida !== "") {
 
 		if (chatOpen)
 		return (
@@ -91,8 +72,11 @@ const ChatGame = (props) => {
 				</Card>
 				<Form onSubmit={event => {
 					event.preventDefault();
+					console.log(sePuedeEnviar);
+					console.log(message);
 					if (sePuedeEnviar && message !== "") {
 						let msg = {codigo: sessionUser.codigo, nombre: sessionUser.nombre, foto: sessionUser.foto, mensaje: message};
+						console.log(msg);
 						wsChat.send(JSON.stringify(msg));
 						// setMessages(messages == null ? [msg] : [...messages, msg]);
 						// localStorage.setItem("msjsjuego7reinas", JSON.stringify(messages == null ? [msg] : [...messages, msg]));
