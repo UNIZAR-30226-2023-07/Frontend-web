@@ -9,7 +9,7 @@ export default function acceptFriendRequest (me, sender, doNext) {
 
     xhr.onload = function () {
         if (xhr.status === 202) {
-            alert (`Solicitud de amistad aceptada.`);
+            //alert (`Solicitud de amistad aceptada.`);
             doNext();
         } else {
             alert(`Se ha producido un error al enviar la solicitud de amistad.`);

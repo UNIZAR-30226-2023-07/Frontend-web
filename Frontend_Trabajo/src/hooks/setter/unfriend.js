@@ -9,7 +9,7 @@ export default function unfriend (me, another, doNext) {
 
     xhr.onload = function () {
         if (xhr.status === 202) {
-            alert (`Se ha eliminado la amistad.`);
+            //alert (`Se ha eliminado la amistad.`);
             doNext();
         } else {
             alert(`Se ha producido un error al enviar la solicitud de amistad.`);

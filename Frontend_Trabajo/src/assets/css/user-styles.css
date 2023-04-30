@@ -61,7 +61,7 @@
     width: calc(100vw - 15rem) !important;
     left: 0;
     bottom: 0;
-    z-index: 1;
+    z-index: -1;
     background-color: transparent;
     padding-left: 0 !important;
     padding-right: 0 !important;

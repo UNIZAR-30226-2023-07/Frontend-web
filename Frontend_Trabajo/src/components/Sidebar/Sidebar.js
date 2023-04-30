@@ -325,16 +325,16 @@ const Sidebar = (props) => {
     document.body.scrollTop += event.deltaY;
   });
 
-  const intervalRef = useRef(null);
+  // const intervalRef = useRef(null);
 
-  useEffect(() => {
-    // Guarda el valor de retorno de setInterval en la referencia
-    intervalRef.current = setInterval(() => {updateFriends(), updateFriendRequests();}, 20000);
-    return () => {
-      // Limpia el intervalo cuando se desmonte el componente
-      clearInterval(intervalRef.current);
-    };
-  }, []);
+  // useEffect(() => {
+  //   // Guarda el valor de retorno de setInterval en la referencia
+  //   intervalRef.current = setInterval(() => {updateFriends(), updateFriendRequests();}, 20000);
+  //   return () => {
+  //     // Limpia el intervalo cuando se desmonte el componente
+  //     clearInterval(intervalRef.current);
+  //   };
+  // }, []);
 
   return (
     <Navbar
