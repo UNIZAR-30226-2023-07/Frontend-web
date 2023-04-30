@@ -258,6 +258,13 @@ const Sidebar = (props) => {
       );
     }
   };
+  const notSeenMsgs = (friend, messages) => {
+    let notSeen = 0;
+    messages.forEach((msg) => {
+      if (msg.Emisor == friend && msg.Leido == 0) notSeen++;
+    });
+    if (notSeen > 0) return (<span> ({notSeen})</span>);
+  };
   // creates the links that appear in the right menu / Sidebar
   const showFriends = () => {
     if (friends == null) {
@@ -277,7 +284,7 @@ const Sidebar = (props) => {
                 </span>
                 <Media className="ml-2 d-none d-lg-block">
                   <span className="mb-0 text-sm font-weight-bold">
-                  {prop.Nombre}<br/>{prop.Puntos} <span className="text-xs">puntos</span>
+                  {prop.Nombre}{notSeenMsgs(prop.Codigo, messages)}<br/>{prop.Puntos} <span className="text-xs">puntos</span>
                   </span>
                 </Media>
               </Media>

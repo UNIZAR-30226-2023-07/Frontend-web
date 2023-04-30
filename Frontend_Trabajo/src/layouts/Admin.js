@@ -62,31 +62,6 @@ const Admin = (props) => {
     console.log(`Error: ${error.message}`);
   }
 
-  let wsChatGame;
-  if (partidaActual !== null && partidaActual !== undefined && partidaActual !== "") {
-    wsChatGame = new WebSocket(`ws://52.166.36.105:3001/api/ws/chat/lobby/${partidaActual}`);
-  
-    wsChatGame.onopen = () => {
-      console.log(`Conectado al chat de partida ${partidaActual}`);
-      setSePuedeEnviarGame(true);
-    }
-    wsChatGame.onclose = () => {
-      console.log(`Desconectado del chat de partida ${partidaActual}`);
-      setSePuedeEnviar(false);
-    }
-    wsChatGame.onmessage = (event) => {
-      let msg = JSON.parse(event.data);
-      console.log(msg);
-      let todosLosMensajes = JSON.parse(localStorage.getItem("msjsjuego7reinas"));
-      setMsgsGame(todosLosMensajes == null ? [msg] : [...todosLosMensajes, msg]);
-      localStorage.setItem("msjsjuego7reinas", JSON.stringify(todosLosMensajes == null ? [msg] : [...todosLosMensajes, msg]));
-    }
-    wsChatGame.onerror = (error) => {
-      console.log(`Error en el chat de partida ${partidaActual}: ${error}`);
-      setSePuedeEnviar(false);
-    }
-  }
-
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
@@ -127,65 +102,152 @@ const Admin = (props) => {
     return "Brand";
   };
 
-  //console.log(friends);
+  if (partidaActual !== null && partidaActual !== undefined && partidaActual !== "") {
+    const wsGame = new WebSocket(`ws://52.166.36.105:3001/api/ws/partida/${partidaActual}`);
+    wsGame.onopen = () => {
+      console.log(`Conectado a la partida ${partidaActual}`);
+      setSePuedeEnviarGame(true);
+    }
+    wsGame.onclose = () => {
+      console.log(`Desconectado de la partida ${partidaActual}`);
+      setSePuedeEnviar(false);
+    }
+    wsGame.onmessage = (event) => {
+      let mensaje = JSON.parse(event.data);
+      console.log(mensaje);
+    }
+    wsGame.onerror = (error) => {
+      console.log(`Error en la partida ${partidaActual}: ${error}`);
+      setSePuedeEnviar(false);
+    }
+    const wsChatGame = new WebSocket(`ws://52.166.36.105:3001/api/ws/chat/lobby/${partidaActual}`);
+    wsChatGame.onopen = () => {
+      console.log(`Conectado al chat de partida ${partidaActual}`);
+      setSePuedeEnviarGame(true);
+    }
+    wsChatGame.onclose = () => {
+      console.log(`Desconectado del chat de partida ${partidaActual}`);
+      setSePuedeEnviar(false);
+    }
+    wsChatGame.onmessage = (event) => {
+      let msg = JSON.parse(event.data);
+      console.log(msg);
+      let todosLosMensajes = JSON.parse(localStorage.getItem("msjsjuego7reinas"));
+      setMsgsGame(todosLosMensajes == null ? [msg] : [...todosLosMensajes, msg]);
+      localStorage.setItem("msjsjuego7reinas", JSON.stringify(todosLosMensajes == null ? [msg] : [...todosLosMensajes, msg]));
+    }
+    wsChatGame.onerror = (error) => {
+      console.log(`Error en el chat de partida ${partidaActual}: ${error}`);
+      setSePuedeEnviar(false);
+    }
 
-  return (
-    <>
-      <div className="topbar">
-        <UserNavbar
+    return (
+      <>
+        <div className="topbar">
+          <UserNavbar
+            {...props}
+            brandText={getBrandText(props.location.pathname)}
+            logo={{
+              innerLink: "/admin/index",
+              imgSrc: require("../assets/img/brand/large-white.png"),
+              imgAlt: "..."
+            }}
+            sessionUser={sessionUser}
+            informacion_Web={informacion_Web}
+          />
+        </div>
+        <Sidebar
           {...props}
-          brandText={getBrandText(props.location.pathname)}
-          logo={{
-            innerLink: "/admin/index",
-            imgSrc: require("../assets/img/brand/large-white.png"),
-            imgAlt: "..."
-          }}
+          routes={routes}
           sessionUser={sessionUser}
-          informacion_Web={informacion_Web}
+          friends={friends}
+          friendRequests={friendRequests}
+          setChatOpen={setChatOpen}
+          chatUser={chatUser}
+          setChatUser={setChatUser}
+          messages={messages}
+          setMessages={setMessages}
         />
-      </div>
-      <Sidebar
-        {...props}
-        routes={routes}
-        sessionUser={sessionUser}
-        friends={friends}
-        friendRequests={friendRequests}
-        setChatOpen={setChatOpen}
-        chatUser={chatUser}
-        setChatUser={setChatUser}
-        messages={messages}
-        setMessages={setMessages}
-      />
-      <div className="user-content" ref={mainContent}>
-        <Switch>
-          {getRoutes(routes)}
-          <Redirect from="*" to="/admin/index" />
-        </Switch>
-        {/* <Container fluid>
-          <AdminFooter />
-        </Container> */}
-      </div>
-      <Chat
-        {...props}
-        chatOpen={chatOpen}
-        setChatOpen={setChatOpen}
-        chatUser={chatUser}
-        wsChat={wsChat}
-        messages={messages}
-        setMessages={setMessages}
-        sePuedeEnviar={sePuedeEnviar}
-      />
-      <ChatGame
-        {...props}
-        chatOpen={chatGameOpen}
-        setChatOpen={setChatGameOpen}
-        messages={msgsGame}
-        setMessages={setMsgsGame}
-        wsChat={wsChatGame}
-        sePuedeEnviar={sePuedeEnviarGame}
-      />
-    </>
-  );
+        <div className="user-content" ref={mainContent}>
+          <Switch>
+            {getRoutes(routes)}
+            <Redirect from="*" to="/admin/index" />
+          </Switch>
+          {/* <Container fluid>
+            <AdminFooter />
+          </Container> */}
+        </div>
+        <Chat
+          {...props}
+          chatOpen={chatOpen}
+          setChatOpen={setChatOpen}
+          chatUser={chatUser}
+          wsChat={wsChat}
+          messages={messages}
+          setMessages={setMessages}
+          sePuedeEnviar={sePuedeEnviar}
+        />
+        <ChatGame
+          {...props}
+          chatOpen={chatGameOpen}
+          setChatOpen={setChatGameOpen}
+          messages={msgsGame}
+          setMessages={setMsgsGame}
+          wsChat={wsChatGame}
+          sePuedeEnviar={sePuedeEnviarGame}
+        />
+      </>
+    );
+  } else {
+    return (
+      <>
+        <div className="topbar">
+          <UserNavbar
+            {...props}
+            brandText={getBrandText(props.location.pathname)}
+            logo={{
+              innerLink: "/admin/index",
+              imgSrc: require("../assets/img/brand/large-white.png"),
+              imgAlt: "..."
+            }}
+            sessionUser={sessionUser}
+            informacion_Web={informacion_Web}
+          />
+        </div>
+        <Sidebar
+          {...props}
+          routes={routes}
+          sessionUser={sessionUser}
+          friends={friends}
+          friendRequests={friendRequests}
+          setChatOpen={setChatOpen}
+          chatUser={chatUser}
+          setChatUser={setChatUser}
+          messages={messages}
+          setMessages={setMessages}
+        />
+        <div className="user-content" ref={mainContent}>
+          <Switch>
+            {getRoutes(routes)}
+            <Redirect from="*" to="/admin/index" />
+          </Switch>
+          {/* <Container fluid>
+            <AdminFooter />
+          </Container> */}
+        </div>
+        <Chat
+          {...props}
+          chatOpen={chatOpen}
+          setChatOpen={setChatOpen}
+          chatUser={chatUser}
+          wsChat={wsChat}
+          messages={messages}
+          setMessages={setMessages}
+          sePuedeEnviar={sePuedeEnviar}
+        />
+      </>
+    );
+  }
 };
 
 export default Admin;
