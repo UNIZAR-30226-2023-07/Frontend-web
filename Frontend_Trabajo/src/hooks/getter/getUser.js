@@ -18,6 +18,6 @@ export default function getUser (mail, doNext) {
             alert(`Se ha producido un error al obtener los datos del usuario.`);
         }
     }
-    xhr.open('GET', `http://52.166.36.105:3001/api/jugador/get/${mail}`);
+    xhr.open('GET', `http://52.174.124.24:3001/api/jugador/get/${mail}`);
     xhr.send();
 }

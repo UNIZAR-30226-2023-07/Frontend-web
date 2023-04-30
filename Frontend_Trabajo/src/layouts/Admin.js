@@ -45,9 +45,9 @@ const Admin = (props) => {
 	const [messages, setMessages] = useState(JSON.parse(localStorage.getItem("mensajes7reinas")));
 	const [sePuedeEnviarGame, setSePuedeEnviarGame] = useState(false);
   const [msgsGame, setMsgsGame] = useState(JSON.parse(localStorage.getItem("msjsjuego7reinas")));
-  let partidaActual = JSON.parse(localStorage.getItem("juego7reinas"));
+  let partidaActual = JSON.parse(localStorage.getItem("juego7reinas")); //Guarda la calve de la partida actual
 
-  const wsChat = new WebSocket(`ws://52.166.36.105:3001/api/ws/chat/1`);
+  const wsChat = new WebSocket(`ws://52.174.124.24:3001/api/ws/chat/1`);
 
   wsChat.onopen = () => {
     console.log('Conexión abierta');
@@ -103,7 +103,7 @@ const Admin = (props) => {
   };
 
   if (partidaActual !== null && partidaActual !== undefined && partidaActual !== "") {
-    const wsGame = new WebSocket(`ws://52.166.36.105:3001/api/ws/partida/${partidaActual}`);
+    const wsGame = new WebSocket(`ws://52.174.124.24:3001/api/ws/partida/${partidaActual}`);
     wsGame.onopen = () => {
       console.log(`Conectado a la partida ${partidaActual}`);
       setSePuedeEnviarGame(true);
@@ -120,7 +120,7 @@ const Admin = (props) => {
       console.log(`Error en la partida ${partidaActual}: ${error}`);
       setSePuedeEnviar(false);
     }
-    const wsChatGame = new WebSocket(`ws://52.166.36.105:3001/api/ws/chat/lobby/${partidaActual}`);
+    const wsChatGame = new WebSocket(`ws://52.174.124.24:3001/api/ws/chat/lobby/${partidaActual}`);
     wsChatGame.onopen = () => {
       console.log(`Conectado al chat de partida ${partidaActual}`);
       setSePuedeEnviarGame(true);

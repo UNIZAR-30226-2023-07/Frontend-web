@@ -32,6 +32,7 @@ import {
     const json_j_default = '{"Nombre": "Sin jugador", "Foto": 6}';
     const j_default = JSON.parse(json_j_default);
 
+    const [jugadoresPart, setjugadoresPart] = useState(JSON.parse(localStorage.getItem("juego7reinas_j")));
     const [Jugador1, setJugador1] = useState(j_default);
     const [Jugador2, setJugador2] = useState(j_default);
     const [Jugador3, setJugador3] = useState(j_default);
@@ -52,6 +53,10 @@ import {
     const handleJugador4 = jugador => {
       setJugador4(jugador)
     };
+
+    function ini_jugadores () {
+      //getUserByCode(codigo, )---------------------------------
+    }
 
     return (
       <>

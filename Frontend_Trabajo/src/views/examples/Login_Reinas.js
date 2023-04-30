@@ -68,7 +68,7 @@ const Login_Reinas = (props) => {
     })
 
     // Abrimos una request de tipo post en nuestro servidor
-    xhr.open('POST', 'http://52.166.36.105:3001/api/auth/login')
+    xhr.open('POST', 'http://52.174.124.24:3001/api/auth/login')
 
     //Mandamos la request con el email y la contraseña
     xhr.send(JSON.stringify({ email: email, contra: password }))
@@ -108,7 +108,7 @@ const Login_Reinas = (props) => {
       }
     }
     // Abrimos una request de tipo post en nuestro servidor
-    xhr.open('POST', 'http://52.166.36.105:3001/api/auth/login');
+    xhr.open('POST', 'http://52.174.124.24:3001/api/auth/login');
 
     //Mandamos la request con el email y la contraseña
     xhr.send(JSON.stringify({ email: email, contra: encryptedPassword }));

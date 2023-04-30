@@ -19,6 +19,6 @@ export default async function getFriendMessages (user, doNext) {
             alert(`Se ha producido un error al obtener los mensajes.`);
         }
     }
-    xhr.open('GET', `http://52.166.36.105:3001/api/msg/get/${user}`);
+    xhr.open('GET', `http://52.174.124.24:3001/api/msg/get/${user}`);
     xhr.send();
 }
