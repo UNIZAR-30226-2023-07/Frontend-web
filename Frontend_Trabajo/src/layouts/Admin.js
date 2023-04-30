@@ -46,7 +46,7 @@ const Admin = (props) => {
   const [msgsGame, setMsgsGame] = useState(JSON.parse(localStorage.getItem("msjsjuego7reinas")));
   let partidaActual = JSON.parse(localStorage.getItem("juego7reinas"));
 
-  const wsChat = new WebSocket(`ws://52.174.124.24:3001/api/ws/chat/1`);
+  const wsChat = new WebSocket(`ws://52.166.36.105:3001/api/ws/chat/1`);
 
   wsChat.onopen = () => {
     console.log('Conexión abierta');
@@ -63,7 +63,7 @@ const Admin = (props) => {
 
   let wsChatGame;
   if (partidaActual !== null & partidaActual !== undefined && partidaActual !== "")
-    wsChatGame = new WebSocket(`ws://52.174.124.24:3001/api/ws/chat/lobby/${partidaActual}`);
+    wsChatGame = new WebSocket(`ws://52.166.36.105:3001/api/ws/chat/lobby/${partidaActual}`);
 
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;

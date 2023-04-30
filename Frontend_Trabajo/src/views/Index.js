@@ -126,7 +126,7 @@ const Index = (props) => {
       }
     }
     // Abrimos una request de tipo post en nuestro servidor
-    xhr.open('POST', 'http://52.174.124.24:3001/api/partida/crear')
+    xhr.open('POST', 'http://52.166.36.105:3001/api/partida/crear')
         
     //Mandamos la request con el email y la contraseña
     xhr.send(JSON.stringify({ tipo: "amistosa", anfitrion: sessionUser.codigo }))
@@ -165,7 +165,7 @@ const Index = (props) => {
       }
     }
     // Abrimos una request de tipo post en nuestro servidor
-    xhr.open('POST', 'http://52.174.124.24:3001/api/partida/join')
+    xhr.open('POST', 'http://52.166.36.105:3001/api/partida/join')
         
     //Mandamos la request con el email y la contraseña
     xhr.send(JSON.stringify({ codigo: sessionUser.codigo, clave: Clave }))
@@ -242,7 +242,7 @@ const Index = (props) => {
                           <Button variant="primary" color="primary" className="ml-5" onClick={() => {
                             joinGame(sessionUser.codigo, Clave,
                               () => history.push("/admin/lobby_unirse_partida"),
-                              () => setErrorCrear(true)
+                              () => setErrorUnirse(true)
                           )}}>
                             Unirse
                           </Button>

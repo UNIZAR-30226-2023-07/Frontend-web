@@ -17,6 +17,6 @@ export default function joinGame (me, clavePartida, doNext, doOnError) {
             doOnError();
         }
     }
-    xhr.open('POST', `http://52.174.124.24:3001/api/partida/join`);
+    xhr.open('POST', `http://52.166.36.105:3001/api/partida/join`);
     xhr.send(JSON.stringify({ clave: clavePartida, codigo: me }));
 }

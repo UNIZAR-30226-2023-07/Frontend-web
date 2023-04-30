@@ -113,7 +113,7 @@ import {
             }
     
             // Abrimos una request de tipo post en nuestro servidor
-            xhr2.open('GET', `http://52.174.124.24:3001/api/jugador/get/${email}`);
+            xhr2.open('GET', `http://52.166.36.105:3001/api/jugador/get/${email}`);
         
             //Mandamos la request
             xhr2.send();
@@ -123,7 +123,7 @@ import {
           }
         }
         // Abrimos una request de tipo post en nuestro servidor
-        xhr.open('POST', 'http://52.174.124.24:3001/api/auth/register');
+        xhr.open('POST', 'http://52.166.36.105:3001/api/auth/register');
     
         //Mandamos la request con el email y la contraseña
         xhr.send(JSON.stringify({ nombre: name, email: email, contra: encryptedPassword }));

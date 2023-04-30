@@ -15,6 +15,6 @@ export default function denyFriendRequest (me, sender, doNext) {
             alert(`Se ha producido un error al enviar la solicitud de amistad.`);
         }
     }
-    xhr.open('POST', `http://52.174.124.24:3001/api/amistad/deny`);
+    xhr.open('POST', `http://52.166.36.105:3001/api/amistad/deny`);
     xhr.send(JSON.stringify({ emisor: me, receptor: sender }));
 }

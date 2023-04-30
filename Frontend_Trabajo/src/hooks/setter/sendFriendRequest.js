@@ -14,6 +14,6 @@ export default function sendFriendRequest (me, another, doNext, ifFailed) {
             ifFailed();
         }
     }
-    xhr.open('POST', `http://52.174.124.24:3001/api/amistad/add`);
+    xhr.open('POST', `http://52.166.36.105:3001/api/amistad/add`);
     xhr.send(JSON.stringify({ emisor: me, receptor: another }));
 }
