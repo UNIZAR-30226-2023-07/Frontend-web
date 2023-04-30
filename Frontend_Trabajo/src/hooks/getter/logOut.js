@@ -6,5 +6,5 @@ export default function logOut () {
     localStorage.removeItem('msjsjuego7reinas');
     localStorage.removeItem('juego7reinas');
     localStorage.removeItem('juego7reinas_j');
-
+    localStorage.removeItem('pConectada7reinas');
 }

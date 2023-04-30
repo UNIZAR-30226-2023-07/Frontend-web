@@ -21,12 +21,13 @@ import {
   } from "reactstrap";
   import { PropTypes } from "prop-types";
   import React, {useState} from "react"
-  import { Link } from "react-router-dom";
+  import { Link, useHistory } from "react-router-dom";
 
   // core components
   //import UserHeader from "components/Headers/UserHeader.js";
   import Header from "components/Headers/Header.js";
   import SelectImgUser from "hooks/SelectImgUser.js";
+  import iniciarGame from "hooks/setter/iniciarGame";
   
   const Crear_Partida_N = (props) => { 
     const json_j_default = '{"Nombre": "Sin jugador", "Foto": 6}';
@@ -36,6 +37,12 @@ import {
     const [Jugador2, setJugador2] = useState(j_default);
     const [Jugador3, setJugador3] = useState(j_default);
     const [Jugador4, setJugador4] = useState(j_default);
+
+    let sessionUser = JSON.parse(localStorage.getItem("sessionUser"));
+
+    let partidaActual = JSON.parse(localStorage.getItem("juego7reinas")); //Guarda la calve de la partida actual
+
+    const history = useHistory();//Permite cambiar de pantalla
 
     const handleJugador1 = jugador => {
       setJugador1(jugador)
@@ -62,7 +69,15 @@ import {
             <Col className="order-xl-1" xl="11">
               <Card className="bg-secondary shadow ml-7">
                 <CardHeader className="border-0">
+                <Row>
+                <Col>
+
                     <h3 className="mb-0">Jugadores</h3>
+                    </Col>
+                    <Col>
+                      <h4 className="mb-0">Código de partida: {partidaActual}</h4>
+                    </Col>
+                  </Row>
                 </CardHeader>
                 <Row className="mt-3 mb-3">
                   <Col  className="ml-4" lg="5">
@@ -103,10 +118,12 @@ import {
                 <Col lg="5"></Col>
                 <Col lg="5">
                   <p className="mt-4 ml-5">
-                      <Link to= "partida"><Button as={Link} variant="primary" color="primary">
+                      <Button variant="primary" color="primary" onClick={() => {
+                          iniciarGame(sessionUser.codigo, partidaActual,
+                          () => history.push("/admin/partida")
+                        )}}>
                         INICIAR PARTIDA
                       </Button>
-                      </Link>
                   </p>
                 </Col>
               </Row>

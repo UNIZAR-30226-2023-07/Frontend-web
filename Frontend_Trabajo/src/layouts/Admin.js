@@ -46,6 +46,7 @@ const Admin = (props) => {
 	const [sePuedeEnviarGame, setSePuedeEnviarGame] = useState(false);
   const [msgsGame, setMsgsGame] = useState(JSON.parse(localStorage.getItem("msjsjuego7reinas")));
   let partidaActual = JSON.parse(localStorage.getItem("juego7reinas")); //Guarda la calve de la partida actual
+  let pConectada = localStorage.getItem("pConectada7reinas"); //Guarda si ya se ha conectado el websocket de la parrtida
 
   const wsChat = new WebSocket(`ws://52.174.124.24:3001/api/ws/chat/1`);
 
@@ -102,7 +103,10 @@ const Admin = (props) => {
     return "Brand";
   };
 
-  if (partidaActual !== null && partidaActual !== undefined && partidaActual !== "") {
+  if (partidaActual !== null && partidaActual !== undefined && partidaActual !== "" && pConectada == null) {
+
+    localStorage.setItem('pConectada7reinas', true); //Indicamos que se ha conectado a la partida
+
     const wsGame = new WebSocket(`ws://52.174.124.24:3001/api/ws/partida/${partidaActual}`);
     wsGame.onopen = () => {
       console.log(`Conectado a la partida ${partidaActual}`);
@@ -111,14 +115,16 @@ const Admin = (props) => {
     wsGame.onclose = () => {
       console.log(`Desconectado de la partida ${partidaActual}`);
       setSePuedeEnviar(false);
+      localStorage.removeItem('pConectada7reinas');//Permitimos volver a conectar
     }
     wsGame.onmessage = (event) => {
       let mensaje = JSON.parse(event.data);
-      console.log(mensaje);
+      console.log("Mensaje de wsGame: "+JSON.stringify(mensaje));
     }
     wsGame.onerror = (error) => {
       console.log(`Error en la partida ${partidaActual}: ${error}`);
       setSePuedeEnviar(false);
+      localStorage.removeItem('pConectada7reinas');//Permitimos volver a conectar
     }
     const wsChatGame = new WebSocket(`ws://52.174.124.24:3001/api/ws/chat/lobby/${partidaActual}`);
     wsChatGame.onopen = () => {
@@ -128,6 +134,7 @@ const Admin = (props) => {
     wsChatGame.onclose = () => {
       console.log(`Desconectado del chat de partida ${partidaActual}`);
       setSePuedeEnviar(false);
+      localStorage.removeItem('pConectada7reinas');//Permitimos volver a conectar
     }
     wsChatGame.onmessage = (event) => {
       let msg = JSON.parse(event.data);
@@ -139,6 +146,7 @@ const Admin = (props) => {
     wsChatGame.onerror = (error) => {
       console.log(`Error en el chat de partida ${partidaActual}: ${error}`);
       setSePuedeEnviar(false);
+      localStorage.removeItem('pConectada7reinas');//Permitimos volver a conectar
     }
 
     return (
