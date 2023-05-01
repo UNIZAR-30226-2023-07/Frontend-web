@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import { useLocation, Route, Switch, Redirect } from "react-router-dom";
+import { useLocation, Route, Switch, Redirect, useHistory } from "react-router-dom";
 //import WebSocket from "websocket";
 import React, { useState } from "react";
 
@@ -49,6 +49,10 @@ const Admin = (props) => {
   let pConectada = localStorage.getItem("pConectada7reinas"); //Guarda si ya se ha conectado el websocket de la parrtida
 
   const wsChat = new WebSocket(`ws://52.174.124.24:3001/api/ws/chat/1`);
+
+  const history = useHistory();//Permite cambiar de pantalla
+
+  let misDatos = JSON.parse(localStorage.getItem("sessionUser"));
 
   wsChat.onopen = () => {
     console.log('Conexión abierta');
@@ -120,6 +124,38 @@ const Admin = (props) => {
     wsGame.onmessage = (event) => {
       let mensaje = JSON.parse(event.data);
       console.log("Mensaje de wsGame: "+JSON.stringify(mensaje));
+
+      switch ( (mensaje.tipo).substr(0, 13) ) {
+        case "Nuevo_Jugador":
+          let jugadores = JSON.parse(localStorage.getItem("jPartida7reinas"))
+          let nuegoJugador = (mensaje.tipo).substr(15, 13);
+          jugadores.push(nuegoJugador); //Apilamos el nuevo jugador
+
+          console.log("El nuevo jugador: "+(mensaje.tipo).substr(15, 13));
+          console.log("El nuevo jugador 2: "+JSON.stringify(jugadores));
+          localStorage.removeItem("jPartida7reinas");
+          localStorage.setItem("jPartida7reinas", JSON.stringify(jugadores)); //Inicialmnete es vacia
+          break;
+
+        case "Partida_Inici":
+          // console.log("Turno inicial: "+mensaje.turnos[0][0]);
+          // console.log("Turno inicial: "+mensaje.turnos[0][1]);
+          // console.log("Turno inicial: "+mensaje.turnos[1][0]);
+          // console.log("Turno inicial: "+mensaje.turnos[1][1]);
+          mensaje.turnos.forEach(function(elemento, indice) {
+            if(elemento[0] == (misDatos.codigo).toString()){
+              localStorage.setItem("turnoJugador7reinas", JSON.stringify(elemento[1])); //Guardamos nuestro turno como String
+              //console.log("Mi turno: "+elemento[1]);
+            }
+          })
+          //localStorage.setItem("turnoJugador7reinas", JSON.stringify(jugadores)); //Inicialmnete es vacia
+          history.push("/admin/partida")
+          break;
+        
+        default:
+          return 0;
+      }
+  
     }
     wsGame.onerror = (error) => {
       console.log(`Error en la partida ${partidaActual}: ${error}`);

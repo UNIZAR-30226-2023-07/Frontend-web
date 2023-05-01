@@ -20,7 +20,7 @@ import {
     DropdownItem
   } from "reactstrap";
   import { PropTypes } from "prop-types";
-  import React, {useState} from "react"
+  import React, { useEffect, useState} from "react"
   import { Link, useHistory } from "react-router-dom";
 
   // core components
@@ -28,37 +28,106 @@ import {
   import Header from "components/Headers/Header.js";
   import SelectImgUser from "hooks/SelectImgUser.js";
   import iniciarGame from "hooks/setter/iniciarGame";
+  import getUserByCode from "hooks/getter/getUserByCode";
   
   const Crear_Partida_N = (props) => { 
-    const json_j_default = '{"Nombre": "Sin jugador", "Foto": 6}';
+    const json_j_default = '{"nombre": "Sin jugador", "foto": 6}';
+    
     const j_default = JSON.parse(json_j_default);
 
-    const [Jugador1, setJugador1] = useState(j_default);
-    const [Jugador2, setJugador2] = useState(j_default);
-    const [Jugador3, setJugador3] = useState(j_default);
-    const [Jugador4, setJugador4] = useState(j_default);
-
     let sessionUser = JSON.parse(localStorage.getItem("sessionUser"));
+
+    const [Jugador1, setJugador1] = useState(sessionUser);
+    const [nomJug2, setNomJug2] = useState(j_default.nombre);
+    const [fotoJug2, setFotoJug2] = useState(j_default.foto);
+    const [nomJug3, setNomJug3] = useState(j_default.nombre);
+    const [fotoJug3, setFotoJug3] = useState(j_default.foto);
+    const [nomJug4, setNomJug4] = useState(j_default.nombre);
+    const [fotoJug4, setFotoJug4] = useState(j_default.foto);
+
+    const [jugPartida, setjugPartida] = useState(JSON.parse(localStorage.getItem("jPartida7reinas")));
+
 
     let partidaActual = JSON.parse(localStorage.getItem("juego7reinas")); //Guarda la calve de la partida actual
 
     const history = useHistory();//Permite cambiar de pantalla
 
-    const handleJugador1 = jugador => {
-      setJugador1(jugador)
+    const handleJugPartida = () => {
+      setjugPartida(JSON.parse(localStorage.getItem("jPartida7reinas")))
     };
 
-    const handleJugador2 = jugador => {
-      setJugador2(jugador)
-    };
 
-    const handleJugador3 = jugador => {
-      setJugador3(jugador)
-    };
+    //Actualizamos los jugadores en partida
+    //let jPartida = JSON.parse(localStorage.getItem("jPartida7reinas")); //Miramos los jugadores en partida
+    // useEffect(() => {
+    //   console.log("EMPIEZA A CREAR------");
+    //   if(jugPartida != null  && jugPartida != []){
+    //     let datos_user;
+    //     jugPartida.forEach((elemento, indice) => {
+    //       let newJug;
+    //       if(indice == 0){
+    //         datos_user = JSON.parse(getUserByCode(elemento, newJug));
+    //         ///newJug = JSON.parse(localStorage.getItem("jGetUser7reinas"));
+    //         console.log("Datos recibidos por getUserCode " + datos_user.nombre + "   "+datos_user.foto);
+    //         setNomJug2(datos_user.nombre);
+    //         setFotoJug2(datos_user.foto);
+    //         console.log("EMPIEZA A CREAR 0");
+    //       } else if(indice == 1){
+    //         getUserByCode(elemento, newJug)
+    //         newJug = JSON.parse(localStorage.getItem("jGetUser7reinas"));
+    //         setNomJug3(newJug.nombre);
+    //         setFotoJug3(newJug.foto);
+    //         console.log("EMPIEZA A CREAR 2");
+    //       } else if(indice == 2){
+    //         getUserByCode(elemento, newJug)
+    //         newJug = JSON.parse(localStorage.getItem("jGetUser7reinas"));
+    //         setNomJug4(newJug.nombre);
+    //         setFotoJug4(newJug.foto);
+    //         console.log("EMPIEZA A CREAR 3");
+    //       } else {
+    //         console.log("EMPIEZA A CREAR 4");
+    //       }
+    //     })
+    //   }
+    // });
+  
 
-    const handleJugador4 = jugador => {
-      setJugador4(jugador)
-    };
+    // jugPartida.map((elemento, indice) => {
+    //   let newJug;
+    //   if(indice == 0){
+    //     getUserByCode(elemento, newJug)
+    //     newJug = JSON.parse(localStorage.getItem("jGetUser7reinas"));
+    //     setNomJug2(newJug.nombre);
+    //     setFotoJug2(newJug.foto);
+    //     console.log("EMPIEZA A CREAR 0");
+    //   } else if(indice == 1){
+    //     getUserByCode(elemento, newJug)
+    //     newJug = JSON.parse(localStorage.getItem("jGetUser7reinas"));
+    //     setNomJug3(newJug.nombre);
+    //     setFotoJug3(newJug.foto);
+    //     console.log("EMPIEZA A CREAR 2");
+    //   } else if(indice == 2){
+    //     getUserByCode(elemento, newJug)
+    //     newJug = JSON.parse(localStorage.getItem("jGetUser7reinas"));
+    //     setNomJug4(newJug.nombre);
+    //     setFotoJug4(newJug.foto);
+    //     console.log("EMPIEZA A CREAR 3");
+    //   } else {
+    //     console.log("EMPIEZA A CREAR 4");
+    //   }
+    // });
+    //jPartida.push("3");
+    // if(jPartida != null  && jPartida != []){
+    //   jPartida.forEach(function(elemento, indice, array) {
+    //     if(indice == 1){
+    //       getUserByCode(elemento, Jugador2);
+    //     } else if(indice == 2){
+    //       getUserByCode(elemento, Jugador3);
+    //     } else if(indice == 3){
+    //       getUserByCode(elemento, Jugador4);
+    //     }
+    //   })
+    // }
 
     return (
       <>
@@ -75,7 +144,7 @@ import {
                     <h3 className="mb-0">Jugadores</h3>
                     </Col>
                     <Col>
-                      <h4 className="mb-0">Código de partida: {partidaActual}</h4>
+                      <h4 className="mb-0">Código de partida: {partidaActual}{JSON.stringify(jugPartida)}</h4>
                     </Col>
                   </Row>
                 </CardHeader>
@@ -84,33 +153,33 @@ import {
                       <img
                         alt="..."
                         className="avatar-lg rounded-circle mr-3"
-                        src={SelectImgUser(Jugador1.Foto)}
+                        src={SelectImgUser(Jugador1.foto)}
                       />
-                      <span className="mt-6">{Jugador1.Nombre}</span>
+                      <span className="mt-6">{Jugador1.nombre}</span>
                   </Col>
                   <Col  className="ml-4" lg="5">
                     <img
                       alt="..."
                       className="avatar-lg rounded-circle mr-3"
-                      src={SelectImgUser(Jugador2.Foto)}
+                      src={SelectImgUser(fotoJug2)}
                     />
-                      <span className="mt-6">{Jugador2.Nombre}</span>
+                      <span className="mt-6">{nomJug2}</span>
                   </Col>
                   <Col  className="ml-4 mt-3" lg="5">
                     <img
                       alt="..."
                       className="avatar-lg rounded-circle mr-3"
-                      src={SelectImgUser(Jugador3.Foto)}
+                      src={SelectImgUser(fotoJug3)}
                     />
-                    <span className="mt-6">{Jugador3.Nombre}</span>
+                    <span className="mt-6">{nomJug3}</span>
                   </Col>
                   <Col  className="ml-4 mt-3" lg="5">
                     <img
                       alt="..."
                       className="avatar-lg rounded-circle mr-3"
-                      src={SelectImgUser(Jugador4.Foto)}
+                      src={SelectImgUser(fotoJug4)}
                     />
-                      <span className="mt-6">{Jugador4.Nombre}</span>
+                      <span className="mt-6">{nomJug4}</span>
                   </Col>
                 </Row>
               </Card>

@@ -13,7 +13,9 @@ export default function joinGame (me, clavePartida, doNext, doOnError) {
             const datosJugadores = JSON.parse(xhr.response);
 
             localStorage.setItem('juego7reinas', clavePartida);
-            localStorage.setItem('juego7reinas_j', JSON.stringify(datosJugadores.jugadores)); //Guarda el código de los jugadores conectados
+            // let jugadoresPart = datosJugadores.jugadores;
+            // console.log("Datos de jugadores JOIN:" + JSON.stringify(jugadoresPart));
+            localStorage.setItem("jPartida7reinas", JSON.stringify(datosJugadores.jugadores)); ////Guarda el código de los jugadores conectados
             doNext();
         } else {
             doOnError();
