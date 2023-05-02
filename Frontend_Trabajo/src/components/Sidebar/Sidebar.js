@@ -259,11 +259,13 @@ const Sidebar = (props) => {
     }
   };
   const notSeenMsgs = (friend, messages) => {
-    let notSeen = 0;
-    messages.forEach((msg) => {
-      if (msg.Emisor == friend && msg.Leido == 0) notSeen++;
-    });
-    if (notSeen > 0) return (<span> ({notSeen})</span>);
+    if (messages !== null) {
+      let notSeen = 0;
+      messages.forEach((msg) => {
+        if (msg.Emisor == friend && msg.Leido == 0) notSeen++;
+      });
+      if (notSeen > 0) return (<span> ({notSeen})</span>);
+    }
   };
   // creates the links that appear in the right menu / Sidebar
   const showFriends = () => {

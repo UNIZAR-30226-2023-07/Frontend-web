@@ -40,12 +40,13 @@ const Chat = (props) => {
 
 	let { chatOpen, setChatOpen, chatUser, messages, setMessages, sePuedeEnviar, wsChat } = props;
 
-	wsChat.onmessage = (event) => {
-		let msg = JSON.parse(event.data);
-		msg = {Emisor: msg.emisor, Receptor: msg.receptor, Contenido: msg.contenido, Leido: (chatUser>=0 && friends[chatUser].Codigo===msg.emisor) ? 1 : 0};
-		setMessages(messages === null ? [msg] : [...messages, msg]);
-		localStorage.setItem("mensajes7reinas", JSON.stringify(messages === null ? [msg] : [...messages, msg]));
-	}
+	// if (wsChat)
+	// 	wsChat.onmessage = (event) => {
+	// 		let msg = JSON.parse(event.data);
+	// 		msg = {Emisor: msg.emisor, Receptor: msg.receptor, Contenido: msg.contenido, Leido: (chatUser>=0 && friends[chatUser].Codigo===msg.emisor) ? 1 : 0};
+	// 		setMessages(messages === null ? [msg] : [...messages, msg]);
+	// 		localStorage.setItem("mensajes7reinas", JSON.stringify(messages === null ? [msg] : [...messages, msg]));
+	// }
 
 	const handleMsgChange = event => {
 		setMessage(event.target.value);

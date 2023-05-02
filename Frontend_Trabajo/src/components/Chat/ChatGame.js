@@ -34,7 +34,7 @@ const ChatGame = (props) => {
 				);
 			else
 				return (
-					<Row className="ml-0 mr-0">
+					<Row className="ml-0 mr-0" key={key}>
 						<Col className="chat-icon ml--2 mr--1">
 							<span className="avatar avatar-sm rounded-circle">
 								<img
