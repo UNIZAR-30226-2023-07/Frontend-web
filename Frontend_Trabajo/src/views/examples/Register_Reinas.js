@@ -19,6 +19,10 @@ import {
   import React, {useState} from "react"
   import { Link, useHistory } from "react-router-dom";
   import encryptPassword from "hooks/encryptPassword";
+  import getUser from "hooks/getter/getUser";
+  import getFriends from "hooks/getter/getFriends";
+  import getFriendRequests from "hooks/getter/getFriendRequests";
+  import getFriendMessages from "hooks/getter/getFriendMessages";
 
   
   const Register = (props) => {
@@ -35,45 +39,13 @@ import {
     const history = useHistory();
     
     //Guardar el cambio en los atributos
-    const handleEmailChange = event => {
-      setEmail(event.target.value)
-    };
+    const handleEmailChange = event => { setEmail(event.target.value) };
   
-    const handlePasswordChange = event => {
-      setPassword(event.target.value)
-    };
+    const handlePasswordChange = event => { setPassword(event.target.value) };
   
-    const handlePassword2Change = event => {
-      setPassword2(event.target.value)
-    };
+    const handlePassword2Change = event => { setPassword2(event.target.value) };
   
-    const handleNameChange = event => {
-      setName(event.target.value)
-    };
-    
-    //Submit al servidor
-    const registerSubmit = event => {
-      event.preventDefault();
-      alert(`Your state values:
-              email: ${email}
-              password: ${password}
-              name: ${name}
-              Se ha mandado al servidor la información`);
-  
-      //Petición http
-      var xhr = new XMLHttpRequest()
-      xhr.addEventListener('load', () => {
-        // update the state of the component with the result here
-        //console.log(xhr.responseText)
-      })
-  
-      // Abrimos una request de tipo post en nuestro servidor
-      xhr.open('POST', 'http://localhost:3001/api/auth/register')
-      
-      //Mandamos la request con el email y la contraseña
-      xhr.send(JSON.stringify({ name: name, email: email , password: password }))
-  
-    };
+    const handleNameChange = event => { setName(event.target.value) };
 
     const register_user = event => {
       event.preventDefault();
@@ -82,41 +54,22 @@ import {
         let encryptedPassword = encryptPassword(password);
         let xhr = new XMLHttpRequest();
         xhr.addEventListener('load', () => {
-          // update the state of the component with the result here
-          //console.log(xhr.responseText);
+
         })
     
         xhr.onload = function () { //Se dispara cuando se recibe la respuesta del servidor
           //console.log(xhr.status);
           if (xhr.status === 202) { //Si recibe un OK
-            let xhr2 = new XMLHttpRequest()
-            xhr2.addEventListener('load', () => {
-              // update the state of the component with the result here
-              //console.log(xhr.responseText);
-            })
-            xhr2.onload = function () {
-              if (xhr2.status === 200) {
-                const datosUsuario = JSON.parse(xhr2.response);
-                //console.log(datosUsuario);
-                sessionUser.nick = datosUsuario.nombre;
-                sessionUser.email = email;
-                sessionUser.codigo = datosUsuario.codigo;
-                sessionUser.won = datosUsuario.pganadas;
-                sessionUser.lost = datosUsuario.pjugadas - datosUsuario.pganadas;
-                sessionUser.picture = datosUsuario.foto;
-                sessionUser.descrp = datosUsuario.descrp;
-                sessionUser.puntos = datosUsuario.puntos;
-                history.push("/admin/");
-              } else {
-                alert(`Se ha producido un error al obtener los datos de usuario, vuelve a intentarlo.`);
-              }
-            }
-    
-            // Abrimos una request de tipo post en nuestro servidor
-            xhr2.open('GET', `http://52.174.124.24:3001/api/jugador/get/${email}`);
-        
-            //Mandamos la request
-            xhr2.send();
+            getUser(email, () => {
+              let sessionUser = JSON.parse(localStorage.getItem('sessionUser'));
+              getFriends(sessionUser.codigo, () => {
+                getFriendRequests(sessionUser.codigo, () => {
+                  getFriendMessages(sessionUser.codigo, () => {
+                    history.push("/admin/");
+                  });
+                })
+              });
+            });
             
           } else {
             alert(`Se ha producido un error al registrarse, vuelve a intentarlo.`);

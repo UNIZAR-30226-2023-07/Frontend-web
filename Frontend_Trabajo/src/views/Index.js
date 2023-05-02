@@ -96,82 +96,6 @@ const Index = (props) => {
     setChartExample1Data("data" + index);
   };
 
-  const crear_partida = () => {
-    // alert(`Your state values: 
-    //       Codigo: ${sessionUser.codigo} 
-    //       Se ha mandado al servidor la información`);
-    
-    //Petición http
-    var xhr = new XMLHttpRequest()
-    xhr.addEventListener('load', () => {
-    // update the state of the component with the result here
-      //console.log(xhr.responseText)
-    })
-    
-    xhr.onload = function() { //Se dispara cuando se recibe la respuesta del servidor
-
-      const respuesta = JSON.parse(xhr.response);
-      
-      if(xhr.status === 202 || xhr.status === 200){ //Si recibe un OK
-
-        console.log(respuesta);
-
-        localStorage.setItem('code_partida_actual', JSON.stringify(respuesta.clave)); //Guardamos la clave de la partida
-        
-        history.push("/admin/crear_partida_n");
-        
-      } else {
-        //alert(`No se ha podido crear una partida`);
-        setErrorCrear(true);
-      }
-    }
-    // Abrimos una request de tipo post en nuestro servidor
-    xhr.open('POST', 'http://52.174.124.24:3001/api/partida/crear')
-        
-    //Mandamos la request con el email y la contraseña
-    xhr.send(JSON.stringify({ tipo: "amistosa", anfitrion: sessionUser.codigo }))
-  };
-
-  const unirse_partida = () => {
-    // alert(`Your state values: 
-    //        Codigo: ${sessionUser.codigo}
-    //        Se ha mandado al servidor la información`);
-    
-    //Petición http
-    var xhr = new XMLHttpRequest()
-    xhr.addEventListener('load', () => {
-    // update the state of the component with the result here
-      //console.log(xhr.responseText)
-    })
-    
-    xhr.onload = function() { //Se dispara cuando se recibe la respuesta del servidor
-      
-      if( (xhr.status === 202 || xhr.status === 200)){ //Si recibe un OK
-
-        const respuesta = JSON.parse(xhr.response);
-
-        if( respuesta.res === "ok"){
-          //Mostramos por consola la respuesta recibida del servidor
-          console.log(respuesta);
-
-          localStorage.setItem('code_partida_actual', JSON.stringify(respuesta.clave)); //Guardamos la clave de la partida
-          
-          history.push("/admin/lobby_unirse_partida");
-        }
-        
-      } else {
-        //alert(`No se ha podido unir a la partida`);
-        setErrorUnirse(true);
-      }
-    }
-    // Abrimos una request de tipo post en nuestro servidor
-    xhr.open('POST', 'http://52.174.124.24:3001/api/partida/join')
-        
-    //Mandamos la request con el email y la contraseña
-    xhr.send(JSON.stringify({ codigo: sessionUser.codigo, clave: Clave }))
-  };
-
-
   //Función para mostrar el ranking
   const showRanking_jug = () => {
     if (ranking_jug == null) {
@@ -201,14 +125,10 @@ const Index = (props) => {
     });
   };
 
+  let { setGame } = props;
+
   return (
     <>
-      {/* <Header /> */}
-      {/* Page content */}
-
-
-
-      <>
       <div className="pt-md-5">
         <Container fluid>
           <div className="header-body">
@@ -267,7 +187,10 @@ const Index = (props) => {
                       <Col xs="6">
                         <Button className="ml-4" color="primary" onClick={() => {
                           createGame(sessionUser.codigo, "amistosa",
-                            () => history.push("/admin/crear_partida_n"),
+                            () => {
+                              setGame(localStorage.getItem("juego7reinas"));
+                              history.push("/admin/crear_partida_n")
+                            },
                             () => setErrorCrear(true)
                         )}}>
                           Partida Normal
@@ -276,7 +199,10 @@ const Index = (props) => {
                       <Col xs="6">
                         <Button className="ml-3" color="primary" onClick={() => {
                           createGame(sessionUser.codigo, "torneo",
-                            () => history.push("/admin/crear_partida_n"),
+                            () => {
+                              setGame(localStorage.getItem("juego7reinas"));
+                              history.push("/admin/crear_partida_n")
+                            },
                             () => setErrorCrear(true)
                         )}}>
                           Partida Clasificatoria
@@ -347,7 +273,6 @@ const Index = (props) => {
           </div>
         </Container>
       </div>
-    </>
 
 
 

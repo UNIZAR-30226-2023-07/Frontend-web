@@ -4,33 +4,22 @@ import {
     CardHeader,
     CardBody,
     FormGroup,
-    Form,
     Input,
     Table,
-    Media,
-    Badge,
     Container,
     Row,
     Col,
-    UncontrolledTooltip,
-    UncontrolledDropdown,
-    DropdownToggle,
-    Progress,
-    DropdownMenu,
-    DropdownItem
   } from "reactstrap";
-  import { PropTypes } from "prop-types";
 
-  import React, {useState} from "react"
+  import React, { useState } from "react"
 
-  import { BrowserRouter, Route, Switch, Redirect, Link, useHistory} from "react-router-dom";
+  import { useHistory } from "react-router-dom";
 
   import getUser from "hooks/getter/getUser";
 
 
   // core components
   //import UserHeader from "components/Headers/UserHeader.js";
-  import Header from "components/Headers/Header.js";
   import PepoClown from "../../assets/img/Imgs_7_Reinas/pepoclown.jpg";
   import Slifer from "../../assets/img/Imgs_7_Reinas/Slifer_sky_dragon.png";
   import Bot from "../../assets/img/Imgs_7_Reinas/bot.jpg";
@@ -43,11 +32,11 @@ import {
   const Ajustes_Perfil = (props) => {
     const history = useHistory();
 
-    let sessionUser = JSON.parse(localStorage.getItem("sessionUser"));
+    let { sessionUser, setSessionUser } = props;
 
-    const [Imagen, setImagen] = useState(sessionUser.foto);
     const [Nombre_U, setNombre_U] = useState(sessionUser.nombre);
     const [Descrp_U, setDescrp_U] = useState(sessionUser.descrp);
+    const [Imagen, setImagen] = useState(sessionUser.foto);
 
     const handleNombre_UChange = event => {
       setNombre_U(event.target.value)
@@ -60,12 +49,12 @@ import {
 
   //Submit al servidor
   const modificar_usuario = () => {
-    alert(`Your state values: 
-          Imagen: ${Imagen} 
-          Nombre: ${Nombre_U}
-          Email: ${sessionUser.correo}
-          Descrp: ${Descrp_U}
-          Se ha mandado al servidor la información`);
+    // alert(`Your state values: 
+    //       Imagen: ${Imagen} 
+    //       Nombre: ${Nombre_U}
+    //       Email: ${sessionUser.correo}
+    //       Descrp: ${Descrp_U}
+    //       Se ha mandado al servidor la información`);
     
     //Petición http
     var xhr = new XMLHttpRequest()
@@ -80,11 +69,12 @@ import {
 
       if(xhr.status === 202 && respuesta.res === "ok"){ //Si recibe un OK
         getUser(sessionUser.correo, () => {
+          setSessionUser(JSON.parse(localStorage.getItem("sessionUser")));
           history.push("/admin/perfil_usuario");
         });
         //history.push("/admin/perfil_usuario");
       } else {
-        alert(`Se a producido un error, vuelve a intentarlo`);
+        alert(`Se ha producido un error, vuelve a intentarlo`);
       }
     }
     // Abrimos una request de tipo post en nuestro servidor
@@ -215,7 +205,7 @@ import {
                           </label>
                           <Input
                             className="form-control-alternative"
-                            defaultValue={sessionUser.nombre}
+                            // defaultValue={sessionUser.nombre}
                             id="input-nombre_usiario"
                             placeholder="Usuario"
                             type="text"
@@ -236,7 +226,7 @@ import {
                           </label>
                           <Input
                             className="form-control-alternative"
-                            defaultValue={sessionUser.descrp}
+                            // defaultValue={sessionUser.descrp}
                             id="input-descrip"
                             placeholder="Descripción"
                             type="text"

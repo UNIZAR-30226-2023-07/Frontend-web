@@ -19,9 +19,9 @@ import { useLocation, Route, Switch, Redirect, useHistory } from "react-router-d
 //import WebSocket from "websocket";
 import React, { useState, useEffect, useMemo } from "react";
 
-import { w3cwebsocket as W3CWebSocket } from "websocket";
+////import { w3cwebsocket as W3CWebSocket } from "websocket";
 // reactstrap components
-import { Container } from "reactstrap";
+//import { Container } from "reactstrap";
 // core components
 import UserNavbar from "components/Navbars/UserNavbar.js";
 import AdminFooter from "components/Footers/AdminFooter.js";
@@ -30,8 +30,8 @@ import Chat from "components/Chat/Chat.js";
 import ChatGame from "components/Chat/ChatGame.js";
 
 import routes from "routes.js";
-import friends from "friends.js";
-import friendRequests from "friendRequests.js";
+//import friends from "friends.js";
+//import friendRequests from "friendRequests.js";
 import informacion_Web from "informacion_Web.js";
 
 const Admin = (props) => {
@@ -40,6 +40,7 @@ const Admin = (props) => {
   const [friends, setFriends] = useState(JSON.parse(localStorage.getItem("amigxs7reinas")));
   const [friendRequests, setFriendRequests] = useState(JSON.parse(localStorage.getItem("solicitudes7reinas")));
   const [sessionUser, setSessionUser] = useState(JSON.parse(localStorage.getItem("sessionUser")));
+  const [currentGame, setCurrentGame] = useState(JSON.parse(localStorage.getItem("juego7reinas")));
 	const [chatOpen, setChatOpen] = useState(false);
 	const [chatGameOpen, setChatGameOpen] = useState(false);
   const [chatUser, setChatUser] = useState(-1);
@@ -50,7 +51,6 @@ const Admin = (props) => {
   const [wsGame, setWsGame] = useState(null);
   const [wsChat, setWsChat] = useState(null);
   const [wsGameChat, setWsGameChat] = useState(null);
-  let partidaActual = JSON.parse(localStorage.getItem("juego7reinas")); //Guarda la calve de la partida actual
 
   const history = useHistory();//Permite cambiar de pantalla
 
@@ -80,18 +80,18 @@ const Admin = (props) => {
       return ws;
     }
     return wsChat;
-  }, [wsChat]);
+  }, [wsChat, chatOpen, chatUser, friends, sessionUser.codigo]);
 
   const wsGameInstance = useMemo(() => {
-    if (!wsGame) {
-      const ws = new WebSocket(`ws://52.174.124.24:3001/api/ws/partida/${partidaActual}`);
+    if (!wsGame/* && currentGame !== null && currentGame !== undefined && currentGame !== ""*/) {
+      const ws = new WebSocket(`ws://52.174.124.24:3001/api/ws/partida/${currentGame}`);
       ws.onopen = () => {
-        console.log(`Conectado a la partida ${partidaActual}`);
+        console.log(`Conectado a la partida ${currentGame}`);
         setSePuedeEnviarGame(true);
         setWsGame(ws);
       }
       ws.onclose = () => {
-        console.log(`Desconectado de la partida ${partidaActual}`);
+        console.log(`Desconectado de la partida ${currentGame}`);
       }
       ws.onmessage = (event) => {
         let mensaje = JSON.parse(event.data);
@@ -115,7 +115,7 @@ const Admin = (props) => {
             // console.log("Turno inicial: "+mensaje.turnos[1][0]);
             // console.log("Turno inicial: "+mensaje.turnos[1][1]);
             mensaje.turnos.forEach(function(elemento, indice) {
-              if(elemento[0] == (sessionUser.codigo).toString()){
+              if(elemento[0] === (sessionUser.codigo).toString()){
                 localStorage.setItem("turnoJugador7reinas", JSON.stringify(elemento[1])); //Guardamos nuestro turno como String
                 //console.log("Mi turno: "+elemento[1]);
               }
@@ -135,21 +135,21 @@ const Admin = (props) => {
       return ws;
     }
     return wsGame;
-  }, [wsGame]);
+  }, [wsGame, sessionUser.codigo, currentGame, history]);
 
   const wsGameChatInstance = useMemo(() => {
-    if (!wsGameChat) {
-      const ws = new WebSocket(`ws://52.174.124.24:3001/api/ws/chat/lobby/${partidaActual}`);
+    if (!wsGameChat/* && currentGame !== null && currentGame !== undefined && currentGame !== ""*/) {
+      const ws = new WebSocket(`ws://52.174.124.24:3001/api/ws/chat/lobby/${currentGame}`);
       ws.onopen = () => {
-        console.log(`Conectado al chat de la partida ${partidaActual}`);
+        console.log(`Conectado al chat de la partida ${currentGame}`);
         setWsGameChat(ws);
       }
       ws.onclose = () => {
-        console.log(`Desconectado del chat de la partida ${partidaActual}`);
+        console.log(`Desconectado del chat de la partida ${currentGame}`);
       }
       ws.onmessage = (event) => {
         let msg = JSON.parse(event.data);
-        console.log(msg);
+        //console.log(msg);
         let todosLosMensajes = JSON.parse(localStorage.getItem("msjsjuego7reinas"));
         setMsgsGame(todosLosMensajes == null ? [msg] : [...todosLosMensajes, msg]);
         localStorage.setItem("msjsjuego7reinas", JSON.stringify(todosLosMensajes == null ? [msg] : [...todosLosMensajes, msg]));
@@ -160,7 +160,7 @@ const Admin = (props) => {
       return ws;
     }
     return wsGameChat;
-  }, [wsGameChat]);
+  }, [wsGameChat, currentGame]);
 
 
   useEffect(() => {
@@ -181,7 +181,7 @@ const Admin = (props) => {
         setWsGameChat(null);
       }
     }
-  }, [wsChatInstance, wsGameInstance, wsGameChatInstance]);
+  }, [location, wsChatInstance, wsGameInstance, wsGameChatInstance]);
 
 
   const getRoutes = (routes) => {
@@ -193,9 +193,11 @@ const Admin = (props) => {
             // Añadir props: https://ui.dev/react-router-pass-props-to-components
             render={(props) => <prop.component
                                   {...props}
-                                  sessionUser={sessionUser} 
+                                  sessionUser={sessionUser}
+                                  setSessionUser={setSessionUser}
                                   friends={friends}
                                   friendRequests={friendRequests}
+                                  setGame={setCurrentGame}
                                 /> }
             key={key}
           />
@@ -218,7 +220,7 @@ const Admin = (props) => {
     return "Brand";
   };
 
-  if (partidaActual !== null && partidaActual !== undefined && partidaActual !== "") {
+  if (currentGame !== null && currentGame !== undefined && currentGame !== "") {
 
     return (
       <>
@@ -240,7 +242,9 @@ const Admin = (props) => {
           routes={routes}
           sessionUser={sessionUser}
           friends={friends}
+          setFriends={setFriends}
           friendRequests={friendRequests}
+          setFriendRequests={setFriendRequests}
           setChatOpen={setChatOpen}
           chatUser={chatUser}
           setChatUser={setChatUser}

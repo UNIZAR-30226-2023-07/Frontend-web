@@ -68,11 +68,7 @@ const Sidebar = (props) => {
   const [newFriend, setNewFriend] = useState("");
   const [addFriendState, setAddFriendState] = useState("");
 
-  const [sessionUser, setSessionUser] = useState(JSON.parse(localStorage.getItem("sessionUser")));
-  const [friends, setFriends] = useState(JSON.parse(localStorage.getItem("amigxs7reinas")));
-  const [friendRequests, setFriendRequests] = useState(JSON.parse(localStorage.getItem("solicitudes7reinas")));
-
-  const { setChatOpen, chatUser, setChatUser, messages, setMessages } = props;
+  const { sessionUser, setChatOpen, chatUser, setChatUser, messages, setMessages, friends, setFriends, friendRequests, setFriendRequests } = props;
 
   const updateFriends = () => {
     getFriends(sessionUser.codigo, () => {
