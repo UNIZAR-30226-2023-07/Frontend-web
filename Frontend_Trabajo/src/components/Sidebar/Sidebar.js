@@ -68,7 +68,7 @@ const Sidebar = (props) => {
   const [newFriend, setNewFriend] = useState("");
   const [addFriendState, setAddFriendState] = useState("");
 
-  const { sessionUser, setChatOpen, chatUser, setChatUser, messages, setMessages, friends, setFriends, friendRequests, setFriendRequests } = props;
+  let { sessionUser, setChatOpen, chatUser, setChatUser, messages, setMessages, friends, setFriends, friendRequests, setFriendRequests } = props;
 
   const updateFriends = () => {
     getFriends(sessionUser.codigo, () => {

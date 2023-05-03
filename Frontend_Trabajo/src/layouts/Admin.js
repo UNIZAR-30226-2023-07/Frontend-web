@@ -33,14 +33,16 @@ import routes from "routes.js";
 //import friends from "friends.js";
 //import friendRequests from "friendRequests.js";
 import informacion_Web from "informacion_Web.js";
+import getUserForGame from "hooks/getter/getUserForGame";
 
 const Admin = (props) => {
   const mainContent = React.useRef(null);
   const location = useLocation();
   const [friends, setFriends] = useState(JSON.parse(localStorage.getItem("amigxs7reinas")));
   const [friendRequests, setFriendRequests] = useState(JSON.parse(localStorage.getItem("solicitudes7reinas")));
-  const [sessionUser, setSessionUser] = useState(JSON.parse(localStorage.getItem("sessionUser")));
+  const [sessionUser, setSessionUser] = useState(JSON.parse(localStorage.getItem("usuario7reinas")));
   const [currentGame, setCurrentGame] = useState(JSON.parse(localStorage.getItem("juego7reinas")));
+  const [players, setPlayers] = useState(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
 	const [chatOpen, setChatOpen] = useState(false);
 	const [chatGameOpen, setChatGameOpen] = useState(false);
   const [chatUser, setChatUser] = useState(-1);
@@ -95,18 +97,23 @@ const Admin = (props) => {
       }
       ws.onmessage = (event) => {
         let mensaje = JSON.parse(event.data);
-        console.log("Mensaje de wsGame: "+JSON.stringify(mensaje));
+        console.log("Mensaje de wsGame:");
+        console.log(mensaje);
 
-        switch ( (mensaje.tipo).substr(0, 13) ) {
+        switch ( (mensaje.tipo).substring(0, 13) ) {
           case "Nuevo_Jugador":
-            let jugadores = JSON.parse(localStorage.getItem("jPartida7reinas"))
-            let nuegoJugador = (mensaje.tipo).substr(15, 13);
-            jugadores.push(nuegoJugador); //Apilamos el nuevo jugador
+            let nuevoJugador = (mensaje.tipo).substring(15);
+            getUserForGame(nuevoJugador, () => {
+              let newPlayers = players.push(nuevoJugador);
+              console.log(newPlayers);
+              setPlayers(newPlayers);
+              console.log(nuevoJugador);
+              console.log("El nuevo jugador: "+(mensaje.tipo).substring(15));
+              console.log("El nuevo jugador 2: "+JSON.stringify(players));
+              localStorage.setItem("jugadorxs7reinas", JSON.stringify(players)); //Inicialmnete es vacia
+            });
+            //setPlayers(players.push(nuevoJugador)); //Apilamos el nuevo jugador
 
-            console.log("El nuevo jugador: "+(mensaje.tipo).substr(15, 13));
-            console.log("El nuevo jugador 2: "+JSON.stringify(jugadores));
-            localStorage.removeItem("jPartida7reinas");
-            localStorage.setItem("jPartida7reinas", JSON.stringify(jugadores)); //Inicialmnete es vacia
             break;
 
           case "Partida_Inici":
@@ -198,6 +205,8 @@ const Admin = (props) => {
                                   friends={friends}
                                   friendRequests={friendRequests}
                                   setGame={setCurrentGame}
+                                  players={players}
+                                  setPlayers={setPlayers}
                                 /> }
             key={key}
           />
@@ -269,9 +278,12 @@ const Admin = (props) => {
           messages={messages}
           setMessages={setMessages}
           sePuedeEnviar={sePuedeEnviar}
+          sessionUser={sessionUser}
+          friends={friends}
         />
         <ChatGame
           {...props}
+          sessionUser={sessionUser}
           chatOpen={chatGameOpen}
           setChatOpen={setChatGameOpen}
           messages={msgsGame}
@@ -302,7 +314,9 @@ const Admin = (props) => {
           routes={routes}
           sessionUser={sessionUser}
           friends={friends}
+          setFriends={setFriends}
           friendRequests={friendRequests}
+          setFriendRequests={setFriendRequests}
           setChatOpen={setChatOpen}
           chatUser={chatUser}
           setChatUser={setChatUser}
@@ -327,6 +341,8 @@ const Admin = (props) => {
           messages={messages}
           setMessages={setMessages}
           sePuedeEnviar={sePuedeEnviar}
+          sessionUser={sessionUser}
+          friends={friends}
         />
       </>
     );

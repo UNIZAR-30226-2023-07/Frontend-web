@@ -32,13 +32,11 @@ console.log(cookies.get('myCat')); // Pacman
 */
 
 
-const Login_Reinas = (props) => {
+const Login_Reinas = () => {
 
   //Cosas que vamos a guardar para el formulario
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
-  let { sessionUser, friends } = props;
 
   //Elemento para cambiar de pantalla de forma imperativa
   const history = useHistory();
@@ -93,7 +91,7 @@ const Login_Reinas = (props) => {
       //console.log(xhr.status);
       if (xhr.status === 202) { //Si recibe un OK
         getUser(email, () => {
-          let sessionUser = JSON.parse(localStorage.getItem('sessionUser'));
+          let sessionUser = JSON.parse(localStorage.getItem('usuario7reinas'));
           getFriends(sessionUser.codigo, () => {
             getFriendRequests(sessionUser.codigo, () => {
               getFriendMessages(sessionUser.codigo, () => {

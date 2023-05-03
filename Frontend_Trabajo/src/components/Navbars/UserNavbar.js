@@ -53,7 +53,7 @@ import logOut from "hooks/getter/logOut.js";
 const UserNavbar = (props) => {
 
   const { bgColor, logo, informacion_Web} = props;
-  let sessionUser = JSON.parse(localStorage.getItem("sessionUser"));
+  let sessionUser = JSON.parse(localStorage.getItem("usuario7reinas"));
 
   //Variable que guarda el volumen de la música
   const [Volumen_mus, setVolumen_mus] = useState(informacion_Web.volumen);

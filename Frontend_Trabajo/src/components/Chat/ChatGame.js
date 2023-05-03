@@ -18,8 +18,7 @@ import {
 const ChatGame = (props) => {
 	const [message, setMessage] = useState("");
 
-	let sessionUser = JSON.parse(localStorage.getItem("sessionUser"));
-	let codigoPartida = localStorage.getItem("juego7reinas");
+	let { sessionUser, chatOpen, setChatOpen, messages, wsChat, sePuedeEnviar } = props;
 
 	const obtenerMensajesDePartida = (mensajes) => {
 		if (mensajes == null)
@@ -50,8 +49,6 @@ const ChatGame = (props) => {
 				);
 		});
 	}
-
-	let { chatOpen, setChatOpen, messages, setMessages, wsChat, sePuedeEnviar } = props;
 
 	const handleMsgChange = event => {
 		setMessage(event.target.value);

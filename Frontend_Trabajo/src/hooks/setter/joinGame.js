@@ -1,3 +1,5 @@
+import getUserForGame from "hooks/getter/getUserForGame";
+
 export default function joinGame (me, clavePartida, doNext, doOnError) {
 
     let xhr = new XMLHttpRequest();
@@ -9,13 +11,16 @@ export default function joinGame (me, clavePartida, doNext, doOnError) {
 
     xhr.onload = function () {
         if (xhr.status === 200) {
-            console.log("partida encontrada");
-            const datosJugadores = JSON.parse(xhr.response);
-
             localStorage.setItem('juego7reinas', clavePartida);
+            console.log("partida encontrada");
+            const datos = JSON.parse(xhr.response);
+            datos = datos.jugadores.forEach(jugador => {
+                getUserForGame(jugador);
+            });
             // let jugadoresPart = datosJugadores.jugadores;
             // console.log("Datos de jugadores JOIN:" + JSON.stringify(jugadoresPart));
-            localStorage.setItem("jPartida7reinas", JSON.stringify(datosJugadores.jugadores)); ////Guarda el código de los jugadores conectados
+            console.log(datos.jugadores);
+            localStorage.setItem("jugadorxs7reinas", JSON.stringify(datos.jugadores)); ////Guarda el código de los jugadores conectados
             doNext();
         } else {
             doOnError();

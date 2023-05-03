@@ -13,15 +13,18 @@ export default function createGame (me, tipoPartida, doNext, doOnError) {
             const datos = JSON.parse(xhr.response);
             localStorage.setItem('juego7reinas', datos.clave);
 
-            const jPartida = '{"jugadores": ["1"]}';
-            const datosJugadores = JSON.parse(jPartida);
-            //console.log("DATOS PARTIDA CREADA: "+JSON.stringify(datosJugadores.jugadores));
-            localStorage.setItem("jPartida7reinas", JSON.stringify(datosJugadores.jugadores)); //Inicialmnete es vacia
+            let jugadorxs = [{
+                codigo: me.codigo,
+                nombre: me.nombre,
+                puntos: me.puntos,
+                foto: me.foto
+            }];
+            localStorage.setItem("jugadorxs7reinas", JSON.stringify(jugadorxs)); //Inicialmnete es vacia
             doNext();
         } else {
             doOnError();
         }
     }
     xhr.open('POST', `http://52.174.124.24:3001/api/partida/crear`);
-    xhr.send(JSON.stringify({ tipo: tipoPartida, anfitrion: me }));
+    xhr.send(JSON.stringify({ tipo: tipoPartida, anfitrion: me.codigo }));
 }

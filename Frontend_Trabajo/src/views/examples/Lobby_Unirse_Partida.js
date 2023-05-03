@@ -33,13 +33,15 @@ import {
     const json_j_default = '{"Nombre": "Sin jugador", "Foto": 6}';
     const j_default = JSON.parse(json_j_default);
 
+    const { players } = props;
+
     //const [jugadoresPart, setjugadoresPart] = useState(JSON.parse(localStorage.getItem("juego7reinas_j")));
-    const [Jugador1, setJugador1] = useState(JSON.parse(localStorage.getItem("sessionUser")));
+    const [Jugador1, setJugador1] = useState(JSON.parse(localStorage.getItem("usuario7reinas")));
     const [Jugador2, setJugador2] = useState(j_default);
     const [Jugador3, setJugador3] = useState(j_default);
     const [Jugador4, setJugador4] = useState(j_default);
 
-    const [jugPartida, setjugPartida] = useState(JSON.parse(localStorage.getItem("jPartida7reinas"))); //Miramos los jugadores en partida
+    const [jugPartida, setjugPartida] = useState(JSON.parse(localStorage.getItem("jugadorxs7reinas"))); //Miramos los jugadores en partida
 
     const handleJugador1 = jugador => {
       setJugador1(jugador)
@@ -86,33 +88,33 @@ import {
                       <img
                         alt="..."
                         className="avatar-lg rounded-circle mr-3"
-                        src={SelectImgUser(Jugador1.Foto)}
+                        src={SelectImgUser(players[0].foto)}
                       />
-                      <span className="mt-6">{Jugador1.Nombre}</span>
+                      <span className="mt-6">{players[0].nombre}</span>
                   </Col>
                   <Col  className="ml-4" lg="5">
                     <img
                       alt="..."
                       className="avatar-lg rounded-circle mr-3"
-                      src={SelectImgUser(Jugador2.Foto)}
+                      src={SelectImgUser(players[1].foto)}
                     />
-                      <span className="mt-6">{Jugador2.Nombre}</span>
+                      <span className="mt-6">{players[1].nombre}</span>
                   </Col>
                   <Col  className="ml-4 mt-3" lg="5">
                     <img
                       alt="..."
                       className="avatar-lg rounded-circle mr-3"
-                      src={SelectImgUser(Jugador3.Foto)}
+                      src={SelectImgUser(players[2].foto)}
                     />
-                    <span className="mt-6">{Jugador3.Nombre}</span>
+                    <span className="mt-6">{players[2].nombre}</span>
                   </Col>
                   <Col  className="ml-4 mt-3" lg="5">
                     <img
                       alt="..."
                       className="avatar-lg rounded-circle mr-3"
-                      src={SelectImgUser(Jugador4.Foto)}
+                      src={SelectImgUser(players[3].foto)}
                     />
-                      <span className="mt-6">{Jugador4.Nombre}</span>
+                      <span className="mt-6">{players[3].nombre}</span>
                   </Col>
                 </Row>
               </Card>

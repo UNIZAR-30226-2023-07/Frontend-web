@@ -63,7 +63,7 @@ import joinGame from "hooks/setter/joinGame";
 const Index = (props) => {
   const history = useHistory();//Permite cambiar de pantalla
 
-  let sessionUser = JSON.parse(localStorage.getItem("sessionUser"));
+  let sessionUser = JSON.parse(localStorage.getItem("usuario7reinas"));
   const [Clave, setClave] = useState(""); //Guarda el clave de la partida a unirse
   const [ErrorUnirse, setErrorUnirse] = useState(false); //Señala si saca un mensaje de error
   const [ErrorCrear, setErrorCrear] = useState(false); //Señala si saca un mensaje de error
@@ -125,7 +125,7 @@ const Index = (props) => {
     });
   };
 
-  let { setGame } = props;
+  let { setGame, setPlayers } = props;
 
   return (
     <>
@@ -161,7 +161,10 @@ const Index = (props) => {
                         <Col xs="2" className="ml--6">
                           <Button variant="primary" color="primary" className="ml-5" onClick={() => {
                             joinGame(sessionUser.codigo, Clave,
-                              () => history.push("/admin/lobby_unirse_partida"),
+                              () => {
+                                setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+                                history.push("/admin/lobby_unirse_partida");
+                              },
                               () => setErrorUnirse(true)
                           )}}>
                             Unirse
@@ -186,9 +189,10 @@ const Index = (props) => {
                       <Row>
                       <Col xs="6">
                         <Button className="ml-4" color="primary" onClick={() => {
-                          createGame(sessionUser.codigo, "amistosa",
+                          createGame(sessionUser, "amistosa",
                             () => {
                               setGame(localStorage.getItem("juego7reinas"));
+                              setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
                               history.push("/admin/crear_partida_n")
                             },
                             () => setErrorCrear(true)
@@ -198,9 +202,10 @@ const Index = (props) => {
                       </Col>
                       <Col xs="6">
                         <Button className="ml-3" color="primary" onClick={() => {
-                          createGame(sessionUser.codigo, "torneo",
+                          createGame(sessionUser, "torneo",
                             () => {
                               setGame(localStorage.getItem("juego7reinas"));
+                              setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
                               history.push("/admin/crear_partida_n")
                             },
                             () => setErrorCrear(true)

@@ -35,7 +35,7 @@ import {
     
     const j_default = JSON.parse(json_j_default);
 
-    let sessionUser = JSON.parse(localStorage.getItem("sessionUser"));
+    let sessionUser = JSON.parse(localStorage.getItem("usuario7reinas"));
 
     const [Jugador1, setJugador1] = useState(sessionUser);
     const [nomJug2, setNomJug2] = useState(j_default.nombre);
@@ -45,7 +45,10 @@ import {
     const [nomJug4, setNomJug4] = useState(j_default.nombre);
     const [fotoJug4, setFotoJug4] = useState(j_default.foto);
 
-    const [jugPartida, setjugPartida] = useState(JSON.parse(localStorage.getItem("jPartida7reinas")));
+    const { players } = props;
+    console.log(players);
+
+    const [jugPartida, setjugPartida] = useState(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
 
 
     let partidaActual = JSON.parse(localStorage.getItem("juego7reinas")); //Guarda la calve de la partida actual
@@ -53,12 +56,12 @@ import {
     const history = useHistory();//Permite cambiar de pantalla
 
     const handleJugPartida = () => {
-      setjugPartida(JSON.parse(localStorage.getItem("jPartida7reinas")))
+      setjugPartida(JSON.parse(localStorage.getItem("jugadorxs7reinas")))
     };
 
 
     //Actualizamos los jugadores en partida
-    //let jPartida = JSON.parse(localStorage.getItem("jPartida7reinas")); //Miramos los jugadores en partida
+    //let jPartida = JSON.parse(localStorage.getItem("jugadorxs7reinas")); //Miramos los jugadores en partida
     // useEffect(() => {
     //   console.log("EMPIEZA A CREAR------");
     //   if(jugPartida != null  && jugPartida != []){
@@ -128,6 +131,22 @@ import {
     //     }
     //   })
     // }
+    const showPlayers = (players) => {
+      return players.map((player, key) => {
+        return (
+          <Card className="card-profile shadow lobby-player-card" key={key}>
+            <img
+              alt="..."
+              className="lobby-player-pic avatar-lg rounded-circle"
+              src={SelectImgUser(player.foto)}
+            />
+            <h2 className="align-center">{player.nombre}</h2>
+            {/* <h5 className="align-center">{player.codigo.endsWith('_')}</h5> */}
+            <h4 className="align-center"><strong>{player.puntos}</strong> puntos</h4>
+          </Card>
+        )
+      })
+    };
 
     return (
       <>
@@ -136,65 +155,56 @@ import {
         <Container className="mt-6" fluid>
           <Row>
             <Col className="order-xl-1" xl="11">
-              <Card className="bg-secondary shadow ml-7">
-                <CardHeader className="border-0">
-                <Row>
-                <Col>
-
-                    <h3 className="mb-0">Jugadores</h3>
-                    </Col>
-                    <Col>
-                      <h4 className="mb-0">Código de partida: {partidaActual}{JSON.stringify(jugPartida)}</h4>
-                    </Col>
-                  </Row>
-                </CardHeader>
+              {/* <Card className="bg-secondary shadow ml-7">
+                
                 <Row className="mt-3 mb-3">
                   <Col  className="ml-4" lg="5">
                       <img
                         alt="..."
                         className="avatar-lg rounded-circle mr-3"
-                        src={SelectImgUser(Jugador1.foto)}
+                        src={SelectImgUser(players[0].foto)}
                       />
-                      <span className="mt-6">{Jugador1.nombre}</span>
+                      <span className="mt-6">{players[0].nombre}</span>
                   </Col>
                   <Col  className="ml-4" lg="5">
                     <img
                       alt="..."
                       className="avatar-lg rounded-circle mr-3"
-                      src={SelectImgUser(fotoJug2)}
+                      src={SelectImgUser(players[1].foto)}
                     />
-                      <span className="mt-6">{nomJug2}</span>
+                      <span className="mt-6">{players[1].nombre}</span>
                   </Col>
                   <Col  className="ml-4 mt-3" lg="5">
                     <img
                       alt="..."
                       className="avatar-lg rounded-circle mr-3"
-                      src={SelectImgUser(fotoJug3)}
+                      src={SelectImgUser(players[2].foto)}
                     />
-                    <span className="mt-6">{nomJug3}</span>
+                    <span className="mt-6">{players[2].nombre}</span>
                   </Col>
                   <Col  className="ml-4 mt-3" lg="5">
                     <img
                       alt="..."
                       className="avatar-lg rounded-circle mr-3"
-                      src={SelectImgUser(fotoJug4)}
+                      src={SelectImgUser(players[3].foto)}
                     />
-                      <span className="mt-6">{nomJug4}</span>
+                      <span className="mt-6">{players[3].nombre}</span>
                   </Col>
                 </Row>
-              </Card>
-              <Row>
-                <Col lg="5"></Col>
-                <Col lg="5">
-                  <p className="mt-4 ml-5">
-                      <Button variant="primary" color="primary" onClick={() => {
-                          iniciarGame(sessionUser.codigo, partidaActual,
-                          () => history.push("/admin/partida")
-                        )}}>
-                        INICIAR PARTIDA
-                      </Button>
-                  </p>
-                </Col>
+              </Card> */}
+              <Row style={{marginTop: "3rem", justifyContent: "center"}}>
+                <h4 style={{color:"white"}} className="mb-0">El código de partida es <strong style={{fontSize:"200%"}}>{partidaActual}</strong>{/*JSON.stringify(jugPartida)*/}</h4>
+              </Row>
+              <Row style={{marginTop: "3rem", justifyContent: "center"}}>
+                {showPlayers(players)}
+              </Row>
+              <Row style={{marginTop: "3rem", justifyContent: "center"}}>
+                <Button variant="primary" color="primary" onClick={() => {
+                    iniciarGame(sessionUser.codigo, partidaActual,
+                    () => history.push("/admin/partida")
+                  )}}>
+                  INICIAR PARTIDA
+                </Button>
               </Row>
             </Col>
           </Row>

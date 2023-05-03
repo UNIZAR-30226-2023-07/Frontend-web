@@ -28,7 +28,8 @@ import {
   import SelectImgUser from "hooks/SelectImgUser.js";
   
   const Perfil_Usuario = (props) => {
-    let sessionUser = JSON.parse (localStorage.getItem("sessionUser"));
+    
+    const { sessionUser } = props;
 
     function porcentaje_victorias(vic, der){
       return (vic/(vic + der))*100;

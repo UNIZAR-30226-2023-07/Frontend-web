@@ -25,7 +25,7 @@ import {
   import getFriendMessages from "hooks/getter/getFriendMessages";
 
   
-  const Register = (props) => {
+  const Register = () => {
   
     //Cosas que vamos a guardar para el formulario
     const [email, setEmail] = useState('')
@@ -33,18 +33,13 @@ import {
     const [password2, setPassword2] = useState('')
     const [name, setName] = useState('')
 
-    const { sessionUser } = props;
-
     //Elemento para cambiar de pantalla de forma imperativa
     const history = useHistory();
     
     //Guardar el cambio en los atributos
     const handleEmailChange = event => { setEmail(event.target.value) };
-  
     const handlePasswordChange = event => { setPassword(event.target.value) };
-  
     const handlePassword2Change = event => { setPassword2(event.target.value) };
-  
     const handleNameChange = event => { setName(event.target.value) };
 
     const register_user = event => {
@@ -61,7 +56,7 @@ import {
           //console.log(xhr.status);
           if (xhr.status === 202) { //Si recibe un OK
             getUser(email, () => {
-              let sessionUser = JSON.parse(localStorage.getItem('sessionUser'));
+              let sessionUser = JSON.parse(localStorage.getItem('usuario7reinas'));
               getFriends(sessionUser.codigo, () => {
                 getFriendRequests(sessionUser.codigo, () => {
                   getFriendMessages(sessionUser.codigo, () => {

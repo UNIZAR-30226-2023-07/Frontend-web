@@ -12,7 +12,7 @@ export default function getUser (mail, doNext) {
             const datos = JSON.parse(xhr.response);
             datos.correo = mail;
             datos.pperdidas = datos.pjugadas - datos.pganadas;
-            localStorage.setItem('sessionUser', JSON.stringify(datos));
+            localStorage.setItem('usuario7reinas', JSON.stringify(datos));
             doNext();
         } else {
             alert(`Se ha producido un error al obtener los datos del usuario.`);

@@ -35,10 +35,7 @@ const Chat = (props) => {
 		});
 	}
 
-	let sessionUser = JSON.parse(localStorage.getItem("sessionUser"));
-	let friends = JSON.parse(localStorage.getItem("amigxs7reinas"));
-
-	let { chatOpen, setChatOpen, chatUser, messages, setMessages, sePuedeEnviar, wsChat } = props;
+	let { chatOpen, setChatOpen, chatUser, messages, setMessages, sePuedeEnviar, wsChat, sessionUser, friends } = props;
 
 	// if (wsChat)
 	// 	wsChat.onmessage = (event) => {

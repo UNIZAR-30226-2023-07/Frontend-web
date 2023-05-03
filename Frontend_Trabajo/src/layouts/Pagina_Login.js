@@ -8,7 +8,6 @@ import AuthFooter from "components/Footers/AuthFooter.js";
 
 import routes from "routes.js";
 import logo from './../assets/img/Imgs_7_Reinas/logo.png';
-import sessionUser from "sessionUser.js";
 import friends from "friends.js";
 
 const Pagina_Login = (props) => {
@@ -35,8 +34,6 @@ const Pagina_Login = (props) => {
             path={prop.layout + prop.path}
             render={(props) => <prop.component
                                   {...props}
-                                  sessionUser={sessionUser}
-                                  friends={friends}
                                 /> }
             key={key}
           />
