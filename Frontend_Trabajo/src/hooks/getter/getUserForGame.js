@@ -10,7 +10,9 @@ export default function getUserForGame (player, doNext) {
     xhr.onload = function () {
         if (xhr.status === 200) {
             const datos = JSON.parse(xhr.response);
-            player = {codigo: datos.codigo, nombre: datos.nombre, puntos: datos.puntos, foto: datos.foto};
+            let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
+            players.push({codigo: datos.codigo, nombre: datos.nombre, puntos: datos.puntos, foto: datos.foto});
+            localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
             doNext();
         } else {
             alert(`Se ha producido un error al obtener los datos del jugador.`);

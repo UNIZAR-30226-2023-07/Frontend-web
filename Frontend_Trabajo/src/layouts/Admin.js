@@ -104,10 +104,7 @@ const Admin = (props) => {
           case "Nuevo_Jugador":
             let nuevoJugador = (mensaje.tipo).substring(15);
             getUserForGame(nuevoJugador, () => {
-              let newPlayers = players.push(nuevoJugador);
-              console.log(newPlayers);
-              setPlayers(newPlayers);
-              console.log(nuevoJugador);
+              setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
               console.log("El nuevo jugador: "+(mensaje.tipo).substring(15));
               console.log("El nuevo jugador 2: "+JSON.stringify(players));
               localStorage.setItem("jugadorxs7reinas", JSON.stringify(players)); //Inicialmnete es vacia
