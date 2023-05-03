@@ -107,7 +107,7 @@ const Admin = (props) => {
               setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
               console.log("El nuevo jugador: "+(mensaje.tipo).substring(15));
               console.log("El nuevo jugador 2: "+JSON.stringify(players));
-              localStorage.setItem("jugadorxs7reinas", JSON.stringify(players)); //Inicialmnete es vacia
+              //localStorage.setItem("jugadorxs7reinas", JSON.stringify(players)); //Inicialmnete es vacia
             });
             //setPlayers(players.push(nuevoJugador)); //Apilamos el nuevo jugador
 
