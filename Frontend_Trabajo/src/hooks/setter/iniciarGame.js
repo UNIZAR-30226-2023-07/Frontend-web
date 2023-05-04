@@ -20,5 +20,5 @@ export default function iniciarGame (me, clavePartida, doNext) {
         }
     }
     xhr.open('POST', `http://52.174.124.24:3001/api/partida/iniciar`);
-    xhr.send(JSON.stringify({ codigo: me, clave: clavePartida.toString() }));
+    xhr.send(JSON.stringify({ codigo: me, clave: clavePartida.toString(), bot:"no" }));
 }

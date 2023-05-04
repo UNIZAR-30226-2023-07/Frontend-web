@@ -29,7 +29,7 @@ import Reverso_carta from "../assets/img/Imgs_7_Reinas/Reverso_carta.png";
 //import GuardarSalir from "hooks/getter/logOut.js";
 
 
-function App() {
+function Tablero_Rabino(props) {
 
   //Esta parte guarda la información de los jugadores que hay
   const json_j_default = '{"Nombre": "Sin jugador", "Foto": 6, "Mano": "4"}';
@@ -38,33 +38,28 @@ function App() {
   const json_j_turno = '{"Nombre": "Pedro"}';
   const j_turno = JSON.parse(json_j_turno);
 
-  const [Jugador1, setJugador1] = useState(j_default);
-  const [Jugador2, setJugador2] = useState(j_default);
-  const [Jugador3, setJugador3] = useState(j_default);
-  const [Jugador4, setJugador4] = useState(j_default);
-
-  const [TurnoJugador, setTurnoJugador] = useState(j_turno);
+  const { players, board, hand, myTurn, turn } = props;
 
 
-  const handleJugador1 = jugador => {
-    setJugador1(jugador)
-  };
+  // const handleJugador1 = jugador => {
+  //   setJugador1(jugador)
+  // };
 
-  const handleJugador2 = jugador => {
-    setJugador2(jugador)
-  };
+  // const handleJugador2 = jugador => {
+  //   setJugador2(jugador)
+  // };
 
-  const handleJugador3 = jugador => {
-    setJugador3(jugador)
-  };
+  // const handleJugador3 = jugador => {
+  //   setJugador3(jugador)
+  // };
 
-  const handleJugador4 = jugador => {
-    setJugador4(jugador)
-  };
+  // const handleJugador4 = jugador => {
+  //   setJugador4(jugador)
+  // };
 
-  const handleTurnoJugador = jugador => {
-    setTurnoJugador(jugador)
-  };
+  // const handleTurnoJugador = jugador => {
+  //   setTurnoJugador(jugador)
+  // };
 
 
   useEffect(() => {
@@ -255,35 +250,41 @@ function App() {
     ]
   ];
 
-  const jugadorInfo = (jugador) => {
-    return (
-      <Col className="ml-4">
-        <Row className="mt--2 mb--1">
-          <img
-            alt="..."
-            className="avatar-lg rounded-circle mr-3 ml--4"
-            src={SelectImgUser(jugador.Foto)}
-          />
-          <Col className="ml--4">
-            <Col className="ml--2">
-              <span className="mt-1">{jugador.Nombre}</span>
-            </Col>
-            <Col className="ml--2">
-              <Row>
-                <Col>
-              <span className="mt-0">{jugador.Mano} cartas</span>
+  const jugadoresInfo = (jugadores) => {
+    return jugadores.map((jugador, ind) => {
+      return (
+        <Col className="ml-4 mt-3 mb-2" xs="3" key={ind}>
+          <Row className="mt--2 mb--1">
+            <img
+              alt="..."
+              className="avatar-lg rounded-circle mr-3 ml--4"
+              src={SelectImgUser(jugador.foto)}
+            />
+            <Col className="ml--4">
+              <Col className="ml--2">
+                <span className="mt-1">{jugador.nombre}</span>
               </Col>
-              <Col className="ml--4">
-              { TurnoJugador.Nombre==jugador.Nombre && <p className="red"> Turno </p>}
-              { TurnoJugador.Nombre==jugador.Nombre && <i className="ni ni-check-bold red"/>}
+              <Col className="ml--2">
+                <Row>
+                  <Col>
+                <span className="mt-0">{jugador.cartas} cartas</span>
+                </Col>
+                <Col className="ml--4">
+                { jugadores[turn].codigo===jugador.codigo && <p className="red"> Turno </p>}
+                {/* { jugadores[turn].codigo==jugador.codigo && <i className="ni ni-check-bold red"/>} */}
+                </Col>
+                </Row>
               </Col>
-              </Row>
             </Col>
-          </Col>
-        </Row>
-      </Col>
-    );
+          </Row>
+        </Col>
+      );
+    });
   }
+
+  console.log(players);
+  console.log(board);
+  console.log(hand);
 
   return (
     <div className="App" style={{overflowY: 'hidden', overflowX: 'hidden'}}>
@@ -330,18 +331,13 @@ function App() {
                     <h3 className="mb--4 mt--3">Turno de: {TurnoJugador.Nombre}</h3>
                   </CardHeader> */}
                   <Row>
-                    <Col className="mt-3 mb-2" xs="3">
-                      {jugadorInfo(Jugador1)}
-                    </Col>
-                    <Col className="mt-3 mb-2" xs="3">
-                      {jugadorInfo(Jugador2)}
-                    </Col>
-                    <Col className="mt-3 mb-2" xs="3">
-                      {jugadorInfo(Jugador3)}
-                    </Col>
-                    <Col className="mt-3 mb-2" xs="3">
-                      {jugadorInfo(Jugador4)}
-                    </Col>
+                    {/* {() => {players.map((player, ind) => {
+                      console.log(player);
+                      return (
+                      <Col className="mt-3 mb-2" xs="3" key={ind}> */}
+                        {jugadoresInfo(players)}
+                      {/* </Col>
+                    )})}} */}
                   </Row>
                 </Card>
 
@@ -398,4 +394,4 @@ function App() {
   
 }
 
-export default App;
+export default Tablero_Rabino;

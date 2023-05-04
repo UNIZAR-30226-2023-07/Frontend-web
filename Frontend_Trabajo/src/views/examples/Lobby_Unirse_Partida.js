@@ -34,6 +34,8 @@ import {
     const j_default = JSON.parse(json_j_default);
 
     const { players } = props;
+    console.log(players);
+    let partidaActual = JSON.parse(localStorage.getItem("juego7reinas")); //Guarda la calve de la partida actual
 
     //const [jugadoresPart, setjugadoresPart] = useState(JSON.parse(localStorage.getItem("juego7reinas_j")));
     const [Jugador1, setJugador1] = useState(JSON.parse(localStorage.getItem("usuario7reinas")));
@@ -72,6 +74,23 @@ import {
     //   })
     // }
 
+    const showPlayers = (players) => {
+      return players.map((player, key) => {
+        return (
+          <Card className="card-profile shadow lobby-player-card" key={key}>
+            <img
+              alt="..."
+              className="lobby-player-pic avatar-lg rounded-circle"
+              src={SelectImgUser(player.foto)}
+            />
+            <h2 className="align-center">{player.nombre}</h2>
+            {/* <h5 className="align-center">{player.codigo.endsWith('_')}</h5> */}
+            <h4 className="align-center"><strong>{player.puntos}</strong> puntos</h4>
+          </Card>
+        )
+      })
+    };
+
     return (
       <>
         {/* <Header /> */}
@@ -79,7 +98,7 @@ import {
         <Container className="mt-6" fluid>
           <Row>
             <Col className="order-xl-1" xl="11">
-              <Card className="bg-secondary shadow ml-7">
+              {/* <Card className="bg-secondary shadow ml-7">
                 <CardHeader className="border-0">
                     <h3 className="mb-0">Jugadores {JSON.stringify(jugPartida)}</h3>
                 </CardHeader>
@@ -117,14 +136,17 @@ import {
                       <span className="mt-6">{players[3].nombre}</span>
                   </Col>
                 </Row>
-              </Card>
-              <Row>
-                <Col lg="5"></Col>
-                <Col lg="5">
+              </Card> */}
+              <Row style={{marginTop: "3rem", justifyContent: "center"}}>
+                <h4 style={{color:"white"}} className="mb-0">El código de partida es <strong style={{fontSize:"200%"}}>{partidaActual}</strong>{/*JSON.stringify(jugPartida)*/}</h4>
+              </Row>
+              <Row style={{marginTop: "3rem", justifyContent: "center"}}>
+                {showPlayers(players)}
+              </Row>
+              <Row style={{marginTop: "3rem", justifyContent: "center"}}>
                   <p className="mt-4 ml-4">
                       Esperando inicio de partida...
                   </p>
-                </Col>
               </Row>
             </Col>
           </Row>

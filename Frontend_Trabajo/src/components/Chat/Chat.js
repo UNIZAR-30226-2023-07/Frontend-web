@@ -52,7 +52,7 @@ const Chat = (props) => {
 	if (chatOpen)
 	return (
 		<>
-			<Card className={"chat-header chat-friends chat-header-open " + (chatUser < 0 ? "chat-text-xxl" : "")} color="primary" onClick = {() => setChatOpen(!chatOpen)}>
+			<Card className={"chat-header chat-friends chat-header-open" + (chatUser < 0 ? " chat-text-xxl" : "")} color="primary" onClick = {() => setChatOpen(!chatOpen)}>
 				{chatUser < 0 ? "Chat" :
 					<Media className="align-items-center">
 						<span className="avatar avatar-sm rounded-circle">
@@ -70,7 +70,8 @@ const Chat = (props) => {
 				}
 			</Card>
 			<Card className="chat-body chat-friends" color="contrast">
-				{chatUser < 0 ? "Selecciona un@ amig@ de la lista de amig@s y pulsa \"Chat\"." : obtenerMensajesDeChat(friends[chatUser].Codigo, messages)}
+				{chatUser < 0 ? (<h4 className="no-selected-chat-user">Selecciona un@ amig@ de la lista de amig@s y pulsa "Chat".</h4>) :
+								obtenerMensajesDeChat(friends[chatUser].Codigo, messages)}
 			</Card>
 			<Form onSubmit={event => {
 				event.preventDefault();
@@ -94,7 +95,7 @@ const Chat = (props) => {
 					color="primary"
 					type="submit"
 				>
-					Enviar
+					<i className="ni ni-send symbol-xl" />
 				</Button>
 			</Form>
 			{/* <InputGroup className="input-group-alternative">

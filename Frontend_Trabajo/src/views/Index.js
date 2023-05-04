@@ -160,8 +160,9 @@ const Index = (props) => {
                         </Col>
                         <Col xs="2" className="ml--6">
                           <Button variant="primary" color="primary" className="ml-5" onClick={() => {
-                            joinGame(sessionUser.codigo, Clave,
+                            joinGame(sessionUser, Clave,
                               () => {
+                                setGame(localStorage.getItem("juego7reinas"));
                                 setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
                                 history.push("/admin/lobby_unirse_partida");
                               },
@@ -188,7 +189,7 @@ const Index = (props) => {
                     <CardBody className="mt--2">
                       <Row>
                       <Col xs="6">
-                        <Button className="ml-4" color="primary" onClick={() => {
+                        <Button color="primary" onClick={() => {
                           createGame(sessionUser, "amistosa",
                             () => {
                               setGame(localStorage.getItem("juego7reinas"));
@@ -201,7 +202,7 @@ const Index = (props) => {
                         </Button>
                       </Col>
                       <Col xs="6">
-                        <Button className="ml-3" color="primary" onClick={() => {
+                        <Button color="primary" onClick={() => {
                           createGame(sessionUser, "torneo",
                             () => {
                               setGame(localStorage.getItem("juego7reinas"));

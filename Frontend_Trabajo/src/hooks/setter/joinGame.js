@@ -13,19 +13,46 @@ export default function joinGame (me, clavePartida, doNext, doOnError) {
         if (xhr.status === 200) {
             localStorage.setItem('juego7reinas', clavePartida);
             console.log("partida encontrada");
-            const datos = JSON.parse(xhr.response);
-            datos = datos.jugadores.forEach(jugador => {
-                getUserForGame(jugador);
-            });
-            // let jugadoresPart = datosJugadores.jugadores;
-            // console.log("Datos de jugadores JOIN:" + JSON.stringify(jugadoresPart));
+            let datos = JSON.parse(xhr.response);
             console.log(datos.jugadores);
-            localStorage.setItem("jugadorxs7reinas", JSON.stringify(datos.jugadores)); ////Guarda el código de los jugadores conectados
+            console.log(datos.jugadores.length);
+            getUserForGame(datos.jugadores[0], () => {
+                if (datos.jugadores.length > 1)
+                    getUserForGame(datos.jugadores[1], () => {
+                        if (datos.jugadores.length > 2)
+                            getUserForGame(datos.jugadores[2], () => {
+                                let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
+                                players.push({codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto});
+                                localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
+                                doNext();
+                            });
+                        else {
+                            let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
+                            players.push({codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto});
+                            localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
+                            doNext();
+                        }
+                    });
+                else {
+                    let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
+                    players.push({codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto});
+                    localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
+                    doNext();
+                }
+            });
+            let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
+            players.push({codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto});
+            localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));  
+            // // let jugadoresPart = datosJugadores.jugadores;
+            // // console.log("Datos de jugadores JOIN:" + JSON.stringify(jugadoresPart));
+            // console.log(datos.jugadores);
+            // localStorage.setItem("jugadorxs7reinas", JSON.stringify(datos.jugadores)); ////Guarda el código de los jugadores conectados
+
             doNext();
         } else {
             doOnError();
         }
     }
     xhr.open('POST', `http://52.174.124.24:3001/api/partida/join`);
-    xhr.send(JSON.stringify({ clave: clavePartida, codigo: me }));
+    xhr.send(JSON.stringify({ clave: clavePartida, codigo: me.codigo }));
 }

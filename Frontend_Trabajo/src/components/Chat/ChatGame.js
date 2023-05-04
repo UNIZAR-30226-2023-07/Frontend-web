@@ -92,7 +92,7 @@ const ChatGame = (props) => {
 					color="primary"
 					type="submit"
 				>
-					Enviar
+					<i className="ni ni-send symbol-xl" />
 				</Button>
 			</Form>
 		</>

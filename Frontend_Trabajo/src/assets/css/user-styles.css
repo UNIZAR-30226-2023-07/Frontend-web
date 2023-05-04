@@ -36,7 +36,7 @@
     z-index: 10000;
     top: 0;
     left: 0;
-    background-color: #000000;
+    background: linear-gradient(87deg, #5e72e4 0, #825ee4 100%) !important;
 }
 
 .navbar-reinas {
@@ -115,15 +115,16 @@
     font-size: 1.25rem;
     font-weight: bold;
     width: 20rem;
-    height: 3.5rem;
+    height: 3.25rem;
     border: 1px solid #ccc;
     background-color: #d87700;
+    border: none;
     color: white;
     border-radius: 1.35rem 1.35rem 0 0;
     z-index: 1000;
 }
 
-.chat-header :hover {
+.chat-header:hover {
     cursor: pointer !important;
 }
 
@@ -156,11 +157,22 @@
     width: 20rem;
     height: 20rem;
     border: 1px solid #ccc;
-    background-color: #94a4ff;
+    background-color: #94a4fff0;
+    border: none;
     color: white;
     border-radius: 0 0 0 0;
     overflow-y: auto;
     z-index: 1000;
+}
+
+.no-selected-chat-user {
+    position: relative;
+    padding-top: 7.5rem;
+    padding-bottom: 7.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    text-align: center;
+    color: white;
 }
 
 .chat-input {
@@ -200,8 +212,9 @@
 .chat-send {
     position: fixed;
     bottom: 0;
-    margin-left: 1rem;
+    margin: 0 !important;
     padding: 0;
+    padding-top: 0.3rem;
     width: 4rem;
     height: 4rem;
     border: none;
@@ -209,6 +222,11 @@
     color: white;
     border-radius: 0 0 0 0;
     z-index: 1000;
+}
+
+.chat-send:hover {
+    -webkit-transform: none;
+    transform: none;
 }
 
 .chat-msg {
@@ -253,4 +271,8 @@
     top: -1.5rem;
     margin-bottom: -0.5rem;
     align-self: center;
+}
+
+.symbol-xl {
+    font-size: 2rem;
 }

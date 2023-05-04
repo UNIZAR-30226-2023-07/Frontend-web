@@ -43,6 +43,10 @@ const Admin = (props) => {
   const [sessionUser, setSessionUser] = useState(JSON.parse(localStorage.getItem("usuario7reinas")));
   const [currentGame, setCurrentGame] = useState(JSON.parse(localStorage.getItem("juego7reinas")));
   const [players, setPlayers] = useState(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+  const [myTurn, setMyTurn] = useState(JSON.parse(localStorage.getItem("miturno7reinas")));
+  const [turn, setTurn] = useState(0);
+  const [hand, setHand] = useState(JSON.parse(localStorage.getItem("mano7reinas")));
+  const [board, setBoard] = useState(JSON.parse(localStorage.getItem("tablero7reinas")));
 	const [chatOpen, setChatOpen] = useState(false);
 	const [chatGameOpen, setChatGameOpen] = useState(false);
   const [chatUser, setChatUser] = useState(-1);
@@ -99,9 +103,9 @@ const Admin = (props) => {
         let mensaje = JSON.parse(event.data);
         console.log("Mensaje de wsGame:");
         console.log(mensaje);
+        let myHand;
 
-        switch ( (mensaje.tipo).substring(0, 13) ) {
-          case "Nuevo_Jugador":
+        if ( (mensaje.tipo).substring(0, 13) === "Nuevo_Jugador" ) {
             let nuevoJugador = (mensaje.tipo).substring(15);
             getUserForGame(nuevoJugador, () => {
               setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
@@ -110,24 +114,78 @@ const Admin = (props) => {
               //localStorage.setItem("jugadorxs7reinas", JSON.stringify(players)); //Inicialmnete es vacia
             });
             //setPlayers(players.push(nuevoJugador)); //Apilamos el nuevo jugador
-
-            break;
-
-          case "Partida_Inici":
+        } else
+        switch (mensaje.tipo) {
+          case "Partida_Iniciada":
             // console.log("Turno inicial: "+mensaje.turnos[0][0]);
             // console.log("Turno inicial: "+mensaje.turnos[0][1]);
             // console.log("Turno inicial: "+mensaje.turnos[1][0]);
             // console.log("Turno inicial: "+mensaje.turnos[1][1]);
+            let gamePlayers = JSON.parse(localStorage.getItem("jugadorxs7reinas"));
+            let sortedPlayers = [];
             mensaje.turnos.forEach(function(elemento, indice) {
+              console.log(elemento[0] + ' - ' + elemento[1]);
               if(elemento[0] === (sessionUser.codigo).toString()){
-                localStorage.setItem("turnoJugador7reinas", JSON.stringify(elemento[1])); //Guardamos nuestro turno como String
+                localStorage.setItem("miturno7reinas", JSON.stringify(elemento[1])); //Guardamos nuestro turno como String
+                setMyTurn(elemento[1]);
                 //console.log("Mi turno: "+elemento[1]);
               }
-            })
-            //localStorage.setItem("turnoJugador7reinas", JSON.stringify(jugadores)); //Inicialmnete es vacia
-            history.push("/admin/partida")
+              gamePlayers.forEach((player) => {
+                  console.log(player.codigo);
+                  if(player.codigo === elemento[0]){
+                    player.cartas = 14;
+                    sortedPlayers.push(player);
+                  }
+                });
+            });
+            setPlayers(sortedPlayers);
+            localStorage.setItem("jugadorxs7reinas", JSON.stringify(sortedPlayers));
+            setBoard([]);
+            localStorage.setItem("tablero7reinas", JSON.stringify([])); //Inicialmente es vacia
+            console.log(sessionUser.codigo);
+            ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+            //localStorage.setItem("miturno7reinas", JSON.stringify(jugadores)); //Inicialmnete es vacia
+            history.push("/admin/partida");
             break;
           
+          case "Mostrar_manos":
+            //console.log("Mostrar manos: "+mensaje.mano);
+            myHand = mensaje.manos[myTurn].map((card, ind) => {
+              let values = card.split(",");
+              return {number: values[0], symbol: values[1]};
+            });
+            console.log("Mi mano:");
+            console.log(myHand);
+            setHand(myHand);
+            localStorage.setItem("mano7reinas", JSON.stringify(myHand)); //Inicialmnete es vacia
+            break;
+
+          case "Mostrar_mano":
+            //console.log("Mostrar mano: "+mensaje.mano);
+            myHand = mensaje.cartas.map((card, ind) => {
+              let values = card.split(",");
+              return {number: values[0], symbol: values[1]};
+            });
+            console.log("Mi mano:");
+            console.log(myHand);
+            setHand(myHand);
+            localStorage.setItem("mano7reinas", JSON.stringify(myHand)); //Inicialmnete es vacia
+            break;
+          
+          case "Mostrar_tablero":
+            //console.log("Mostrar tablero: "+mensaje.tablero);
+            let tablero = mensaje.combinaciones.map((combination) => {
+              return combination.map((card) => {
+                let values = card.split(",");
+                return {number: values[0], symbol: values[1]};
+              });
+            });
+            console.log("Tablero:");
+            console.log(tablero);
+            setBoard(tablero);
+            localStorage.setItem("tablero7reinas", JSON.stringify(tablero)); //Inicialmnete es vacia
+            break;
+
           default:
             return 0;
         }
@@ -139,7 +197,7 @@ const Admin = (props) => {
       return ws;
     }
     return wsGame;
-  }, [wsGame, sessionUser.codigo, currentGame, history]);
+  }, [wsGame, sessionUser.codigo, currentGame, history, myTurn, players]);
 
   const wsGameChatInstance = useMemo(() => {
     if (!wsGameChat/* && currentGame !== null && currentGame !== undefined && currentGame !== ""*/) {
@@ -204,6 +262,10 @@ const Admin = (props) => {
                                   setGame={setCurrentGame}
                                   players={players}
                                   setPlayers={setPlayers}
+                                  hand={hand}
+                                  board={board}
+                                  myTurn={myTurn}
+                                  turn={turn}
                                 /> }
             key={key}
           />
