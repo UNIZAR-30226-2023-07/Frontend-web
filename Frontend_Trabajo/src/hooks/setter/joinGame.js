@@ -12,6 +12,7 @@ export default function joinGame (me, clavePartida, doNext, doOnError) {
     xhr.onload = function () {
         if (xhr.status === 200) {
             localStorage.setItem('juego7reinas', clavePartida);
+            localStorage.removeItem('jugadorxs7reinas');
             console.log("partida encontrada");
             let datos = JSON.parse(xhr.response);
             console.log(datos.jugadores);
