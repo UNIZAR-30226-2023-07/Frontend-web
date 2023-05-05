@@ -75,6 +75,9 @@ import {
     // }
 
     const showPlayers = (players) => {
+      if (players == null) {
+        return;
+      }
       return players.map((player, key) => {
         return (
           <Card className="card-profile shadow lobby-player-card" key={key}>

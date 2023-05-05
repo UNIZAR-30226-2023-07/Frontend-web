@@ -14,6 +14,7 @@ export default function getUserForGame (player, doNext) {
             let user = {codigo: datos.codigo, nombre: datos.nombre, puntos: datos.puntos, foto: datos.foto};
             players = players == null ? [user] : [...players, user];
             localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
+            //console.log("Juagador de código: "+datos.codigo+" añadido");
             doNext();
         } else {
             alert(`Se ha producido un error al obtener los datos del jugador.`);

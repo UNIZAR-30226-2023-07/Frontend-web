@@ -41,9 +41,14 @@ export default function joinGame (me, clavePartida, doNext, doOnError) {
                     doNext();
                 }
             });
-            let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
-            players.push({codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto});
-            localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));  
+            // let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
+            // console.log("Juagador propio ñadido 2");
+            // let user = {codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto};
+            // players = players == null ? [user] : [...players, user];
+
+            // localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
+
+
             // // let jugadoresPart = datosJugadores.jugadores;
             // // console.log("Datos de jugadores JOIN:" + JSON.stringify(jugadoresPart));
             // console.log(datos.jugadores);
