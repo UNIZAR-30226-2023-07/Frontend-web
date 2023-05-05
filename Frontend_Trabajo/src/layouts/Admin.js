@@ -47,6 +47,8 @@ const Admin = (props) => {
   const [turn, setTurn] = useState(0);
   const [hand, setHand] = useState(JSON.parse(localStorage.getItem("mano7reinas")));
   const [board, setBoard] = useState(JSON.parse(localStorage.getItem("tablero7reinas")));
+  const [discard, setDiscard] = useState(JSON.parse(localStorage.getItem("descarte7reinas")));
+  const [discard2, setDiscard2] = useState(JSON.parse(localStorage.getItem("descartedos7reinas")));
 	const [chatOpen, setChatOpen] = useState(false);
 	const [chatGameOpen, setChatGameOpen] = useState(false);
   const [chatUser, setChatUser] = useState(-1);
@@ -142,6 +144,8 @@ const Admin = (props) => {
             localStorage.setItem("jugadorxs7reinas", JSON.stringify(sortedPlayers));
             setBoard([]);
             localStorage.setItem("tablero7reinas", JSON.stringify([])); //Inicialmente es vacia
+            setDiscard([]);
+            localStorage.setItem("descartes7reinas", JSON.stringify([])); //Inicialmente es vacia
             console.log(sessionUser.codigo);
             ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
             //localStorage.setItem("miturno7reinas", JSON.stringify(jugadores)); //Inicialmnete es vacia
@@ -229,6 +233,9 @@ const Admin = (props) => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     mainContent.current.scrollTop = 0;
+  }, [location]);
+
+  useEffect(() => {
     return () => {
       if (wsChatInstance) {
         wsChatInstance.close();
@@ -243,7 +250,7 @@ const Admin = (props) => {
         setWsGameChat(null);
       }
     }
-  }, [location, wsChatInstance, wsGameInstance, wsGameChatInstance]);
+  }, [wsChatInstance, wsGameInstance, wsGameChatInstance, currentGame]);
 
 
   const getRoutes = (routes) => {

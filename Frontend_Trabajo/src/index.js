@@ -40,7 +40,7 @@ root.render(
       <Route path="/pagina_login" render={(props) => <P_LoginLayout {...props} />} />
       <Route path="/inicio" render={(props) => <InicioLayout {...props} />} />
       <Route path="/tablero_rabino" render={(props) => <T_RabinoLayout {...props} />} />
-      <Redirect from="/" to="/inicio" /> /** Indicamos que es la redireccion ha hacer inicialmente */
+      <Redirect from="/" to="/inicio" /> {/* Indicamos que es la redireccion a hacer inicialmente */}
     </Switch>
   </BrowserRouter>
 );

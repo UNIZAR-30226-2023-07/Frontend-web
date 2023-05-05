@@ -183,9 +183,11 @@ const Sidebar = (props) => {
                 </Media>
               </Media>
             </DropdownToggle>
-            <DropdownMenu className="dropdown-menu-arrow" right>
+            <DropdownMenu className="dropdown-menu-arrow" positionFixed style={{width:"5rem"}}>
               <DropdownItem className="noti-title" header tag="div">
-                <h6 className="text-overflow m-0">{prop.Nombre}</h6>
+                <h3 className="user-card-name text-overflow m-0">{prop.Nombre}</h3>
+                <h5 className="user-card-code text-overflow m-0 mt--1">{prop.Codigo}</h5>
+                <h6 className="user-card-desc text-overflow m-0 mt--0">Petición recibida</h6>
               </DropdownItem>
               <DropdownItem to="/admin/user-profile" tag={Link}>
                 <i className="ni ni-single-02" />
@@ -225,9 +227,11 @@ const Sidebar = (props) => {
                 </Media>
               </Media>
             </DropdownToggle>
-            <DropdownMenu className="dropdown-menu-arrow" right>
+            <DropdownMenu className="dropdown-menu-arrow" positionFixed style={{width:"5rem"}}>
               <DropdownItem className="noti-title" header tag="div">
-                <h6 className="text-overflow m-0">{prop.Nombre}</h6>
+                <h3 className="user-card-name text-overflow m-0">{prop.Nombre}</h3>
+                <h5 className="user-card-code text-overflow m-0 mt--1">{prop.Codigo}</h5>
+                <h6 className="user-card-desc text-overflow m-0 mt--0">Petición enviada</h6>
               </DropdownItem>
               <DropdownItem to="/admin/user-profile" tag={Link}>
                 <i className="ni ni-single-02" />
@@ -287,10 +291,12 @@ const Sidebar = (props) => {
                 </Media>
               </Media>
             </DropdownToggle>
-            <DropdownMenu className="dropdown-menu-arrow" positionFixed>
+            <DropdownMenu className="dropdown-menu-arrow" positionFixed style={{width:"5rem"}}>
               <DropdownItem className="noti-title" header tag="div">
-                <h6 className="text-overflow m-0">{prop.Nombre}</h6>
-                <h6>{prop.Descp}</h6>
+                <h3 className="user-card-name text-overflow m-0">{prop.Nombre}</h3>
+                <h5 className="user-card-code text-overflow m-0 mt--1">{prop.Codigo}</h5>
+                <h4 className="user-card-desc text-overflow m-0 mt--0">{prop.Puntos}<span style={{fontSize:"60%"}}> puntos</span></h4>
+                <h6 className="user-card-desc text-overflow m-0 mt--0">{prop.Descp}</h6>
               </DropdownItem>
               <DropdownItem onClick={() => {
                 if (chatUser >= 0 && messages != null)

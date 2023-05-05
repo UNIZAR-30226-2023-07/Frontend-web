@@ -276,3 +276,42 @@
 .symbol-xl {
     font-size: 2rem;
 }
+
+.game-action-bar {
+    position: absolute;
+    flex-direction: row;
+    bottom: 11rem;
+    padding: 0.3rem;
+    border-radius: 0.7rem;
+    background: #94a4ffc0;
+    border: none;
+}
+
+.game-action-button {
+    border-radius: 0.5rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.game-action-button:not(:last-child) {
+    margin-right: 0.2rem;
+}
+
+.user-card-name {
+    white-space: break-spaces;
+    font-weight: bold;
+    text-transform: none;
+}
+
+.user-card-code {
+    white-space: break-spaces;
+    color: #666;
+    text-transform: none;
+}
+
+.user-card-desc {
+    white-space: break-spaces;
+    text-transform: none;
+}

@@ -66,81 +66,26 @@ function Tablero_Rabino(props) {
     // Set the overflow property to hidden on the body element
     document.body.style.overflow = 'hidden';
   }, []);
-  const cartas_mano = [
-    {
-      number: 0, //JOKER
-      symbol: 0,
-    },
-    {
-      number: 12, //Q
-      symbol: 2,
-    },
-    {
-      number: 11, //J
-      symbol: 3,
-    },
-    {
-      number: 13, //K
-      symbol: 4,
-    },
-    {
-      number: 10, //K
-      symbol: 2,
-    },
-    {
-      number: 10, //K
-      symbol: 2,
-    },
-    {
-      number: 10, //K
-      symbol: 2,
-    },
-    {
-      number: 10, //K
-      symbol: 2,
-    },
-    {
-      number: 10, //K
-      symbol: 2,
-    },
-    {
-      number: 10, //K
-      symbol: 2,
-    },
-    {
-      number: 10, //K
-      symbol: 2,
-    },
-    {
-      number: 10, //K
-      symbol: 2,
-    },
-    {
-      number: 10, //K
-      symbol: 2,
-    },
-    {
-      number: 10, //K
-      symbol: 2,
-    },
-    {
-      number: 10, //K
-      symbol: 2,
-    },
-    {
-      number: 10, //K
-      symbol: 2,
-    },
-    {
-      number: 10, //K
-      symbol: 2,
-    },
-    {
-      number: 10, //K
-      symbol: 2,
-    },
-
-  ];
+  // const cartas_mano = [
+  //   { number:  0, symbol: 0 }, //JOKER
+  //   { number: 11, symbol: 2 }, //JOKER
+  //   { number: 11, symbol: 3 }, //JOKER
+  //   { number: 11, symbol: 4 }, //JOKER
+  //   { number: 10, symbol: 2 }, //JOKER
+  //   { number: 10, symbol: 2 }, //JOKER
+  //   { number: 10, symbol: 2 }, //JOKER
+  //   { number: 10, symbol: 2 }, //JOKER
+  //   { number: 10, symbol: 2 }, //JOKER
+  //   { number: 10, symbol: 2 }, //JOKER
+  //   { number: 10, symbol: 2 }, //JOKER
+  //   { number: 10, symbol: 2 }, //JOKER
+  //   { number: 10, symbol: 2 }, //JOKER
+  //   { number: 10, symbol: 2 }, //JOKER
+  //   { number: 10, symbol: 2 }, //JOKER
+  //   { number: 10, symbol: 2 }, //JOKER
+  //   { number: 10, symbol: 2 }, //JOKER
+  //   { number: 10, symbol: 2 }  //JOKER
+  // ];
 
   const descartes = [
     {
@@ -282,9 +227,9 @@ function Tablero_Rabino(props) {
     });
   }
 
-  console.log(players);
-  console.log(board);
-  console.log(hand);
+  //console.log(players);
+  //console.log(board);
+  //console.log(hand);
 
   return (
     <div className="App" style={{overflowY: 'hidden', overflowX: 'hidden'}}>
@@ -306,7 +251,7 @@ function Tablero_Rabino(props) {
                         </Row>
                     </Button>
                     </DropdownToggle>
-                    <DropdownMenu className="dropdown-menu-arrow mt--1" left>
+                    <DropdownMenu className="dropdown-menu-arrow mt--1">
                       {/* <DropdownItem to="/inicio" tag={Link} onClick={logOut}> */}
                       <DropdownItem to="/admin/" tag={Link}>
                         <i className="ni ni-user-run" />
@@ -339,6 +284,7 @@ function Tablero_Rabino(props) {
                       {/* </Col>
                     )})}} */}
                   </Row>
+                  
                 </Card>
 
               </Col>
@@ -352,7 +298,7 @@ function Tablero_Rabino(props) {
       <div style={{ display: 'flex', width: '100%', flexDirection: 'row' }}>
         <div style={{ flexGrow: 1 }}>
           <div style={{backgroundColor: 'green', height: 'calc(100vh - 21em)', width: 'calc(100vw - 15rem)', overflowY: 'scroll' }}>
-            {t.map((fila, i) => (
+            {board.map((fila, i) => (
               <div key={i} style={{ display: 'flex', flexDirection: 'row',borderBottom: '1px solid white' }}>
                 <CardsWrapper cartas={fila} cardsNumber={fila.length} />
               </div>
@@ -380,7 +326,7 @@ function Tablero_Rabino(props) {
               
               <Col xs="9">
                 <div style={{ width:'100%', overflowY: 'scroll', height:'12rem'}}>
-                  <CardsWrapper cartas={cartas_mano} cardsNumber={cartas_mano.length} />
+                  <CardsWrapper cartas={hand} cardsNumber={hand.length} />
                 </div>
               </Col>
             </Row>
@@ -388,6 +334,11 @@ function Tablero_Rabino(props) {
           {/* <button onClick={() => window.location.reload()}>Reload Cards</button> */}
         </div>
       </div>
+      <Card className="game-action-bar">
+        <Button className="game-action-button" color='primary' onClick={() => console.log('Boton pulsado')}>Abrir</Button>
+        <Button className="game-action-button" color='primary' onClick={() => console.log('Boton pulsado')}>Añadir combinación</Button>
+        <Button className="game-action-button" color='primary' onClick={() => console.log('Boton pulsado')}>Deseleccionar cartas</Button>
+      </Card>
     </div>
   );
   
