@@ -189,6 +189,14 @@ const Admin = (props) => {
             setBoard(tablero);
             localStorage.setItem("tablero7reinas", JSON.stringify(tablero)); //Inicialmnete es vacia
             break;
+          
+          case "Robar_carta":
+            ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+            break;
+
+          case "Robar_carta_descartes":
+            ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+            break;
 
           default:
             return 0;
@@ -273,6 +281,7 @@ const Admin = (props) => {
                                   board={board}
                                   myTurn={myTurn}
                                   turn={turn}
+                                  wsGame={wsGame}
                                 /> }
             key={key}
           />

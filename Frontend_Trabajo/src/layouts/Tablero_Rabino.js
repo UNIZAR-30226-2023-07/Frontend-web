@@ -38,7 +38,7 @@ function Tablero_Rabino(props) {
   const json_j_turno = '{"Nombre": "Pedro"}';
   const j_turno = JSON.parse(json_j_turno);
 
-  const { players, board, hand, myTurn, turn } = props;
+  const { players, board, hand, myTurn, turn, wsGame, sessionUser } = props;
 
 
   // const handleJugador1 = jugador => {
@@ -231,14 +231,26 @@ function Tablero_Rabino(props) {
     if(mano == null){
       return;
     }
-    return(<CardsWrapper cartas={hand} cardsNumber={hand.length} />);
+    return(<CardsWrapper cartas={hand} cardsNumber={hand.length} accion_Carta={() => console.log('Carta selecionada')}/>);
   }
 
-  const mostrarDescartes = (descartes) => {
+  const mostrarDescartes = (descartes, robar_Descarte) => {
     if(descartes == null){
       return;
     }
-    return(<CardsWrapper cartas={descartes} cardsNumber={descartes.length} />);
+    return(<CardsWrapper cartas={descartes} cardsNumber={descartes.length} accion_Carta={robar_Descarte}/>);
+  }
+
+  const robarCarta = () =>{
+    wsGame.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Robar_carta"}));
+    console.log('Enviar: Roba una carta');
+    return;
+  }
+
+  const robarDescarte = () =>{
+    wsGame.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Robar_carta_descartes"}));
+    console.log('Enviar: Robar de descarte');
+    return;
   }
 
 
@@ -315,7 +327,7 @@ function Tablero_Rabino(props) {
           <div style={{backgroundColor: 'green', height: 'calc(100vh - 21em)', width: 'calc(100vw - 15rem)', overflowY: 'scroll' }}>
             {board.map((fila, i) => (
               <div key={i} style={{ display: 'flex', flexDirection: 'row',borderBottom: '1px solid white' }}>
-                <CardsWrapper cartas={fila} cardsNumber={fila.length} />
+                <CardsWrapper cartas={fila} cardsNumber={fila.length} accion_Carta={() => console.log('Carta selecionada')}/>
               </div>
             ))}
           </div>
@@ -326,7 +338,7 @@ function Tablero_Rabino(props) {
                   <Col>
                     <div className="ml-1">
                       {/* <p className="mb--2" style={{ color: 'white', textAlign: 'center'}} >Mazo</p> */}
-                      <Button onClick={() => console.log('Roba una carta')}
+                      <Button onClick={() => robarCarta()}
                       className="card-button">
                         <img src={Reverso_carta} alt="..." style={{ width:'100%', height:'90%'}}/>
                       </Button>
@@ -334,7 +346,7 @@ function Tablero_Rabino(props) {
                   </Col>
                   <Col>
                     {/* <p className="mb--2" style={{ color: 'white', textAlign: 'center'}} >Descartes</p> */}
-                    {mostrarDescartes(descartes)}
+                    {mostrarDescartes(descartes, () => {robarDescarte()})}
                   </Col>
                 </Row>
               </Col>

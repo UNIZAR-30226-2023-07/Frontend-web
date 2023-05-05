@@ -11,10 +11,11 @@ import { useState } from "react";
 //import {  colors } from "../../data";
 //import useRandomValueFromArray from "../../hooks/useRandomValueFromArray";
 
-const CardsWrapper = ({cartas, cardsNumber}) => {
+const CardsWrapper = ({cartas, cardsNumber, accion_Carta}) => {
   const cardNumbers = cardsNumber;
   const carta = cartas;
   let indice = 0;
+
   return (
     <div className="card-wrapper">
       {[...Array(Number(cardNumbers))].map((_numb, index) => {
@@ -28,7 +29,7 @@ const CardsWrapper = ({cartas, cardsNumber}) => {
         indice = indice + 1;
 
       return (
-        <Button onClick={() => console.log('The link was clicked.')} 
+        <Button onClick={() => {accion_Carta(); console.log('Carta pulsada');}} 
         className="card-button" /*style={{ backgroundColor: active ? "black" : "white" }}*/ >
         <Card
           key={index}
