@@ -198,7 +198,7 @@ function Tablero_Rabino(props) {
   const jugadoresInfo = (jugadores) => {
     return jugadores.map((jugador, ind) => {
       return (
-        <Col className="ml-4 mt-3 mb-2" xs="3" key={ind}>
+        <Col className="ml-5 mt-3 mb-2" xs="3" key={ind}>
           <Row className="mt--2 mb--1">
             <img
               alt="..."
@@ -226,6 +226,21 @@ function Tablero_Rabino(props) {
       );
     });
   }
+
+  const mostrarMano = (mano) => {
+    if(mano == null){
+      return;
+    }
+    return(<CardsWrapper cartas={hand} cardsNumber={hand.length} />);
+  }
+
+  const mostrarDescartes = (descartes) => {
+    if(descartes == null){
+      return;
+    }
+    return(<CardsWrapper cartas={descartes} cardsNumber={descartes.length} />);
+  }
+
 
   //console.log(players);
   //console.log(board);
@@ -271,7 +286,7 @@ function Tablero_Rabino(props) {
                 <Button color='primary' className="mt-1" onClick={() => console.log('Nueva combinacion')}>Nueva combinación</Button>
               </Col>
               <Col className="ml--3">
-                <Card className="bg-secondary shadow">
+                <Card className="bg-secondary shadow" style={{ height: '70px'}}>
                   {/* <CardHeader className="border-0">
                     <h3 className="mb--4 mt--3">Turno de: {TurnoJugador.Nombre}</h3>
                   </CardHeader> */}
@@ -319,14 +334,14 @@ function Tablero_Rabino(props) {
                   </Col>
                   <Col>
                     {/* <p className="mb--2" style={{ color: 'white', textAlign: 'center'}} >Descartes</p> */}
-                    <CardsWrapper cartas={descartes} cardsNumber={descartes.length} />
+                    {mostrarDescartes(descartes)}
                   </Col>
                 </Row>
               </Col>
               
               <Col xs="9">
                 <div style={{ width:'100%', overflowY: 'scroll', height:'12rem'}}>
-                  <CardsWrapper cartas={hand} cardsNumber={hand.length} />
+                  {mostrarMano(hand)}
                 </div>
               </Col>
             </Row>
