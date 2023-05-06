@@ -192,11 +192,56 @@ const Admin = (props) => {
             break;
           
           case "Robar_carta":
-            ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+            if(mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez
+              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+              console.log("RECEPCIÓN: Carta Robada");
+            }
             break;
 
           case "Robar_carta_descartes":
-            ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+            if(mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez
+              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+              console.log("RECEPCIÓN: Carta Robada de Descartes");
+            }
+            break;
+          
+          case "Abrir":
+            if(mensaje.info == "Ok" && mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez actualizar
+              setAbierto(true);
+              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
+            } else if(/*NO SE HA PODIDO ABRIR*/true){
+              setAbierto(false);
+            } else if (/*GANADOR*/true) {
+              /*Acciones por ganar*/
+            }
+            break;
+          
+          case "Colocar_combinacion":
+            if(mensaje.info == "Ok" && mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez actualizar
+              //Actualizar manos y tablero
+              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
+            } else if(/*NO ES VALIDA*/true){
+              setAbierto(false);
+            } else if (/*GANADOR*/false) {
+              /*Acciones por ganar*/
+            }
+            
+            break;
+
+          case "Colocar_carta":
+            if(mensaje.info == "Ok" && mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez actualizar
+              //Actualizar manos y tablero
+              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
+            } else if(/*NO ES VALIDA*/true){
+              setAbierto(false);
+            } else if (/*GANADOR*/false) {
+              /*Acciones por ganar*/
+            } else if(/*JOCKER*/true && mensaje.receptor == sessionUser.codigo){
+
+            }
             break;
 
           case "Descarte"://Dejar descarte y se acaba el turno
@@ -236,9 +281,21 @@ const Admin = (props) => {
                 setAbierto(false);
               }
             }
-
             break;
 
+          case "Fin_partida":
+            if(mensaje.info == "Ok"){
+              //ACCIONES DE FIN DE PARTIDA
+            } else {
+              /*Mensaje de error*/
+            }          
+            break;
+          
+          case "jugadores":
+              console.log(mensaje.cartas);
+              //HAY QUE ACTUALIZAR EL NUMERO DE LAS CARTAS EN LA MANO DE LA INFO DE JUGADOR 
+            break;
+  
           default:
             return 0;
         }
