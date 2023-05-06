@@ -44,6 +44,7 @@ const Admin = (props) => {
   const [currentGame, setCurrentGame] = useState(JSON.parse(localStorage.getItem("juego7reinas")));
   const [players, setPlayers] = useState(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
   const [myTurn, setMyTurn] = useState(JSON.parse(localStorage.getItem("miturno7reinas")));
+  const [j_abierto, setAbierto] = useState(false);
   const [turn, setTurn] = useState(0);
   const [hand, setHand] = useState(JSON.parse(localStorage.getItem("mano7reinas")));
   const [board, setBoard] = useState(JSON.parse(localStorage.getItem("tablero7reinas")));
@@ -105,7 +106,7 @@ const Admin = (props) => {
         let mensaje = JSON.parse(event.data);
         console.log("Mensaje de wsGame:");
         console.log(mensaje);
-        let myHand;
+        let myHand, mydescartes;
 
         if ( (mensaje.tipo).substring(0, 13) === "Nuevo_Jugador" ) {
             let nuevoJugador = (mensaje.tipo).substring(15);
@@ -198,6 +199,46 @@ const Admin = (props) => {
             ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
             break;
 
+          case "Descarte"://Dejar descarte y se acaba el turno
+
+            if( mensaje.info != "Ok" ){
+              console.log("ERROR AL DESCARTAR: "+mensaje.info);
+            } else {
+              //Gestión de cartas del tablero
+              let tablero = mensaje.combinaciones.map((combination) => {
+                return combination.map((card) => {
+                  let values = card.split(",");
+                  return {number: values[0], symbol: values[1], back: values[2]};
+                });
+              });
+              console.log("Tablero en Descartes:");
+              console.log(tablero);
+              setBoard(tablero);
+              localStorage.setItem("tablero7reinas", JSON.stringify(tablero)); //Inicialmnete es vacia
+
+              //Gestión de cartas de descartes
+              mydescartes = mensaje.descartes.map((card, ind) => {
+                let values = card.split(",");
+                return {number: values[0], symbol: values[1], back: values[2]};
+              });
+              console.log("Mi descartes:");
+              console.log(mydescartes);
+              setDiscard(mydescartes);
+              localStorage.setItem("descarte7reinas", JSON.stringify(mydescartes)); //Inicialmnete es vacia
+
+              //Gestión de cartas el turno
+              setTurn(mensaje.turno);
+
+              //Si el siguiente jugador a abierto o no
+              if(mensaje.abrir == "si"){
+                setAbierto(true);
+              }else{
+                setAbierto(false);
+              }
+            }
+
+            break;
+
           default:
             return 0;
         }
@@ -282,6 +323,7 @@ const Admin = (props) => {
                                   myTurn={myTurn}
                                   turn={turn}
                                   wsGame={wsGame}
+                                  j_abierto={j_abierto}
                                 /> }
             key={key}
           />
