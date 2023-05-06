@@ -42,12 +42,11 @@ function Tablero_Rabino(props) {
 
   const { players, board, hand, setHand, myTurn, turn, wsGame, sessionUser } = props;
 
-  let openPlay, cardsPerComb, currentComb;
-  const [numOfCombs, setNumOfCombs] = useState(0);
+  let openPlay, cardsPerComb, currentComb, numOfCombs;
 
   const clearPlay = () => {
     currentComb = 0;
-    setNumOfCombs(0);
+    numOfCombs = 0;
     openPlay = [];
     for (let i = 0; i < hand.length; i++) {
       openPlay.push({comb:-1, ord:-1});
@@ -56,10 +55,10 @@ function Tablero_Rabino(props) {
   };
 
   const addCardIntoComb = (card, comb) => {
-    openPlay[card].comb = comb;
-    openPlay[card].ord = cardsPerComb[comb];
-    cardsPerComb[comb]++;
-    if (cardsPerComb[comb] === 1) setNumOfCombs(numOfCombs+1);
+    openPlay[card].comb = currentComb;
+    openPlay[card].ord = cardsPerComb[currentComb];
+    cardsPerComb[currentComb]++;
+    if (cardsPerComb[currentComb] === 1) numOfCombs++;
   };
 
   const removeCardFromComb = (card) => {
@@ -67,7 +66,8 @@ function Tablero_Rabino(props) {
     let itsOrd = openPlay[card].ord;
     cardsPerComb[itsComb]--;
     if (cardsPerComb[itsComb] === 0) {
-      setNumOfCombs(numOfCombs-1);
+      numOfCombs--;
+      if (itsComb < currentComb) currentComb--;
       cardsPerComb.splice(itsComb, 1);
       cardsPerComb.push(0);
       openPlay.forEach(card => { if (card.comb > itsComb) card.comb-- });
@@ -76,20 +76,22 @@ function Tablero_Rabino(props) {
     openPlay[card].ord = -1;
   };
 
-  const handleCardSelect = (card, comb) => {
+  const handleCardSelect = (card) => {
     if (openPlay[card].comb === -1) {
-      addCardIntoComb(card, comb);
-    } else if (openPlay[card].comb === comb) {
-      removeCardFromComb(card);
+      addCardIntoComb(card);
+    } else if (openPlay[card].comb === currentComb) {
+      removeCardFromComb(card, -1);
     } else {
       removeCardFromComb(card);
-      addCardIntoComb(card, comb);
+      addCardIntoComb(card);
     }
     console.log("Combinaciones");
     console.log(openPlay);
     console.log("Cartas por combinacion");
     console.log(cardsPerComb);
   }
+
+  clearPlay();
 
   useEffect(() => {
     clearPlay();
