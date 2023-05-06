@@ -18,7 +18,7 @@ import { Container,
   Media
 } from "reactstrap";
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import SelectImgUser from "hooks/SelectImgUser.js";
 
@@ -31,6 +31,8 @@ import Reverso_carta from "../assets/img/Imgs_7_Reinas/Reverso_carta.png";
 
 function Tablero_Rabino(props) {
 
+  const location = useLocation();
+
   //Esta parte guarda la información de los jugadores que hay
   const json_j_default = '{"Nombre": "Sin jugador", "Foto": 6, "Mano": "4"}';
   const j_default = JSON.parse(json_j_default);
@@ -38,54 +40,65 @@ function Tablero_Rabino(props) {
   const json_j_turno = '{"Nombre": "Pedro"}';
   const j_turno = JSON.parse(json_j_turno);
 
-  const { players, board, hand, myTurn, turn, wsGame, sessionUser } = props;
+  const { players, board, hand, setHand, myTurn, turn, wsGame, sessionUser } = props;
 
+  let openPlay, cardsPerComb, currentComb;
+  const [numOfCombs, setNumOfCombs] = useState(0);
 
-  // const handleJugador1 = jugador => {
-  //   setJugador1(jugador)
-  // };
+  const clearPlay = () => {
+    currentComb = 0;
+    setNumOfCombs(0);
+    openPlay = [];
+    for (let i = 0; i < hand.length; i++) {
+      openPlay.push({comb:-1, ord:-1});
+    }
+    cardsPerComb = [0, 0, 0, 0, 0];
+  };
 
-  // const handleJugador2 = jugador => {
-  //   setJugador2(jugador)
-  // };
+  const addCardIntoComb = (card, comb) => {
+    openPlay[card].comb = comb;
+    openPlay[card].ord = cardsPerComb[comb];
+    cardsPerComb[comb]++;
+    if (cardsPerComb[comb] === 1) setNumOfCombs(numOfCombs+1);
+  };
 
-  // const handleJugador3 = jugador => {
-  //   setJugador3(jugador)
-  // };
+  const removeCardFromComb = (card) => {
+    let itsComb = openPlay[card].comb;
+    let itsOrd = openPlay[card].ord;
+    cardsPerComb[itsComb]--;
+    if (cardsPerComb[itsComb] === 0) {
+      setNumOfCombs(numOfCombs-1);
+      cardsPerComb.splice(itsComb, 1);
+      cardsPerComb.push(0);
+      openPlay.forEach(card => { if (card.comb > itsComb) card.comb-- });
+    } else openPlay.forEach(card => { if (card.comb === itsComb && card.ord > itsOrd) card.ord-- });
+    openPlay[card].comb = -1;
+    openPlay[card].ord = -1;
+  };
 
-  // const handleJugador4 = jugador => {
-  //   setJugador4(jugador)
-  // };
+  const handleCardSelect = (card, comb) => {
+    if (openPlay[card].comb === -1) {
+      addCardIntoComb(card, comb);
+    } else if (openPlay[card].comb === comb) {
+      removeCardFromComb(card);
+    } else {
+      removeCardFromComb(card);
+      addCardIntoComb(card, comb);
+    }
+    console.log("Combinaciones");
+    console.log(openPlay);
+    console.log("Cartas por combinacion");
+    console.log(cardsPerComb);
+  }
 
-  // const handleTurnoJugador = jugador => {
-  //   setTurnoJugador(jugador)
-  // };
-
+  useEffect(() => {
+    clearPlay();
+  }, [hand, location]);
 
   useEffect(() => {
     // Set the overflow property to hidden on the body element
     document.body.style.overflow = 'hidden';
   }, []);
-  // const cartas_mano = [
-  //   { number:  0, symbol: 0 }, //JOKER
-  //   { number: 11, symbol: 2 }, //JOKER
-  //   { number: 11, symbol: 3 }, //JOKER
-  //   { number: 11, symbol: 4 }, //JOKER
-  //   { number: 10, symbol: 2 }, //JOKER
-  //   { number: 10, symbol: 2 }, //JOKER
-  //   { number: 10, symbol: 2 }, //JOKER
-  //   { number: 10, symbol: 2 }, //JOKER
-  //   { number: 10, symbol: 2 }, //JOKER
-  //   { number: 10, symbol: 2 }, //JOKER
-  //   { number: 10, symbol: 2 }, //JOKER
-  //   { number: 10, symbol: 2 }, //JOKER
-  //   { number: 10, symbol: 2 }, //JOKER
-  //   { number: 10, symbol: 2 }, //JOKER
-  //   { number: 10, symbol: 2 }, //JOKER
-  //   { number: 10, symbol: 2 }, //JOKER
-  //   { number: 10, symbol: 2 }, //JOKER
-  //   { number: 10, symbol: 2 }  //JOKER
-  // ];
 
   const descartes = [
     {
@@ -93,8 +106,6 @@ function Tablero_Rabino(props) {
       symbol: 0,
     },
   ];
-
-  const CSelecion= [];
 
   const t = [
     [{
@@ -231,7 +242,7 @@ function Tablero_Rabino(props) {
     if(mano == null){
       return;
     }
-    return(<CardsWrapper cartas={hand} cardsNumber={hand.length} accion_Carta={() => console.log('Carta selecionada')}/>);
+    return(<CardsWrapper cartas={hand} cardsNumber={hand.length} classes={"hand-cards"} accion_Carta={(index) => {console.log(`Carta selecionada ${index}`); handleCardSelect(index, currentComb)}}/>);
   }
 
   const mostrarDescartes = (descartes, robar_Descarte) => {
@@ -352,7 +363,7 @@ function Tablero_Rabino(props) {
               </Col>
               
               <Col xs="9">
-                <div style={{ width:'100%', overflowY: 'scroll', height:'12rem'}}>
+                <div style={{ width:'100%', height:'12rem'}}>
                   {mostrarMano(hand)}
                 </div>
               </Col>
@@ -364,7 +375,17 @@ function Tablero_Rabino(props) {
       <Card className="game-action-bar">
         <Button className="game-action-button" color='primary' onClick={() => console.log('Boton pulsado')}>Abrir</Button>
         <Button className="game-action-button" color='primary' onClick={() => console.log('Boton pulsado')}>Añadir combinación</Button>
-        <Button className="game-action-button" color='primary' onClick={() => console.log('Boton pulsado')}>Deseleccionar cartas</Button>
+        Combinación
+        <Button className="game-action-button" color='primary' onClick={() => currentComb = 0}>1</Button>
+        <Button className="game-action-button" color='primary' onClick={() => currentComb = 1}>2</Button>
+        <Button className="game-action-button" color='primary' onClick={() => currentComb = 2}>3</Button>
+        <Button className="game-action-button" color='primary' onClick={() => currentComb = 3}>4</Button>
+        <Button className="game-action-button" color='primary' onClick={() => currentComb = 4}>5</Button>
+        {/* {() => {if (numOfCombs>0) return (<Button className="game-action-button" color='primary' onClick={() => currentComb = 1}>2</Button>)}}
+        {() => {if (numOfCombs>1) return (<Button className="game-action-button" color='primary' onClick={() => currentComb = 2}>3</Button>)}}
+        {() => {if (numOfCombs>2) return (<Button className="game-action-button" color='primary' onClick={() => currentComb = 3}>4</Button>)}}
+        {() => {if (numOfCombs>3) return (<Button className="game-action-button" color='primary' onClick={() => currentComb = 4}>5</Button>)}} */}
+        <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); clearPlay();}}>Deseleccionar</Button>
       </Card>
     </div>
   );

@@ -156,7 +156,7 @@ const Admin = (props) => {
             //console.log("Mostrar manos: "+mensaje.mano);
             myHand = mensaje.manos[myTurn].map((card, ind) => {
               let values = card.split(",");
-              return {number: values[0], symbol: values[1]};
+              return {number: values[0], symbol: values[1], back: values[2]};
             });
             console.log("Mi mano:");
             console.log(myHand);
@@ -168,7 +168,7 @@ const Admin = (props) => {
             //console.log("Mostrar mano: "+mensaje.mano);
             myHand = mensaje.cartas.map((card, ind) => {
               let values = card.split(",");
-              return {number: values[0], symbol: values[1]};
+              return {number: values[0], symbol: values[1], back: values[2]};
             });
             console.log("Mi mano:");
             console.log(myHand);
@@ -181,7 +181,7 @@ const Admin = (props) => {
             let tablero = mensaje.combinaciones.map((combination) => {
               return combination.map((card) => {
                 let values = card.split(",");
-                return {number: values[0], symbol: values[1]};
+                return {number: values[0], symbol: values[1], back: values[2]};
               });
             });
             console.log("Tablero:");

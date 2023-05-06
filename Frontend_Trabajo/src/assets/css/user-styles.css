@@ -285,6 +285,7 @@
     border-radius: 0.7rem;
     background: #94a4ffc0;
     border: none;
+    vertical-align: middle;
 }
 
 .game-action-button {
