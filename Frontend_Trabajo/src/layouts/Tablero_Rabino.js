@@ -273,31 +273,19 @@ function Tablero_Rabino(props) {
   const jugadoresInfo = (jugadores) => {
     return jugadores.map((jugador, ind) => {
       return (
-        <Col className="ml-5 mt-3 mb-2" xs="3" key={ind}>
-          <Row className="mt--2 mb--1">
+        <Card className={"game-player-card" + (ind===turn?" game-player-current":(sessionUser.codigo===jugador.codigo?" game-player-me":""))} /*style={{width:"13rem", flexDirection:"row", background:(jugadores[turn].codigo===jugador.codigo?"#fcc":"#fff")*}}*/>
+          <Col style={{width:"2rem"}}>
             <img
               alt="..."
-              className="avatar-lg rounded-circle mr-3 ml--4"
+              className="avatar-lg rounded-circle"
               src={SelectImgUser(jugador.foto)}
             />
-            <Col className="ml--4">
-              <Col className="ml--2">
-                <span className="mt-1">{jugador.nombre}</span>
-              </Col>
-              <Col className="ml--2">
-                <Row>
-                  <Col>
-                <span className="mt-0">{jugador.cartas} cartas</span>
-                </Col>
-                <Col className="ml--4">
-                { jugadores[turn].codigo===jugador.codigo && <p className="red"> Turno </p>}
-                {/* { jugadores[turn].codigo==jugador.codigo && <i className="ni ni-check-bold red"/>} */}
-                </Col>
-                </Row>
-              </Col>
-            </Col>
-          </Row>
-        </Col>
+          </Col>
+          <Col className="ml--4">
+            <span className="mt-1">{jugador.nombre}</span><br/>
+            <span className="mt-0">{jugador.cartas} cartas</span>
+          </Col>
+        </Card>
       );
     });
   }
@@ -410,11 +398,11 @@ function Tablero_Rabino(props) {
                 <Button color='primary' className="mt-1" onClick={() => console.log('Nueva combinacion')}>Nueva combinación</Button>
               </Col> */}
               <Col className="ml--3">
-                <Card className="bg-secondary shadow" style={{ height: '70px'}}>
+                {/* <Card className="bg-secondary shadow" style={{ height: '70px', background:"transparent"}}> */}
                   {/* <CardHeader className="border-0">
                     <h3 className="mb--4 mt--3">Turno de: {TurnoJugador.Nombre}</h3>
                   </CardHeader> */}
-                  <Row>
+                  <Row className="game-player-container">
                     {/* {() => {players.map((player, ind) => {
                       console.log(player);
                       return (
@@ -424,7 +412,7 @@ function Tablero_Rabino(props) {
                     )})}} */}
                   </Row>
                   
-                </Card>
+                {/* </Card> */}
 
               </Col>
             </Row>

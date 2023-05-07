@@ -107,10 +107,12 @@ const Admin = (props) => {
               updateFriendRequests();
               break;
         }
-        msg = {Emisor: msg.Emisor, Receptor: msg.Receptor, Contenido: msg.Contenido, Leido: (chatOpen && chatUser>=0 && friends[chatUser].Codigo===msg.emisor) ? 1 : 0};
-        let todosLosMensajes = JSON.parse(localStorage.getItem("mensajes7reinas"));
-        setMessages(todosLosMensajes === null ? [msg] : [...todosLosMensajes, msg]);
-        localStorage.setItem("mensajes7reinas", JSON.stringify(todosLosMensajes === null ? [msg] : [...todosLosMensajes, msg]));
+        else {
+          msg = {Emisor: msg.Emisor, Receptor: msg.Receptor, Contenido: msg.Contenido, Leido: (chatOpen && chatUser>=0 && friends[chatUser].Codigo===msg.emisor) ? 1 : 0};
+          let todosLosMensajes = JSON.parse(localStorage.getItem("mensajes7reinas"));
+          setMessages(todosLosMensajes === null ? [msg] : [...todosLosMensajes, msg]);
+          localStorage.setItem("mensajes7reinas", JSON.stringify(todosLosMensajes === null ? [msg] : [...todosLosMensajes, msg]));
+        }
       };
       ws.onerror = (error) => {
         console.log(`Error: ${error.message}`);
@@ -390,7 +392,7 @@ const Admin = (props) => {
   useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
-    mainContent.current.scrollTop = 0;
+    //mainContent.current.scrollTop = 0;
   }, [location]);
 
   useEffect(() => {
@@ -415,27 +417,30 @@ const Admin = (props) => {
     return routes.map((prop, key) => {
       if (prop.layout === "/admin") {
         return (
+
           <Route
             path={prop.layout + prop.path}
             // Añadir props: https://ui.dev/react-router-pass-props-to-components
-            render={(props) => <prop.component
-                                  {...props}
-                                  sessionUser={sessionUser}
-                                  setSessionUser={setSessionUser}
-                                  friends={friends}
-                                  friendRequests={friendRequests}
-                                  setGame={setCurrentGame}
-                                  players={players}
-                                  setPlayers={setPlayers}
-                                  hand={hand}
-                                  setHand={setHand}
-                                  board={board}
-                                  discard={discard}
-                                  myTurn={myTurn}
-                                  turn={turn}
-                                  wsGame={wsGame}
-                                  j_abierto={j_abierto}
-                                /> }
+            render={(props) => <div className={"user-content" + (prop.path==="/partida"?" game-content":"")} ref={mainContent}>
+                                  <prop.component
+                                    {...props}
+                                    sessionUser={sessionUser}
+                                    setSessionUser={setSessionUser}
+                                    friends={friends}
+                                    friendRequests={friendRequests}
+                                    setGame={setCurrentGame}
+                                    players={players}
+                                    setPlayers={setPlayers}
+                                    hand={hand}
+                                    setHand={setHand}
+                                    board={board}
+                                    discard={discard}
+                                    myTurn={myTurn}
+                                    turn={turn}
+                                    wsGame={wsGame}
+                                    j_abierto={j_abierto}
+                                  />
+                                </div>}
             key={key}
           />
         );
@@ -551,7 +556,7 @@ const Admin = (props) => {
           messages={messages}
           setMessages={setMessages}
         />
-        <div className="user-content" ref={mainContent}>
+        
           <Switch>
             {getRoutes(routes)}
             <Redirect from="*" to="/admin/index" />
@@ -559,7 +564,6 @@ const Admin = (props) => {
           {/* <Container fluid>
             <AdminFooter />
           </Container> */}
-        </div>
         <Chat
           {...props}
           chatOpen={chatOpen}

@@ -109,7 +109,10 @@
   }
   
   .grid-1 {
-    transform: scale(3) translate(0.26rem, 0rem);
+    transform: /*scale(3)*/ translate(0.5rem, 0rem);
+  }
+  .symbol-bigger {
+    transform: scale(3);
   }
   .grid-2 {
     transform: scale(1.75) translate(0.45rem, -0.1rem);

@@ -6,7 +6,7 @@ const CenterCardElement = ({ number, symbol, name }) => {
       {[...Array(Number(number))].map((_symb, index) => {
         index += 1;
         return (
-          <span className="centerCard" key={index}>
+          <span className={"centerCard" + (number==1?" symbol-bigger":"")} key={index}>
             <span className="center-symbol-sigle">
               {number > 0 && number <= 10 ? symbol : ""}
             </span>
