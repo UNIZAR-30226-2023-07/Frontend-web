@@ -23,14 +23,14 @@ const CardsWrapper = ({cartas, cardsNumber, accion_Carta, classes}) => {
         
         const carta_Symbols =
         symbols[carta[indice].symbol];
-
         const carta_Numbers =
         numbers[carta[indice].number];
+        const carta_Comb = carta[indice].comb;
         indice = indice + 1;
 
       return (
         <Button onClick={() => {accion_Carta(Number(index)-1); console.log('Carta pulsada');}} 
-        className={classes + (classes !== null ? " card-button":"card-button")} /*style={{ backgroundColor: active ? "black" : "white" }}*/ >
+        className={classes + (classes !== null ? " ":"") + `card-button card-button-${carta_Comb}`} /*style={{ backgroundColor: active ? "black" : "white" }}*/ >
         <Card
           key={index}
           name={carta_Symbols.name}

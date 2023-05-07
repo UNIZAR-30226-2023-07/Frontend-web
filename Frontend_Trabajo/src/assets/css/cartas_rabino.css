@@ -28,7 +28,7 @@
   }
   
   .card-container {
-    background: #fff;
+    /* background: #fff; */
     width: 5rem;
     height: 8rem;
     border-radius: 7px;
@@ -323,8 +323,92 @@
   button:hover {
     background-color: #fff;
     color: #444;
+    /* // mover 2 rem hacia arriba */
+
   }
 
   .hand-cards:not(:last-child) {
     margin-right: -6rem;
+  }
+
+  .card-button:hover {
+    transform: translateY(-1rem) !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .card-button--1 {
+    background: white !important;
+    border-color: white !important;
+    border-style: solid;
+    border-width: 5px;
+  }
+  .card-button-0 {
+    background: rgb(179, 200, 237) !important;
+    border-color: cornflowerblue !important;
+    border-style: solid;
+    border-width: 5px;
+  }
+  .card-button-1 {
+    background: rgb(169, 199, 169) !important;
+    border-color: rgb(50, 137, 50) !important;
+    border-style: solid;
+    border-width: 5px;
+  }
+  .card-button-2 {
+    background: rgb(255, 192, 203) !important;
+    border-color: rgb(255, 20, 147) !important;
+    border-style: solid;
+    border-width: 5px;
+  }
+  .card-button-3 {
+    background: rgb(202, 179, 223) !important;
+    border-color: rgb(149, 89, 205) !important;
+    border-style: solid;
+    border-width: 5px;
+  }
+  .card-button-4 {
+    background: rgb(255, 228, 181) !important;
+    border-color: rgb(255, 140, 0) !important;
+    border-style: solid;
+    border-width: 5px;
+  }
+  .comb-button-0-off {
+    color: rgb(179, 200, 237) !important;
+    background: cornflowerblue !important;
+  }
+  .comb-button-0-on {
+    background: rgb(179, 200, 237) !important;
+    color: cornflowerblue !important;
+  }
+  .comb-button-1-off {
+    color: rgb(169, 199, 169) !important;
+    background: rgb(50, 137, 50) !important;
+  }
+  .comb-button-1-on {
+    background: rgb(169, 199, 169) !important;
+    color: rgb(50, 137, 50) !important;
+  }
+  .comb-button-2-off {
+    color: rgb(255, 192, 203) !important;
+    background: rgb(255, 20, 147) !important;
+  }
+  .comb-button-2-on {
+    background: rgb(255, 192, 203) !important;
+    color: rgb(255, 20, 147) !important;
+  }
+  .comb-button-3-off {
+    color: rgb(202, 179, 223) !important;
+    background: rgb(149, 89, 205) !important;
+  }
+  .comb-button-3-on {
+    background: rgb(202, 179, 223) !important;
+    color: rgb(149, 89, 205) !important;
+  }
+  .comb-button-4-off {
+    color: rgb(255, 228, 181) !important;
+    background: rgb(255, 140, 0) !important;
+  }
+  .comb-button-4-on {
+    background: rgb(255, 228, 181) !important;
+    color: rgb(255, 140, 0) !important;
   }

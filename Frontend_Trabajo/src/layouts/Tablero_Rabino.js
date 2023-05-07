@@ -1,6 +1,6 @@
 import "./../assets/css/cartas_rabino.css";
 //import CardR from "components/Cartas_Rabino/card.js";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import CardsWrapper from "components/Cartas_Rabino/CardWrapper.js";
 import { Container,
   Row,
@@ -42,32 +42,48 @@ function Tablero_Rabino(props) {
 
   const { players, board, hand, setHand, myTurn, turn, wsGame, sessionUser } = props;
 
-  let openPlay, cardsPerComb, currentComb, numOfCombs;
+  const [openPlay, setOpenPlay] = useState(Array.from({ length: hand.length }, () => ({comb:-1, ord:-1})));
+  const [cardsPerComb, setCardsPerComb] = useState([0, 0, 0, 0, 0]);
+  const [currentComb, setCurrentComb] = useState(0);
+  const [numOfCombs, setNumOfCombs] = useState(0);
+  const [action, setAction] = useState(0);
+
+  const combinaciones = (hand, cardsPerComb, numOfCombs) => {
+    let estructura = [];
+    for (let i = 0; i < numOfCombs; i++) {
+      let result = "";
+      for (let j = 0; j < cardsPerComb[i]; j++)
+        result += hand.findIndex(card => card.comb === i && card.ord === j) + ",";
+      estructura.push(result.substring(0, result.length-1));
+    }
+    return estructura;
+  };
+
+  console.log(combinaciones(hand, cardsPerComb, numOfCombs));
 
   const clearPlay = () => {
-    currentComb = 0;
-    numOfCombs = 0;
-    openPlay = [];
-    for (let i = 0; i < hand.length; i++) {
-      openPlay.push({comb:-1, ord:-1});
-    }
-    cardsPerComb = [0, 0, 0, 0, 0];
+    let partialHand = hand;
+    partialHand.forEach(card => { card.comb=-1; card.ord=-1 });
+    setCurrentComb(0);
+    setNumOfCombs(0);
+    //setOpenPlay(Array.from({ length: hand.length }, () => ({comb:-1, ord:-1})));
+    setHand(partialHand);
+    setCardsPerComb([0, 0, 0, 0, 0]);
   };
 
-  const addCardIntoComb = (card, comb) => {
-    openPlay[card].comb = currentComb;
-    openPlay[card].ord = cardsPerComb[currentComb];
-    cardsPerComb[currentComb]++;
-    if (cardsPerComb[currentComb] === 1) numOfCombs++;
+  const addCardIntoComb = (card, openPlay, cardsPerComb, combs) => {
+    openPlay[card].comb = combs.current;
+    openPlay[card].ord = cardsPerComb[combs.current];
+    cardsPerComb[combs.current]++;
+    if (cardsPerComb[combs.current] === 1) combs.num++;
   };
-
-  const removeCardFromComb = (card) => {
+  const removeCardFromComb = (card, openPlay, cardsPerComb, combs) => {
     let itsComb = openPlay[card].comb;
     let itsOrd = openPlay[card].ord;
     cardsPerComb[itsComb]--;
     if (cardsPerComb[itsComb] === 0) {
-      numOfCombs--;
-      if (itsComb < currentComb) currentComb--;
+      combs.num--;
+      if (itsComb < combs.current) combs.current--;
       cardsPerComb.splice(itsComb, 1);
       cardsPerComb.push(0);
       openPlay.forEach(card => { if (card.comb > itsComb) card.comb-- });
@@ -77,30 +93,75 @@ function Tablero_Rabino(props) {
   };
 
   const handleCardSelect = (card) => {
-    if (openPlay[card].comb === -1) {
-      addCardIntoComb(card);
-    } else if (openPlay[card].comb === currentComb) {
-      removeCardFromComb(card, -1);
+    let partialOpenPlay = hand;
+    let partialCardsPerComb = cardsPerComb;
+    let partialCombs = {num:numOfCombs, current:currentComb}
+    if (partialOpenPlay[card].comb === -1) {
+      console.log('añadiendo');
+      addCardIntoComb(card, partialOpenPlay, partialCardsPerComb, partialCombs);
+    } else if (partialOpenPlay[card].comb === currentComb) {
+      console.log('quitando');
+      removeCardFromComb(card, partialOpenPlay, partialCardsPerComb, partialCombs);
     } else {
-      removeCardFromComb(card);
-      addCardIntoComb(card);
+      console.log('cambiando');
+      removeCardFromComb(card, partialOpenPlay, partialCardsPerComb, partialCombs);
+      addCardIntoComb(card, partialOpenPlay, partialCardsPerComb, partialCombs);
     }
-    console.log("Combinaciones");
-    console.log(openPlay);
-    console.log("Cartas por combinacion");
-    console.log(cardsPerComb);
+    // console.log("Combinaciones");
+    // console.log(partialOpenPlay);
+    // console.log("Cartas por combinacion");
+    // console.log(partialCardsPerComb);
+    // console.log("Numero de combinaciones");
+    // console.log(partialCombs.num);
+    // console.log("Combinacion actual");
+    // console.log(partialCombs.current);
+    setAction(action+1);
+    setHand(partialOpenPlay);
+    setCardsPerComb(partialCardsPerComb);
+    setNumOfCombs(partialCombs.num);
+    setCurrentComb(partialCombs.current);
   }
-
-  clearPlay();
 
   useEffect(() => {
     clearPlay();
   }, [hand, location]);
 
+  // useEffect(() => {
+  // }, [currentComb, cardsPerComb]);
+
+  // // actualizar el componente cuando cambie hand
+  // useEffect(() => {
+  // }, [hand]);
+
   useEffect(() => {
     // Set the overflow property to hidden on the body element
     document.body.style.overflow = 'hidden';
   }, []);
+
+  // const BarButtons = React.memo(() => {
+  //   return (
+  //     <Card className="game-action-bar">
+  //       <Button className="game-action-button" color='primary' onClick={() => console.log('Boton pulsado')}>Abrir</Button>
+  //       <Button className="game-action-button" color='primary' onClick={() => console.log('Boton pulsado')}>Añadir combinación</Button>
+  //       Combinación
+  //       {() => {
+  //         console.log('NUMCOMBS');
+  //         console.log(numOfCombs);
+  //         for (let i = 0; i <= numOfCombs; i++)
+  //           return <Button className="game-action-button" color='primary' onClick={() => currentComb = {i}}>{i+1}</Button>;
+  //       }}
+  //       {/* <Button className="game-action-button" color='primary' onClick={() => currentComb = 1}>2</Button>
+  //       <Button className="game-action-button" color='primary' onClick={() => currentComb = 2}>3</Button>
+  //       <Button className="game-action-button" color='primary' onClick={() => currentComb = 3}>4</Button>
+  //       <Button className="game-action-button" color='primary' onClick={() => currentComb = 4}>5</Button> */}
+  //       {() => {if (numOfCombs>0) return (<Button className="game-action-button" color='primary' onClick={() => currentComb = 1}>2</Button>)}}
+  //       {() => {if (numOfCombs>1) return (<Button className="game-action-button" color='primary' onClick={() => currentComb = 2}>3</Button>)}}
+  //       {() => {if (numOfCombs>2) return (<Button className="game-action-button" color='primary' onClick={() => currentComb = 3}>4</Button>)}}
+  //       {() => {if (numOfCombs>3) return (<Button className="game-action-button" color='primary' onClick={() => currentComb = 4}>5</Button>)}}
+  //       <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); clearPlay();}}>Deseleccionar</Button>
+  //     </Card>
+  //   );
+  // });
 
   const descartes = [
     {
@@ -244,7 +305,7 @@ function Tablero_Rabino(props) {
     if(mano == null){
       return;
     }
-    return(<CardsWrapper cartas={hand} cardsNumber={hand.length} classes={"hand-cards"} accion_Carta={(index) => {console.log(`Carta selecionada ${index}`); handleCardSelect(index, currentComb)}}/>);
+    return(<CardsWrapper cartas={hand} cardsNumber={hand.length} classes={"hand-cards"} accion_Carta={(index) => {console.log(`Carta selecionada ${index}`); handleCardSelect(index)}}/>);
   }
 
   const mostrarDescartes = (descartes, robar_Descarte) => {
@@ -254,18 +315,48 @@ function Tablero_Rabino(props) {
     return(<CardsWrapper cartas={descartes} cardsNumber={descartes.length} accion_Carta={robar_Descarte}/>);
   }
 
-  const robarCarta = () =>{
+  const robarCarta = () => {
     wsGame.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Robar_carta"}));
     console.log('Enviar: Roba una carta');
     return;
   }
 
-  const robarDescarte = () =>{
+  const robarDescarte = () => {
     wsGame.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Robar_carta_descartes"}));
     console.log('Enviar: Robar de descarte');
     return;
   }
 
+  const descartar = () => {
+    if (numOfCombs === 1 && cardsPerComb[0] === 1) {
+      wsGame.send(JSON.stringify({
+        emisor: sessionUser.codigo,
+        tipo: "Descarte",
+        info: hand.findIndex(card => card.comb === 0)
+      }));
+      console.log('Enviar: Descarte');
+    } else {
+      console.log('Para descartar, seleccione una sola carta.');
+    }
+    return;
+  }
+
+  const abrir = () => {
+    wsGame.send(JSON.stringify({
+      emisor: sessionUser.codigo,
+      tipo: "Abrir",
+      cartas: combinaciones(hand, cardsPerComb, numOfCombs)
+    }));
+    console.log('Enviar: Abrir');
+    return;
+  }
+
+  const botonesCombinaciones = (numCombs) => {
+    let botones = [];
+    for (let i=0; i<=numCombs && i<5; i++)
+      botones.push(<Button className={`game-action-button comb-button-${i}-${currentComb==i?"on":"off"}`} color='primary' onClick={() => {setCurrentComb(i)}}>{i+1}</Button>);
+    return botones;
+  }
 
   //console.log(players);
   //console.log(board);
@@ -375,18 +466,20 @@ function Tablero_Rabino(props) {
         </div>
       </div>
       <Card className="game-action-bar">
-        <Button className="game-action-button" color='primary' onClick={() => console.log('Boton pulsado')}>Abrir</Button>
+        <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); abrir()}}>Abrir</Button>
         <Button className="game-action-button" color='primary' onClick={() => console.log('Boton pulsado')}>Añadir combinación</Button>
         Combinación
-        <Button className="game-action-button" color='primary' onClick={() => currentComb = 0}>1</Button>
-        <Button className="game-action-button" color='primary' onClick={() => currentComb = 1}>2</Button>
+        {() => {
+          console.log('NUMCOMBS');
+          console.log(numOfCombs);
+          {/* for (let i = 0; i <= numOfCombs; i++)
+            return <Button className="game-action-button" color='primary' onClick={() => currentComb = {i}}>{i+1}</Button>; */}
+        }}
+        {botonesCombinaciones(numOfCombs)}
+        {/* <Button className="game-action-button" color='primary' onClick={() => currentComb = 1}>2</Button>
         <Button className="game-action-button" color='primary' onClick={() => currentComb = 2}>3</Button>
         <Button className="game-action-button" color='primary' onClick={() => currentComb = 3}>4</Button>
-        <Button className="game-action-button" color='primary' onClick={() => currentComb = 4}>5</Button>
-        {/* {() => {if (numOfCombs>0) return (<Button className="game-action-button" color='primary' onClick={() => currentComb = 1}>2</Button>)}}
-        {() => {if (numOfCombs>1) return (<Button className="game-action-button" color='primary' onClick={() => currentComb = 2}>3</Button>)}}
-        {() => {if (numOfCombs>2) return (<Button className="game-action-button" color='primary' onClick={() => currentComb = 3}>4</Button>)}}
-        {() => {if (numOfCombs>3) return (<Button className="game-action-button" color='primary' onClick={() => currentComb = 4}>5</Button>)}} */}
+        <Button className="game-action-button" color='primary' onClick={() => currentComb = 4}>5</Button> */}
         <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); clearPlay();}}>Deseleccionar</Button>
       </Card>
     </div>
@@ -395,4 +488,4 @@ function Tablero_Rabino(props) {
   
 }
 
-export default Tablero_Rabino;
+export default memo(Tablero_Rabino);

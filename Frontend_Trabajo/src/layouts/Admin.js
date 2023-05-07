@@ -34,6 +34,8 @@ import routes from "routes.js";
 //import friendRequests from "friendRequests.js";
 import informacion_Web from "informacion_Web.js";
 import getUserForGame from "hooks/getter/getUserForGame";
+import getFriends from "hooks/getter/getFriends";
+import getFriendRequests from "hooks/getter/getFriendRequests";
 
 const Admin = (props) => {
   const mainContent = React.useRef(null);
@@ -63,6 +65,19 @@ const Admin = (props) => {
 
   const history = useHistory();//Permite cambiar de pantalla
 
+  const updateFriends = () => {
+    getFriends(sessionUser.codigo, () => {
+      setFriends(JSON.parse(localStorage.getItem("amigxs7reinas")));
+      console.log(friends);
+    });
+  }
+  const updateFriendRequests = () => {
+    getFriendRequests(sessionUser.codigo, () => {
+      setFriendRequests(JSON.parse(localStorage.getItem("solicitudes7reinas")));
+      console.log(friendRequests);
+    });
+  }
+
   // Construcción de los WebSockets.
 
   const wsChatInstance = useMemo(() => {
@@ -77,8 +92,22 @@ const Admin = (props) => {
         console.log('Conexión cerrada');
       };
       ws.onmessage = (event) => {
+        console.log(event.data);
         let msg = JSON.parse(event.data);
-        msg = {Emisor: msg.emisor, Receptor: msg.receptor, Contenido: msg.contenido, Leido: (chatOpen && chatUser>=0 && friends[chatUser].Codigo===msg.emisor) ? 1 : 0};
+        if (msg.Emisor === "Servidor")
+          switch(msg.contenido) {
+            case "Add", "Deny":
+              updateFriendRequests();
+              break;
+            case "Remove":
+              updateFriends();
+              break;
+            default:
+              updateFriends();
+              updateFriendRequests();
+              break;
+        }
+        msg = {Emisor: msg.Emisor, Receptor: msg.Receptor, Contenido: msg.Contenido, Leido: (chatOpen && chatUser>=0 && friends[chatUser].Codigo===msg.emisor) ? 1 : 0};
         let todosLosMensajes = JSON.parse(localStorage.getItem("mensajes7reinas"));
         setMessages(todosLosMensajes === null ? [msg] : [...todosLosMensajes, msg]);
         localStorage.setItem("mensajes7reinas", JSON.stringify(todosLosMensajes === null ? [msg] : [...todosLosMensajes, msg]));
@@ -157,7 +186,7 @@ const Admin = (props) => {
             //console.log("Mostrar manos: "+mensaje.mano);
             myHand = mensaje.manos[myTurn].map((card, ind) => {
               let values = card.split(",");
-              return {number: values[0], symbol: values[1], back: values[2]};
+              return {number: values[0], symbol: values[1], back: values[2], comb: -1, ord: -1};
             });
             console.log("Mi mano:");
             console.log(myHand);
@@ -169,7 +198,7 @@ const Admin = (props) => {
             //console.log("Mostrar mano: "+mensaje.mano);
             myHand = mensaje.cartas.map((card, ind) => {
               let values = card.split(",");
-              return {number: values[0], symbol: values[1], back: values[2]};
+              return {number: values[0], symbol: values[1], back: values[2], comb: -1, ord: -1};
             });
             console.log("Mi mano:");
             console.log(myHand);
@@ -376,6 +405,7 @@ const Admin = (props) => {
                                   players={players}
                                   setPlayers={setPlayers}
                                   hand={hand}
+                                  setHand={setHand}
                                   board={board}
                                   myTurn={myTurn}
                                   turn={turn}
