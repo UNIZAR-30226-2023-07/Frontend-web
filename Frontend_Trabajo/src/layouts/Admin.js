@@ -176,7 +176,7 @@ const Admin = (props) => {
             setBoard([]);
             localStorage.setItem("tablero7reinas", JSON.stringify([])); //Inicialmente es vacia
             setDiscard([]);
-            localStorage.setItem("descartes7reinas", JSON.stringify([])); //Inicialmente es vacia
+            localStorage.setItem("descarte7reinas", JSON.stringify([])); //Inicialmente es vacia
             localStorage.setItem("herobado7reinas", false); //Inicialmente es vacia
             console.log(sessionUser.codigo);
             ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
@@ -220,25 +220,29 @@ const Admin = (props) => {
           
           case "Mostrar_tablero":
             //console.log("Mostrar tablero: "+mensaje.tablero);
-            let tablero = mensaje.combinaciones?.map((combination) => {
-              return combination.map((card) => {
+            if (mensaje.combinaciones != null) {
+              let tablero = mensaje.combinaciones?.map((combination) => {
+                return combination.map((card) => {
+                  let values = card.split(",");
+                  return {number: values[0], symbol: values[1], back: values[2]};
+                });
+              });
+              console.log("Tablero:");
+              console.log(tablero);
+              setBoard(tablero);
+              localStorage.setItem("tablero7reinas", JSON.stringify(tablero)); //Inicialmnete es vacia
+            }
+            //Descartes
+            if (mensaje.descartes != null) {
+              let descartes = mensaje.descartes?.map((card) => {
                 let values = card.split(",");
                 return {number: values[0], symbol: values[1], back: values[2]};
               });
-            });
-            console.log("Tablero:");
-            console.log(tablero);
-            setBoard(tablero);
-            localStorage.setItem("tablero7reinas", JSON.stringify(tablero)); //Inicialmnete es vacia
-            //Descartes
-            let descartes = mensaje.descartes?.map((card) => {
-              let values = card.split(",");
-              return {number: values[0], symbol: values[1], back: values[2]};
-            });
-            console.log("Descartes:");
-            console.log(descartes);
-            setDiscard(descartes);
-            localStorage.setItem("descarte7reinas", JSON.stringify(descartes)); //Inicialmnete es vacia
+              console.log("Descartes:");
+              console.log(descartes);
+              setDiscard(descartes);
+              localStorage.setItem("descarte7reinas", JSON.stringify(descartes)); //Inicialmnete es vacia
+            }
             break;
           
           case "Robar_carta":
