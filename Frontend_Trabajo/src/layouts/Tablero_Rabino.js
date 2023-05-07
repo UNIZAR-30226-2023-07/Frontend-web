@@ -274,17 +274,17 @@ function Tablero_Rabino(props) {
     return jugadores.map((jugador, ind) => {
       return (
         <Card className={"game-player-card" + (ind===turn?" game-player-current":(sessionUser.codigo===jugador.codigo?" game-player-me":""))} /*style={{width:"13rem", flexDirection:"row", background:(jugadores[turn].codigo===jugador.codigo?"#fcc":"#fff")*}}*/>
-          <Col style={{width:"2rem"}}>
+          
             <img
               alt="..."
-              className="avatar-lg rounded-circle"
+              className="game-player-card-pic avatar-lg rounded-circle"
               src={SelectImgUser(jugador.foto)}
             />
-          </Col>
-          <Col className="ml--4">
-            <span className="mt-1">{jugador.nombre}</span><br/>
-            <span className="mt-0">{jugador.cartas} cartas</span>
-          </Col>
+          <p className="game-player-card-text">
+            <span className="game-player-card-text-name">{jugador.nombre}</span><br/>
+            <span className="game-player-card-text-cards-num">{jugador.cartas}</span>
+            <span className="game-player-card-text-cards-word"> cartas</span>
+          </p>
         </Card>
       );
     });
@@ -366,8 +366,8 @@ function Tablero_Rabino(props) {
     <div className="App" style={{overflowY: 'hidden', overflowX: 'hidden'}}>
       <div style={{ position: "relative", height: '5rem', width: 'calc(100vw - 15rem)', right: '0', zIndex:'1'}}
           className="mt-0">
-            <Row style={{background: "transparent"}}>
-                  <UncontrolledDropdown nav>
+            <Row className="game-player-container">
+                  {/* <UncontrolledDropdown nav>
                     <DropdownToggle className="pr-0" nav>
                     <Button color='primary' className="ml-3">
                         <Row className="mt-2 mb--2 ml--4">
@@ -381,7 +381,6 @@ function Tablero_Rabino(props) {
                     </Button>
                     </DropdownToggle>
                     <DropdownMenu className="dropdown-menu-arrow mt--1">
-                      {/* <DropdownItem to="/inicio" tag={Link} onClick={logOut}> */}
                       <DropdownItem to="/admin/" tag={Link}>
                         <i className="ni ni-user-run" />
                         <span>Guardar y Salir</span>
@@ -393,16 +392,14 @@ function Tablero_Rabino(props) {
                         <span>Seguir Jugando</span>
                       </DropdownItem>
                     </DropdownMenu>
-                  </UncontrolledDropdown>
+                  </UncontrolledDropdown> */}
               {/* <Col xs="1" className="ml--7  mr-5">
                 <Button color='primary' className="mt-1" onClick={() => console.log('Nueva combinacion')}>Nueva combinación</Button>
               </Col> */}
-              <Col className="ml--3">
                 {/* <Card className="bg-secondary shadow" style={{ height: '70px', background:"transparent"}}> */}
                   {/* <CardHeader className="border-0">
                     <h3 className="mb--4 mt--3">Turno de: {TurnoJugador.Nombre}</h3>
                   </CardHeader> */}
-                  <Row className="game-player-container">
                     {/* {() => {players.map((player, ind) => {
                       console.log(player);
                       return (
@@ -410,11 +407,9 @@ function Tablero_Rabino(props) {
                         {jugadoresInfo(players)}
                       {/* </Col>
                     )})}} */}
-                  </Row>
                   
                 {/* </Card> */}
 
-              </Col>
             </Row>
             {/* <Row>
               <Col>

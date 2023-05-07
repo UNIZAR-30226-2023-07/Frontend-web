@@ -288,7 +288,7 @@
     border-radius: 0.7rem;
     background: #94a4ffc0;
     border: none;
-    vertical-align: middle;
+    align-items: center;
 }
 
 .game-action-button {
@@ -322,10 +322,29 @@
 }
 
 .game-player-card {
-    width: 13rem;
+    width: 15rem;
     border-radius: 0.75rem;
     background: white;
     flex-direction: row;
+    padding: 0.3rem;
+    display: flex;
+    align-items: center;
+    color: black;
+}
+
+.game-player-card-pic {
+    width: 3.5rem;
+    height: 3.5rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.game-player-card-text {
+    white-space: break-spaces;
+    margin: 0;
+    padding: 0;
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
 }
 
 .game-player-container {
@@ -346,5 +365,22 @@
 }
 
 .game-player-card:not(:last-child) {
-    margin-right: 0.5rem;
+    margin-right: 0.75rem;
+}
+
+.game-player-card-text-name {
+    font-weight: 600 !important;
+    font-size: 120%;
+    line-height: 1 !important;
+}
+
+.game-player-card-text-cards-num {
+    font-weight: 900 !important;
+    font-size: 140%;
+    line-height: 1 !important;
+}
+
+.game-player-card-text-cards-word {
+    font-weight: 200 !important;
+    line-height: 1 !important;
 }
