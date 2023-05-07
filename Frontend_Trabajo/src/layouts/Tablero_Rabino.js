@@ -40,13 +40,14 @@ function Tablero_Rabino(props) {
   const json_j_turno = '{"Nombre": "Pedro"}';
   const j_turno = JSON.parse(json_j_turno);
 
-  const { players, board, hand, setHand, myTurn, turn, wsGame, sessionUser } = props;
+  const { players, board, hand, setHand, myTurn, turn, wsGame, sessionUser, discard, j_abierto } = props;
 
   const [openPlay, setOpenPlay] = useState(Array.from({ length: hand.length }, () => ({comb:-1, ord:-1})));
   const [cardsPerComb, setCardsPerComb] = useState([0, 0, 0, 0, 0]);
   const [currentComb, setCurrentComb] = useState(0);
   const [numOfCombs, setNumOfCombs] = useState(0);
   const [action, setAction] = useState(0);
+  const [heRobado, setheRobado] = useState(localStorage.getItem("descartedos7reinas"));
 
   const combinaciones = (hand, cardsPerComb, numOfCombs) => {
     let estructura = [];
@@ -302,17 +303,28 @@ function Tablero_Rabino(props) {
   }
 
   const mostrarMano = (mano) => {
-    if(mano == null){
+    if(mano == null || mano == undefined){
       return;
     }
     return(<CardsWrapper cartas={hand} cardsNumber={hand.length} classes={"hand-cards"} accion_Carta={(index) => {console.log(`Carta selecionada ${index}`); handleCardSelect(index)}}/>);
   }
 
-  const mostrarDescartes = (descartes, robar_Descarte) => {
-    if(descartes == null){
+  const mostrarDescartes = (descartes, accion) => {
+    if(descartes == null || descartes == undefined){
       return;
     }
-    return(<CardsWrapper cartas={descartes} cardsNumber={descartes.length} accion_Carta={robar_Descarte}/>);
+    return(<CardsWrapper cartas={descartes} cardsNumber={descartes.length} accion_Carta={accion}/>);
+  }
+
+  const mostrarTablero = () => {
+    if(board == null || board == undefined || true){
+      return;
+    }
+    board.map((fila, i) => (
+      <div key={i} style={{ display: 'flex', flexDirection: 'row',borderBottom: '1px solid white' }}>
+        <CardsWrapper cartas={fila} cardsNumber={fila.length} accion_Carta={() => console.log('Carta selecionada')}/>
+      </div>
+    ));
   }
 
   const robarCarta = () => {
@@ -425,11 +437,7 @@ function Tablero_Rabino(props) {
       <div style={{ display: 'flex', position: 'relative', top: '-5rem', width: '100%', flexDirection: 'row', zIndex:'0' }}>
         <div style={{ flexGrow: 1 }}>
           <div style={{backgroundColor: 'green', height: 'calc(100vh - 16em)', width: 'calc(100vw - 15rem)', overflowY: 'scroll' }}>
-            {board.map((fila, i) => (
-              <div key={i} style={{ display: 'flex', flexDirection: 'row',borderBottom: '1px solid white' }}>
-                <CardsWrapper cartas={fila} cardsNumber={fila.length} accion_Carta={() => console.log('Carta selecionada')}/>
-              </div>
-            ))}
+            {mostrarTablero()}
           </div>
           <div style={{ backgroundColor: 'brown', padding: '10px', width: 'calc(100vw - 15rem)', height: '10rem'}}>
             <Row className="mt--2 mr--4">
@@ -446,7 +454,7 @@ function Tablero_Rabino(props) {
                   </Col>
                   <Col>
                     {/* <p className="mb--2" style={{ color: 'white', textAlign: 'center'}} >Descartes</p> */}
-                    {mostrarDescartes(descartes, () => {robarDescarte()})}
+                    {mostrarDescartes(descartes, () => {heRobado? descartar(): robarDescarte()})}
                   </Col>
                 </Row>
               </Col>
@@ -462,7 +470,7 @@ function Tablero_Rabino(props) {
         </div>
       </div>
       <Card className="game-action-bar">
-        <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); abrir()}}>Abrir</Button>
+        <Button className="game-action-button" disabled={j_abierto}  color='primary' onClick={() => {console.log('Boton pulsado'); abrir()}}>Abrir</Button>
         <Button className="game-action-button" color='primary' onClick={() => console.log('Boton pulsado')}>Añadir combinación</Button>
         Combinación
         {() => {

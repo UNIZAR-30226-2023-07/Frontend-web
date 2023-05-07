@@ -8,4 +8,8 @@ export default function logOut () {
     localStorage.removeItem('pConectada7reinas');
     localStorage.removeItem('jugadorxs7reinas');
     localStorage.removeItem('jGetUser7reinas');
+    localStorage.removeItem('miturno7reinas');
+    localStorage.removeItem('mano7reinas');
+    localStorage.removeItem('tablero7reinas');
+    localStorage.removeItem('descarte7reinas');
 }

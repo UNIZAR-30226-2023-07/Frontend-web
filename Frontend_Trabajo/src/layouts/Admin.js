@@ -135,7 +135,7 @@ const Admin = (props) => {
         let mensaje = JSON.parse(event.data);
         console.log("Mensaje de wsGame:");
         console.log(mensaje);
-        let myHand, mydescartes;
+        let myHand = [], mydescartes = [];
 
         if ( (mensaje.tipo).substring(0, 13) === "Nuevo_Jugador" ) {
             let nuevoJugador = (mensaje.tipo).substring(15);
@@ -175,8 +175,12 @@ const Admin = (props) => {
             localStorage.setItem("tablero7reinas", JSON.stringify([])); //Inicialmente es vacia
             setDiscard([]);
             localStorage.setItem("descartes7reinas", JSON.stringify([])); //Inicialmente es vacia
+            localStorage.setItem("herobado7reinas", false); //Inicialmente es vacia
             console.log(sessionUser.codigo);
             ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+            setHand([{number: 1, symbol: 1, back: 1, comb: -1, ord: -1}]);
+            // localStorage.setItem("mano7reinas", JSON.stringify([])); //Inicialmente es vacia
+            //ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
             //localStorage.setItem("miturno7reinas", JSON.stringify(jugadores)); //Inicialmnete es vacia
             history.push("/admin/partida");
             break;
@@ -214,7 +218,7 @@ const Admin = (props) => {
           
           case "Mostrar_tablero":
             //console.log("Mostrar tablero: "+mensaje.tablero);
-            let tablero = mensaje.combinaciones.map((combination) => {
+            let tablero = mensaje.combinaciones?.map((combination) => {
               return combination.map((card) => {
                 let values = card.split(",");
                 return {number: values[0], symbol: values[1], back: values[2]};
@@ -224,6 +228,15 @@ const Admin = (props) => {
             console.log(tablero);
             setBoard(tablero);
             localStorage.setItem("tablero7reinas", JSON.stringify(tablero)); //Inicialmnete es vacia
+            //Descartes
+            let descartes = mensaje.descartes?.map((card) => {
+              let values = card.split(",");
+              return {number: values[0], symbol: values[1], back: values[2]};
+            });
+            console.log("Descartes:");
+            console.log(descartes);
+            setDiscard(descartes);
+            localStorage.setItem("descarte7reinas", JSON.stringify(descartes)); //Inicialmnete es vacia
             break;
           
           case "Robar_carta":
@@ -318,6 +331,7 @@ const Admin = (props) => {
 
               // Actualizar las manos de los jugadores
               ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+              localStorage.setItem("herobado7reinas", false); //Indica si ha robado el jugador
             }
             break;
 
@@ -416,6 +430,7 @@ const Admin = (props) => {
                                   hand={hand}
                                   setHand={setHand}
                                   board={board}
+                                  discard={discard}
                                   myTurn={myTurn}
                                   turn={turn}
                                   wsGame={wsGame}
