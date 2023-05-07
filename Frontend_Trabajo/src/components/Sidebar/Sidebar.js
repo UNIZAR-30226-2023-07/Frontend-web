@@ -199,7 +199,7 @@ const Sidebar = (props) => {
                 <i className="ni ni-fat-add" />
                 <span>Aceptar</span>
               </DropdownItem>
-              <DropdownItem onClick={() => {denyFriendRequest(sessionUser.codigo, prop.Codigo, () => {
+              <DropdownItem onClick={() => {unfriend(prop.Codigo, sessionUser.codigo, () => {
                   updateFriendRequests();
                 })}}>
                 <i className="ni ni-fat-remove" />
@@ -237,7 +237,7 @@ const Sidebar = (props) => {
                 <i className="ni ni-single-02" />
                 <span>Perfil</span>
               </DropdownItem>
-              <DropdownItem onClick={() => {denyFriendRequest(prop.Codigo, sessionUser.codigo, () => {
+              <DropdownItem onClick={() => {unfriend(prop.Codigo, sessionUser.codigo, () => {
                   updateFriendRequests();
                 })}}>
                 <i className="ni ni-fat-remove" />

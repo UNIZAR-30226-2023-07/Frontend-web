@@ -94,7 +94,7 @@ const Admin = (props) => {
       ws.onmessage = (event) => {
         console.log(event.data);
         let msg = JSON.parse(event.data);
-        if (msg.Emisor === "Servidor")
+        if (msg.emisor === "Servidor")
           switch(msg.contenido) {
             case "Add", "Deny":
               updateFriendRequests();
@@ -165,7 +165,6 @@ const Admin = (props) => {
               gamePlayers.forEach((player) => {
                   console.log(player.codigo);
                   if(player.codigo === elemento[0]){
-                    player.cartas = 14;
                     sortedPlayers.push(player);
                   }
                 });
@@ -184,6 +183,13 @@ const Admin = (props) => {
           
           case "Mostrar_manos":
             //console.log("Mostrar manos: "+mensaje.mano);
+            let gameplayers = JSON.parse(localStorage.getItem("jugadorxs7reinas"));
+            for (let i = 0; i < mensaje.manos.length; i++) {
+              gameplayers[i].cartas = mensaje.manos[i].length;
+            }
+            setPlayers(gameplayers);
+            localStorage.setItem("jugadorxs7reinas", JSON.stringify(gameplayers)); //Inicialmnete es vacia
+            let myTurn = JSON.parse(localStorage.getItem("miturno7reinas"));
             myHand = mensaje.manos[myTurn].map((card, ind) => {
               let values = card.split(",");
               return {number: values[0], symbol: values[1], back: values[2], comb: -1, ord: -1};
@@ -261,7 +267,7 @@ const Admin = (props) => {
 
           case "Colocar_carta":
             if(mensaje.info == "Ok" && mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez actualizar
-              //Actualizar manos y tablero
+              // Actualizar manos y tablero
               ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
               ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
             } else if(/*NO ES VALIDA*/true){
@@ -273,12 +279,12 @@ const Admin = (props) => {
             }
             break;
 
-          case "Descarte"://Dejar descarte y se acaba el turno
+          case "Descarte":// Dejar descarte y se acaba el turno
 
             if( mensaje.info != "Ok" ){
               console.log("ERROR AL DESCARTAR: "+mensaje.info);
             } else {
-              //Gestión de cartas del tablero
+              // Gestión de cartas del tablero
               let tablero = mensaje.combinaciones.map((combination) => {
                 return combination.map((card) => {
                   let values = card.split(",");
@@ -290,7 +296,7 @@ const Admin = (props) => {
               setBoard(tablero);
               localStorage.setItem("tablero7reinas", JSON.stringify(tablero)); //Inicialmnete es vacia
 
-              //Gestión de cartas de descartes
+              // Gestión de cartas de descartes
               mydescartes = mensaje.descartes.map((card, ind) => {
                 let values = card.split(",");
                 return {number: values[0], symbol: values[1], back: values[2]};
@@ -300,15 +306,18 @@ const Admin = (props) => {
               setDiscard(mydescartes);
               localStorage.setItem("descarte7reinas", JSON.stringify(mydescartes)); //Inicialmnete es vacia
 
-              //Gestión de cartas el turno
+              // Gestión de cartas el turno
               setTurn(mensaje.turno);
 
-              //Si el siguiente jugador a abierto o no
+              // Si el siguiente jugador a abierto o no
               if(mensaje.abrir == "si"){
                 setAbierto(true);
               }else{
                 setAbierto(false);
               }
+
+              // Actualizar las manos de los jugadores
+              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
             }
             break;
 
@@ -464,7 +473,7 @@ const Admin = (props) => {
           messages={messages}
           setMessages={setMessages}
         />
-        <div className="user-content" ref={mainContent}>
+        <div className={"game-content " + "user-content"} ref={mainContent}>
           <Switch>
             {getRoutes(routes)}
             <Redirect from="*" to="/admin/index" />

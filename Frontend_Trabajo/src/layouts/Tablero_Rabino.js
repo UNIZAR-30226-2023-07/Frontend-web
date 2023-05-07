@@ -364,11 +364,9 @@ function Tablero_Rabino(props) {
 
   return (
     <div className="App" style={{overflowY: 'hidden', overflowX: 'hidden'}}>
-      <div style={{ height: '75px', backgroundColor: 'white', width: 'calc(100vw - 15rem)', minWidth: '200px', right: '0'}}
+      <div style={{ position: "relative", height: '5rem', width: 'calc(100vw - 15rem)', right: '0', zIndex:'1'}}
           className="mt-0">
-            <Row>
-              <Col xs="2">
-                <Nav className="" navbar>
+            <Row style={{background: "transparent"}}>
                   <UncontrolledDropdown nav>
                     <DropdownToggle className="pr-0" nav>
                     <Button color='primary' className="ml-3">
@@ -396,11 +394,9 @@ function Tablero_Rabino(props) {
                       </DropdownItem>
                     </DropdownMenu>
                   </UncontrolledDropdown>
-                </Nav>
-              </Col>
-              <Col xs="1" className="ml--7  mr-5">
+              {/* <Col xs="1" className="ml--7  mr-5">
                 <Button color='primary' className="mt-1" onClick={() => console.log('Nueva combinacion')}>Nueva combinación</Button>
-              </Col>
+              </Col> */}
               <Col className="ml--3">
                 <Card className="bg-secondary shadow" style={{ height: '70px'}}>
                   {/* <CardHeader className="border-0">
@@ -426,9 +422,9 @@ function Tablero_Rabino(props) {
               </Col>
             </Row> */}
       </div>
-      <div style={{ display: 'flex', width: '100%', flexDirection: 'row' }}>
+      <div style={{ display: 'flex', position: 'relative', top: '-5rem', width: '100%', flexDirection: 'row', zIndex:'0' }}>
         <div style={{ flexGrow: 1 }}>
-          <div style={{backgroundColor: 'green', height: 'calc(100vh - 21em)', width: 'calc(100vw - 15rem)', overflowY: 'scroll' }}>
+          <div style={{backgroundColor: 'green', height: 'calc(100vh - 16em)', width: 'calc(100vw - 15rem)', overflowY: 'scroll' }}>
             {board.map((fila, i) => (
               <div key={i} style={{ display: 'flex', flexDirection: 'row',borderBottom: '1px solid white' }}>
                 <CardsWrapper cartas={fila} cardsNumber={fila.length} accion_Carta={() => console.log('Carta selecionada')}/>
