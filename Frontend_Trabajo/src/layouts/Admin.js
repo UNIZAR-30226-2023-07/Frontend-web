@@ -129,6 +129,7 @@ const Admin = (props) => {
         console.log(`Conectado a la partida ${currentGame}`);
         setSePuedeEnviarGame(true);
         setWsGame(ws);
+        //Reseteamos los almacenes
         localStorage.removeItem('miturno7reinas');
         localStorage.removeItem('mano7reinas');
         localStorage.removeItem('tablero7reinas');
@@ -139,12 +140,6 @@ const Admin = (props) => {
       }
       ws.onclose = () => {
         console.log(`Desconectado de la partida ${currentGame}`);
-        //Reseteamos los almacenes
-        localStorage.removeItem('miturno7reinas');
-        localStorage.removeItem('mano7reinas');
-        localStorage.removeItem('tablero7reinas');
-        localStorage.removeItem('descarte7reinas');
-        localStorage.removeItem('turno7reinas');    
       }
       ws.onmessage = (event) => {
         let mensaje = JSON.parse(event.data);
