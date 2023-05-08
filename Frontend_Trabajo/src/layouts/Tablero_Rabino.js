@@ -40,7 +40,7 @@ function Tablero_Rabino(props) {
   const json_j_turno = '{"Nombre": "Pedro"}';
   const j_turno = JSON.parse(json_j_turno);
 
-  const { players, board, hand, setHand, myTurn, turn, wsGame, sessionUser, discard, j_abierto } = props;
+  const { players, board, hand, setHand, myTurn, turn, wsGame, sessionUser, discard } = props;
 
   const [openPlay, setOpenPlay] = useState(Array.from({ length: hand.length }, () => ({comb:-1, ord:-1})));
   const [cardsPerComb, setCardsPerComb] = useState([0, 0, 0, 0, 0]);
@@ -390,7 +390,7 @@ function Tablero_Rabino(props) {
                   </Col>
                   <Col className="mt--7">
                     {/* <p className="mb--2" style={{ color: 'white', textAlign: 'center'}} >Descartes</p> */}
-                    {mostrarDescartes(descartes, discard, () => {JSON.parse(localStorage.getItem("herobado7reinas"))? descartar(): robarDescarte()})}
+                    {mostrarDescartes(descartes, discard, () => {!JSON.parse(localStorage.getItem("herobado7reinas")) && JSON.parse(localStorage.getItem("heabierto7reinas"))? robarDescarte(): descartar()})}
                   </Col>
                 </Row>
               </Col>
@@ -406,7 +406,7 @@ function Tablero_Rabino(props) {
         </div>
       </div>
       <Card className="game-action-bar">
-        <Button className="game-action-button" disabled={j_abierto}  color='primary' onClick={() => {console.log('Boton pulsado'); abrir()}}>Abrir</Button>
+        <Button className="game-action-button" disabled={JSON.parse(localStorage.getItem("heabierto7reinas"))}  color='primary' onClick={() => {console.log('Boton pulsado'); abrir()}}>Abrir</Button>
         <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); nuevaCombinacion();}}>Añadir combinación</Button>
         Combinación
         {turn}

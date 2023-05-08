@@ -46,7 +46,6 @@ const Admin = (props) => {
   const [currentGame, setCurrentGame] = useState(JSON.parse(localStorage.getItem("juego7reinas")));
   const [players, setPlayers] = useState(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
   const [myTurn, setMyTurn] = useState(JSON.parse(localStorage.getItem("miturno7reinas")));
-  const [j_abierto, setAbierto] = useState(false);
   const [turn, setTurn] = useState(JSON.parse(localStorage.getItem("turno7reinas")));
   const [hand, setHand] = useState(JSON.parse(localStorage.getItem("mano7reinas")));
   const [board, setBoard] = useState(JSON.parse(localStorage.getItem("tablero7reinas")));
@@ -129,13 +128,21 @@ const Admin = (props) => {
         console.log(`Conectado a la partida ${currentGame}`);
         setSePuedeEnviarGame(true);
         setWsGame(ws);
-        // localStorage.removeItem('miturno7reinas');
-        // localStorage.removeItem('mano7reinas');
-        // localStorage.removeItem('tablero7reinas');
-        // localStorage.removeItem('descarte7reinas');
-        // localStorage.removeItem('turno7reinas');
 
-        // localStorage.setItem("turno7reinas", JSON.stringify(0));
+        if(location.pathname != "/admin/partida"){//Comprobamos que no estemos en una partida
+          console.log("Reseteamos LStorage Partida: "+location.pathname);
+          localStorage.removeItem('miturno7reinas');
+          localStorage.removeItem('mano7reinas');
+          localStorage.removeItem('tablero7reinas');
+          localStorage.removeItem('descarte7reinas');
+          localStorage.removeItem('turno7reinas');
+          localStorage.removeItem('heabierto7reinas');
+          localStorage.removeItem('herobado7reinas');
+  
+          localStorage.setItem("turno7reinas", JSON.stringify(0)); //Inicializa el turno
+          localStorage.setItem("heabierto7reinas", false);
+          localStorage.setItem("herobado7reinas", false); //Inicialmente es false
+        }
       }
       ws.onclose = () => {
         console.log(`Desconectado de la partida ${currentGame}`);
@@ -175,8 +182,8 @@ const Admin = (props) => {
               if(elemento[0] === (sessionUser.codigo).toString()){
                 localStorage.setItem("miturno7reinas", JSON.stringify(elemento[1])); //Guardamos nuestro turno como String
                 setMyTurn(elemento[1]);
-                localStorage.setItem("turno7reinas", JSON.stringify(0)); //Guardamos nuestro turno como String
-                setMyTurn(0);
+                //localStorage.setItem("turno7reinas", JSON.stringify(0)); //Guardamos nuestro turno como String
+                //setMyTurn(0);
                 //console.log("Mi turno: "+elemento[1]);
               }
               gamePlayers.forEach((player) => {
@@ -192,7 +199,7 @@ const Admin = (props) => {
             localStorage.setItem("tablero7reinas", JSON.stringify([])); //Inicialmente es vacia
             setDiscard([]);
             localStorage.setItem("descarte7reinas", JSON.stringify([])); //Inicialmente es vacia
-            localStorage.setItem("herobado7reinas", false); //Inicialmente es vacia
+            localStorage.setItem("herobado7reinas", false); //Inicialmente es false
             console.log(sessionUser.codigo);
             ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
             setHand([{number: 1, symbol: 1, back: 1, comb: -1, ord: -1}]);
@@ -279,11 +286,11 @@ const Admin = (props) => {
           
           case "Abrir":
             if(mensaje.info == "Ok" && mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez actualizar
-              setAbierto(true);
+              localStorage.setItem("heabierto7reinas", true);
               ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
               ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
             } else if(/*NO SE HA PODIDO ABRIR*/true){
-              setAbierto(false);
+              //setAbierto(false);
             } else if (/*GANADOR*/true) {
               /*Acciones por ganar*/
             }
@@ -295,7 +302,7 @@ const Admin = (props) => {
               ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
               ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
             } else if(/*NO ES VALIDA*/true){
-              setAbierto(false);
+              //setAbierto(false);
             } else if (/*GANADOR*/false) {
               /*Acciones por ganar*/
             }
@@ -308,7 +315,7 @@ const Admin = (props) => {
               ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
               ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
             } else if(/*NO ES VALIDA*/true){
-              setAbierto(false);
+              //setAbierto(false);
             } else if (/*GANADOR*/false) {
               /*Acciones por ganar*/
             } else if(/*JOCKER*/true && mensaje.receptor == sessionUser.codigo){
@@ -353,9 +360,9 @@ const Admin = (props) => {
 
               // Si el siguiente jugador a abierto o no
               if(mensaje.abrir == "si"){
-                setAbierto(true);
+                localStorage.setItem("heabierto7reinas", true);
               }else{
-                setAbierto(false);
+                localStorage.setItem("heabierto7reinas", false);
               }
 
               // Actualizar las manos de los jugadores
@@ -465,7 +472,6 @@ const Admin = (props) => {
                                     myTurn={myTurn}
                                     turn={turn}
                                     wsGame={wsGame}
-                                    j_abierto={j_abierto}
                                   />
                                 </div>}
             key={key}
