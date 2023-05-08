@@ -209,7 +209,7 @@ const Admin = (props) => {
             setPlayers(gameplayers);
             localStorage.setItem("jugadorxs7reinas", JSON.stringify(gameplayers)); //Inicialmnete es vacia
             let myTurn = JSON.parse(localStorage.getItem("miturno7reinas"));
-            myHand = mensaje.manos[myTurn].map((card, ind) => {
+            myHand = mensaje.manos[myTurn]?.map((card, ind) => {
               let values = card.split(",");
               return {number: values[0], symbol: values[1], back: values[2], comb: -1, ord: -1};
             });
@@ -242,8 +242,11 @@ const Admin = (props) => {
               });
               console.log("Tablero:");
               console.log(tablero);
-              setBoard(tablero);
-              localStorage.setItem("tablero7reinas", JSON.stringify(tablero)); //Inicialmnete es vacia
+
+              if(tablero != null && tablero != undefined){
+                setBoard(tablero);
+                localStorage.setItem("tablero7reinas", JSON.stringify(tablero)); //Inicialmnete es vacia
+              }
             }
             //Descartes
             if (mensaje.descartes != null) {
@@ -325,8 +328,8 @@ const Admin = (props) => {
               });
               console.log("Tablero en Descartes:");
               console.log(tablero);
-              setBoard(tablero);
               if(tablero != null && tablero != undefined){
+                setBoard(tablero);
                 localStorage.setItem("tablero7reinas", JSON.stringify(tablero)); //Inicialmnete es vacia
               }
 
@@ -341,8 +344,10 @@ const Admin = (props) => {
               localStorage.setItem("descarte7reinas", JSON.stringify(mydescartes)); //Inicialmnete es vacia
 
               // Gestión de cartas el turno
-              setTurn(mensaje.turno);
-              localStorage.setItem("turno7reinas", JSON.stringify(mensaje.turno));
+              if(mensaje.turno != ""){
+                setTurn(mensaje.turno);
+                localStorage.setItem("turno7reinas", JSON.stringify(mensaje.turno));
+              }
 
               // Si el siguiente jugador a abierto o no
               if(mensaje.abrir == "si"){

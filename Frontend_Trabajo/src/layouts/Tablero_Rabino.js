@@ -331,28 +331,39 @@ function Tablero_Rabino(props) {
   }
 
   const robarDescarte = () => {
-    setheRobado(true);
-    localStorage.setItem("herobado7reinas", true); //Indica si ha robado el jugador
-    wsGame.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Robar_carta_descartes"}));
-    console.log('Enviar: Robar de descarte');
+    let turno = JSON.parse(localStorage.getItem("turno7reinas"));
+    if(turno == myTurn){
+      setheRobado(true);
+      localStorage.setItem("herobado7reinas", true); //Indica si ha robado el jugador
+      wsGame.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Robar_carta_descartes"}));
+      console.log('Enviar: Robar de descarte');
+    } else {
+      console.log('No es tu turno de robar descarte');
+    }
     return;
   }
 
   const descartar = () => {
-    if (numOfCombs === 1 && cardsPerComb[0] === 1) {
-      wsGame.send(JSON.stringify({
-        "emisor": sessionUser.codigo,
-        "tipo": "Descarte",
-        "info": hand.findIndex(card => card.comb === 0)
-      }));
-      console.log('Enviar: Descarte');
-      console.log(JSON.stringify({
-        "emisor": sessionUser.codigo,
-        "tipo": "Descarte",
-        "info": hand.findIndex(card => card.comb === 0)
-      }));
+    let turno = JSON.parse(localStorage.getItem("turno7reinas"));
+    if(turno == myTurn){
+      if (numOfCombs === 1 && cardsPerComb[0] === 1) {
+        wsGame.send(JSON.stringify({
+          "emisor": sessionUser.codigo,
+          "tipo": "Descarte",
+          "info": (hand.findIndex(card => card.comb === 0)).toString()
+        }));
+        console.log('Enviar: Descarte');
+        console.log(JSON.stringify({
+          "emisor": sessionUser.codigo,
+          "tipo": "Descarte",
+          "info": (hand.findIndex(card => card.comb === 0)).toString()
+        }));
+      } else {
+        console.log('Para descartar, seleccione una sola carta.');
+      }
+    
     } else {
-      console.log('Para descartar, seleccione una sola carta.');
+      console.log('No es tu turno de descartar');
     }
     return;
   }
