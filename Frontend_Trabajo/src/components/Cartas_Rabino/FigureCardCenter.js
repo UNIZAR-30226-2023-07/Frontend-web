@@ -17,44 +17,44 @@ const FigureCardCenter = ({ name, number }) => {
   const FigureContent = () => {
     switch (number) {
       case 11:
-        if (name === "spade") {
+        if (name === "espadas") {
           return <JackOfSpade />;
         }
-        if (name === "club") {
+        if (name === "copas") {
           return <JackOfClub />;
         }
-        if (name === "heart") {
+        if (name === "bastos") {
           return <JackOfHeart />;
         }
-        if (name === "diamond") {
+        if (name === "oros") {
           return <JackOfDiamond />;
         }
         break;
       case 12:
-        if (name === "spade") {
+        if (name === "espadas") {
           return <QueenOfSpade />;
         }
-        if (name === "club") {
+        if (name === "copas") {
           return <QueenOfClub />;
         }
-        if (name === "heart") {
+        if (name === "bastos") {
           return <QueenOfHeart />;
         }
-        if (name === "diamond") {
+        if (name === "oros") {
           return <QuennOfDiamond />;
         }
         break;
       case 13:
-        if (name === "spade") {
+        if (name === "espadas") {
           return <KingOfSpade />;
         }
-        if (name === "club") {
+        if (name === "copas") {
           return <KingOfClub />;
         }
-        if (name === "heart") {
+        if (name === "bastos") {
           return <KingOfHeart />;
         }
-        if (name === "diamond") {
+        if (name === "oros") {
           return <KingOfDiamond />;
         }
         break;

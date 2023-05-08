@@ -79,6 +79,7 @@
     display: flex;
     justify-content: space-evenly;
     flex-direction: column;
+    font-weight: 700;
   }
   
   .top-symbol {
@@ -92,12 +93,18 @@
   }
   
   /* DYNAMIC COLOR CLASS SECTION */
-  .red {
+  .oros {
+    color: rgb(191, 162, 0);
+  }
+  .copas {
     color: red;
   }
-  .black {
-    color: black;
+  .espadas {
+    color: rgb(0, 144, 172);
   }
+  .bastos {
+    color: green;}
+
   
   /* DYNAMIC CENTER CARD SECTION */
   .grid-3,
@@ -170,7 +177,7 @@
   
   .grid-9 .centerCard:last-child {
     position: absolute;
-    transform: translate(1.7rem, -1rem);
+    transform: translate(1.6rem, 0);
   }
   
   .grid-10 .centerCard:last-child {
@@ -308,6 +315,7 @@
     height: 9rem;
     border-radius: 7px;
     margin: 10px;
+    padding: 1rem;
   }
   
   /* BUTTON SECTION */
@@ -414,4 +422,12 @@
   .comb-button-4-on {
     background: rgb(255, 228, 181) !important;
     color: rgb(255, 140, 0) !important;
+  }
+
+  .suit-symbol {
+    filter: "contrast(0.5) !important";
+  }
+
+  .suit-symbol-center {
+    width: 1rem;
   }

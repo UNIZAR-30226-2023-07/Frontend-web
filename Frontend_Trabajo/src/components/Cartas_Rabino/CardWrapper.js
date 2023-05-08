@@ -40,6 +40,7 @@ const CardsWrapper = ({cartas, cardsNumber, accion_Carta, classes}) => {
               ? `${colors[1].color}`
               : `${colors[0].color}`
           }
+          suit = {carta_Symbols.id}
           symbol={carta_Symbols.symbol}
         />
         </Button>

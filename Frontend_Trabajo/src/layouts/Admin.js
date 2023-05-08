@@ -129,17 +129,22 @@ const Admin = (props) => {
         console.log(`Conectado a la partida ${currentGame}`);
         setSePuedeEnviarGame(true);
         setWsGame(ws);
-        //Reseteamos los almacenes
-        localStorage.removeItem('miturno7reinas');
-        localStorage.removeItem('mano7reinas');
-        localStorage.removeItem('tablero7reinas');
-        localStorage.removeItem('descarte7reinas');
-        localStorage.removeItem('turno7reinas');
+        // localStorage.removeItem('miturno7reinas');
+        // localStorage.removeItem('mano7reinas');
+        // localStorage.removeItem('tablero7reinas');
+        // localStorage.removeItem('descarte7reinas');
+        // localStorage.removeItem('turno7reinas');
 
-        localStorage.setItem("turno7reinas", JSON.stringify(0));
+        // localStorage.setItem("turno7reinas", JSON.stringify(0));
       }
       ws.onclose = () => {
         console.log(`Desconectado de la partida ${currentGame}`);
+        //Reseteamos los almacenes
+        // localStorage.removeItem('miturno7reinas');
+        // localStorage.removeItem('mano7reinas');
+        // localStorage.removeItem('tablero7reinas');
+        // localStorage.removeItem('descarte7reinas');
+        // localStorage.removeItem('turno7reinas');    
       }
       ws.onmessage = (event) => {
         let mensaje = JSON.parse(event.data);
@@ -170,6 +175,8 @@ const Admin = (props) => {
               if(elemento[0] === (sessionUser.codigo).toString()){
                 localStorage.setItem("miturno7reinas", JSON.stringify(elemento[1])); //Guardamos nuestro turno como String
                 setMyTurn(elemento[1]);
+                localStorage.setItem("turno7reinas", JSON.stringify(0)); //Guardamos nuestro turno como String
+                setMyTurn(0);
                 //console.log("Mi turno: "+elemento[1]);
               }
               gamePlayers.forEach((player) => {

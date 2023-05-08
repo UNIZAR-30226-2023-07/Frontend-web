@@ -66,6 +66,14 @@
       id: 1,
       color: "black",
     },
+    {
+      id: 2,
+      color: "black",
+    },
+    {
+      id: 3,
+      color: "black",
+    },
   ];
   
   export const symbols = [
@@ -77,21 +85,21 @@
     {
       id: 1,
       symbol: "♠",
-      name: "spade",
+      name: "espadas",
     },
     {
       id: 2,
-      symbol: "♥",
-      name: "heart",
+      symbol: "♣",
+      name: "copas",
     },
     {
       id: 3,
-      symbol: "♣",
-      name: "club",
+      symbol: "♦",
+      name: "bastos",
     },
     {
       id: 4,
-      symbol: "♦",
-      name: "diamond",
+      symbol: "♥",
+      name: "oros",
     },
   ];

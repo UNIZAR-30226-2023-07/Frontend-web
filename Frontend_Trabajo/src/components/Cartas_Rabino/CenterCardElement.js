@@ -1,6 +1,10 @@
 import FigureCardCenter from "./FigureCardCenter.js";
+import Oro from "assets/img/palos/oroColored.png"
+import Copa from "assets/img/palos/copaColored.png"
+import Espada from "assets/img/palos/espadaColored.png"
+import Basto from "assets/img/palos/bastoColored.png"
 
-const CenterCardElement = ({ number, symbol, name }) => {
+const CenterCardElement = ({ number, symbol, suit, name }) => {
   return (
     <>
       {[...Array(Number(number))].map((_symb, index) => {
@@ -8,7 +12,11 @@ const CenterCardElement = ({ number, symbol, name }) => {
         return (
           <span className={"centerCard" + (number==1?" symbol-bigger":"")} key={index}>
             <span className="center-symbol-sigle">
-              {number > 0 && number <= 10 ? symbol : ""}
+              {number <= 0 || number > 10 ? "" : 
+                suit === 1 ? (<img src={Espada} className="espada suit-symbol-center suit-symbol" alt="Espada" />) :
+                suit === 2 ? (<img src={Copa} className="copa suit-symbol-center suit-symbol" alt="Copa" />) :
+                suit === 3 ? (<img src={Basto} className="basto suit-symbol-center suit-symbol" alt="Basto" />) :
+                suit === 4 ? (<img src={Oro} className="oro suit-symbol-center suit-symbol" alt="Oro" />) : ""}
             </span>
           </span>
         );

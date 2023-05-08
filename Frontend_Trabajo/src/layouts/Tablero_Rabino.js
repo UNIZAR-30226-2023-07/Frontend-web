@@ -60,7 +60,15 @@ function Tablero_Rabino(props) {
     return estructura;
   };
 
+  const combinacion = (hand, cardsInComb) => {
+    let result = "";
+    for (let j = 0; j < cardsInComb; j++)
+      result += hand.findIndex(card => card.ord === j) + ",";
+    return result.substring(0, result.length-1);
+  };
+
   console.log(combinaciones(hand, cardsPerComb, numOfCombs));
+  console.log(combinacion(hand, cardsPerComb[0]));
 
   const clearPlay = () => {
     let partialHand = hand;
@@ -171,110 +179,12 @@ function Tablero_Rabino(props) {
     },
   ];
 
-  const t = [
-    [{
-      number: 0, //JOKER
-      symbol: 0,
-    },
-    {
-      number: 11, //JOKER
-      symbol: 1,
-    },
-    {
-      number: 11, //JOKER
-      symbol: 2,
-    }
-    ],
-    [{
-      number: 11, //Q
-      symbol: 3,
-    },
-    {
-      number: 11, //Q
-      symbol: 4,
-    },
-    {
-      number: 12, //Q
-      symbol: 1,
-    }
-    ],
-    [{
-      number: 12, //J
-      symbol: 2,
-    },
-    {
-      number: 12, //J
-      symbol: 3,
-    },
-    {
-      number: 12, //J
-      symbol: 4,
-    },
-    ],
-    [{
-      number: 13, //K
-      symbol: 1,
-    },
-    {
-      number: 13, //K
-      symbol: 2,
-    },
-    {
-      number: 13, //K
-      symbol: 3,
-    },
-    {
-      number: 13, //K
-      symbol: 4,
-    },
-    {
-      number: 13, //K
-      symbol: 3,
-    },
-    {
-      number: 13, //K
-      symbol: 4,
-    },
-    {
-      number: 13, //K
-      symbol: 3,
-    },
-    {
-      number: 13, //K
-      symbol: 4,
-    },
-    {
-      number: 13, //K
-      symbol: 3,
-    },
-    {
-      number: 13, //K
-      symbol: 4,
-    },
-    {
-      number: 13, //K
-      symbol: 3,
-    },
-    {
-      number: 13, //K
-      symbol: 4,
-    },
-    {
-      number: 13, //K
-      symbol: 3,
-    },
-    {
-      number: 13, //K
-      symbol: 4,
-    }
-    ]
-  ];
-
   const jugadoresInfo = (jugadores) => {
     let turno = JSON.parse(localStorage.getItem("turno7reinas"));
     return jugadores.map((jugador, ind) => {
+      console.log(ind);
       return (
-        <Card className={"game-player-card" + (ind===turno?" game-player-current":(sessionUser.codigo===jugador.codigo?" game-player-me":""))} /*style={{width:"13rem", flexDirection:"row", background:(jugadores[turn].codigo===jugador.codigo?"#fcc":"#fff")*}}*/>
+        <Card className={"game-player-card" + (ind==turno?" game-player-current":(ind==myTurn?" game-player-me":""))} /*style={{width:"13rem", flexDirection:"row", background:(jugadores[turn].codigo===jugador.codigo?"#fcc":"#fff")*}}*/>
           
             <img
               alt="..."
@@ -307,12 +217,14 @@ function Tablero_Rabino(props) {
   }
 
   const mostrarTablero = () => {
+    console.log('Mostramos el tablero');
+    console.log(board);
     if(board == null || board == undefined){
       return;
     }
-    board.map((fila, i) => (
+    return board.map((fila, i) => (
       <div key={i} style={{ display: 'flex', flexDirection: 'row',borderBottom: '1px solid white' }}>
-        <CardsWrapper cartas={fila} cardsNumber={fila.length} accion_Carta={() => console.log('Carta selecionada')}/>
+        <CardsWrapper cartas={fila} cardsNumber={fila.length} classes={"hand-cards"} accion_Carta={() => console.log('Carta selecionada')}/>
       </div>
     ));
   }
@@ -375,6 +287,20 @@ function Tablero_Rabino(props) {
       cartas: combinaciones(hand, cardsPerComb, numOfCombs)
     }));
     console.log('Enviar: Abrir');
+    return;
+  }
+
+  const nuevaCombinacion = () => {
+    if (numOfCombs === 1) {
+      wsGame.send(JSON.stringify({
+        emisor: sessionUser.codigo,
+        tipo: "Colocar_combinacion",
+        cartas: combinaciones(hand, cardsPerComb, 1)
+      }));
+      console.log('Enviar: Nueva combinación');
+    } else {
+      console.log('Para colocar una combinación, seleccione una sola combinación.');
+    }
     return;
   }
 
@@ -464,7 +390,7 @@ function Tablero_Rabino(props) {
                   </Col>
                   <Col className="mt--7">
                     {/* <p className="mb--2" style={{ color: 'white', textAlign: 'center'}} >Descartes</p> */}
-                    {mostrarDescartes(descartes, discard, () => {heRobado? descartar(): robarDescarte()})}
+                    {mostrarDescartes(descartes, discard, () => {JSON.parse(localStorage.getItem("herobado7reinas"))? descartar(): robarDescarte()})}
                   </Col>
                 </Row>
               </Col>
@@ -481,14 +407,9 @@ function Tablero_Rabino(props) {
       </div>
       <Card className="game-action-bar">
         <Button className="game-action-button" disabled={j_abierto}  color='primary' onClick={() => {console.log('Boton pulsado'); abrir()}}>Abrir</Button>
-        <Button className="game-action-button" color='primary' onClick={() => console.log('Boton pulsado')}>Añadir combinación</Button>
+        <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); nuevaCombinacion();}}>Añadir combinación</Button>
         Combinación
-        {() => {
-          console.log('NUMCOMBS');
-          console.log(numOfCombs);
-          {/* for (let i = 0; i <= numOfCombs; i++)
-            return <Button className="game-action-button" color='primary' onClick={() => currentComb = {i}}>{i+1}</Button>; */}
-        }}
+        {turn}
         {botonesCombinaciones(numOfCombs)}
         {/* <Button className="game-action-button" color='primary' onClick={() => currentComb = 1}>2</Button>
         <Button className="game-action-button" color='primary' onClick={() => currentComb = 2}>3</Button>
