@@ -47,7 +47,7 @@ const Admin = (props) => {
   const [players, setPlayers] = useState(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
   const [myTurn, setMyTurn] = useState(JSON.parse(localStorage.getItem("miturno7reinas")));
   const [j_abierto, setAbierto] = useState(false);
-  const [turn, setTurn] = useState(0);
+  const [turn, setTurn] = useState(JSON.parse(localStorage.getItem("turno7reinas")));
   const [hand, setHand] = useState(JSON.parse(localStorage.getItem("mano7reinas")));
   const [board, setBoard] = useState(JSON.parse(localStorage.getItem("tablero7reinas")));
   const [discard, setDiscard] = useState(JSON.parse(localStorage.getItem("descarte7reinas")));
@@ -129,9 +129,22 @@ const Admin = (props) => {
         console.log(`Conectado a la partida ${currentGame}`);
         setSePuedeEnviarGame(true);
         setWsGame(ws);
+        localStorage.removeItem('miturno7reinas');
+        localStorage.removeItem('mano7reinas');
+        localStorage.removeItem('tablero7reinas');
+        localStorage.removeItem('descarte7reinas');
+        localStorage.removeItem('turno7reinas');
+
+        localStorage.setItem("turno7reinas", JSON.stringify(0));
       }
       ws.onclose = () => {
         console.log(`Desconectado de la partida ${currentGame}`);
+        //Reseteamos los almacenes
+        localStorage.removeItem('miturno7reinas');
+        localStorage.removeItem('mano7reinas');
+        localStorage.removeItem('tablero7reinas');
+        localStorage.removeItem('descarte7reinas');
+        localStorage.removeItem('turno7reinas');    
       }
       ws.onmessage = (event) => {
         let mensaje = JSON.parse(event.data);
@@ -304,7 +317,7 @@ const Admin = (props) => {
               console.log("ERROR AL DESCARTAR: "+mensaje.info);
             } else {
               // Gestión de cartas del tablero
-              let tablero = mensaje.combinaciones.map((combination) => {
+              let tablero = mensaje.combinaciones?.map((combination) => {
                 return combination.map((card) => {
                   let values = card.split(",");
                   return {number: values[0], symbol: values[1], back: values[2]};
@@ -313,7 +326,9 @@ const Admin = (props) => {
               console.log("Tablero en Descartes:");
               console.log(tablero);
               setBoard(tablero);
-              localStorage.setItem("tablero7reinas", JSON.stringify(tablero)); //Inicialmnete es vacia
+              if(tablero != null && tablero != undefined){
+                localStorage.setItem("tablero7reinas", JSON.stringify(tablero)); //Inicialmnete es vacia
+              }
 
               // Gestión de cartas de descartes
               mydescartes = mensaje.descartes.map((card, ind) => {
@@ -327,6 +342,7 @@ const Admin = (props) => {
 
               // Gestión de cartas el turno
               setTurn(mensaje.turno);
+              localStorage.setItem("turno7reinas", JSON.stringify(mensaje.turno));
 
               // Si el siguiente jugador a abierto o no
               if(mensaje.abrir == "si"){

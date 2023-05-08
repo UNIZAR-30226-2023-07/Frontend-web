@@ -12,4 +12,5 @@ export default function logOut () {
     localStorage.removeItem('mano7reinas');
     localStorage.removeItem('tablero7reinas');
     localStorage.removeItem('descarte7reinas');
+    localStorage.removeItem('turno7reinas');
 }

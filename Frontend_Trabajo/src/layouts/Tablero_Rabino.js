@@ -47,7 +47,7 @@ function Tablero_Rabino(props) {
   const [currentComb, setCurrentComb] = useState(0);
   const [numOfCombs, setNumOfCombs] = useState(0);
   const [action, setAction] = useState(0);
-  const [heRobado, setheRobado] = useState(localStorage.getItem("descartedos7reinas"));
+  const [heRobado, setheRobado] = useState(localStorage.getItem("herobado7reinas") == null? false:localStorage.getItem("herobado7reinas"));
 
   const combinaciones = (hand, cardsPerComb, numOfCombs) => {
     let estructura = [];
@@ -271,9 +271,10 @@ function Tablero_Rabino(props) {
   ];
 
   const jugadoresInfo = (jugadores) => {
+    let turno = JSON.parse(localStorage.getItem("turno7reinas"));
     return jugadores.map((jugador, ind) => {
       return (
-        <Card className={"game-player-card" + (ind===turn?" game-player-current":(sessionUser.codigo===jugador.codigo?" game-player-me":""))} /*style={{width:"13rem", flexDirection:"row", background:(jugadores[turn].codigo===jugador.codigo?"#fcc":"#fff")*}}*/>
+        <Card className={"game-player-card" + (ind===turno?" game-player-current":(sessionUser.codigo===jugador.codigo?" game-player-me":""))} /*style={{width:"13rem", flexDirection:"row", background:(jugadores[turn].codigo===jugador.codigo?"#fcc":"#fff")*}}*/>
           
             <img
               alt="..."
@@ -297,15 +298,16 @@ function Tablero_Rabino(props) {
     return(<CardsWrapper cartas={hand} cardsNumber={hand.length} classes={"hand-cards"} accion_Carta={(index) => {console.log(`Carta selecionada ${index}`); handleCardSelect(index)}}/>);
   }
 
-  const mostrarDescartes = (descartes, accion) => {
-    if(descartes == null || descartes == undefined){
-      return;
+  const mostrarDescartes = (descartes1, descartes2, accion) => {
+    if(descartes2 == null || descartes2 == undefined || descartes2.length == 0){
+      return(<CardsWrapper cartas={descartes1} cardsNumber={descartes1.length} accion_Carta={accion}/>);
+    }else{//Si hay cartas en descartes
+    return(<CardsWrapper cartas={descartes2} cardsNumber={descartes2.length} accion_Carta={accion}/>);
     }
-    return(<CardsWrapper cartas={descartes} cardsNumber={descartes.length} accion_Carta={accion}/>);
   }
 
   const mostrarTablero = () => {
-    if(board == null || board == undefined || true){
+    if(board == null || board == undefined){
       return;
     }
     board.map((fila, i) => (
@@ -316,12 +318,21 @@ function Tablero_Rabino(props) {
   }
 
   const robarCarta = () => {
-    wsGame.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Robar_carta"}));
-    console.log('Enviar: Roba una carta');
+    let turno = JSON.parse(localStorage.getItem("turno7reinas"));
+    if(turno == myTurn){
+      setheRobado(true);
+      localStorage.setItem("herobado7reinas", true); //Indica si ha robado el jugador
+      wsGame.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Robar_carta"}));
+      console.log('Enviar: Roba una carta');
+    } else {
+      console.log('No es tu turno de robar');
+    }
     return;
   }
 
   const robarDescarte = () => {
+    setheRobado(true);
+    localStorage.setItem("herobado7reinas", true); //Indica si ha robado el jugador
     wsGame.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Robar_carta_descartes"}));
     console.log('Enviar: Robar de descarte');
     return;
@@ -330,11 +341,16 @@ function Tablero_Rabino(props) {
   const descartar = () => {
     if (numOfCombs === 1 && cardsPerComb[0] === 1) {
       wsGame.send(JSON.stringify({
-        emisor: sessionUser.codigo,
-        tipo: "Descarte",
-        info: hand.findIndex(card => card.comb === 0)
+        "emisor": sessionUser.codigo,
+        "tipo": "Descarte",
+        "info": hand.findIndex(card => card.comb === 0)
       }));
       console.log('Enviar: Descarte');
+      console.log(JSON.stringify({
+        "emisor": sessionUser.codigo,
+        "tipo": "Descarte",
+        "info": hand.findIndex(card => card.comb === 0)
+      }));
     } else {
       console.log('Para descartar, seleccione una sola carta.');
     }
@@ -435,9 +451,9 @@ function Tablero_Rabino(props) {
                       </Button>
                     </div>
                   </Col>
-                  <Col>
+                  <Col className="mt--7">
                     {/* <p className="mb--2" style={{ color: 'white', textAlign: 'center'}} >Descartes</p> */}
-                    {mostrarDescartes(descartes, () => {heRobado? descartar(): robarDescarte()})}
+                    {mostrarDescartes(descartes, discard, () => {heRobado? descartar(): robarDescarte()})}
                   </Col>
                 </Row>
               </Col>
