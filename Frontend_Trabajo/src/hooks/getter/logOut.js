@@ -15,4 +15,5 @@ export default function logOut () {
     localStorage.removeItem('turno7reinas');
     localStorage.removeItem('heabierto7reinas');
     localStorage.removeItem('herobado7reinas');
+    localStorage.removeItem('part_pausadas7reinas');
 }

@@ -23,6 +23,7 @@ import getUser from "hooks/getter/getUser";
 import getFriends from "hooks/getter/getFriends";
 import getFriendRequests from "hooks/getter/getFriendRequests";
 import getFriendMessages from "hooks/getter/getFriendMessages";
+import getPartidasPausadas from "hooks/getter/getPartidasPausadas";
 
 /*
 import Cookies from 'universal-cookie';
@@ -94,10 +95,12 @@ const Login_Reinas = () => {
           let sessionUser = JSON.parse(localStorage.getItem('usuario7reinas'));
           getFriends(sessionUser.codigo, () => {
             getFriendRequests(sessionUser.codigo, () => {
-              getFriendMessages(sessionUser.codigo, () => {
-                history.push("/admin/");
+              getPartidasPausadas(sessionUser.codigo, () => {
+                getFriendMessages(sessionUser.codigo, () => {
+                  history.push("/admin/");
+                });
               });
-            })
+            });
           });
         });
         

@@ -77,9 +77,15 @@ const Index = (props) => {
   //const r_default = JSON.parse(json_r_default);
   //const [ranking_jug, setRanking_jug] = useState(JSON.parse(JSON.stringify(r_default.ranking)));
   const [ranking_jug, setRanking_jug] = useState(JSON.parse(localStorage.getItem("amigxs7reinas")));
+  const [part_pausadas, setPart_pausadas] = useState(JSON.parse(localStorage.getItem("part_pausadas7reinas")));
+
 
   const updateRanking = () => {
     setRanking_jug(JSON.parse(localStorage.getItem("amigxs7reinas")));
+  }
+
+  const updatePart_Pausadas = () => {
+    setPart_pausadas(JSON.parse(localStorage.getItem("part_pausadas7reinas")));
   }
 
   const handleClaveChange = event => {
@@ -119,6 +125,28 @@ const Index = (props) => {
           </td>
           <td>
               <span className="h3">{prop.Puntos}</span>
+          </td>
+        </tr>
+      );
+    });
+  };
+
+  //Función para mostrar las partidas pausadas
+  const showPart_Pausadas = () => {
+    if (part_pausadas == null) {
+      return;
+    }
+    return part_pausadas.map((prop, key) => {
+      return (
+        <tr key={key}>
+          <td>
+            <span className="h3">{prop.Tipo == "amistosa"? "Normal": "Clasificatoria"}</span>
+          </td>
+          <td>
+              <span className="h3">{prop.Creador}</span>
+          </td>
+          <td>
+              <span className="h3">{prop.Clave}</span>
           </td>
         </tr>
       );
@@ -229,7 +257,7 @@ const Index = (props) => {
                 <CardHeader className="border-0">
                   <Row>
                     <Col>
-                      <h3 className="mb-0">Torneo</h3>
+                      <h3 className="mb-0">Partidas Pusadas</h3>
                     </Col>
                     <Col>
                       <h3 className="mb-0">Ranking</h3>
@@ -239,31 +267,32 @@ const Index = (props) => {
                 <Row>
                   <Col>
                     <Table className="align-items-center table-flush" responsive>
-                        <tbody>
+                      <thead className="thead-light">
                         <tr>
-                          <td>
-                            <Media className="align-items-center">
-                              <span className="mb-0 text-sm text-sm-center">
-                              {"Patida 1"}
-                              </span>
-                            </Media>
-                          </td>
+                          <th scope="col">Tipo de Patida</th>
+                          <th scope="col">Cave de Anfitrión</th>
+                          <th scope="col">Clave de Partida</th>
+                          <th scope="col" />
                         </tr>
-                        </tbody>
+                      </thead>
+
+                      <tbody>
+                        {showPart_Pausadas()}
+                      </tbody>
                     </Table>
                   </Col>
                 
                   <Col>
                     <Table className="align-items-center table-flush" responsive>
-                    <thead className="thead-light">
-                      <tr>
-                        <th scope="col">Puesto</th>
-                        <th scope="col">Foto de Perfil</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Puntos</th>
-                        <th scope="col" />
-                      </tr>
-                    </thead>
+                      <thead className="thead-light">
+                        <tr>
+                          <th scope="col">Puesto</th>
+                          <th scope="col">Foto de Perfil</th>
+                          <th scope="col">Nombre</th>
+                          <th scope="col">Puntos</th>
+                          <th scope="col" />
+                        </tr>
+                      </thead>
 
                       <tbody>
                         {showRanking_jug()}
