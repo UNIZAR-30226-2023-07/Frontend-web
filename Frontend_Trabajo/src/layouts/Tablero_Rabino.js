@@ -42,7 +42,6 @@ function Tablero_Rabino(props) {
 
   const { players, board, hand, setHand, myTurn, turn, wsGame, sessionUser, discard } = props;
 
-  const [openPlay, setOpenPlay] = useState(Array.from({ length: hand.length }, () => ({comb:-1, ord:-1})));
   const [cardsPerComb, setCardsPerComb] = useState([0, 0, 0, 0, 0]);
   const [currentComb, setCurrentComb] = useState(0);
   const [numOfCombs, setNumOfCombs] = useState(0);
@@ -66,9 +65,6 @@ function Tablero_Rabino(props) {
       result += hand.findIndex(card => card.ord === j) + ",";
     return result.substring(0, result.length-1);
   };
-
-  console.log(combinaciones(hand, cardsPerComb, numOfCombs));
-  console.log(combinacion(hand, cardsPerComb[0]));
 
   const clearPlay = () => {
     let partialHand = hand;
@@ -106,13 +102,13 @@ function Tablero_Rabino(props) {
     let partialCardsPerComb = cardsPerComb;
     let partialCombs = {num:numOfCombs, current:currentComb}
     if (partialOpenPlay[card].comb === -1) {
-      console.log('añadiendo');
+      //console.log('añadiendo');
       addCardIntoComb(card, partialOpenPlay, partialCardsPerComb, partialCombs);
     } else if (partialOpenPlay[card].comb === currentComb) {
-      console.log('quitando');
+      //console.log('quitando');
       removeCardFromComb(card, partialOpenPlay, partialCardsPerComb, partialCombs);
     } else {
-      console.log('cambiando');
+      //console.log('cambiando');
       removeCardFromComb(card, partialOpenPlay, partialCardsPerComb, partialCombs);
       addCardIntoComb(card, partialOpenPlay, partialCardsPerComb, partialCombs);
     }
@@ -182,7 +178,6 @@ function Tablero_Rabino(props) {
   const jugadoresInfo = (jugadores) => {
     let turno = JSON.parse(localStorage.getItem("turno7reinas"));
     return jugadores.map((jugador, ind) => {
-      console.log(ind);
       return (
         <Card className={"game-player-card" + (ind==turno?" game-player-current":(ind==myTurn?" game-player-me":""))} /*style={{width:"13rem", flexDirection:"row", background:(jugadores[turn].codigo===jugador.codigo?"#fcc":"#fff")*}}*/>
           
@@ -205,26 +200,27 @@ function Tablero_Rabino(props) {
     if(mano == null || mano == undefined){
       return;
     }
-    return(<CardsWrapper cartas={hand} cardsNumber={hand.length} classes={"hand-cards"} accion_Carta={(index) => {console.log(`Carta selecionada ${index}`); handleCardSelect(index)}}/>);
+    return(<CardsWrapper className="game-my-hand" cartas={hand} cardsNumber={hand.length} classes={"hand-cards card-button"} accion_Carta={(index) => {handleCardSelect(index)}}/>);
   }
 
   const mostrarDescartes = (descartes1, descartes2, accion) => {
     if(descartes2 == null || descartes2 == undefined || descartes2.length == 0){
-      return(<CardsWrapper cartas={descartes1} cardsNumber={descartes1.length} accion_Carta={accion}/>);
+      return(<CardsWrapper cartas={descartes1} cardsNumber={descartes1.length} classes={"card-button"} accion_Carta={accion}/>);
     }else{//Si hay cartas en descartes
-    return(<CardsWrapper cartas={descartes2} cardsNumber={descartes2.length} accion_Carta={accion}/>);
+    return(<CardsWrapper cartas={descartes2} cardsNumber={descartes2.length} classes={"card-button"} accion_Carta={accion}/>);
     }
   }
 
   const mostrarTablero = () => {
-    console.log('Mostramos el tablero');
-    console.log(board);
     if(board == null || board == undefined){
       return;
     }
     return board.map((fila, i) => (
-      <div key={i} style={{ display: 'flex', flexDirection: 'row',borderBottom: '1px solid white' }}>
-        <CardsWrapper cartas={fila} cardsNumber={fila.length} classes={"hand-cards"} accion_Carta={() => console.log('Carta selecionada')}/>
+      <div key={i} style={{ display: 'flex', flexDirection: 'row',borderBottom: '1px solid white', justifyContent:'center', alignItems:"center" }}>
+        <CardsWrapper cartas={fila} cardsNumber={fila.length} classes={"card-board"} accion_Carta={() => {}}/>
+        <Card className="game-add-card-bar">
+          <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); anyadirCarta(i);}}><i className="ni ni-fat-add" /></Button>
+        </Card>
       </div>
     ));
   }
@@ -304,6 +300,20 @@ function Tablero_Rabino(props) {
     return;
   }
 
+  const anyadirCarta = (comb) => {
+    if (numOfCombs === 1 && cardsPerComb[0] === 1) {
+      wsGame.send(JSON.stringify({
+        emisor: sessionUser.codigo,
+        tipo: "Colocar_carta",
+        info: `${comb},${hand.findIndex(card => card.comb === 0)}`
+      }));
+      console.log('Enviar: Colocamos la carta');
+    } else {
+      console.log('Para colocar una carta, seleccione solo una.');
+    }
+    return;
+  }
+
   const botonesCombinaciones = (numCombs) => {
     let botones = [];
     for (let i=0; i<=numCombs && i<5; i++)
@@ -370,39 +380,31 @@ function Tablero_Rabino(props) {
               </Col>
             </Row> */}
       </div>
-      <div style={{ display: 'flex', position: 'relative', top: '-5rem', width: '100%', flexDirection: 'row', zIndex:'0' }}>
+      <div style={{ display:'flex', position:'relative', top:'-5rem', width:'100%', flexDirection:'row', zIndex:'0' }}>
         <div style={{ flexGrow: 1 }}>
-          <div style={{backgroundColor: 'green', height: 'calc(100vh - 16em)', width: 'calc(100vw - 15rem)', overflowY: 'scroll' }}>
+          <div style={{backgroundColor:'green', height:'calc(100vh - 16em)', width:'calc(100vw - 15rem)', overflowY:'scroll', paddingTop:'6rem', paddingBottom:'4rem' }}>
             {mostrarTablero()}
           </div>
-          <div style={{ backgroundColor: 'brown', padding: '10px', width: 'calc(100vw - 15rem)', height: '10rem'}}>
-            <Row className="mt--2 mr--4">
-              <Col xs="3" >
-                <Row>
-                  <Col>
-                    <div className="ml-1">
+          <div style={{ backgroundColor:'brown', width:'calc(100vw - 15rem)', height:'10rem', display:'flex'}}>
+            
                       {/* <p className="mb--2" style={{ color: 'white', textAlign: 'center'}} >Mazo</p> */}
-                      <Button onClick={() => robarCarta()}
+                      <Button style={{minWidth:'fit-content'}} onClick={() => robarCarta()}
                       className="card-button">
-                        <img src={Reverso_carta} alt="..." style={{ width:'100%', height:'90%'}}/>
+                        <img src={Reverso_carta} alt="..." style={{ width:'100%', height:'90%', borderRadius:'0.35rem'}}/>
                       </Button>
-                    </div>
-                  </Col>
-                  <Col className="mt--7">
+
+
+
                     {/* <p className="mb--2" style={{ color: 'white', textAlign: 'center'}} >Descartes</p> */}
-                    {mostrarDescartes(descartes, discard, () => {!JSON.parse(localStorage.getItem("herobado7reinas")) && JSON.parse(localStorage.getItem("heabierto7reinas"))? robarDescarte(): descartar()})}
-                  </Col>
-                </Row>
-              </Col>
+                    {mostrarDescartes(descartes, discard, () => {!JSON.parse(localStorage.getItem("herobado7reinas")) && JSON.parse(localStorage.getItem("heabierto7reinas"))? robarDescarte() : descartar()})}
+                  
               
-              <Col xs="9">
-                <div style={{ width:'100%', height:'12rem'}}>
+              
+                
                   {mostrarMano(hand)}
-                </div>
-              </Col>
-            </Row>
-          </div>
+                
           {/* <button onClick={() => window.location.reload()}>Reload Cards</button> */}
+          </div>
         </div>
       </div>
       <Card className="game-action-bar">

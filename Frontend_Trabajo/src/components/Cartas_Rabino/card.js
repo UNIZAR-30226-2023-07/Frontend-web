@@ -1,17 +1,20 @@
 import BorderCardFigureConditions from "./BorderCardFigureConditions.js";
 import CenterCardElement from "./CenterCardElement.js";
-import Oro from "assets/img/palos/oroColored.png"
-import Copa from "assets/img/palos/copaColored.png"
-import Espada from "assets/img/palos/espadaColored.png"
-import Basto from "assets/img/palos/bastoColored.png"
+import Oro from "assets/img/cards/oroColored.png"
+import Copa from "assets/img/cards/copaColored.png"
+import Espada from "assets/img/cards/espadaColored.png"
+import Basto from "assets/img/cards/bastoColored.png"
+import Comodin from "assets/img/cards/comodin.png";
 
 const Card = ({ number, color, symbol, suit, name }) => {
 
-  const getSymbol = (suit) => { return number <= 0 || number > 10 ? "" : 
-    suit === 1 ? (<img src={Espada} className="espada suit-symbol-center suit-symbol" alt="Espada" />) :
-    suit === 2 ? (<img src={Copa} className="copa suit-symbol-center suit-symbol" alt="Copa" />) :
-    suit === 3 ? (<img src={Basto} className="basto suit-symbol-center suit-symbol" alt="Basto" />) :
-    suit === 4 ? (<img src={Oro} className="oro suit-symbol-center suit-symbol" alt="Oro" />) : ""};
+  const getSymbol = () => {
+    return  number === 0 ? (<img src={Comodin} className="comodin suit-symbol-center suit-symbol suit-symbol-border" style={{marginBottom:"-0.75rem"}} alt="Comodín" />) :
+            number <= 0 || number > 13 ? "" :
+            suit === 1 ? (<img src={Espada} className="espada suit-symbol-center suit-symbol suit-symbol-border" style={{marginBottom:"-0.75rem"}} alt="Espada" />) :
+            suit === 2 ? (<img src={Copa} className="copa suit-symbol-center suit-symbol suit-symbol-border" style={{marginBottom:"-0.75rem"}} alt="Copa" />) :
+            suit === 3 ? (<img src={Basto} className="basto suit-symbol-center suit-symbol suit-symbol-border" style={{marginBottom:"-0.75rem"}} alt="Basto" />) :
+            suit === 4 ? (<img src={Oro} className="oro suit-symbol-center suit-symbol suit-symbol-border" style={{marginBottom:"-0.75rem"}} alt="Oro" />) : ""};
 
   return (
     <div className="card-container">
@@ -19,7 +22,7 @@ const Card = ({ number, color, symbol, suit, name }) => {
         <div className={`card-content-inner__border-top ${color}`}>
           <div className="top-symbol">
             <BorderCardFigureConditions number={number} />
-            <span className="top-symbol-sigle">{getSymbol(suit)}</span>
+            <span className="top-symbol-sigle">{getSymbol()}</span>
           </div>
           <div />
         </div>

@@ -1,15 +1,16 @@
-import JackOfClub from "../figureComponents/JackOfClub";
-import JackOfDiamond from "../figureComponents/JackOfDiamond";
-import JackOfHeart from "../figureComponents/JackOfHeart";
-import JackOfSpade from "../figureComponents/JackOfSpade";
-import KingOfClub from "../figureComponents/KingOfClub";
-import KingOfDiamond from "../figureComponents/KingOfDiamond";
-import KingOfHeart from "../figureComponents/KingOfHeart";
-import KingOfSpade from "../figureComponents/KingOfSpade";
-import QueenOfClub from "../figureComponents/QueenOfClub";
-import QuennOfDiamond from "../figureComponents/QueenOfDiamond";
-import QueenOfHeart from "../figureComponents/QueenOfHeart";
-import QueenOfSpade from "../figureComponents/QueenOfSpade";
+import OrosSota from "assets/img/cards/orosSota.png";
+import OrosCaballo from "assets/img/cards/orosCaballo.png";
+import OrosRey from "assets/img/cards/orosRey.png";
+import CopasSota from "assets/img/cards/copasSota.png";
+import CopasCaballo from "assets/img/cards/copasCaballo.png";
+import CopasRey from "assets/img/cards/copasRey.png";
+import EspadasSota from "assets/img/cards/espadasSota.png";
+import EspadasCaballo from "assets/img/cards/espadasCaballo.png";
+import EspadasRey from "assets/img/cards/espadasRey.png";
+import BastosSota from "assets/img/cards/bastosSota.png";
+import BastosCaballo from "assets/img/cards/bastosCaballo.png";
+import BastosRey from "assets/img/cards/bastosRey.png";
+import Comodin from "assets/img/cards/comodinFigura.png";
 //NUEVO
 import Joker from "../figureComponents/Joker_rabino";
 
@@ -18,48 +19,100 @@ const FigureCardCenter = ({ name, number }) => {
     switch (number) {
       case 11:
         if (name === "espadas") {
-          return <JackOfSpade />;
+          return <img
+            alt="..."
+            className="img card-figure"
+            src={EspadasSota}
+          />;
         }
         if (name === "copas") {
-          return <JackOfClub />;
+          return <img
+            alt="..."
+            className="img card-figure"
+            src={CopasSota}
+          />;
         }
         if (name === "bastos") {
-          return <JackOfHeart />;
+          return <img
+            alt="..."
+            className="img card-figure"
+            src={BastosSota}
+          />;
         }
         if (name === "oros") {
-          return <JackOfDiamond />;
+          return <img
+            alt="..."
+            className="img card-figure"
+            src={OrosSota}
+          />;
         }
         break;
       case 12:
         if (name === "espadas") {
-          return <QueenOfSpade />;
+          return <img
+            alt="..."
+            className="img card-figure"
+            src={EspadasCaballo}
+          />;
         }
         if (name === "copas") {
-          return <QueenOfClub />;
+          return <img
+            alt="..."
+            className="img card-figure"
+            src={CopasCaballo}
+          />;
         }
         if (name === "bastos") {
-          return <QueenOfHeart />;
+          return <img
+            alt="..."
+            className="img card-figure"
+            src={BastosCaballo}
+          />;
         }
         if (name === "oros") {
-          return <QuennOfDiamond />;
+          return <img
+            alt="..."
+            className="img card-figure"
+            src={OrosCaballo}
+          />;
         }
         break;
       case 13:
         if (name === "espadas") {
-          return <KingOfSpade />;
+          return <img
+            alt="..."
+            className="img card-figure"
+            src={EspadasRey}
+          />;
         }
         if (name === "copas") {
-          return <KingOfClub />;
+          return <img
+            alt="..."
+            className="img card-figure"
+            src={CopasRey}
+          />;
         }
         if (name === "bastos") {
-          return <KingOfHeart />;
+          return <img
+            alt="..."
+            className="img card-figure"
+            src={BastosRey}
+          />;
         }
         if (name === "oros") {
-          return <KingOfDiamond />;
+          return <img
+            alt="..."
+            className="img card-figure"
+            src={OrosRey}
+          />;
         }
         break;
       case 0:
-        return <Joker />;
+        return <img
+          alt="..."
+          className="img card-figure"
+          src={Comodin}
+        />;
     
       default:
         break;

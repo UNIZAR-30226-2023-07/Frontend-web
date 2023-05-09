@@ -11,13 +11,13 @@ import { useState } from "react";
 //import {  colors } from "../../data";
 //import useRandomValueFromArray from "../../hooks/useRandomValueFromArray";
 
-const CardsWrapper = ({cartas, cardsNumber, accion_Carta, classes}) => {
+const CardsWrapper = ({className, cartas, cardsNumber, accion_Carta, classes}) => {
   const cardNumbers = cardsNumber;
   const carta = cartas;
   let indice = 0;
 
   return (
-    <div className="card-wrapper">
+    <div className={`card-wrapper${className?" ":""}${className}`}>
       {[...Array(Number(cardNumbers))].map((_numb, index) => {
         index += 1;
         
@@ -29,8 +29,8 @@ const CardsWrapper = ({cartas, cardsNumber, accion_Carta, classes}) => {
         indice = indice + 1;
 
       return (
-        <Button onClick={() => {accion_Carta(Number(index)-1); console.log('Carta pulsada');}} 
-        className={classes + (classes !== null ? " ":"") + `card-button card-button-${carta_Comb}`} /*style={{ backgroundColor: active ? "black" : "white" }}*/ >
+        <Button onClick={() => {accion_Carta(Number(index)-1);}} 
+        className={classes + (classes !== null ? " ":"") + ` card-button-${carta_Comb}`} /*style={{ backgroundColor: active ? "black" : "white" }}*/ >
         <Card
           key={index}
           name={carta_Symbols.name}

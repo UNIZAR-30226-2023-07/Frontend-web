@@ -287,7 +287,7 @@ const Admin = (props) => {
           case "Abrir":
             if(mensaje.info == "Ok" && mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez actualizar
               localStorage.setItem("heabierto7reinas", true);
-              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_mano"}));
               ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
             } else if(/*NO SE HA PODIDO ABRIR*/true){
               //setAbierto(false);
@@ -299,7 +299,7 @@ const Admin = (props) => {
           case "Colocar_combinacion":
             if(mensaje.info == "Ok" && mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez actualizar
               //Actualizar manos y tablero
-              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_mano"}));
               ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
             } else if(/*NO ES VALIDA*/true){
               //setAbierto(false);
@@ -310,9 +310,10 @@ const Admin = (props) => {
             break;
 
           case "Colocar_carta":
-            if(mensaje.info == "Ok" && mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez actualizar
+            let patron = /^\d+,\d+,\d+$/;
+            if((mensaje.info == "Ok" || patron.test(mensaje.info)) && mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez actualizar
               // Actualizar manos y tablero
-              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_mano"}));
               ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
             } else if(/*NO ES VALIDA*/true){
               //setAbierto(false);

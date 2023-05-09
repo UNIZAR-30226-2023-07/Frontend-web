@@ -349,7 +349,7 @@ const Sidebar = (props) => {
 
   return (
     <Navbar
-      className="user-sidebar navbar-vertical fixed-right bg-white"
+      className="user-sidebar navbar-vertical fixed-right bg-white no-content"
       expand="md"
       id="sidenav-main"
       // style={{"overflow":"hidden"}}

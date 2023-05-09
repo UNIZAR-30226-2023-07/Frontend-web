@@ -33,22 +33,24 @@
     height: 8rem;
     border-radius: 7px;
     margin: -13px;
+    position: relative;
+    right: 5px;
   }
   .card-content__inner,
   .card-content-inner__border-top,
   .card-content-inner__border-bottom {
-    width: 95%;
+    width: 100%;
   }
   .card-content-inner__border-top,
   .card-content-inner__border-bottom {
-    height: 5%;
+    height: 15%;
   }
   .card-content__inner {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 90%;
+    /* width: 90%; */
     height: inherit;
   }
   .card-content-inner__border-top,
@@ -71,7 +73,6 @@
   .top-symbol-sigle,
   .bottom-symbol-sigle {
     text-align: center;
-    width: 30%;
   }
   
   .top-symbol,
@@ -80,14 +81,30 @@
     justify-content: space-evenly;
     flex-direction: column;
     font-weight: 700;
+    position: relative;
+    z-index: 1;
   }
   
   .top-symbol {
-    align-items: flex-start;
+    align-items: center;
+    position: relative;
+    bottom: 0.6rem;
   }
   .bottom-symbol {
-    align-items: flex-end;
+    align-items: center;
+    position: relative;
+    left: 0.5rem;
+    bottom: 0.1rem;
   }
+  .top-symbol
+  .comodin {
+    bottom: 0.75rem;
+  }
+  .bottom-symbol
+  .comodin {
+    top: 0.65rem;
+  }
+
   .center-symbol-sigle {
     font-size: (70*(90/100))px;
   }
@@ -103,7 +120,11 @@
     color: rgb(0, 144, 172);
   }
   .bastos {
-    color: green;}
+    color: green;
+  }
+  .comodin {
+    width: 1.5rem !important;
+  }
 
   
   /* DYNAMIC CENTER CARD SECTION */
@@ -113,20 +134,21 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
+    width: 2rem;
   }
   
   .grid-1 {
-    transform: /*scale(3)*/ translate(0.5rem, 0rem);
+    transform: /*scale(3)*/ translate(0.75rem, 0rem);
   }
   .symbol-bigger {
     transform: scale(3);
   }
   .grid-2 {
-    transform: scale(1.75) translate(0.45rem, -0.1rem);
+    transform: scale(1.75) translate(0.45rem, 0.125rem);
   }
 
   .grid-3 {
-    transform: scale(1.75) translate(0.4rem, 0.1rem);
+    transform: scale(1.75) translate(0.45rem, 0.15rem);
   }
 
   .grid-4,
@@ -144,50 +166,42 @@
     width: 89%;
     text-align: center;
   }
-  .grid-4 {
-    transform: scale(1) translate(0.7rem, 0.1rem);
+  .grid-4,
+  .grid-5 {
+    transform: scale(1) translate(0.8rem, 0.4rem);
   }
-  
   .grid-5 .centerCard:last-child {
     position: absolute;
     transform: translate(1.75rem, 0rem);
   }
-  .grid-5 {
-    transform: scale(1) translate(0.7rem, 0.1rem);
-  }
-  .grid-6 {
-    transform: scale(1.1) translate(0.7rem, 0.1rem);
-  }
+
+  .grid-6,
   .grid-7 {
-    transform: scale(1.1) translate(0.7rem, 0.1rem);
+    transform: scale(1.1) translate(0.7rem, 0.3rem);
   }
   .grid-7 .centerCard:last-child {
     position: absolute;
-    transform: translate(1.6rem, -1rem);
+    transform: translate(1.7rem, -1rem);
   }
-  .grid-8 {
-    transform: scale(1.1) translate(0.7rem, -0.3rem);
-  }
-  .grid-9 {
-    transform: scale(1.1) translate(0.7rem, -0.3rem);
-  }
+
+  .grid-8,
+  .grid-9,
   .grid-10 {
-    transform: scale(1.1) translate(0.7rem, -0.3rem);
+    transform: scale(1.1) translate(0.7rem, 0.15rem);
   }
-  
   .grid-9 .centerCard:last-child {
     position: absolute;
-    transform: translate(1.6rem, 0);
+    transform: translate(1.725rem, 0);
   }
-  
   .grid-10 .centerCard:last-child {
     position: absolute;
-    transform: translate(1.75rem, -1rem);
+    transform: translate(1.725rem, -1rem);
   }
   .grid-10 .centerCard:nth-child(9) {
     position: absolute;
-    transform: translate(1.75rem, 1.5rem);
+    transform: translate(1.725rem, 1.5rem);
   }
+
   .figure-picture {
     transform: scale(0.94) translate(0, 10px);
   }
@@ -201,112 +215,10 @@
     margin-left: 1.7rem;
   }
 
-  .img-jack-1{
-    width: 60%;
-    height: 60%;
-    border-radius: 10%;
-    vertical-align: top;
-    margin-right: 1.5rem;
-    margin-left: 1.7rem;
-  }
-
-  .img-jack-2{
-    width: 60%;
-    height: 60%;
-    border-radius: 10%;
-    vertical-align: top;
-    margin-right: 1.5rem;
-    margin-left: 1.7rem;
-  }
-
-  .img-jack-3{
-    width: 60%;
-    height: 60%;
-    border-radius: 10%;
-    vertical-align: top;
-    margin-right: 1.5rem;
-    margin-left: 1.7rem;
-  }
-
-  .img-jack-4{
-    width: 60%;
-    height: 60%;
-    border-radius: 10%;
-    vertical-align: top;
-    margin-right: 1.5rem;
-    margin-left: 1.7rem;
-  }
-
-  .img-queen-1{
-    width: 60%;
-    height: 60%;
-    border-radius: 10%;
-    vertical-align: top;
-    margin-right: 1.5rem;
-    margin-left: 1.7rem;
-  }
-
-  .img-queen-2{
-    width: 60%;
-    height: 60%;
-    border-radius: 10%;
-    vertical-align: top;
-    margin-right: 1.5rem;
-    margin-left: 1.7rem;
-  }
-
-  .img-queen-3{
-    width: 60%;
-    height: 60%;
-    border-radius: 10%;
-    vertical-align: top;
-    margin-right: 1.5rem;
-    margin-left: 1.7rem;
-  }
-
-  .img-queen-4{
-    width: 60%;
-    height: 60%;
-    border-radius: 10%;
-    vertical-align: top;
-    margin-right: 1.5rem;
-    margin-left: 1.7rem;
-  }
-
-  .img-king-1{
-    width: 60%;
-    height: 60%;
-    border-radius: 10%;
-    vertical-align: top;
-    margin-right: 1.5rem;
-    margin-left: 1.7rem;
-  }
-
-  .img-king-2{
-    width: 60%;
-    height: 60%;
-    border-radius: 10%;
-    vertical-align: top;
-    margin-right: 1.5rem;
-    margin-left: 1.7rem;
-  }
-
-  .img-king-3{
-    width: 60%;
-    height: 60%;
-    border-radius: 10%;
-    vertical-align: top;
-    margin-right: 1.5rem;
-    margin-left: 1.7rem;
-  }
-
-  .img-king-4{
-    width: 60%;
-    height: 60%;
-    border-radius: 10%;
-    vertical-align: top;
-    margin-right: 1.5rem;
-    margin-left: 1.7rem;
+  .card-figure {
+    width: 100%;
+    border-radius: 0.3rem;
+    margin-left: 0.85rem;
   }
 
   .card-button {
@@ -316,6 +228,17 @@
     border-radius: 7px;
     margin: 10px;
     padding: 1rem;
+  }
+
+  .card-board {
+    background: #fff;
+    width: 6rem;
+    height: 9rem;
+    border-radius: 7px;
+    margin: 10px;
+    padding: 1rem;
+    border-color: white;
+    border-width: 5px;
   }
   
   /* BUTTON SECTION */
@@ -335,11 +258,26 @@
     background-color: #fff;
     color: #444;
     /* // mover 2 rem hacia arriba */
-
   }
 
   .hand-cards:not(:last-child) {
     margin-right: -6rem;
+  }
+
+  .card-board:not(:last-child) {
+    margin-right: -2rem;
+  }
+
+  .card-board:hover {
+    cursor:auto !important;
+    -webkit-transform: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .card-board:active {
+    background: #fff !important;
+    border-color: none !important;
   }
 
   .card-button:hover {
@@ -347,7 +285,8 @@
     transition: all 0.3s ease !important;
   }
 
-  .card-button--1 {
+  .card-button--1,
+  .card-button-undefined {
     background: white !important;
     border-color: white !important;
     border-style: solid;
@@ -424,10 +363,16 @@
     color: rgb(255, 140, 0) !important;
   }
 
-  .suit-symbol {
-    filter: "contrast(0.5) !important";
-  }
-
   .suit-symbol-center {
     width: 1rem;
+  }
+
+  .suit-symbol-border {
+    position: relative;
+    bottom: 0.15rem;
+  }
+
+  .card-number {
+    font-weight: 700;
+    margin-bottom: "-0.75rem";
   }

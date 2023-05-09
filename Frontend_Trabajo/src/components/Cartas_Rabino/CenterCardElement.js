@@ -1,8 +1,8 @@
 import FigureCardCenter from "./FigureCardCenter.js";
-import Oro from "assets/img/palos/oroColored.png"
-import Copa from "assets/img/palos/copaColored.png"
-import Espada from "assets/img/palos/espadaColored.png"
-import Basto from "assets/img/palos/bastoColored.png"
+import Oro from "assets/img/cards/oroColored.png"
+import Copa from "assets/img/cards/copaColored.png"
+import Espada from "assets/img/cards/espadaColored.png"
+import Basto from "assets/img/cards/bastoColored.png"
 
 const CenterCardElement = ({ number, symbol, suit, name }) => {
   return (

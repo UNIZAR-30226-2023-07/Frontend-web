@@ -291,6 +291,15 @@
     align-items: center;
 }
 
+.game-add-card-bar {
+    flex-direction: row;
+    padding: 0.3rem;
+    border-radius: 0.7rem;
+    background: #94a4ffc0;
+    border: none;
+    align-items: center;
+}
+
 .game-action-button {
     border-radius: 0.5rem;
     border: none;
@@ -383,4 +392,12 @@
 .game-player-card-text-cards-word {
     font-weight: 200 !important;
     line-height: 1 !important;
+}
+
+.game-my-hand {
+    width: -webkit-fill-available;
+}
+
+.no-content::before {
+    content: none !important;
 }
