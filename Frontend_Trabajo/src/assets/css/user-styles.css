@@ -1,473 +1,537 @@
 /* styles.css */
 
 :root {
-    --contrast: #94a4ff;
+	--contrast: #94a4ff;
 }
 
 .align-center{
-    text-align: center;
+	text-align: center;
 }
 
 .percent10{
-    background-color: indigo;
+	background-color: indigo;
 }
 .percent30{
-    background-color: red;
+	background-color: red;
 }
 .percent50{
-    background-color: rgb(230, 130, 0);
+	background-color: rgb(230, 130, 0);
 }
 .percent70{
-    background-color: rgb(0, 180, 0);
+	background-color: rgb(0, 180, 0);
 }
 .percent90{
-    background-color: rgb(0, 208, 223);
+	background-color: rgb(0, 208, 223);
 }
 .percent100{
-    background-color: rgb(0, 207, 124);
+	background-color: rgb(0, 207, 124);
 }
 
 .topbar{
-    /* height: 100px; */
-    width: 100%;
-    height: 6rem;
-    position: fixed;
-    vertical-align: middle;
-    z-index: 10000;
-    top: 0;
-    left: 0;
-    background: linear-gradient(87deg, #5e72e4 0, #825ee4 100%) !important;
+	/* height: 100px; */
+	width: 100%;
+	height: 6rem;
+	position: fixed;
+	vertical-align: middle;
+	z-index: 10000;
+	top: 0;
+	left: 0;
+	background: linear-gradient(87deg, #5e72e4 0, #825ee4 100%) !important;
 }
 
 .navbar-reinas {
-    height: 3rem;
+	height: 3rem;
 }
 
 .logo-7-reinas {
-    height: 2.9rem;
+	height: 2.9rem;
 }
 
 .play-button {
-    width: 2.9rem;
-    height: 2.9rem;
-    padding: 0;
-    padding-top: 0.2rem;
-    align-content: center;
+	width: 2.9rem;
+	height: 2.9rem;
+	padding: 0;
+	padding-top: 0.2rem;
+	align-content: center;
 }
 
 .game-content {
-    overflow-y: hidden !important;
+	overflow-y: hidden !important;
 }
 
 .user-content {
-    position: absolute;
-    height: calc(100vh - 6rem);
-    width: calc(100vw - 15rem) !important;
-    left: 0;
-    bottom: 0;
-    z-index: -1;
-    background-color: transparent;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    background: linear-gradient(87deg, #b9cce8 0, #c196e2 100%) !important;
-    overflow-y: auto;
+	position: absolute;
+	height: calc(100vh - 6rem);
+	width: calc(100vw - 15rem) !important;
+	left: 0;
+	bottom: 0;
+	z-index: -1;
+	background-color: transparent;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+	background: linear-gradient(87deg, #b9cce8 0, #c196e2 100%) !important;
+	overflow-y: auto;
 }
 
 .user-sidebar {
-    top: auto !important;
-    bottom: 0 !important;
-    width: 15rem !important;
-    height: calc(100vh - 6rem) !important;
-    margin-bottom: 0;
+	top: auto !important;
+	bottom: 0 !important;
+	width: 15rem !important;
+	height: calc(100vh - 6rem) !important;
+	margin-bottom: 0;
 
-    /* flex: 1 1;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    margin-left: -1.5rem;
-    margin-right: -1.5rem;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem; */
-    
-    /* display: flex;
-    flex-direction: column;
-    padding-left: 0;
-    margin-bottom: 0;
-    list-style: none;
-    flex-direction: row;
-    padding-right: 1rem;
-    padding-left: 1rem;
-    flex-wrap: nowrap;
-    overflow: visible;
-    flex-basis: auto;
-    flex-flow: row nowrap;
-    justify-content: flex-start; */
+	/* flex: 1 1;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	margin-left: -1.5rem;
+	margin-right: -1.5rem;
+	padding-left: 1.5rem;
+	padding-right: 1.5rem; */
+	
+	/* display: flex;
+	flex-direction: column;
+	padding-left: 0;
+	margin-bottom: 0;
+	list-style: none;
+	flex-direction: row;
+	padding-right: 1rem;
+	padding-left: 1rem;
+	flex-wrap: nowrap;
+	overflow: visible;
+	flex-basis: auto;
+	flex-flow: row nowrap;
+	justify-content: flex-start; */
 }
 
 .separator{
-    padding-left: 10px;
+	padding-left: 10px;
 }
 
 .chat-header {
-    position: fixed;
-    margin-left: 1rem;
-    /* margin-bottom: 20rem; */
-    padding: 0.5rem;
-    /* alinear el texto en el centro verticalmente */
-    
-    font-size: 1.25rem;
-    font-weight: bold;
-    width: 20rem;
-    height: 3.25rem;
-    border: 1px solid #ccc;
-    background-color: #d87700;
-    border: none;
-    color: white;
-    border-radius: 1.35rem 1.35rem 0 0;
-    z-index: 1000;
+	position: fixed;
+	margin-left: 1rem;
+	/* margin-bottom: 20rem; */
+	padding: 0.5rem;
+	/* alinear el texto en el centro verticalmente */
+	
+	font-size: 1.25rem;
+	font-weight: bold;
+	width: 20rem;
+	height: 3.25rem;
+	border: 1px solid #ccc;
+	background-color: #d87700;
+	border: none;
+	color: white;
+	border-radius: 1.35rem 1.35rem 0 0;
+	z-index: 1000;
 }
 
 .chat-header:hover {
-    cursor: pointer !important;
+	cursor: pointer !important;
 }
 
 .chat-text-xxl {
-    font-size: 1.7rem !important;
+	font-size: 1.7rem !important;
 }
 
 .chat-friends {
-    right: 17rem;
+	right: 17rem;
 }
 
 .chat-game {
-    right: 38.5rem;
+	right: 38.5rem;
 }
 
 .chat-header-open {
-    bottom: 24rem;
+	bottom: 24rem;
 }
 
 .chat-header-closed {
-    bottom: 0;
+	bottom: 0;
 }
 
 .chat-body {
-    position: fixed;
-    bottom: 4rem;
-    margin-left: 1rem;
-    padding: 0.5rem;
-    /* alinear el texto en el centro verticalmente */
-    width: 20rem;
-    height: 20rem;
-    border: 1px solid #ccc;
-    background-color: #94a4fff0;
-    border: none;
-    color: white;
-    border-radius: 0 0 0 0;
-    overflow-y: auto;
-    z-index: 1000;
+	position: fixed;
+	bottom: 4rem;
+	margin-left: 1rem;
+	padding: 0.5rem;
+	/* alinear el texto en el centro verticalmente */
+	width: 20rem;
+	height: 20rem;
+	border: 1px solid #ccc;
+	background-color: #94a4fff0;
+	border: none;
+	color: white;
+	border-radius: 0 0 0 0;
+	overflow-y: auto;
+	z-index: 1000;
 }
 
 .no-selected-chat-user {
-    position: relative;
-    padding-top: 7.5rem;
-    padding-bottom: 7.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    text-align: center;
-    color: white;
+	position: relative;
+	padding-top: 7.5rem;
+	padding-bottom: 7.5rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	text-align: center;
+	color: white;
 }
 
 .chat-input {
-    position: fixed;
-    bottom: 0;
-    margin-left: 1rem;
-    padding-left: 0.3rem;
-    padding-right: 0.3rem;
-    padding-top: 0;
-    padding-bottom: 0;
-    box-sizing: "border-box";
-    resize: none;
-    width: 16rem;
-    height: 4rem !important;
-    border: none;
-    color: black;
-    background-color: white;
-    border-radius: 0 0 0 0;
-    z-index: 1000;
+	position: fixed;
+	bottom: 0;
+	margin-left: 1rem;
+	padding-left: 0.3rem;
+	padding-right: 0.3rem;
+	padding-top: 0;
+	padding-bottom: 0;
+	box-sizing: "border-box";
+	resize: none;
+	width: 16rem;
+	height: 4rem !important;
+	border: none;
+	color: black;
+	background-color: white;
+	border-radius: 0 0 0 0;
+	z-index: 1000;
 }
 
 .chat-input-friends {
-    right: 21rem;
+	right: 21rem;
 }
 
 .chat-input-game {
-    right: 42.5rem;
+	right: 42.5rem;
 }
 
 .chat-input :focus {
-    color: white;
-    background-color: black;
-    outline: none;
-    z-index: 1000;
+	color: white;
+	background-color: black;
+	outline: none;
+	z-index: 1000;
 }
 
 .chat-send {
-    position: fixed;
-    bottom: 0;
-    margin: 0 !important;
-    padding: 0;
-    padding-top: 0.3rem;
-    width: 4rem;
-    height: 4rem;
-    border: none;
-    /* background-color: #00cad8; */
-    color: white;
-    border-radius: 0 0 0 0;
-    z-index: 1000;
+	position: fixed;
+	bottom: 0;
+	margin: 0 !important;
+	padding: 0;
+	padding-top: 0.3rem;
+	width: 4rem;
+	height: 4rem;
+	border: none;
+	/* background-color: #00cad8; */
+	color: white;
+	border-radius: 0 0 0 0;
+	z-index: 1000;
 }
 
 .chat-send:hover {
-    -webkit-transform: none;
-    transform: none;
+	-webkit-transform: none;
+	transform: none;
 }
 
 .chat-msg {
-    color:black;
-    margin-bottom: 0.5rem;
-    padding: 0.3rem;
-    border-radius: 0.75rem;
+	color:black;
+	margin-bottom: 0.5rem;
+	padding: 0.3rem;
+	border-radius: 0.75rem;
 }
 
 .chat-msg-friend-read {
-    background-color: aliceblue;
-    margin-right: 3rem;
+	background-color: aliceblue;
+	margin-right: 3rem;
 }
 
 .chat-msg-friend-not-read {
-    background-color: #00cad8;
-    margin-right: 3rem;
+	background-color: #00cad8;
+	margin-right: 3rem;
 }
 
 .chat-msg-mine {
-    /* text-align: right; */
-    background-color: aquamarine;
-    margin-left: 3rem;
+	/* text-align: right; */
+	background-color: aquamarine;
+	margin-left: 3rem;
 }
 
 .chat-icon {
-    flex-grow: 0 !important;
-    vertical-align: middle !important;
+	flex-grow: 0 !important;
+	vertical-align: middle !important;
 }
 
 .lobby-player-card {
-    width: 10rem;
-    border-radius: 1.35rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
+	width: 10rem;
+	border-radius: 1.35rem;
+	margin-left: 1rem;
+	margin-right: 1rem;
 }
 
 .lobby-player-pic {
-    position: relative;
-    width: 5rem;
-    height: 5rem;
-    top: -1.5rem;
-    margin-bottom: -0.5rem;
-    align-self: center;
+	position: relative;
+	width: 5rem;
+	height: 5rem;
+	top: -1.5rem;
+	margin-bottom: -0.5rem;
+	align-self: center;
 }
 
 .symbol-xl {
-    font-size: 2rem;
+	font-size: 2rem;
 }
 
 .game-action-bar {
-    position: absolute;
-    flex-direction: row;
-    bottom: 11rem;
-    padding: 0.3rem;
-    border-radius: 0.7rem;
-    background: #94a4ffc0;
-    border: none;
-    align-items: center;
+	position: absolute;
+	flex-direction: row;
+	bottom: 12rem;
+	padding: 0.3rem;
+	border-radius: 0.7rem;
+	border: none;
+	align-items: center;
+	height: 3rem;
+}
+
+.game-action-bar-another {
+	background: #444c;
+}
+
+.game-action-bar-me {
+	background: #7386f2a0;
 }
 
 .game-add-card-bar {
-    flex-direction: row;
-    padding: 0.3rem;
-    border-radius: 0.7rem;
-    background: #94a4ffc0;
-    border: none;
-    align-items: center;
+	flex-direction: row;
+	padding: 0.3rem;
+	border-radius: 0.7rem;
+	background: #7386f2a0;
+	border: none;
+	align-items: center;
 }
 
 .game-action-button {
-    border-radius: 0.5rem;
-    border: none;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+	border-radius: 0.5rem;
+	border: none;
+	padding-left: 0.75rem;
+	padding-right: 0.75rem;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	background: #5168e9;
 }
 
 .game-action-button:not(:last-child) {
-    margin-right: 0.2rem;
+	margin-right: 0.2rem;
 }
 
 .user-card-name {
-    white-space: break-spaces;
-    font-weight: bold;
-    text-transform: none;
+	white-space: break-spaces;
+	font-weight: bold;
+	text-transform: none;
 }
 
 .user-card-code {
-    white-space: break-spaces;
-    color: #666;
-    text-transform: none;
+	white-space: break-spaces;
+	color: #666;
+	text-transform: none;
 }
 
 .user-card-desc {
-    white-space: break-spaces;
-    text-transform: none;
+	white-space: break-spaces;
+	text-transform: none;
 }
 
 .game-exit-button {
-    background: crimson;
-    height: fit-content;
-    border: none;
-    padding: 0.8rem;
-    padding-bottom: 0.7rem;
-    padding-top: 0.9rem;
-    margin: 0 !important;
-    margin-right: 0.75rem !important;
+	background: crimson;
+	height: fit-content;
+	border: none;
+	padding: 0.8rem;
+	padding-bottom: 0.7rem;
+	padding-top: 0.9rem;
+	margin: 0 !important;
+	margin-right: 0.75rem !important;
 }
 
 .game-exit-button:hover {
-    background: tomato;
+	background: tomato;
 }
 
 .game-player-card {
-    width: 15rem;
-    border-radius: 0.75rem;
-    border: none;
-    background: white;
-    flex-direction: row;
-    padding: 0.3rem;
-    display: flex;
-    align-items: center;
-    color: black;
-    width: 20%;
-    min-width: 5.25rem;
+	width: 15rem;
+	border-radius: 0.75rem;
+	border: none;
+	background: white;
+	flex-direction: row;
+	padding: 0.3rem;
+	display: flex;
+	align-items: center;
+	color: black;
+	width: 20%;
+	min-width: 5.25rem;
 }
 
 .game-player-card-pic {
-    width: 3.5rem;
-    height: 3.5rem;
-    margin-left: 5%;
-    margin-right: 5%;
+	width: 3.5rem;
+	height: 3.5rem;
+	margin-left: 5%;
+	margin-right: 5%;
 }
 
 .game-player-card-text {
-    white-space: break-spaces;
-    margin: 0;
-    padding: 0;
-    padding-left: 0.3rem;
-    padding-right: 0.3rem;
-    /* white-space: nowrap; */
-    overflow: hidden;
-    /* text-overflow: ellipsis; */
-    /* width: inherit; */
-    display: inline-flex;
-    flex-direction: column;
+	white-space: break-spaces;
+	margin: 0;
+	padding: 0;
+	padding-left: 0.3rem;
+	padding-right: 0.3rem;
+	/* white-space: nowrap; */
+	overflow: hidden;
+	/* text-overflow: ellipsis; */
+	/* width: inherit; */
+	display: inline-flex;
+	flex-direction: column;
 }
 
 .game-player-container {
-    position: relative;
-    margin-left: 0;
-    margin-right: 0;
-    margin-top: 1rem;
-    justify-content: center;
-    align-items: center;
-    padding-right: 1rem;
-    flex-wrap: nowrap;
+	position: relative;
+	margin-left: 0;
+	margin-right: 0;
+	margin-top: 1rem;
+	justify-content: center;
+	align-items: center;
+	padding-right: 1rem;
+	flex-wrap: nowrap;
 }
 
+
 .game-player-me {
-    background: #95a5ff;
+	background: #fffc5d;
 }
 
 .game-player-current {
-    background: #304be4;
-    color: white;
+	background: #5168e9;
+	color: white;
+}
+
+.game-player-current.game-player-me {
+	background: #a09d00;
 }
 
 .game-player-card:not(:last-child) {
-    margin-right: 0.75rem;
+	margin-right: 0.75rem;
 }
 
 .game-player-card-text-name {
-    font-weight: 600 !important;
-    font-size: 120%;
-    line-height: 1 !important;
-    white-space: nowrap;
-    overflow: hidden;
-    /* text-overflow: ellipsis; */
-    min-width: 3rem;
-    width: inherit;
-    display: inline-flex;
-    height: 1.5rem;
+	font-weight: 600 !important;
+	font-size: 120%;
+	line-height: 1 !important;
+	white-space: nowrap;
+	overflow: hidden;
+	/* text-overflow: ellipsis; */
+	min-width: 3rem;
+	width: inherit;
+	display: inline-flex;
+	height: 1.5rem;
 }
 
 .game-player-card-text-cards {
-    /* white-space: nowrap; */
-    overflow: hidden;
-    /* text-overflow: ellipsis; */
-    min-width: 3rem;
-    width: inherit;
-    display: inline-flex;
-    align-items: flex-end;
-    height: 1.5rem;
+	/* white-space: nowrap; */
+	overflow: hidden;
+	/* text-overflow: ellipsis; */
+	min-width: 3rem;
+	width: inherit;
+	display: inline-flex;
+	align-items: flex-end;
+	height: 1.5rem;
 }
 
 .game-player-card-text-cards-num {
-    font-weight: 900 !important;
-    font-size: 140%;
-    line-height: 1 !important;
-    margin-right: 0.3rem;
+	font-weight: 900 !important;
+	font-size: 140%;
+	line-height: 1 !important;
+	margin-right: 0.3rem;
 }
 
 .game-player-card-text-cards-word {
-    font-weight: 200 !important;
-    line-height: 1 !important;
+	font-weight: 200 !important;
+	line-height: 1 !important;
 }
 
 .game-my-hand {
-    width: -webkit-fill-available;
+	width: -webkit-fill-available;
 }
 
 .no-content::before {
-    content: none !important;
-}
-
-.winner-player-pic {
-
+	content: none !important;
 }
 
 .text-condensed {
-    line-height: 1 !important;
+	line-height: 1 !important;
 }
 
 .text-gray {
-    color: gray;
+	color: gray;
 }
 
 .overflow-ignore {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .avatar-xl
 {
-    width: 7.5rem;
-    height: 7.5rem;
+	width: 7.5rem;
+	height: 7.5rem;
+}
+
+.game-discard {
+	width: 7.25rem;
+}
+
+.game-discard-empty {
+	background: #fff8;
+	font-size: 400%;
+}
+
+.white-text {
+	color: white !important;
+}
+
+.comb-button-0-off {
+	color: rgb(179, 200, 237) !important;
+	background: cornflowerblue !important;
+}
+.comb-button-0-on {
+	background: rgb(179, 200, 237) !important;
+	color: cornflowerblue !important;
+}
+.comb-button-1-off {
+	color: rgb(169, 199, 169) !important;
+	background: rgb(50, 137, 50) !important;
+}
+.comb-button-1-on {
+	background: rgb(169, 199, 169) !important;
+	color: rgb(50, 137, 50) !important;
+}
+.comb-button-2-off {
+	color: rgb(255, 192, 203) !important;
+	background: rgb(255, 20, 147) !important;
+}
+.comb-button-2-on {
+	background: rgb(255, 192, 203) !important;
+	color: rgb(255, 20, 147) !important;
+}
+.comb-button-3-off {
+	color: rgb(202, 179, 223) !important;
+	background: rgb(149, 89, 205) !important;
+}
+.comb-button-3-on {
+	background: rgb(202, 179, 223) !important;
+	color: rgb(149, 89, 205) !important;
+}
+.comb-button-4-off {
+	color: rgb(255, 228, 181) !important;
+	background: rgb(255, 140, 0) !important;
+}
+.comb-button-4-on {
+	background: rgb(255, 228, 181) !important;
+	color: rgb(255, 140, 0) !important;
 }

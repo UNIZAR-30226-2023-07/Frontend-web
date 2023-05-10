@@ -141,35 +141,10 @@ function Tablero_Rabino(props) {
     document.body.style.overflow = 'hidden';
   }, []);
 
-  // const BarButtons = React.memo(() => {
-  //   return (
-  //     <Card className="game-action-bar">
-  //       <Button className="game-action-button" color='primary' onClick={() => console.log('Boton pulsado')}>Abrir</Button>
-  //       <Button className="game-action-button" color='primary' onClick={() => console.log('Boton pulsado')}>Añadir combinación</Button>
-  //       Combinación
-  //       {() => {
-  //         console.log('NUMCOMBS');
-  //         console.log(numOfCombs);
-  //         for (let i = 0; i <= numOfCombs; i++)
-  //           return <Button className="game-action-button" color='primary' onClick={() => currentComb = {i}}>{i+1}</Button>;
-  //       }}
-  //       {/* <Button className="game-action-button" color='primary' onClick={() => currentComb = 1}>2</Button>
-  //       <Button className="game-action-button" color='primary' onClick={() => currentComb = 2}>3</Button>
-  //       <Button className="game-action-button" color='primary' onClick={() => currentComb = 3}>4</Button>
-  //       <Button className="game-action-button" color='primary' onClick={() => currentComb = 4}>5</Button> */}
-  //       {() => {if (numOfCombs>0) return (<Button className="game-action-button" color='primary' onClick={() => currentComb = 1}>2</Button>)}}
-  //       {() => {if (numOfCombs>1) return (<Button className="game-action-button" color='primary' onClick={() => currentComb = 2}>3</Button>)}}
-  //       {() => {if (numOfCombs>2) return (<Button className="game-action-button" color='primary' onClick={() => currentComb = 3}>4</Button>)}}
-  //       {() => {if (numOfCombs>3) return (<Button className="game-action-button" color='primary' onClick={() => currentComb = 4}>5</Button>)}}
-  //       <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); clearPlay();}}>Deseleccionar</Button>
-  //     </Card>
-  //   );
-  // });
-
   const descartes = [
     {
-      number: 0, //JOKER
-      symbol: 0,
+      number: 14, //JOKER
+      symbol: 5,
     },
   ];
 
@@ -177,7 +152,7 @@ function Tablero_Rabino(props) {
     let turno = JSON.parse(localStorage.getItem("turno7reinas"));
     return jugadores?.map((jugador, ind) => {
       return jugador == null ? null : (
-        <Card className={"game-player-card" + (ind==turno?" game-player-current":(ind==myTurn?" game-player-me":""))}>
+        <Card className={"game-player-card" + (ind==turno?" game-player-current":"") + (ind==myTurn?" game-player-me":"")}>
             <img
               alt="..."
               className="game-player-card-pic avatar-lg rounded-circle"
@@ -197,21 +172,46 @@ function Tablero_Rabino(props) {
 
   const mostrarMano = (mano) => {
     return (mano == null || mano == undefined) ? null :
-    <CardsWrapper
-      className="game-my-hand"
-      cartas={hand}
-      cardsNumber={hand.length}
-      classes={"hand-cards card-button"}
-      accion_Carta={(index) => {handleCardSelect(index)}}
-    />;
+    <div className="d-flex flex-column align-items-flex-start game-my-hand">
+      <CardsWrapper
+        className=""
+        cartas={hand}
+        cardsNumber={hand.length}
+        classes={"hand-cards card-button"}
+        accion_Carta={(index) => {handleCardSelect(index)}}
+      />
+    </div>;
   }
 
-  const mostrarDescartes = (descartes1, descartes2, accion) => {
-    if(descartes2 == null || descartes2 == undefined || descartes2.length == 0){
-      return(<CardsWrapper cartas={descartes1} cardsNumber={descartes1.length} classes={"card-button"} accion_Carta={accion}/>);
-    }else{//Si hay cartas en descartes
-    return(<CardsWrapper cartas={descartes2} cardsNumber={descartes2.length} classes={"card-button"} accion_Carta={accion}/>);
-    }
+  const mostrarMazo = () => {
+    return (
+      <div className="d-flex flex-column align-items-center">
+        <p className="mt-1 mb--3 font-weight-bold white-text">Mazo</p>
+        <Button style={{minWidth:'fit-content'}} onClick={() => robarCarta()}
+          className="card-button">
+            <img src={Reverso_carta} alt="..." style={{ width:'100%', height:'90%', borderRadius:'0.35rem'}}/>
+        </Button>
+      </div>
+    );
+  }
+
+  const mostrarDescartes = (descartes, accion) => {
+    return (
+      <div className="d-flex flex-column align-items-center">
+        <p className="mt-1 mb--3 font-weight-bold white-text">Descartes</p>
+        {descartes.length>0 ? 
+          <CardsWrapper
+            cartas={descartes}
+            cardsNumber={descartes.length}
+            classes={"card-button"}
+            accion_Carta={accion}
+            className="game-discard"
+          /> :
+          <Button className="card-button game-discard-empty" onClick={accion}>
+            <i className="ni ni-fat-add" />
+          </Button>
+        }
+      </div>);
   }
 
   const mostrarTablero = () => {
@@ -219,11 +219,13 @@ function Tablero_Rabino(props) {
       return;
     }
     return board.map((fila, i) => (
-      <div key={i} style={{ display: 'flex', flexDirection: 'row',borderBottom: '1px solid white', justifyContent:'center', alignItems:"center" }}>
+      <div key={i} style={{ display: 'flex', flexDirection: 'row', justifyContent:'center', alignItems:"center" }}>
         <CardsWrapper cartas={fila} cardsNumber={fila.length} classes={"card-board"} accion_Carta={() => {}}/>
-        <Card className="game-add-card-bar">
-          <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); anyadirCarta(i);}}><i className="ni ni-fat-add" /></Button>
-        </Card>
+        { hand.length>=10 || cardsPerComb[0]!==1 ? null :
+          <Card className="game-add-card-bar">
+            <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); anyadirCarta(i);}}><i className="ni ni-fat-add" /></Button>
+          </Card>
+        }
       </div>
     ));
   }
@@ -330,7 +332,7 @@ function Tablero_Rabino(props) {
 
   return (
     <div className="App" style={{overflowY: 'hidden', overflowX: 'hidden'}}>
-      <div style={{ position: "relative", height: '5rem', width: 'calc(100vw - 15rem)', right: '0', zIndex:'1'}}
+      <div style={{ position: "relative", height: '5rem', width: 'calc(100vw - 17.25rem)', right: '0', zIndex:'1'}}
       className="mt-0">
         <Row className="game-player-container">
           {(turn==myTurn && JSON.parse(localStorage.getItem("anfitrion7reinas")) && !JSON.parse(localStorage.getItem("herobado7reinas"))) ?
@@ -346,21 +348,18 @@ function Tablero_Rabino(props) {
       </div>
       <div style={{ display:'flex', position:'relative', top:'-5rem', width:'100%', flexDirection:'row', zIndex:'0' }}>
         <div style={{ flexGrow: 1 }}>
-          <div style={{backgroundColor:'green', height:'calc(100vh - 16em)', width:'calc(100vw - 15rem)', overflowY:'scroll', paddingTop:'6rem', paddingBottom:'4rem' }}>
+          <div style={{backgroundColor:'green', height:'calc(100vh - 17.25rem)', width:'calc(100vw - 15rem)', overflowY:'scroll', paddingTop:'6rem', paddingBottom:'4rem' }}>
             {mostrarTablero()}
           </div>
-          <div style={{ backgroundColor:'brown', width:'calc(100vw - 15rem)', height:'10rem', display:'flex'}}>
+          <div style={{ backgroundColor:'brown', width:'calc(100vw - 15rem)', height:'11.25rem', display:'flex'}}>
             
                       {/* <p className="mb--2" style={{ color: 'white', textAlign: 'center'}} >Mazo</p> */}
-                      <Button style={{minWidth:'fit-content'}} onClick={() => robarCarta()}
-                      className="card-button">
-                        <img src={Reverso_carta} alt="..." style={{ width:'100%', height:'90%', borderRadius:'0.35rem'}}/>
-                      </Button>
+                      {mostrarMazo()}
 
 
 
                     {/* <p className="mb--2" style={{ color: 'white', textAlign: 'center'}} >Descartes</p> */}
-                    {mostrarDescartes(descartes, discard, () => {!JSON.parse(localStorage.getItem("herobado7reinas"))/* && JSON.parse(localStorage.getItem("heabierto7reinas"))*/? robarDescarte() : descartar()})}
+                    {mostrarDescartes(discard, () => {!JSON.parse(localStorage.getItem("herobado7reinas"))/* && JSON.parse(localStorage.getItem("heabierto7reinas"))*/? robarDescarte() : descartar()})}
                   
               
               
@@ -371,18 +370,42 @@ function Tablero_Rabino(props) {
           </div>
         </div>
       </div>
-      <Card className="game-action-bar">
-        <Button className="game-action-button" disabled={JSON.parse(localStorage.getItem("heabierto7reinas"))}  color='primary' onClick={() => {console.log('Boton pulsado'); abrir()}}>Abrir</Button>
-        <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); nuevaCombinacion();}}>Añadir combinación</Button>
-        Combinación
-        {turn}
-        {botonesCombinaciones(numOfCombs)}
-        {/* <Button className="game-action-button" color='primary' onClick={() => currentComb = 1}>2</Button>
-        <Button className="game-action-button" color='primary' onClick={() => currentComb = 2}>3</Button>
-        <Button className="game-action-button" color='primary' onClick={() => currentComb = 3}>4</Button>
-        <Button className="game-action-button" color='primary' onClick={() => currentComb = 4}>5</Button> */}
-        <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); clearPlay();}}>Deseleccionar</Button>
+      { turn!=myTurn ?
+      <Card className="game-action-bar game-action-bar-another">
+        <h3 className="mx-4 my-0 white-text">Turno de <span className="font-weight-bolder">{players[turn].nombre}</span></h3>
+        
       </Card>
+      : hand.length<10 ?
+      (cardsPerComb[0]===0 ?
+        <Card className="game-action-bar game-action-bar-me">
+          <h3 className="mx-3 my-0 text-white">Selecciona cartas para colocarlas sobre la mesa.</h3>
+        </Card>
+        : 
+        <Card className="game-action-bar game-action-bar-me">
+          {cardsPerComb[0]<3 ? null : <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); nuevaCombinacion();}}>Añadir combinación</Button>}
+          <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); clearPlay();}}>Deseleccionar</Button>
+        </Card>
+
+      ):
+      (numOfCombs === 0 ?
+        <Card className="game-action-bar game-action-bar-me">
+          <h3 className="mx-3 my-0 text-white">Selecciona las cartas para abrir.</h3>
+        </Card>
+        : cardsPerComb[0] < 3 || cardsPerComb[1] < 3 ?
+        <Card className="game-action-bar game-action-bar-me">
+          {botonesCombinaciones(numOfCombs)}
+          <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); clearPlay();}}>Deseleccionar</Button>
+        </Card> :
+        <Card className="game-action-bar game-action-bar-me">
+          {botonesCombinaciones(numOfCombs)}
+          <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); abrir()}}>Abrir</Button>
+          <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); clearPlay();}}>Deseleccionar</Button>
+        </Card>
+      )
+      
+      
+      }
+      
     </div>
   );
   

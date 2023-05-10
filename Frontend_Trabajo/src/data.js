@@ -54,7 +54,7 @@
     {
       id: 13,
       number: 13,
-    },
+    }
   ];
   
   export const colors = [
@@ -101,5 +101,5 @@
       id: 4,
       symbol: "♥",
       name: "oros",
-    },
+    }
   ];

@@ -17,7 +17,7 @@ const CardsWrapper = ({className, cartas, cardsNumber, accion_Carta, classes}) =
   let indice = 0;
 
   return (
-    <div className={`card-wrapper${className?" ":""}${className}`}>
+    <div className={`card-wrapper ${className}`}>
       {[...Array(Number(cardNumbers))].map((_numb, index) => {
         index += 1;
         

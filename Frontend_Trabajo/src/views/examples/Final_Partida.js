@@ -70,6 +70,7 @@ import {
       // Ordenamos los jugadores que no han ganado.
       console.log(winner);
       let sortedPlayers = players.map(p => p);
+      sortedPlayers[winner].cartas = 0;
       // players.forEach((player, key) => {
       //   if (key != winner) {
       //     console.log(key, winner);

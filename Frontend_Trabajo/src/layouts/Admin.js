@@ -359,22 +359,24 @@ const Admin = (props) => {
             localStorage.setItem("turno7reinas", JSON.stringify(mensaje.turno));
           }
 
-          // Si el siguiente jugador a abierto o no
-          if(mensaje.abrir == "si"){
-            localStorage.setItem("heabierto7reinas", true);
-          }else{
-            localStorage.setItem("heabierto7reinas", false);
-          }
+              // Si el siguiente jugador a abierto o no
+              /*if(mensaje.abrir == "si"){
+                localStorage.setItem("heabierto7reinas", true);
+              }else{
+                localStorage.setItem("heabierto7reinas", false);
+              }*/
 
-          // Actualizar las manos de los jugadores
-          ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
-          localStorage.setItem("herobado7reinas", false); //Indica si ha robado el jugador
-        /*}*/
-        if ((/^\d+$/).test(mensaje.ganador)) {
-          localStorage.setItem("ganadorx7reinas", parseInt(mensaje.ganador));
-          history.push("/admin/gameend");
-        }
-        break;
+              // Actualizar las manos de los jugadores
+              if (!(/^bot(\d+)$/).test(players[parseInt(mensaje.turno)].codigo))
+                ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+              else console.log ("VA A JUGAR UN BOT. NO ACTUALIZAMOS.")
+              localStorage.setItem("herobado7reinas", false); //Indica si ha robado el jugador
+            /*}*/
+            if ((/^\d+$/).test(mensaje.ganador)) {
+              localStorage.setItem("ganadorx7reinas", parseInt(mensaje.ganador));
+              history.push("/admin/gameend");
+            }
+            break;
 
         case "Partida_Pausada":
           getPausedGames(sessionUser.codigo, () => {
