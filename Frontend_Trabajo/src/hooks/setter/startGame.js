@@ -1,4 +1,4 @@
-export default function iniciarGame (me, clavePartida, doNext) {
+export default function startGame (me, clavePartida, conBots, doNext) {
 
     let xhr = new XMLHttpRequest();
 
@@ -20,5 +20,5 @@ export default function iniciarGame (me, clavePartida, doNext) {
         }
     }
     xhr.open('POST', `http://52.174.124.24:3001/api/partida/iniciar`);
-    xhr.send(JSON.stringify({ codigo: me, clave: clavePartida.toString(), bot:"no" }));
+    xhr.send(JSON.stringify({ codigo: me, clave: clavePartida.toString(), bot:(conBots?"si":"no") }));
 }

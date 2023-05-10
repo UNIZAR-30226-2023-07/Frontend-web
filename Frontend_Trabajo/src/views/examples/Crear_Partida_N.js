@@ -27,7 +27,7 @@ import {
   //import UserHeader from "components/Headers/UserHeader.js";
   import Header from "components/Headers/Header.js";
   import SelectImgUser from "hooks/SelectImgUser.js";
-  import iniciarGame from "hooks/setter/iniciarGame";
+  import startGame from "hooks/setter/startGame";
   import getUserByCode from "hooks/getter/getUserByCode";
   
   const Crear_Partida_N = (props) => { 
@@ -132,17 +132,17 @@ import {
     //   })
     // }
     const showPlayers = (players) => {
-      return players.map((player, key) => {
-        return (
+      return (players==null) ? null : players.map((player, key) => {
+        return (player == null || (/^bot(\d+)$/).test(player.codigo)) ? null : (
           <Card className="card-profile shadow lobby-player-card" key={key}>
             <img
               alt="..."
               className="lobby-player-pic avatar-lg rounded-circle"
               src={SelectImgUser(player.foto)}
             />
-            <h2 className="align-center">{player.nombre}</h2>
-            {/* <h5 className="align-center">{player.codigo.endsWith('_')}</h5> */}
-            <h4 className="align-center"><strong>{player.puntos}</strong> puntos</h4>
+            <h2 className="align-center mt--2 overflow-ignore font-weight-bolder">{player.nombre}</h2>
+            <h5 className="align-center mt--3 overflow-ignore text-gray">{player.codigo}</h5>
+            <h4 className="align-center mt--1"><strong>{player.puntos}</strong> puntos</h4>
           </Card>
         )
       })
@@ -152,7 +152,7 @@ import {
       <>
         {/* <Header /> */}
         {/* Page content */}
-        <Container className="mt-6" fluid>
+        <Container fluid>
           <Row>
             <Col className="order-xl-1" xl="11">
               {/* <Card className="bg-secondary shadow ml-7">
@@ -200,11 +200,20 @@ import {
               </Row>
               <Row style={{marginTop: "3rem", justifyContent: "center"}}>
                 <Button variant="primary" color="primary" onClick={() => {
-                    iniciarGame(sessionUser.codigo, partidaActual,
+                    startGame(sessionUser.codigo, partidaActual, false,
                     () => history.push("/admin/partida")
                   )}}>
                   INICIAR PARTIDA
                 </Button>
+                {(players && players.length < 4) ?
+                  <Button variant="primary" color="primary" onClick={() => {
+                      startGame(sessionUser.codigo, partidaActual, true,
+                      () => history.push("/admin/partida")
+                    )}}>
+                    INICIAR CON BOTS
+                  </Button>
+                  : null
+                }
               </Row>
             </Col>
           </Row>

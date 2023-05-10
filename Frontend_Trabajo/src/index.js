@@ -29,6 +29,8 @@ import InicioLayout from "layouts/Inicio.js";
 import P_LoginLayout from "layouts/Pagina_Login.js";
 import T_RabinoLayout from "layouts/Tablero_Rabino.js";
 
+import setAppIcon from "hooks/setAppIcon";
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 

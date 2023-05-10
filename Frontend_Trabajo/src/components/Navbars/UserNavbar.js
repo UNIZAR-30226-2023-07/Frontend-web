@@ -130,19 +130,22 @@ const UserNavbar = (props) => {
             {...props}
             volumen={Volumen_mus}
           />
-          <Nav className="align-items-center d-none d-md-flex ml--9 mr-5" navbar>
+          <Nav className="align-items-center d-md-flex ml--9" navbar>
             <UncontrolledDropdown nav>
               <DropdownToggle className="pr-0" nav>
                 <Media className="align-items-center">
-                  <span className="avatar avatar-sm rounded-circle">
+                  <span className="avatar avatar-lg rounded-circle">
                     <img
                       alt="..."
                       src={SelectImgUser(sessionUser.foto)}
                     />
                   </span>
-                  <Media className="ml-2 d-none d-lg-block">
-                    <span className="mb-0 text-sm font-weight-bold">
+                  <Media className="ml-2 d-none d-flex flex-column">
+                    <span className="text-xl font-weight-bolder">
                       {sessionUser.nombre}
+                    </span>
+                    <span className="pb-1 mt--1 text-sm font-weight-bold">
+                      {sessionUser.codigo} · {sessionUser.puntos} puntos
                     </span>
                   </Media>
                 </Media>

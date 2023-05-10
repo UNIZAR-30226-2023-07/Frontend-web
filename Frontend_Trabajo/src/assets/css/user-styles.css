@@ -330,22 +330,40 @@
     text-transform: none;
 }
 
+.game-exit-button {
+    background: crimson;
+    height: fit-content;
+    border: none;
+    padding: 0.8rem;
+    padding-bottom: 0.7rem;
+    padding-top: 0.9rem;
+    margin: 0 !important;
+    margin-right: 0.75rem !important;
+}
+
+.game-exit-button:hover {
+    background: tomato;
+}
+
 .game-player-card {
     width: 15rem;
     border-radius: 0.75rem;
+    border: none;
     background: white;
     flex-direction: row;
     padding: 0.3rem;
     display: flex;
     align-items: center;
     color: black;
+    width: 20%;
+    min-width: 5.25rem;
 }
 
 .game-player-card-pic {
     width: 3.5rem;
     height: 3.5rem;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 .game-player-card-text {
@@ -354,6 +372,12 @@
     padding: 0;
     padding-left: 0.3rem;
     padding-right: 0.3rem;
+    /* white-space: nowrap; */
+    overflow: hidden;
+    /* text-overflow: ellipsis; */
+    /* width: inherit; */
+    display: inline-flex;
+    flex-direction: column;
 }
 
 .game-player-container {
@@ -362,6 +386,9 @@
     margin-right: 0;
     margin-top: 1rem;
     justify-content: center;
+    align-items: center;
+    padding-right: 1rem;
+    flex-wrap: nowrap;
 }
 
 .game-player-me {
@@ -381,12 +408,31 @@
     font-weight: 600 !important;
     font-size: 120%;
     line-height: 1 !important;
+    white-space: nowrap;
+    overflow: hidden;
+    /* text-overflow: ellipsis; */
+    min-width: 3rem;
+    width: inherit;
+    display: inline-flex;
+    height: 1.5rem;
+}
+
+.game-player-card-text-cards {
+    /* white-space: nowrap; */
+    overflow: hidden;
+    /* text-overflow: ellipsis; */
+    min-width: 3rem;
+    width: inherit;
+    display: inline-flex;
+    align-items: flex-end;
+    height: 1.5rem;
 }
 
 .game-player-card-text-cards-num {
     font-weight: 900 !important;
     font-size: 140%;
     line-height: 1 !important;
+    margin-right: 0.3rem;
 }
 
 .game-player-card-text-cards-word {
@@ -400,4 +446,28 @@
 
 .no-content::before {
     content: none !important;
+}
+
+.winner-player-pic {
+
+}
+
+.text-condensed {
+    line-height: 1 !important;
+}
+
+.text-gray {
+    color: gray;
+}
+
+.overflow-ignore {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.avatar-xl
+{
+    width: 7.5rem;
+    height: 7.5rem;
 }

@@ -1,0 +1,137 @@
+import {
+    Button,
+    Card,
+    CardHeader,
+    CardBody,
+    FormGroup,
+    Form,
+    Input,
+    Table,
+    Media,
+    Badge,
+    Container,
+    Row,
+    Col,
+    UncontrolledTooltip,
+    UncontrolledDropdown,
+    DropdownToggle,
+    Progress,
+    DropdownMenu,
+    DropdownItem
+  } from "reactstrap";
+  import { PropTypes } from "prop-types";
+  import React, { useEffect, useState} from "react"
+  import { Link, useHistory } from "react-router-dom";
+
+  // core components
+  //import UserHeader from "components/Headers/UserHeader.js";
+  import SelectImgUser from "hooks/SelectImgUser.js";
+  
+  const Final_Partida = (props) => { 
+
+    const { players, myTurn } = props;
+    console.log(players);
+
+    const winner = JSON.parse(localStorage.getItem("ganadorx7reinas"));
+    console.log(winner);
+
+    const history = useHistory();//Permite cambiar de pantalla
+
+    const ptsFromCard = (number) => {
+      switch (number) {
+        case 1:
+          return 11;
+          break;
+        case 0:
+          return 20;
+          break;
+        case 11, 12, 13:
+          return 10;
+          break;
+        default:
+          return number;
+      }
+    }
+
+        
+
+    const showPlayers = (players, /*board, */winner) => {
+      // Obtenemos los puntos por jugador.
+      /*board?.forEach((hand, owner) => {
+        let pts = 0;
+        hand.forEach(card => {
+          pts += ptsFromCard(parseInt(card.number));
+        });
+        console.log(pts);
+        console.log(owner);
+        players[owner].points = pts;
+        }
+      )*/
+      // Ordenamos los jugadores que no han ganado.
+      console.log(winner);
+      let sortedPlayers = players.map(p => p);
+      // players.forEach((player, key) => {
+      //   if (key != winner) {
+      //     console.log(key, winner);
+      //     sortedPlayers?.push(player);
+      //   }
+      // });
+      sortedPlayers.sort((a, b) => {
+        return a.cartas - b.cartas;
+        /*return res == 0 ? a.points - b.points : res;*/
+      });
+      console.log(sortedPlayers);
+      return (sortedPlayers==null) ? null : sortedPlayers.map((player, key) => {
+
+        return (player == null) ? null : (
+          <Card className="card-profile shadow lobby-player-card" key={key}>
+            <img
+              alt="..."
+              className="lobby-player-pic avatar-lg rounded-circle"
+              src={SelectImgUser(player.foto)}
+            />
+            <h2 className="align-center mt--2 overflow-ignore font-weight-bolder">{player.nombre}</h2>
+            <h4 className="align-center mt--1"><strong>{player.cartas}</strong>{player.cartas==1 ? " carta" : " cartas"}</h4>
+          </Card>
+        )
+      })
+    };
+
+    return (
+      <>
+        {/* <Header /> */}
+        {/* Page content */}
+        <Container fluid>
+          <Row>
+            <Col className="order-xl-1" xl="11">
+              
+              <Row style={{marginTop: "3rem", justifyContent: "center", display: "flex", alignItems:"center"}}>
+
+                <img
+                  alt="..."
+                  className="winner-player-pic avatar-xl rounded-circle mr-3"
+                  src={SelectImgUser(players[winner].foto)}
+                />
+                <div style={{textAlign:"center"}}>
+                  <h4 style={{color:"white"}} className="text-condensed">Ha ganado</h4>
+                  <h1 style={{color:"white"}} className="text-condensed"><strong style={{fontSize:"200%"}}>{players[winner].nombre}</strong>{/*JSON.stringify(jugPartida)*/}</h1>
+                  { winner==myTurn ? <h4 style={{color:"white"}} className="text-condensed">¡Enhorabuena!</h4> : null}
+                </div>
+              </Row>
+              <Row style={{marginTop: "3rem", justifyContent: "center"}}>
+                {showPlayers(players, winner)}
+              </Row>
+              <Row style={{marginTop: "3rem", justifyContent: "center"}}>
+                <Button variant="primary" color="primary" onClick={() => history.push("/admin")}>
+                  VOLVER A INICIO
+                </Button>
+              </Row>
+            </Col>
+          </Row>
+        </Container>
+      </>
+    );
+  };
+
+  export default Final_Partida;
+  

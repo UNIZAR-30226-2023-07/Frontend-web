@@ -41,6 +41,7 @@ export default function joinGame (me, clavePartida, doNext, doOnError) {
                     doNext();
                 }
             });
+            localStorage.setItem("anfitrion7reinas", JSON.stringify(false));
             // let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
             // console.log("Juagador propio ñadido 2");
             // let user = {codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto};

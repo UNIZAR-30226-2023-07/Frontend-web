@@ -75,20 +75,17 @@ import {
     // }
 
     const showPlayers = (players) => {
-      if (players == null) {
-        return;
-      }
-      return players.map((player, key) => {
-        return (
+      return (players==null) ? null : players.map((player, key) => {
+        return (player == null || (/^bot(\d+)$/).test(player.codigo)) ? null : (
           <Card className="card-profile shadow lobby-player-card" key={key}>
             <img
               alt="..."
               className="lobby-player-pic avatar-lg rounded-circle"
               src={SelectImgUser(player.foto)}
             />
-            <h2 className="align-center">{player.nombre}</h2>
-            {/* <h5 className="align-center">{player.codigo.endsWith('_')}</h5> */}
-            <h4 className="align-center"><strong>{player.puntos}</strong> puntos</h4>
+            <h2 className="align-center mt--2 overflow-ignore font-weight-bolder">{player.nombre}</h2>
+            <h5 className="align-center mt--3 overflow-ignore text-gray">{player.codigo}</h5>
+            <h4 className="align-center mt--1"><strong>{player.puntos}</strong> puntos</h4>
           </Card>
         )
       })
@@ -98,7 +95,7 @@ import {
       <>
         {/* <Header /> */}
         {/* Page content */}
-        <Container className="mt-6" fluid>
+        <Container fluid>
           <Row>
             <Col className="order-xl-1" xl="11">
               {/* <Card className="bg-secondary shadow ml-7">

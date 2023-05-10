@@ -32,6 +32,8 @@ import Ajustes_Perfil from "views/examples/Ajustes_Perfil";
 import Crear_Partida_N from "views/examples/Crear_Partida_N";
 import Lobby_Unirse_Partida from "views/examples/Lobby_Unirse_Partida";
 import Tablero_Rabino from "layouts/Tablero_Rabino";
+import Final_Partida from "views/examples/Final_Partida";
+import Pausa_Partida from "views/examples/Pausa_Partida";
 
 
 var routes = [
@@ -146,6 +148,20 @@ var routes = [
     name: "Partida",
     icon: "ni ni-single-02 text-yellow",
     component: Tablero_Rabino,
+    layout: "/admin"
+  },
+  {
+    path: "/gameend",
+    name: "Resultados",
+    icon: "ni ni-single-02 text-yellow",
+    component: Final_Partida,
+    layout: "/admin"
+  },
+  {
+    path: "/gamepaused",
+    name: "Partida pausada",
+    icon: "ni ni-single-02 text-yellow",
+    component: Pausa_Partida,
     layout: "/admin"
   },
 

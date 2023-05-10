@@ -12,14 +12,14 @@ export default function createGame (me, tipoPartida, doNext, doOnError) {
             console.log("partida creada");
             const datos = JSON.parse(xhr.response);
             localStorage.setItem('juego7reinas', datos.clave);
-
             let jugadorxs = [{
                 codigo: me.codigo,
                 nombre: me.nombre,
                 puntos: me.puntos,
                 foto: me.foto
             }];
-            localStorage.setItem("jugadorxs7reinas", JSON.stringify(jugadorxs)); //Inicialmnete es vacia
+            localStorage.setItem("jugadorxs7reinas", JSON.stringify(jugadorxs));
+            localStorage.setItem("anfitrion7reinas", JSON.stringify(true));
             doNext();
         } else {
             doOnError();

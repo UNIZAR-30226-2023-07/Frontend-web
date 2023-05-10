@@ -1,4 +1,4 @@
-export default function getUserForGame (player, doNext) {
+export default function getUserForGame (player, doNext, order) {
 
     console.log (`http://52.174.124.24:3001/api/jugador/get2/${player}`);
     let xhr = new XMLHttpRequest();
@@ -12,7 +12,12 @@ export default function getUserForGame (player, doNext) {
             const datos = JSON.parse(xhr.response);
             let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
             let user = {codigo: datos.codigo, nombre: datos.nombre, puntos: datos.puntos, foto: datos.foto};
-            players = players == null ? [user] : [...players, user];
+            if (order != null) {
+                user.cartas = 14;
+                players[order] = user;
+            } else {
+                players = players == null ? [user] : [...players, user];
+            }
             localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
             //console.log("Juagador de código: "+datos.codigo+" añadido");
             doNext();

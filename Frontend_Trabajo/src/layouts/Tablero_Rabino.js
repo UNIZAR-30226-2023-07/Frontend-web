@@ -18,11 +18,13 @@ import { Container,
   Media
 } from "reactstrap";
 
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 
 import SelectImgUser from "hooks/SelectImgUser.js";
 
 import Reverso_carta from "../assets/img/Imgs_7_Reinas/Reverso_carta.png";
+
+import pauseGame from "hooks/setter/pauseGame";
 
 //Cuando el jugador le de a salir de la partida se ejecutará esta función
 //FALTA IMPLEMENTARLA
@@ -32,6 +34,10 @@ import Reverso_carta from "../assets/img/Imgs_7_Reinas/Reverso_carta.png";
 function Tablero_Rabino(props) {
 
   const location = useLocation();
+  const history = useHistory();
+
+  if (localStorage.getItem("turno7reinas") == null)
+    history.push("/admin/");
 
   //Esta parte guarda la información de los jugadores que hay
   const json_j_default = '{"Nombre": "Sin jugador", "Foto": 6, "Mano": "4"}';
@@ -59,16 +65,9 @@ function Tablero_Rabino(props) {
     return estructura;
   };
 
-  const combinacion = (hand, cardsInComb) => {
-    let result = "";
-    for (let j = 0; j < cardsInComb; j++)
-      result += hand.findIndex(card => card.ord === j) + ",";
-    return result.substring(0, result.length-1);
-  };
-
   const clearPlay = () => {
     let partialHand = hand;
-    partialHand.forEach(card => { card.comb=-1; card.ord=-1 });
+    partialHand && partialHand.forEach(card => { card.comb=-1; card.ord=-1 });
     setCurrentComb(0);
     setNumOfCombs(0);
     //setOpenPlay(Array.from({ length: hand.length }, () => ({comb:-1, ord:-1})));
@@ -133,7 +132,6 @@ function Tablero_Rabino(props) {
 
   // useEffect(() => {
   // }, [currentComb, cardsPerComb]);
-
   // // actualizar el componente cuando cambie hand
   // useEffect(() => {
   // }, [hand]);
@@ -177,19 +175,20 @@ function Tablero_Rabino(props) {
 
   const jugadoresInfo = (jugadores) => {
     let turno = JSON.parse(localStorage.getItem("turno7reinas"));
-    return jugadores.map((jugador, ind) => {
-      return (
-        <Card className={"game-player-card" + (ind==turno?" game-player-current":(ind==myTurn?" game-player-me":""))} /*style={{width:"13rem", flexDirection:"row", background:(jugadores[turn].codigo===jugador.codigo?"#fcc":"#fff")*}}*/>
-          
+    return jugadores?.map((jugador, ind) => {
+      return jugador == null ? null : (
+        <Card className={"game-player-card" + (ind==turno?" game-player-current":(ind==myTurn?" game-player-me":""))}>
             <img
               alt="..."
               className="game-player-card-pic avatar-lg rounded-circle"
               src={SelectImgUser(jugador.foto)}
             />
           <p className="game-player-card-text">
-            <span className="game-player-card-text-name">{jugador.nombre}</span><br/>
-            <span className="game-player-card-text-cards-num">{jugador.cartas}</span>
-            <span className="game-player-card-text-cards-word"> cartas</span>
+            <div className="game-player-card-text-name">{jugador.nombre}</div>
+            <div className="game-player-card-text-cards">
+              <span className="game-player-card-text-cards-num">{jugador.cartas}</span>
+              <span className="game-player-card-text-cards-word">{jugador.cartas==1?"carta":"cartas"}</span>
+            </div>
           </p>
         </Card>
       );
@@ -197,10 +196,14 @@ function Tablero_Rabino(props) {
   }
 
   const mostrarMano = (mano) => {
-    if(mano == null || mano == undefined){
-      return;
-    }
-    return(<CardsWrapper className="game-my-hand" cartas={hand} cardsNumber={hand.length} classes={"hand-cards card-button"} accion_Carta={(index) => {handleCardSelect(index)}}/>);
+    return (mano == null || mano == undefined) ? null :
+    <CardsWrapper
+      className="game-my-hand"
+      cartas={hand}
+      cardsNumber={hand.length}
+      classes={"hand-cards card-button"}
+      accion_Carta={(index) => {handleCardSelect(index)}}
+    />;
   }
 
   const mostrarDescartes = (descartes1, descartes2, accion) => {
@@ -321,64 +324,25 @@ function Tablero_Rabino(props) {
     return botones;
   }
 
-  //console.log(players);
+  console.log(players);
   //console.log(board);
   //console.log(hand);
 
   return (
     <div className="App" style={{overflowY: 'hidden', overflowX: 'hidden'}}>
       <div style={{ position: "relative", height: '5rem', width: 'calc(100vw - 15rem)', right: '0', zIndex:'1'}}
-          className="mt-0">
-            <Row className="game-player-container">
-                  {/* <UncontrolledDropdown nav>
-                    <DropdownToggle className="pr-0" nav>
-                    <Button color='primary' className="ml-3">
-                        <Row className="mt-2 mb--2 ml--4">
-                          <Col>
-                          <i className="ni ni-bold-left"/>
-                          </Col>
-                          <Col className="mt--1 ml--3">
-                          <p >Salir</p>
-                          </Col>
-                        </Row>
-                    </Button>
-                    </DropdownToggle>
-                    <DropdownMenu className="dropdown-menu-arrow mt--1">
-                      <DropdownItem to="/admin/" tag={Link}>
-                        <i className="ni ni-user-run" />
-                        <span>Guardar y Salir</span>
-                      </DropdownItem>
-
-                      <DropdownItem divider />
-                      <DropdownItem>
-                        <i className="ni ni-spaceship" />
-                        <span>Seguir Jugando</span>
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown> */}
-              {/* <Col xs="1" className="ml--7  mr-5">
-                <Button color='primary' className="mt-1" onClick={() => console.log('Nueva combinacion')}>Nueva combinación</Button>
-              </Col> */}
-                {/* <Card className="bg-secondary shadow" style={{ height: '70px', background:"transparent"}}> */}
-                  {/* <CardHeader className="border-0">
-                    <h3 className="mb--4 mt--3">Turno de: {TurnoJugador.Nombre}</h3>
-                  </CardHeader> */}
-                    {/* {() => {players.map((player, ind) => {
-                      console.log(player);
-                      return (
-                      <Col className="mt-3 mb-2" xs="3" key={ind}> */}
-                        {jugadoresInfo(players)}
-                      {/* </Col>
-                    )})}} */}
-                  
-                {/* </Card> */}
-
-            </Row>
-            {/* <Row>
-              <Col>
-                <Button color='primary' onClick={() => console.log('Abrir chat')}>Abrir chat</Button>
-              </Col>
-            </Row> */}
+      className="mt-0">
+        <Row className="game-player-container">
+          {(turn==myTurn && JSON.parse(localStorage.getItem("anfitrion7reinas")) && !JSON.parse(localStorage.getItem("herobado7reinas"))) ?
+          <Button
+            className="game-exit-button"
+            color='primary'
+            onClick={() => {console.log('Salir pulsado'); pauseGame(sessionUser, `${JSON.parse(localStorage.getItem("juego7reinas"))}`, ()=>{}, ()=>{});}}
+          >
+            <i className="ni flip-y ni-user-run" />
+          </Button> : null}
+          {jugadoresInfo(players)}
+        </Row>
       </div>
       <div style={{ display:'flex', position:'relative', top:'-5rem', width:'100%', flexDirection:'row', zIndex:'0' }}>
         <div style={{ flexGrow: 1 }}>
@@ -396,7 +360,7 @@ function Tablero_Rabino(props) {
 
 
                     {/* <p className="mb--2" style={{ color: 'white', textAlign: 'center'}} >Descartes</p> */}
-                    {mostrarDescartes(descartes, discard, () => {!JSON.parse(localStorage.getItem("herobado7reinas")) && JSON.parse(localStorage.getItem("heabierto7reinas"))? robarDescarte() : descartar()})}
+                    {mostrarDescartes(descartes, discard, () => {!JSON.parse(localStorage.getItem("herobado7reinas"))/* && JSON.parse(localStorage.getItem("heabierto7reinas"))*/? robarDescarte() : descartar()})}
                   
               
               
