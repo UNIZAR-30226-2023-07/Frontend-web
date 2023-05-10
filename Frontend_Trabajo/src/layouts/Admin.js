@@ -127,309 +127,358 @@ const Admin = (props) => {
     return wsChat;
   }, [wsChat, chatOpen, chatUser, friends, sessionUser.codigo]);
 
-  const wsGameInstance = useMemo(() => {
-    if (!wsGame/* && currentGame !== null && currentGame !== undefined && currentGame !== ""*/) {
-      const ws = new WebSocket(`ws://52.174.124.24:3001/api/ws/partida/${currentGame}`);
-      ws.onopen = () => {
-        console.log(`Conectado a la partida ${currentGame}`);
-        setSePuedeEnviarGame(true);
-        setWsGame(ws);
 
-        /*if(location.pathname != "/admin/partida"){//Comprobamos que no estemos en una partida
-          console.log("Reseteamos LStorage Partida: "+location.pathname);
-          localStorage.removeItem('miturno7reinas');
-          localStorage.removeItem('mano7reinas');
-          localStorage.removeItem('tablero7reinas');
-          localStorage.removeItem('descarte7reinas');
-          localStorage.removeItem('turno7reinas');
-          localStorage.removeItem('heabierto7reinas');
-          localStorage.removeItem('herobado7reinas');
-  
-          localStorage.setItem("turno7reinas", JSON.stringify(0)); //Inicializa el turno
-          localStorage.setItem("heabierto7reinas", false);
-          localStorage.setItem("herobado7reinas", false); //Inicialmente es false
-        }*/
-      }
-      ws.onclose = () => {
-        console.log(`Desconectado de la partida ${currentGame}`);
-        //Reseteamos los almacenes
-        // localStorage.removeItem('miturno7reinas');
-        // localStorage.removeItem('mano7reinas');
-        // localStorage.removeItem('tablero7reinas');
-        // localStorage.removeItem('descarte7reinas');
-        // localStorage.removeItem('turno7reinas');    
-      }
-      ws.onmessage = (event) => {
-        let mensaje = JSON.parse(event.data);
-        console.log("Mensaje de wsGame:");
-        console.log(mensaje);
-        let myHand = [], mydescartes = [];
+  const comportamiento_partida = (mensaje, ws) => {
+    let myHand = [], mydescartes = [];
 
-        if ( (mensaje.tipo).substring(0, 13) === "Nuevo_Jugador" ) {
-            let nuevoJugador = (mensaje.tipo).substring(15);
-            getUserForGame(nuevoJugador, () => {
-              setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+    if ( (mensaje.tipo).substring(0, 13) === "Nuevo_Jugador" ) {
+        let nuevoJugador = (mensaje.tipo).substring(15);
+        getUserForGame(nuevoJugador, () => {
+          setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+          console.log("El nuevo jugador: "+(mensaje.tipo).substring(15));
+          console.log("El nuevo jugador 2: "+JSON.stringify(players));
+          //localStorage.setItem("jugadorxs7reinas", JSON.stringify(players)); //Inicialmnete es vacia
+        });
+        //setPlayers(players.push(nuevoJugador)); //Apilamos el nuevo jugador
+    } else
+    switch (mensaje.tipo) {
+      case "Partida_Iniciada":
+        // console.log("Turno inicial: "+mensaje.turnos[0][0]);
+        // console.log("Turno inicial: "+mensaje.turnos[0][1]);
+        // console.log("Turno inicial: "+mensaje.turnos[1][0]);
+        // console.log("Turno inicial: "+mensaje.turnos[1][1]);
+        let numNoBots = mensaje.turnos.filter((turn) => !(/^bot(\d+)$/).test(turn[0])).length;
+        let gamePlayers = mensaje.turnos.map(() => null);
+        console.log(gamePlayers);
+        localStorage.setItem("jugadorxs7reinas", JSON.stringify(gamePlayers));
+        // for (let i = 0; i < 4; i++) {
+        //   let playerBeingSorted = mensaje.turnos.find((turn) => turn[i][1] == i.toString);
+
+        mensaje.turnos.forEach((elemento, indice) => {
+          console.log(elemento[0] + ' - ' + elemento[1]);
+          if(elemento[0] === sessionUser.codigo){
+            localStorage.setItem("miturno7reinas", JSON.stringify(elemento[1])); //Guardamos nuestro turno como String
+            setMyTurn(elemento[1]);
+            //console.log("Mi turno: "+elemento[1]);
+            
+          }
+          const match = (/^bot(\d+)$/).exec(elemento[0]);
+          if (match) {
+            let bot = {
+              codigo: elemento[0],
+              nombre: "Bot " + match[1],
+              foto: Math.floor(Math.random() * 6) + 1,
+              cartas: 14
+            };
+            let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
+            players[parseInt(elemento[1])] = bot;
+            localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
+          } else {
+            getUserForGame(elemento[0], () => {
               console.log("El nuevo jugador: "+(mensaje.tipo).substring(15));
               console.log("El nuevo jugador 2: "+JSON.stringify(players));
+              numNoBots--;
+              if (numNoBots == 0) {
+                ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+              }
               //localStorage.setItem("jugadorxs7reinas", JSON.stringify(players)); //Inicialmnete es vacia
-            });
-            //setPlayers(players.push(nuevoJugador)); //Apilamos el nuevo jugador
-        } else
-        switch (mensaje.tipo) {
-          case "Partida_Iniciada":
-            // console.log("Turno inicial: "+mensaje.turnos[0][0]);
-            // console.log("Turno inicial: "+mensaje.turnos[0][1]);
-            // console.log("Turno inicial: "+mensaje.turnos[1][0]);
-            // console.log("Turno inicial: "+mensaje.turnos[1][1]);
-            let numNoBots = mensaje.turnos.filter((turn) => !(/^bot(\d+)$/).test(turn[0])).length;
-            let gamePlayers = mensaje.turnos.map(() => null);
-            console.log(gamePlayers);
-            localStorage.setItem("jugadorxs7reinas", JSON.stringify(gamePlayers));
-            // for (let i = 0; i < 4; i++) {
-            //   let playerBeingSorted = mensaje.turnos.find((turn) => turn[i][1] == i.toString);
-
-            mensaje.turnos.forEach((elemento, indice) => {
-              console.log(elemento[0] + ' - ' + elemento[1]);
-              if(elemento[0] === sessionUser.codigo){
-                localStorage.setItem("miturno7reinas", JSON.stringify(elemento[1])); //Guardamos nuestro turno como String
-                setMyTurn(elemento[1]);
-                //console.log("Mi turno: "+elemento[1]);
-                
-              }
-              const match = (/^bot(\d+)$/).exec(elemento[0]);
-              if (match) {
-                let bot = {
-                  codigo: elemento[0],
-                  nombre: "Bot " + match[1],
-                  foto: Math.floor(Math.random() * 6) + 1,
-                  cartas: 14
-                };
-                let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
-                players[parseInt(elemento[1])] = bot;
-                localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
-              } else {
-                getUserForGame(elemento[0], () => {
-                  console.log("El nuevo jugador: "+(mensaje.tipo).substring(15));
-                  console.log("El nuevo jugador 2: "+JSON.stringify(players));
-                  numNoBots--;
-                  if (numNoBots == 0) {
-                    ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
-                  }
-                  //localStorage.setItem("jugadorxs7reinas", JSON.stringify(players)); //Inicialmnete es vacia
-                }, parseInt(elemento[1]));
-              }
-              // gamePlayers.forEach((player) => {
-              //     console.log(player.codigo);
-              //     if(player.codigo === elemento[0]){
-              //       sortedPlayers.push(player);
-              //     }
-              //   });
-            });
-            setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
-            setBoard([]);
-            localStorage.setItem("tablero7reinas", JSON.stringify([])); //Inicialmente es vacia
-            setTurn(0);
-            localStorage.setItem("turno7reinas", JSON.stringify(0)); //Guardamos nuestro turno como String
-            setDiscard([]);
-            localStorage.setItem("descarte7reinas", JSON.stringify([])); //Inicialmente es vacia
-            localStorage.setItem("herobado7reinas", false); //Inicialmente es false
-            console.log(sessionUser.codigo);
-            
-            // HARA FALTA CUANDO SE REANUDEN LAS PARTIDAS
-            // ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
-            break;
-          
-          case "Mostrar_manos":
-            //console.log("Mostrar manos: "+mensaje.mano);
-            let gameplayers = JSON.parse(localStorage.getItem("jugadorxs7reinas"));
-            for (let i = 0; i < mensaje.manos.length; i++) {
-              gameplayers[i].cartas = mensaje.manos[i].length;
-            }
-            setPlayers(gameplayers);
-            localStorage.setItem("jugadorxs7reinas", JSON.stringify(gameplayers)); //Inicialmnete es vacia
-            let myTurn = JSON.parse(localStorage.getItem("miturno7reinas"));
-            myHand = mensaje.manos[myTurn] ? mensaje.manos[myTurn].map((card, ind) => {
-              let values = card.split(",");
-              return {number: values[0], symbol: values[1], back: values[2], comb: -1, ord: -1};
-            }) : [];
-            console.log("Mi mano:");
-            console.log(myHand);
-            setHand(myHand);
-            localStorage.setItem("mano7reinas", JSON.stringify(myHand)); //Inicialmnete es vacia
-            if (location.pathname != "/admin/partida")
-              history.push("/admin/partida");
-            break;
-
-          case "Mostrar_mano":
-            //console.log("Mostrar mano: "+mensaje.mano);
-            myHand = mensaje.cartas.map((card, ind) => {
-              let values = card.split(",");
-              return {number: values[0], symbol: values[1], back: values[2], comb: -1, ord: -1};
-            });
-            console.log("Mi mano:");
-            console.log(myHand);
-            setHand(myHand);
-            localStorage.setItem("mano7reinas", JSON.stringify(myHand)); //Inicialmnete es vacia
-            break;
-          
-          case "Mostrar_tablero":
-            //console.log("Mostrar tablero: "+mensaje.tablero);
-            if (mensaje.combinaciones != null) {
-              let tablero = mensaje.combinaciones?.map((combination) => {
-                return combination.map((card) => {
-                  let values = card.split(",");
-                  return {number: values[0], symbol: values[1], back: values[2]};
-                });
-              });
-              console.log("Tablero:");
-              console.log(tablero);
-
-              if(tablero != null && tablero != undefined){
-                setBoard(tablero);
-                localStorage.setItem("tablero7reinas", JSON.stringify(tablero)); //Inicialmnete es vacia
-              }
-            }
-            //Descartes
-            if (mensaje.descartes != null) {
-              let descartes = mensaje.descartes?.map((card) => {
-                let values = card.split(",");
-                return {number: values[0], symbol: values[1], back: values[2]};
-              });
-              console.log("Descartes:");
-              console.log(descartes);
-              setDiscard(descartes);
-              localStorage.setItem("descarte7reinas", JSON.stringify(descartes)); //Inicialmnete es vacia
-            }
-            break;
-          
-          case "Robar_carta":
-            if(mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez
-              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
-              console.log("RECEPCIÓN: Carta Robada");
-            }
-            break;
-
-          case "Robar_carta_descartes":
-            if(mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez
-              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
-              console.log("RECEPCIÓN: Carta Robada de Descartes");
-            }
-            break;
-          
-          case "Abrir":
-            if(mensaje.info == "Ok" && mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez actualizar
-              localStorage.setItem("heabierto7reinas", true);
-              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_mano"}));
-              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
-            } else if((/^\d+$/).test(mensaje.info)){
-              localStorage.setItem("ganadorx7reinas", parseInt(mensaje.info));
-              history.push("/admin/gameend");
-            } else if (/*GANADOR*/true) {
-              /*Acciones por ganar*/
-            }
-            break;
-          
-          case "Colocar_combinacion":
-            if(mensaje.info == "Ok" && mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez actualizar
-              //Actualizar manos y tablero
-              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_mano"}));
-              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
-            } else if((/^\d+$/).test(mensaje.info)){
-              localStorage.setItem("ganadorx7reinas", parseInt(mensaje.info));
-              history.push("/admin/gameend");
-            } else if (/*GANADOR*/false) {
-              /*Acciones por ganar*/
-            }
-            
-            break;
-
-          case "Colocar_carta":
-            if((mensaje.info == "Ok" || (/^\d+,\d+,\d+$/).test(mensaje.info)) && mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez actualizar
-              // Actualizar manos y tablero
-              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_mano"}));
-              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
-            } else if((/^\d+$/).test(mensaje.info)){
-              localStorage.setItem("ganadorx7reinas", parseInt(mensaje.info));
-              history.push("/admin/gameend");
-            } else if (/*GANADOR*/false) {
-              /*Acciones por ganar*/
-            } else if(/*JOCKER*/true && mensaje.receptor == sessionUser.codigo){
-
-            }
-            break;
-
-          case "Descarte":// Dejar descarte y se acaba el turno
-
-            /*if( mensaje.info != "Ok" ){
-              console.log("ERROR AL DESCARTAR: "+mensaje.info);
-            } else {*/
-              // Gestión de cartas del tablero
-              let tablero = mensaje.combinaciones?.map((combination) => {
-                return combination.map((card) => {
-                  let values = card.split(",");
-                  return {number: values[0], symbol: values[1], back: values[2]};
-                });
-              });
-              console.log("Tablero en Descartes:");
-              console.log(tablero);
-              if(tablero != null && tablero != undefined){
-                setBoard(tablero);
-                localStorage.setItem("tablero7reinas", JSON.stringify(tablero)); //Inicialmnete es vacia
-              }
-
-              // Gestión de cartas de descartes
-              mydescartes = mensaje.descartes.map((card, ind) => {
-                let values = card.split(",");
-                return {number: values[0], symbol: values[1], back: values[2]};
-              });
-              console.log("Mi descartes:");
-              console.log(mydescartes);
-              setDiscard(mydescartes);
-              localStorage.setItem("descarte7reinas", JSON.stringify(mydescartes)); //Inicialmnete es vacia
-
-              // Gestión de cartas el turno
-              if(mensaje.turno != ""){
-                setTurn(mensaje.turno);
-                localStorage.setItem("turno7reinas", JSON.stringify(mensaje.turno));
-              }
-
-              // Si el siguiente jugador a abierto o no
-              if(mensaje.abrir == "si"){
-                localStorage.setItem("heabierto7reinas", true);
-              }else{
-                localStorage.setItem("heabierto7reinas", false);
-              }
-
-              // Actualizar las manos de los jugadores
-              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
-              localStorage.setItem("herobado7reinas", false); //Indica si ha robado el jugador
-            /*}*/
-            if ((/^\d+$/).test(mensaje.ganador)) {
-              localStorage.setItem("ganadorx7reinas", parseInt(mensaje.ganador));
-              history.push("/admin/gameend");
-            }
-            break;
-
-            case "Partida_Pausada":
-              getPausedGames(sessionUser.codigo, () => {
-                history.push("/admin/gamepaused");
-              });
-              break;
-          
-          case "jugadores":
-              console.log(mensaje.cartas);
-              //HAY QUE ACTUALIZAR EL NUMERO DE LAS CARTAS EN LA MANO DE LA INFO DE JUGADOR 
-            break;
-  
-          default:
-            return 0;
+            }, parseInt(elemento[1]));
+          }
+          // gamePlayers.forEach((player) => {
+          //     console.log(player.codigo);
+          //     if(player.codigo === elemento[0]){
+          //       sortedPlayers.push(player);
+          //     }
+          //   });
+        });
+        setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+        setBoard([]);
+        localStorage.setItem("tablero7reinas", JSON.stringify([])); //Inicialmente es vacia
+        setTurn(0);
+        localStorage.setItem("turno7reinas", JSON.stringify(0)); //Guardamos nuestro turno como String
+        setDiscard([]);
+        localStorage.setItem("descarte7reinas", JSON.stringify([])); //Inicialmente es vacia
+        localStorage.setItem("herobado7reinas", false); //Inicialmente es false
+        console.log(sessionUser.codigo);
+        
+        // HARA FALTA CUANDO SE REANUDEN LAS PARTIDAS
+        // ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
+        break;
+      
+      case "Mostrar_manos":
+        //console.log("Mostrar manos: "+mensaje.mano);
+        let gameplayers = JSON.parse(localStorage.getItem("jugadorxs7reinas"));
+        for (let i = 0; i < mensaje.manos.length; i++) {
+          gameplayers[i].cartas = mensaje.manos[i].length;
         }
+        setPlayers(gameplayers);
+        localStorage.setItem("jugadorxs7reinas", JSON.stringify(gameplayers)); //Inicialmnete es vacia
+        let myTurn = JSON.parse(localStorage.getItem("miturno7reinas"));
+        myHand = mensaje.manos[myTurn] ? mensaje.manos[myTurn].map((card, ind) => {
+          let values = card.split(",");
+          return {number: values[0], symbol: values[1], back: values[2], comb: -1, ord: -1};
+        }) : [];
+        console.log("Mi mano:");
+        console.log(myHand);
+        setHand(myHand);
+        localStorage.setItem("mano7reinas", JSON.stringify(myHand)); //Inicialmnete es vacia
+        if (location.pathname != "/admin/partida")
+          history.push("/admin/partida");
+        break;
+
+      case "Mostrar_mano":
+        //console.log("Mostrar mano: "+mensaje.mano);
+        myHand = mensaje.cartas.map((card, ind) => {
+          let values = card.split(",");
+          return {number: values[0], symbol: values[1], back: values[2], comb: -1, ord: -1};
+        });
+        console.log("Mi mano:");
+        console.log(myHand);
+        setHand(myHand);
+        localStorage.setItem("mano7reinas", JSON.stringify(myHand)); //Inicialmnete es vacia
+        break;
+      
+      case "Mostrar_tablero":
+        //console.log("Mostrar tablero: "+mensaje.tablero);
+        if (mensaje.combinaciones != null) {
+          let tablero = mensaje.combinaciones?.map((combination) => {
+            return combination.map((card) => {
+              let values = card.split(",");
+              return {number: values[0], symbol: values[1], back: values[2]};
+            });
+          });
+          console.log("Tablero:");
+          console.log(tablero);
+
+          if(tablero != null && tablero != undefined){
+            setBoard(tablero);
+            localStorage.setItem("tablero7reinas", JSON.stringify(tablero)); //Inicialmnete es vacia
+          }
+        }
+        //Descartes
+        if (mensaje.descartes != null) {
+          let descartes = mensaje.descartes?.map((card) => {
+            let values = card.split(",");
+            return {number: values[0], symbol: values[1], back: values[2]};
+          });
+          console.log("Descartes:");
+          console.log(descartes);
+          setDiscard(descartes);
+          localStorage.setItem("descarte7reinas", JSON.stringify(descartes)); //Inicialmnete es vacia
+        }
+        break;
+      
+      case "Robar_carta":
+        if(mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez
+          ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+          console.log("RECEPCIÓN: Carta Robada");
+        }
+        break;
+
+      case "Robar_carta_descartes":
+        if(mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez
+          ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+          console.log("RECEPCIÓN: Carta Robada de Descartes");
+        }
+        break;
+      
+      case "Abrir":
+        if(mensaje.info == "Ok" && mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez actualizar
+          localStorage.setItem("heabierto7reinas", true);
+          ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_mano"}));
+          ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
+        } else if((/^\d+$/).test(mensaje.info)){
+          localStorage.setItem("ganadorx7reinas", parseInt(mensaje.info));
+          history.push("/admin/gameend");
+        } else if (/*GANADOR*/true) {
+          /*Acciones por ganar*/
+        }
+        break;
+      
+      case "Colocar_combinacion":
+        if(mensaje.info == "Ok" && mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez actualizar
+          //Actualizar manos y tablero
+          ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_mano"}));
+          ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
+        } else if((/^\d+$/).test(mensaje.info)){
+          localStorage.setItem("ganadorx7reinas", parseInt(mensaje.info));
+          history.push("/admin/gameend");
+        } else if (/*GANADOR*/false) {
+          /*Acciones por ganar*/
+        }
+        
+        break;
+
+      case "Colocar_carta":
+        if((mensaje.info == "Ok" || (/^\d+,\d+,\d+$/).test(mensaje.info)) && mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez actualizar
+          // Actualizar manos y tablero
+          ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_mano"}));
+          ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
+        } else if((/^\d+$/).test(mensaje.info)){
+          localStorage.setItem("ganadorx7reinas", parseInt(mensaje.info));
+          history.push("/admin/gameend");
+        } else if (/*GANADOR*/false) {
+          /*Acciones por ganar*/
+        } else if(/*JOCKER*/true && mensaje.receptor == sessionUser.codigo){
+
+        }
+        break;
+
+      case "Descarte":// Dejar descarte y se acaba el turno
+
+        /*if( mensaje.info != "Ok" ){
+          console.log("ERROR AL DESCARTAR: "+mensaje.info);
+        } else {*/
+          // Gestión de cartas del tablero
+          let tablero = mensaje.combinaciones?.map((combination) => {
+            return combination.map((card) => {
+              let values = card.split(",");
+              return {number: values[0], symbol: values[1], back: values[2]};
+            });
+          });
+          console.log("Tablero en Descartes:");
+          console.log(tablero);
+          if(tablero != null && tablero != undefined){
+            setBoard(tablero);
+            localStorage.setItem("tablero7reinas", JSON.stringify(tablero)); //Inicialmnete es vacia
+          }
+
+          // Gestión de cartas de descartes
+          mydescartes = mensaje.descartes.map((card, ind) => {
+            let values = card.split(",");
+            return {number: values[0], symbol: values[1], back: values[2]};
+          });
+          console.log("Mi descartes:");
+          console.log(mydescartes);
+          setDiscard(mydescartes);
+          localStorage.setItem("descarte7reinas", JSON.stringify(mydescartes)); //Inicialmnete es vacia
+
+          // Gestión de cartas el turno
+          if(mensaje.turno != ""){
+            setTurn(mensaje.turno);
+            localStorage.setItem("turno7reinas", JSON.stringify(mensaje.turno));
+          }
+
+          // Si el siguiente jugador a abierto o no
+          if(mensaje.abrir == "si"){
+            localStorage.setItem("heabierto7reinas", true);
+          }else{
+            localStorage.setItem("heabierto7reinas", false);
+          }
+
+          // Actualizar las manos de los jugadores
+          ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+          localStorage.setItem("herobado7reinas", false); //Indica si ha robado el jugador
+        /*}*/
+        if ((/^\d+$/).test(mensaje.ganador)) {
+          localStorage.setItem("ganadorx7reinas", parseInt(mensaje.ganador));
+          history.push("/admin/gameend");
+        }
+        break;
+
+        case "Partida_Pausada":
+          getPausedGames(sessionUser.codigo, () => {
+            history.push("/admin/gamepaused");
+          });
+          break;
+      
+      case "jugadores":
+          console.log(mensaje.cartas);
+          //HAY QUE ACTUALIZAR EL NUMERO DE LAS CARTAS EN LA MANO DE LA INFO DE JUGADOR 
+        break;
+
+      default:
+        return 0;
+    }
+  }
+
+
+
+  const wsGameInstance = useMemo(() => {
+    if (!wsGame/* && currentGame !== null && currentGame !== undefined && currentGame !== ""*/) {
+      if(!JSON.parse(localStorage.getItem("es_torneo7reinas"))){
+        const ws = new WebSocket(`ws://52.174.124.24:3001/api/ws/partida/${currentGame}`);
+        ws.onopen = () => {
+          console.log(`Conectado a la partida ${currentGame}`);
+          setSePuedeEnviarGame(true);
+          setWsGame(ws);
+
+          /*if(location.pathname != "/admin/partida"){//Comprobamos que no estemos en una partida
+            console.log("Reseteamos LStorage Partida: "+location.pathname);
+            localStorage.removeItem('miturno7reinas');
+            localStorage.removeItem('mano7reinas');
+            localStorage.removeItem('tablero7reinas');
+            localStorage.removeItem('descarte7reinas');
+            localStorage.removeItem('turno7reinas');
+            localStorage.removeItem('heabierto7reinas');
+            localStorage.removeItem('herobado7reinas');
     
-      }      
-      ws.onerror = (error) => {
-        console.log(`Error: ${error.message}`);
+            localStorage.setItem("turno7reinas", JSON.stringify(0)); //Inicializa el turno
+            localStorage.setItem("heabierto7reinas", false);
+            localStorage.setItem("herobado7reinas", false); //Inicialmente es false
+          }*/
+        }
+        ws.onclose = () => {
+          console.log(`Desconectado de la partida ${currentGame}`);
+          //Reseteamos los almacenes
+          // localStorage.removeItem('miturno7reinas');
+          // localStorage.removeItem('mano7reinas');
+          // localStorage.removeItem('tablero7reinas');
+          // localStorage.removeItem('descarte7reinas');
+          // localStorage.removeItem('turno7reinas');    
+        }
+        ws.onmessage = (event) => {
+          let mensaje = JSON.parse(event.data);
+          console.log("Mensaje de wsGame:");
+          console.log(mensaje);
+          comportamiento_partida(mensaje, ws)
+        }      
+        ws.onerror = (error) => {
+          console.log(`Error: ${error.message}`);
+        }
+        return ws;
+      } else {
+        const ws_tor = new WebSocket(`ws://52.174.124.24:3001/api/ws/torneo/${currentGame}`);
+        ws_tor.onopen = () => {
+          console.log(`Conectado a la partida ${currentGame}`);
+          setSePuedeEnviarGame(true);
+          setWsGame(ws_tor);
+
+          /*if(location.pathname != "/admin/partida"){//Comprobamos que no estemos en una partida
+            console.log("Reseteamos LStorage Partida: "+location.pathname);
+            localStorage.removeItem('miturno7reinas');
+            localStorage.removeItem('mano7reinas');
+            localStorage.removeItem('tablero7reinas');
+            localStorage.removeItem('descarte7reinas');
+            localStorage.removeItem('turno7reinas');
+            localStorage.removeItem('heabierto7reinas');
+            localStorage.removeItem('herobado7reinas');
+    
+            localStorage.setItem("turno7reinas", JSON.stringify(0)); //Inicializa el turno
+            localStorage.setItem("heabierto7reinas", false);
+            localStorage.setItem("herobado7reinas", false); //Inicialmente es false
+          }*/
+        }
+        ws_tor.onclose = () => {
+          console.log(`Desconectado de la partida ${currentGame}`);
+          //Reseteamos los almacenes
+          // localStorage.removeItem('miturno7reinas');
+          // localStorage.removeItem('mano7reinas');
+          // localStorage.removeItem('tablero7reinas');
+          // localStorage.removeItem('descarte7reinas');
+          // localStorage.removeItem('turno7reinas');    
+        }
+        ws_tor.onmessage = (event) => {
+          let mensaje = JSON.parse(event.data);
+          console.log("Mensaje de wsGame:");
+          console.log(mensaje);
+          comportamiento_partida(mensaje, ws_tor)
+        }      
+        ws_tor.onerror = (error) => {
+          console.log(`Error: ${error.message}`);
+        }
+        return ws_tor;
       }
-      return ws;
     }
     return wsGame;
   }, [wsGame, sessionUser.codigo, currentGame, history, myTurn, players]);

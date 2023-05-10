@@ -232,6 +232,7 @@ const Index = (props) => {
                         <Button color="primary" onClick={() => {
                           createGame(sessionUser, "amistosa",
                             () => {
+                              localStorage.setItem("es_torneo7reinas", false);
                               setGame(localStorage.getItem("juego7reinas"));
                               setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
                               history.push("/admin/gamelobby")
@@ -245,6 +246,7 @@ const Index = (props) => {
                         <Button color="primary" onClick={() => {
                           createGame(sessionUser, "torneo",
                             () => {
+                              localStorage.setItem("es_torneo7reinas", true);
                               setGame(localStorage.getItem("juego7reinas"));
                               setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
                               history.push("/admin/gamelobby")
@@ -269,7 +271,7 @@ const Index = (props) => {
                 <CardHeader className="border-0">
                   <Row>
                     <Col>
-                      <h3 className="mb-0">Partidas Pusadas</h3>
+                      <h3 className="mb-0">Partidas Pausadas</h3>
                     </Col>
                     <Col>
                       <h3 className="mb-0">Ranking</h3>
