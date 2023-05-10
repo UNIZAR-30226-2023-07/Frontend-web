@@ -155,49 +155,13 @@ import {
         <Container fluid>
           <Row>
             <Col className="order-xl-1" xl="11">
-              {/* <Card className="bg-secondary shadow ml-7">
-                
-                <Row className="mt-3 mb-3">
-                  <Col  className="ml-4" lg="5">
-                      <img
-                        alt="..."
-                        className="avatar-lg rounded-circle mr-3"
-                        src={SelectImgUser(players[0].foto)}
-                      />
-                      <span className="mt-6">{players[0].nombre}</span>
-                  </Col>
-                  <Col  className="ml-4" lg="5">
-                    <img
-                      alt="..."
-                      className="avatar-lg rounded-circle mr-3"
-                      src={SelectImgUser(players[1].foto)}
-                    />
-                      <span className="mt-6">{players[1].nombre}</span>
-                  </Col>
-                  <Col  className="ml-4 mt-3" lg="5">
-                    <img
-                      alt="..."
-                      className="avatar-lg rounded-circle mr-3"
-                      src={SelectImgUser(players[2].foto)}
-                    />
-                    <span className="mt-6">{players[2].nombre}</span>
-                  </Col>
-                  <Col  className="ml-4 mt-3" lg="5">
-                    <img
-                      alt="..."
-                      className="avatar-lg rounded-circle mr-3"
-                      src={SelectImgUser(players[3].foto)}
-                    />
-                      <span className="mt-6">{players[3].nombre}</span>
-                  </Col>
-                </Row>
-              </Card> */}
               <Row style={{marginTop: "3rem", justifyContent: "center"}}>
                 <h4 style={{color:"white"}} className="mb-0">El código de partida es <strong style={{fontSize:"200%"}}>{partidaActual}</strong>{/*JSON.stringify(jugPartida)*/}</h4>
               </Row>
               <Row style={{marginTop: "3rem", justifyContent: "center"}}>
                 {showPlayers(players)}
               </Row>
+              { JSON.parse(localStorage.getItem("anfitrion7reinas")) ?
               <Row style={{marginTop: "3rem", justifyContent: "center"}}>
                 <Button variant="primary" color="primary" onClick={() => {
                     startGame(sessionUser.codigo, partidaActual, false,
@@ -215,6 +179,13 @@ import {
                   : null
                 }
               </Row>
+              :
+              <Row style={{marginTop: "3rem", justifyContent: "center"}}>
+                  <p className="mt-4 ml-4">
+                      Esperando inicio de partida...
+                  </p>
+              </Row>
+              }
             </Col>
           </Row>
         </Container>

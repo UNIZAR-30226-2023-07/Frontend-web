@@ -1,6 +1,6 @@
 import getUserForGame from "hooks/getter/getUserForGame";
 
-export default function joinGame (me, clavePartida, doNext, doOnError) {
+export default function joinGame (me, clavePartida, doNext, doOnError, amITheHost) {
 
     let xhr = new XMLHttpRequest();
 
@@ -15,33 +15,33 @@ export default function joinGame (me, clavePartida, doNext, doOnError) {
             localStorage.removeItem('jugadorxs7reinas');
             console.log("partida encontrada");
             let datos = JSON.parse(xhr.response);
-            console.log(datos.jugadores);
-            console.log(datos.jugadores.length);
-            getUserForGame(datos.jugadores[0], () => {
-                if (datos.jugadores.length > 1)
-                    getUserForGame(datos.jugadores[1], () => {
-                        if (datos.jugadores.length > 2)
-                            getUserForGame(datos.jugadores[2], () => {
+            if (datos.jugadores != null) {
+                getUserForGame(datos.jugadores[0], () => {
+                    if (datos.jugadores.length > 1)
+                        getUserForGame(datos.jugadores[1], () => {
+                            if (datos.jugadores.length > 2)
+                                getUserForGame(datos.jugadores[2], () => {
+                                    let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
+                                    players.push({codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto});
+                                    localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
+                                });
+                            else {
                                 let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
                                 players.push({codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto});
                                 localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
-                                doNext();
-                            });
-                        else {
-                            let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
-                            players.push({codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto});
-                            localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
-                            doNext();
-                        }
-                    });
-                else {
-                    let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
-                    players.push({codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto});
-                    localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
-                    doNext();
-                }
-            });
-            localStorage.setItem("anfitrion7reinas", JSON.stringify(false));
+                            }
+                        });
+                    else {
+                        let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
+                        players.push({codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto});
+                        localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
+                    }
+                });
+            } else {
+                let players = [{codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto}];
+                localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
+            }
+            localStorage.setItem("anfitrion7reinas", JSON.stringify(amITheHost));
             // let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
             // console.log("Juagador propio ñadido 2");
             // let user = {codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto};

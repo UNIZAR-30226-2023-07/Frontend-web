@@ -30,7 +30,6 @@ import Perfil_Otro_Usuario from "views/examples/Perfil_Otro_Usuario";
 import Password_O from "views/examples/Password_Olvidada";
 import Ajustes_Perfil from "views/examples/Ajustes_Perfil";
 import Crear_Partida_N from "views/examples/Crear_Partida_N";
-import Lobby_Unirse_Partida from "views/examples/Lobby_Unirse_Partida";
 import Tablero_Rabino from "layouts/Tablero_Rabino";
 import Final_Partida from "views/examples/Final_Partida";
 import Pausa_Partida from "views/examples/Pausa_Partida";
@@ -130,17 +129,10 @@ var routes = [
     layout: "/admin"
   },
   {
-    path: "/crear_partida_n",
+    path: "/gamelobby",
     name: "Crear_Partida_N",
     icon: "ni ni-single-02 text-yellow",
     component: Crear_Partida_N,
-    layout: "/admin"
-  },
-  {
-    path: "/lobby_unirse_partida",
-    name: "Lobby_Unirse_Partida",
-    icon: "ni ni-single-02 text-yellow",
-    component: Lobby_Unirse_Partida,
     layout: "/admin"
   },
   {

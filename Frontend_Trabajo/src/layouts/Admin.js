@@ -36,6 +36,7 @@ import informacion_Web from "informacion_Web.js";
 import getUserForGame from "hooks/getter/getUserForGame";
 import getFriends from "hooks/getter/getFriends";
 import getFriendRequests from "hooks/getter/getFriendRequests";
+import getPausedGames from "hooks/getter/getPausedGames";
 
 import setAppIcon from "hooks/setAppIcon";
 
@@ -410,7 +411,9 @@ const Admin = (props) => {
             break;
 
             case "Partida_Pausada":
-              history.push("/admin/gamepaused");
+              getPausedGames(sessionUser.codigo, () => {
+                history.push("/admin/gamepaused");
+              });
               break;
           
           case "jugadores":

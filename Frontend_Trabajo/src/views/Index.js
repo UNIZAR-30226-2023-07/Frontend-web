@@ -140,13 +140,24 @@ const Index = (props) => {
       return (
         <tr key={key}>
           <td>
-            <span className="h3">{prop.Tipo == "amistosa"? "Normal": "Clasificatoria"}</span>
-          </td>
-          <td>
-              <span className="h3">{prop.Creador}</span>
+            <span className="h3">{prop.Tipo == "amistosa"? "Partida": "Torneo"} de {prop.Creador}</span>
           </td>
           <td>
               <span className="h3">{prop.Clave}</span>
+          </td>
+          <td>
+            <Button variant="primary" color="primary" className="ml-5" onClick={() => {
+              joinGame(sessionUser, prop.Clave,
+                () => {
+                  setGame(localStorage.getItem("juego7reinas"));
+                  setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+                  history.push("/admin/gamelobby");
+                },
+                () => setErrorUnirse(true),
+                prop.Creador == sessionUser.codigo
+            )}}>
+              Unirse
+            </Button>
           </td>
         </tr>
       );
@@ -192,9 +203,10 @@ const Index = (props) => {
                               () => {
                                 setGame(localStorage.getItem("juego7reinas"));
                                 setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
-                                history.push("/admin/lobby_unirse_partida");
+                                history.push("/admin/gamelobby");
                               },
-                              () => setErrorUnirse(true)
+                              () => setErrorUnirse(true),
+                              false
                           )}}>
                             Unirse
                           </Button>
@@ -222,7 +234,7 @@ const Index = (props) => {
                             () => {
                               setGame(localStorage.getItem("juego7reinas"));
                               setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
-                              history.push("/admin/crear_partida_n")
+                              history.push("/admin/gamelobby")
                             },
                             () => setErrorCrear(true)
                         )}}>
@@ -235,7 +247,7 @@ const Index = (props) => {
                             () => {
                               setGame(localStorage.getItem("juego7reinas"));
                               setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
-                              history.push("/admin/crear_partida_n")
+                              history.push("/admin/gamelobby")
                             },
                             () => setErrorCrear(true)
                         )}}>
@@ -265,13 +277,12 @@ const Index = (props) => {
                   </Row>
                 </CardHeader>
                 <Row>
-                  <Col>
+                  <Col style={{width:"50%"}}>
                     <Table className="align-items-center table-flush" responsive>
                       <thead className="thead-light">
                         <tr>
-                          <th scope="col">Tipo de Patida</th>
-                          <th scope="col">Cave de Anfitrión</th>
-                          <th scope="col">Clave de Partida</th>
+                          <th scope="col">Nombre</th>
+                          <th scope="col">Clave</th>
                           <th scope="col" />
                         </tr>
                       </thead>

@@ -1,4 +1,4 @@
-export default function getPartidasPausadas (user, doNext) {
+export default function getPausedGames (user, doNext) {
 
     let xhr = new XMLHttpRequest();
 
