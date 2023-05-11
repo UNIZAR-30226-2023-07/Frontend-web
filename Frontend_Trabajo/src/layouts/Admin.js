@@ -65,6 +65,7 @@ const Admin = (props) => {
 	const [sePuedeEnviarGame, setSePuedeEnviarGame] = useState(false);
   const [msgsGame, setMsgsGame] = useState(JSON.parse(localStorage.getItem("msjsjuego7reinas")));
   const [wsGame, setWsGame] = useState(null);
+  const [wsTorneo, setWsTorneo] = useState(null);
   const [wsChat, setWsChat] = useState(null);
   const [wsGameChat, setWsGameChat] = useState(null);
 
@@ -200,6 +201,7 @@ const Admin = (props) => {
         localStorage.setItem("descarte7reinas", JSON.stringify([])); //Inicialmente es vacia
         localStorage.setItem("herobado7reinas", false); //Inicialmente es false
         console.log(sessionUser.codigo);
+        setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]); //Ponemos un valor inicial para evitar error
         
         // HARA FALTA CUANDO SE REANUDEN LAS PARTIDAS
         // ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
@@ -367,7 +369,7 @@ const Admin = (props) => {
               }*/
 
               // Actualizar las manos de los jugadores
-              if (!(/^bot(\d+)$/).test(players[parseInt(mensaje.turno)].codigo))
+              if (!(/^bot(\d+)$/).test(JSON.parse(localStorage.getItem("jugadorxs7reinas"))[parseInt(mensaje.turno)].codigo))
                 ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
               else console.log ("VA A JUGAR UN BOT. NO ACTUALIZAMOS.")
               localStorage.setItem("herobado7reinas", false); //Indica si ha robado el jugador
@@ -398,12 +400,58 @@ const Admin = (props) => {
 
   const wsGameInstance = useMemo(() => {
     if (!wsGame/* && currentGame !== null && currentGame !== undefined && currentGame !== ""*/) {
-      if(!JSON.parse(localStorage.getItem("es_torneo7reinas"))){
-        const ws = new WebSocket(`ws://52.174.124.24:3001/api/ws/partida/${currentGame}`);
+      const ws = new WebSocket(`ws://52.174.124.24:3001/api/ws/partida/${currentGame}`);
+      ws.onopen = () => {
+        console.log(`Conectado a la partida ${currentGame}`);
+        setSePuedeEnviarGame(true);
+        setWsGame(ws);
+
+        /*if(location.pathname != "/admin/partida"){//Comprobamos que no estemos en una partida
+          console.log("Reseteamos LStorage Partida: "+location.pathname);
+          localStorage.removeItem('miturno7reinas');
+          localStorage.removeItem('mano7reinas');
+          localStorage.removeItem('tablero7reinas');
+          localStorage.removeItem('descarte7reinas');
+          localStorage.removeItem('turno7reinas');
+          localStorage.removeItem('heabierto7reinas');
+          localStorage.removeItem('herobado7reinas');
+  
+          localStorage.setItem("turno7reinas", JSON.stringify(0)); //Inicializa el turno
+          localStorage.setItem("heabierto7reinas", false);
+          localStorage.setItem("herobado7reinas", false); //Inicialmente es false
+        }*/
+      }
+      ws.onclose = () => {
+        console.log(`Desconectado de la partida ${currentGame}`);
+        //Reseteamos los almacenes
+        // localStorage.removeItem('miturno7reinas');
+        // localStorage.removeItem('mano7reinas');
+        // localStorage.removeItem('tablero7reinas');
+        // localStorage.removeItem('descarte7reinas');
+        // localStorage.removeItem('turno7reinas');    
+      }
+      ws.onmessage = (event) => {
+        let mensaje = JSON.parse(event.data);
+        console.log("Mensaje de wsGame:");
+        console.log(mensaje);
+        comportamiento_partida(mensaje, ws)
+      }      
+      ws.onerror = (error) => {
+        console.log(`Error: ${error.message}`);
+      }
+      return ws;
+    }
+    return wsGame;
+  }, [wsGame, sessionUser.codigo, currentGame, history, myTurn, players]);
+
+  const wsTorneoInstance = useMemo(() => {
+    if (!wsTorneo/* && currentGame !== null && currentGame !== undefined && currentGame !== ""*/) {
+      if(JSON.parse(localStorage.getItem("es_torneo7reinas"))){
+        const ws = new WebSocket(`ws://52.174.124.24:3001/api/ws/torneo/${currentGame}`);
         ws.onopen = () => {
-          console.log(`Conectado a la partida ${currentGame}`);
+          console.log(`Conectado a al Torneo: ${currentGame}`);
           setSePuedeEnviarGame(true);
-          setWsGame(ws);
+          setWsTorneo(ws);
 
           /*if(location.pathname != "/admin/partida"){//Comprobamos que no estemos en una partida
             console.log("Reseteamos LStorage Partida: "+location.pathname);
@@ -431,7 +479,7 @@ const Admin = (props) => {
         }
         ws.onmessage = (event) => {
           let mensaje = JSON.parse(event.data);
-          console.log("Mensaje de wsGame:");
+          console.log("Mensaje de wsTorneo:");
           console.log(mensaje);
           comportamiento_partida(mensaje, ws)
         }      
@@ -439,51 +487,11 @@ const Admin = (props) => {
           console.log(`Error: ${error.message}`);
         }
         return ws;
-      } else {
-        const ws_tor = new WebSocket(`ws://52.174.124.24:3001/api/ws/torneo/${currentGame}`);
-        ws_tor.onopen = () => {
-          console.log(`Conectado a la partida ${currentGame}`);
-          setSePuedeEnviarGame(true);
-          setWsGame(ws_tor);
-
-          /*if(location.pathname != "/admin/partida"){//Comprobamos que no estemos en una partida
-            console.log("Reseteamos LStorage Partida: "+location.pathname);
-            localStorage.removeItem('miturno7reinas');
-            localStorage.removeItem('mano7reinas');
-            localStorage.removeItem('tablero7reinas');
-            localStorage.removeItem('descarte7reinas');
-            localStorage.removeItem('turno7reinas');
-            localStorage.removeItem('heabierto7reinas');
-            localStorage.removeItem('herobado7reinas');
-    
-            localStorage.setItem("turno7reinas", JSON.stringify(0)); //Inicializa el turno
-            localStorage.setItem("heabierto7reinas", false);
-            localStorage.setItem("herobado7reinas", false); //Inicialmente es false
-          }*/
-        }
-        ws_tor.onclose = () => {
-          console.log(`Desconectado de la partida ${currentGame}`);
-          //Reseteamos los almacenes
-          // localStorage.removeItem('miturno7reinas');
-          // localStorage.removeItem('mano7reinas');
-          // localStorage.removeItem('tablero7reinas');
-          // localStorage.removeItem('descarte7reinas');
-          // localStorage.removeItem('turno7reinas');    
-        }
-        ws_tor.onmessage = (event) => {
-          let mensaje = JSON.parse(event.data);
-          console.log("Mensaje de wsGame:");
-          console.log(mensaje);
-          comportamiento_partida(mensaje, ws_tor)
-        }      
-        ws_tor.onerror = (error) => {
-          console.log(`Error: ${error.message}`);
-        }
-        return ws_tor;
       }
     }
-    return wsGame;
-  }, [wsGame, sessionUser.codigo, currentGame, history, myTurn, players]);
+    return wsTorneo;
+  }, [wsTorneo, sessionUser.codigo, currentGame, history, myTurn, players]);
+
 
   const wsGameChatInstance = useMemo(() => {
     if (!wsGameChat/* && currentGame !== null && currentGame !== undefined && currentGame !== ""*/) {
@@ -527,12 +535,16 @@ const Admin = (props) => {
         wsGameInstance.close();
         setWsGame(null);
       }
+      if (wsTorneoInstance) {
+        wsTorneoInstance.close();
+        setWsTorneo(null);
+      }
       if (wsGameChatInstance) {
         wsGameChatInstance.close();
         setWsGameChat(null);
       }
     }
-  }, [wsChatInstance, wsGameInstance, wsGameChatInstance, currentGame]);
+  }, [wsChatInstance, wsGameInstance, wsTorneoInstance, wsGameChatInstance, currentGame]);
 
 
   const getRoutes = (routes) => {
@@ -560,6 +572,7 @@ const Admin = (props) => {
                                     myTurn={myTurn}
                                     turn={turn}
                                     wsGame={wsGame}
+                                    wsTorneo={wsTorneo}
                                   />
                                 </div>}
             key={key}

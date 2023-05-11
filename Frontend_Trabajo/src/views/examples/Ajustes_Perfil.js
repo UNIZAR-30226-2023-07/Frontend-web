@@ -26,6 +26,10 @@ import {
   import Jaime from "../../assets/img/Imgs_7_Reinas/jaime.jpg";
   import Lucia from "../../assets/img/Imgs_7_Reinas/lucia.jpg";
   import Patricia from "../../assets/img/Imgs_7_Reinas/patricia.jpg";
+  import Jorge from "../../assets/img/Imgs_7_Reinas/jorge.jpg";
+  import Pikachu from "../../assets/img/Imgs_7_Reinas/pikachu.jpg";
+  import Mondongo from "../../assets/img/Imgs_7_Reinas/mondongo.jpg";
+
   
   import SelectImgUser from "hooks/SelectImgUser.js";
 
@@ -81,7 +85,7 @@ import {
     xhr.open('POST', 'http://52.174.124.24:3001/api/jugador/mod')
         
     //Mandamos la request con el email y la contraseña
-    xhr.send(JSON.stringify({ email: sessionUser.correo, nombre: Nombre_U, foto: Imagen , descp: Descrp_U }))
+    xhr.send(JSON.stringify({ email: sessionUser.correo, nombre: Nombre_U, foto: Imagen , descp: Descrp_U }));
   };
 
     //Los huecos de modificación
@@ -244,7 +248,7 @@ import {
                     <tbody>
                     <tr>
                       <td>
-                        <Row>
+                        <Row className="ml--4">
                           <img
                             alt="..."
                             className="ml-4 avatar-lg rounded-circle mr-3"
@@ -258,7 +262,7 @@ import {
                         </Row>
                       </td>
                       <td>
-                        <Row>
+                        <Row className="ml--4">
                           <img
                             alt="..."
                             className="avatar-lg rounded-circle mr-3"
@@ -272,7 +276,7 @@ import {
                         </Row>
                       </td>
                       <td>
-                        <Row>
+                        <Row className="ml--4">
                             <img
                               alt="..."
                               className="avatar-lg rounded-circle mr-3"
@@ -286,7 +290,7 @@ import {
                           </Row>
                       </td>
                       <td>
-                        <Row>
+                        <Row className="ml--4">
                             <img
                               alt="..."
                               className="avatar-lg rounded-circle mr-3"
@@ -300,7 +304,7 @@ import {
                           </Row>
                       </td>
                       <td>
-                        <Row>
+                        <Row className="ml--4">
                             <img
                               alt="..."
                               className="avatar-lg rounded-circle mr-3"
@@ -314,7 +318,7 @@ import {
                           </Row>
                       </td>
                       <td>
-                        <Row>
+                        <Row className="ml--4">
                             <img
                               alt="..."
                               className="avatar-lg rounded-circle mr-3"
@@ -322,6 +326,48 @@ import {
                             />
                             <div>
                               <Button onClick={() => setImagen(5)}>
+                                <i className="ni ni-check-bold" />
+                              </Button>
+                            </div>
+                          </Row>
+                      </td>
+                      <td>
+                        <Row className="ml--4">
+                            <img
+                              alt="..."
+                              className="avatar-lg rounded-circle mr-3"
+                              src={Jorge}
+                            />
+                            <div>
+                              <Button onClick={() => setImagen(6)}>
+                                <i className="ni ni-check-bold" />
+                              </Button>
+                            </div>
+                          </Row>
+                      </td>
+                      <td>
+                        <Row className="ml--4">
+                            <img
+                              alt="..."
+                              className="avatar-lg rounded-circle mr-3"
+                              src={Pikachu}
+                            />
+                            <div>
+                              <Button onClick={() => setImagen(7)}>
+                                <i className="ni ni-check-bold" />
+                              </Button>
+                            </div>
+                          </Row>
+                      </td>
+                      <td>
+                        <Row className="ml--4">
+                            <img
+                              alt="..."
+                              className="avatar-lg rounded-circle mr-3"
+                              src={Mondongo}
+                            />
+                            <div>
+                              <Button onClick={() => setImagen(8)}>
                                 <i className="ni ni-check-bold" />
                               </Button>
                             </div>

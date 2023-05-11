@@ -41,6 +41,11 @@ export default function joinGame (me, clavePartida, doNext, doOnError, amITheHos
                 let players = [{codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto}];
                 localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
             }
+            if(datos.tipo == "amistosa"){ //Indicamos si es un torneo o no
+                localStorage.setItem("es_torneo7reinas", false);
+            } else {
+                localStorage.setItem("es_torneo7reinas", true);
+            }
             localStorage.setItem("anfitrion7reinas", JSON.stringify(amITheHost));
             // let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
             // console.log("Juagador propio ñadido 2");

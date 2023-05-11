@@ -5,6 +5,9 @@ import Jaime from "../assets/img/Imgs_7_Reinas/jaime.jpg";
 import Lucia from "../assets/img/Imgs_7_Reinas/lucia.jpg";
 import Patricia from "../assets/img/Imgs_7_Reinas/patricia.jpg";
 import S_Interrogacion from "../assets/img/Imgs_7_Reinas/signo_interrogacion.png";
+import Jorge from "../assets/img/Imgs_7_Reinas/jorge.jpg";
+import Pikachu from "../assets/img/Imgs_7_Reinas/pikachu.jpg";
+import Mondongo from "../assets/img/Imgs_7_Reinas/mondongo.jpg";
 
 import As_p from "../assets/img/Imgs_7_Reinas/As_de_picas.png";
 
@@ -30,10 +33,19 @@ const SelectImgUser = (imagen_elegida) => {
         return Patricia;
 
       case 6:
-        return S_Interrogacion;
-      
+        return Jorge;
+        
+      case 7:
+        return Pikachu;
+          
+      case 8:
+        return Mondongo;
+                              
       default:
         return As_p;
+        
+      case 9:
+        return S_Interrogacion;  
     }
   };
   

@@ -46,7 +46,7 @@ import {
     const [fotoJug4, setFotoJug4] = useState(j_default.foto);
 
     const { players } = props;
-    console.log(players);
+    console.log("Los jugadores:"+players);
 
     const [jugPartida, setjugPartida] = useState(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
 
@@ -131,6 +131,10 @@ import {
     //     }
     //   })
     // }
+    // useEffect(() => {
+    //   //window.location.reload();
+    // }, [players]);
+  
     const showPlayers = (players) => {
       return (players==null) ? null : players.map((player, key) => {
         return (player == null || (/^bot(\d+)$/).test(player.codigo)) ? null : (
