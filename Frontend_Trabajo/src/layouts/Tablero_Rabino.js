@@ -170,13 +170,13 @@ function Tablero_Rabino(props) {
     });
   }
 
-  const mostrarMano = (mano) => {
-    return (mano == null || mano == undefined) ? null :
+  const mostrarMano = () => {
+    return (hand == null || hand == undefined) ? null :
     <div className="d-flex flex-column align-items-flex-start game-my-hand">
       <CardsWrapper
         className=""
         cartas={hand}
-        cardsNumber={hand.length}
+        cardsNumber={hand==null ? 0 : hand.length}
         classes={"hand-cards card-button"}
         accion_Carta={(index) => {handleCardSelect(index)}}
       />
@@ -221,7 +221,7 @@ function Tablero_Rabino(props) {
     return board.map((fila, i) => (
       <div key={i} style={{ display: 'flex', flexDirection: 'row', justifyContent:'center', alignItems:"center" }}>
         <CardsWrapper cartas={fila} cardsNumber={fila.length} classes={"card-board"} accion_Carta={() => {}}/>
-        { hand.length>=10 || cardsPerComb[0]!==1 ? null :
+        { hand==null || hand.length>=10 || cardsPerComb[0]!==1 ? null :
           <Card className="game-add-card-bar">
             <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); anyadirCarta(i);}}><i className="ni ni-fat-add" /></Button>
           </Card>
@@ -364,7 +364,7 @@ function Tablero_Rabino(props) {
               
               
                 
-                  {mostrarMano(hand)}
+                  {mostrarMano()}
                 
           {/* <button onClick={() => window.location.reload()}>Reload Cards</button> */}
           </div>
@@ -375,7 +375,7 @@ function Tablero_Rabino(props) {
         <h3 className="mx-4 my-0 white-text">Turno de <span className="font-weight-bolder">{players[turn].nombre}</span></h3>
         
       </Card>
-      : hand.length<10 ?
+      : hand!=null && hand.length<10 ?
       (cardsPerComb[0]===0 ?
         <Card className="game-action-bar game-action-bar-me">
           <h3 className="mx-3 my-0 text-white">Selecciona cartas para colocarlas sobre la mesa.</h3>
