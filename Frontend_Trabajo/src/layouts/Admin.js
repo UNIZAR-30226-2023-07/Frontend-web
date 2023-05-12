@@ -612,6 +612,7 @@ const Admin = (props) => {
                                     friends={friends}
                                     friendRequests={friendRequests}
                                     setGame={setCurrentGame}
+                                    currentGame={currentGame}
                                     players={players}
                                     setPlayers={setPlayers}
                                     hand={hand}
