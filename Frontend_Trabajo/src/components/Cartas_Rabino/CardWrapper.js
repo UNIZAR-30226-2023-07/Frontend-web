@@ -35,11 +35,7 @@ const CardsWrapper = ({className, cartas, cardsNumber, accion_Carta, classes}) =
           key={index}
           name={carta_Symbols.name}
           number={carta_Numbers.number}
-          color={
-            carta_Symbols.name === "spade" || carta_Symbols.name === "club" || carta_Symbols.name === "joker"
-              ? `${colors[1].color}`
-              : `${colors[0].color}`
-          }
+          color={colors[0].color}
           suit = {carta_Symbols.id}
           symbol={carta_Symbols.symbol}
         />

@@ -168,7 +168,7 @@ const Admin = (props) => {
             let bot = {
               codigo: elemento[0],
               nombre: "Bot " + match[1],
-              foto: Math.floor(Math.random() * 6) + 1,
+              foto: Math.floor(Math.random() * 9),
               cartas: 14
             };
             let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
@@ -272,14 +272,16 @@ const Admin = (props) => {
       
       case "Robar_carta":
         if(mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez
-          ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+          localStorage.setItem("herobado7reinas", true); //Indica si ha robado el jugador
+          ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_mano"}));
           console.log("RECEPCIÓN: Carta Robada");
         }
         break;
 
       case "Robar_carta_descartes":
         if(mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez
-          ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+          localStorage.setItem("herobado7reinas", true); //Indica si ha robado el jugador
+          ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_mano"}));
           console.log("RECEPCIÓN: Carta Robada de Descartes");
         }
         break;

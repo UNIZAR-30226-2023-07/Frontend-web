@@ -2,6 +2,17 @@ import getUserForGame from "hooks/getter/getUserForGame";
 
 export default function joinGame (me, clavePartida, doNext, doOnError, amITheHost) {
 
+    const doTheRest = (gameType) => {
+        let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
+        let meAsPlayer = {codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto}
+        if (players == null) players = [meAsPlayer];
+        else players.push(meAsPlayer);
+        localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
+        localStorage.setItem("es_torneo7reinas", gameType == "torneo");
+        localStorage.setItem("anfitrion7reinas", JSON.stringify(amITheHost));
+        doNext();
+    }
+
     let xhr = new XMLHttpRequest();
 
     xhr.addEventListener('load', () => {
@@ -20,47 +31,12 @@ export default function joinGame (me, clavePartida, doNext, doOnError, amITheHos
                     if (datos.jugadores.length > 1)
                         getUserForGame(datos.jugadores[1], () => {
                             if (datos.jugadores.length > 2)
-                                getUserForGame(datos.jugadores[2], () => {
-                                    let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
-                                    players.push({codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto});
-                                    localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
-                                });
-                            else {
-                                let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
-                                players.push({codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto});
-                                localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
-                            }
+                                getUserForGame(datos.jugadores[2], () => {doTheRest(datos.tipo);});
+                            else doTheRest(datos.tipo);
                         });
-                    else {
-                        let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
-                        players.push({codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto});
-                        localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
-                    }
+                    else doTheRest(datos.tipo);
                 });
-            } else {
-                let players = [{codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto}];
-                localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
-            }
-            if(datos.tipo == "amistosa"){ //Indicamos si es un torneo o no
-                localStorage.setItem("es_torneo7reinas", false);
-            } else {
-                localStorage.setItem("es_torneo7reinas", true);
-            }
-            localStorage.setItem("anfitrion7reinas", JSON.stringify(amITheHost));
-            // let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
-            // console.log("Juagador propio ñadido 2");
-            // let user = {codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto};
-            // players = players == null ? [user] : [...players, user];
-
-            // localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
-
-
-            // // let jugadoresPart = datosJugadores.jugadores;
-            // // console.log("Datos de jugadores JOIN:" + JSON.stringify(jugadoresPart));
-            // console.log(datos.jugadores);
-            // localStorage.setItem("jugadorxs7reinas", JSON.stringify(datos.jugadores)); ////Guarda el código de los jugadores conectados
-
-            doNext();
+            } else doTheRest(datos.tipo);
         } else {
             doOnError();
         }

@@ -85,57 +85,8 @@ import {
     xhr.open('POST', 'http://52.174.124.24:3001/api/jugador/mod')
         
     //Mandamos la request con el email y la contraseña
-    xhr.send(JSON.stringify({ email: sessionUser.correo, nombre: Nombre_U, foto: Imagen , descp: Descrp_U }));
+    xhr.send(JSON.stringify({ email: sessionUser.correo, nombre: Nombre_U, foto: Imagen , descp: (Descrp_U==null || Descrp_U=="") ? " " : Descrp_U }));
   };
-
-    //Los huecos de modificación
-    /*
-    <FormGroup>
-                        <label
-                          className="form-control-label"
-                          htmlFor="input-nombre_usiario"
-                        >
-                          Usuario:
-                        </label>
-                        <Input
-                          className="form-control-alternative"
-                          defaultValue={nombre_usuario}
-                          id="input-nombre_usiario"
-                          placeholder="Usuario"
-                          type="text"
-                        />
-                      </FormGroup>
-    */
-   /*
-   <FormGroup>
-                        <label
-                          className="form-control-label"
-                          htmlFor="input-correo"
-                        >
-                          Correo:
-                        </label>
-                        <Input
-                          className="form-control-alternative"
-                          defaultValue={correo_usuario}
-                          id="input-correo"
-                          placeholder="Correo"
-                          type="text"
-                        />
-                      </FormGroup>
-   */
-
-                      /*const navigate = useNavigate();      navigate("/admin/perfil_usuario")
-<Redirect from="*" to="/admin/index" />
-                  <Link to= "/admin/perfil_usuario"><Button className="my-4 mx-5" as={Link} color="primary" onClick={modificar_usuario()}>
-                    Modificar
-                  </Button>
-                  </Link>
-*/
-// import Switch_button from "react-switch";
-// <div>
-// <Switch_button className="ml-4" onChange={handleMusica_HabilitadaChange} checked={Musica_Habilitada}/>
-// <span> Como se encuentra: {Musica_Habilitada && "hola"}</span>
-// </div>
 
     return (
       <>
