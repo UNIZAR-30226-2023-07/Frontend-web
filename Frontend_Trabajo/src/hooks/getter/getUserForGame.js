@@ -1,6 +1,6 @@
 export default function getUserForGame (player, doNext, order) {
 
-    console.log (`http://52.174.124.24:3001/api/jugador/get2/${player}`);
+    console.log (`http://13.93.90.135:3001/api/jugador/get2/${player}`);
     let xhr = new XMLHttpRequest();
     xhr.addEventListener('load', () => {
         // update the state of the component with the result here
@@ -25,7 +25,7 @@ export default function getUserForGame (player, doNext, order) {
             alert(`Se ha producido un error al obtener los datos del jugador.`);
         }
     }
-    xhr.open('GET', `http://52.174.124.24:3001/api/jugador/get2/${player}`);
+    xhr.open('GET', `http://13.93.90.135:3001/api/jugador/get2/${player}`);
     xhr.send();
 
 }

@@ -17,6 +17,6 @@ export default function pauseGame (me, clavePartida, doNext, doOnError) {
             doOnError();
         }
     }
-    xhr.open('POST', `http://52.174.124.24:3001/api/partida/pausar`);
+    xhr.open('POST', `http://13.93.90.135:3001/api/partida/pausar`);
     xhr.send(JSON.stringify({ clave: clavePartida, codigo: me.codigo }));
 }

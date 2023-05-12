@@ -88,7 +88,7 @@ const Admin = (props) => {
 
   const wsChatInstance = useMemo(() => {
     if (!wsChat) {
-      const ws = new WebSocket(`ws://52.174.124.24:3001/api/ws/chat/${sessionUser.codigo}`);
+      const ws = new WebSocket(`ws://13.93.90.135:3001/api/ws/chat/${sessionUser.codigo}`);
       ws.onopen = () => {
         console.log('Conexión abierta');
         setSePuedeEnviar(true);
@@ -401,7 +401,7 @@ const Admin = (props) => {
 
   const wsGameInstance = useMemo(() => {
     if (!wsGame/* && currentGame !== null && currentGame !== undefined && currentGame !== ""*/) {
-      const ws = new WebSocket(`ws://52.174.124.24:3001/api/ws/partida/${currentGame}`);
+      const ws = new WebSocket(`ws://13.93.90.135:3001/api/ws/partida/${currentGame}`);
       ws.onopen = () => {
         console.log(`Conectado a la partida ${currentGame}`);
         setSePuedeEnviarGame(true);
@@ -448,7 +448,7 @@ const Admin = (props) => {
   const wsTorneoInstance = useMemo(() => {
     if (!wsTorneo/* && currentGame !== null && currentGame !== undefined && currentGame !== ""*/) {
       if(JSON.parse(localStorage.getItem("es_torneo7reinas"))){
-        const ws = new WebSocket(`ws://52.174.124.24:3001/api/ws/torneo/${currentGame}`);
+        const ws = new WebSocket(`ws://13.93.90.135:3001/api/ws/torneo/${currentGame}`);
         ws.onopen = () => {
           console.log(`Conectado a al Torneo: ${currentGame}`);
           setSePuedeEnviarGame(true);
@@ -544,7 +544,7 @@ const Admin = (props) => {
 
   const wsGameChatInstance = useMemo(() => {
     if (!wsGameChat/* && currentGame !== null && currentGame !== undefined && currentGame !== ""*/) {
-      const ws = new WebSocket(`ws://52.174.124.24:3001/api/ws/chat/lobby/${currentGameChat}`);
+      const ws = new WebSocket(`ws://13.93.90.135:3001/api/ws/chat/lobby/${currentGameChat}`);
       ws.onopen = () => {
         console.log(`Conectado al chat de la partida ${currentGameChat}`);
         setWsGameChat(ws);

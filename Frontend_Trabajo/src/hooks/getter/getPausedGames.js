@@ -18,6 +18,6 @@ export default function getPausedGames (user, doNext) {
             alert(`Se ha producido un error al obtener los datos de partidas pausadas.`);
         }
     }
-    xhr.open('GET', `http://52.174.124.24:3001/api/partidas/pausadas/get/${user}`);
+    xhr.open('GET', `http://13.93.90.135:3001/api/partidas/pausadas/get/${user}`);
     xhr.send();
 }

@@ -18,6 +18,6 @@ export default function getFriends (user, doNext) {
             alert(`Se ha producido un error al obtener los datos de solicitudes de amistad.`);
         }
     }
-    xhr.open('GET', `http://52.174.124.24:3001/api/amistad/get/pendientes/${user}`);
+    xhr.open('GET', `http://13.93.90.135:3001/api/amistad/get/pendientes/${user}`);
     xhr.send();
 }

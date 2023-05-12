@@ -14,6 +14,6 @@ export default function markAsRead (me, sender, doNext) {
             alert(`Se ha producido un error al marcar los mensajes como leídos.`);
         }
     }
-    xhr.open('POST', `http://52.174.124.24:3001/api/msg/leer`);
+    xhr.open('POST', `http://13.93.90.135:3001/api/msg/leer`);
     xhr.send(JSON.stringify({ "emisor": sender, "receptor": me }));
 }

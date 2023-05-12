@@ -27,6 +27,6 @@ export default function createGame (me, tipoPartida, doNext, doOnError) {
             doOnError();
         }
     }
-    xhr.open('POST', `http://52.174.124.24:3001/api/partida/crear`);
+    xhr.open('POST', `http://13.93.90.135:3001/api/partida/crear`);
     xhr.send(JSON.stringify({ tipo: tipoPartida, anfitrion: me.codigo }));
 }
