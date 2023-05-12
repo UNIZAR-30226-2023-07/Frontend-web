@@ -1,27 +1,6 @@
-import {
-    Button,
-    Card,
-    CardHeader,
-    CardBody,
-    FormGroup,
-    Form,
-    Input,
-    Table,
-    Media,
-    Badge,
-    Container,
-    Row,
-    Col,
-    UncontrolledTooltip,
-    UncontrolledDropdown,
-    DropdownToggle,
-    Progress,
-    DropdownMenu,
-    DropdownItem
-  } from "reactstrap";
-  import { PropTypes } from "prop-types";
-  import React, { useEffect, useState} from "react"
-  import { Link, useHistory } from "react-router-dom";
+import { Button, Card, Container, Row, Col, } from "reactstrap";
+  import React from "react"
+  import { useHistory } from "react-router-dom";
 
   // core components
   //import UserHeader from "components/Headers/UserHeader.js";
@@ -37,21 +16,21 @@ import {
 
     const history = useHistory();//Permite cambiar de pantalla
 
-    const ptsFromCard = (number) => {
-      switch (number) {
-        case 1:
-          return 11;
-          break;
-        case 0:
-          return 20;
-          break;
-        case 11, 12, 13:
-          return 10;
-          break;
-        default:
-          return number;
-      }
-    }
+    // const ptsFromCard = (number) => {
+    //   switch (number) {
+    //     case 1:
+    //       return 11;
+    //       break;
+    //     case 0:
+    //       return 20;
+    //       break;
+    //     case 11, 12, 13:
+    //       return 10;
+    //       break;
+    //     default:
+    //       return number;
+    //   }
+    // }
 
         
 
@@ -92,7 +71,7 @@ import {
               src={SelectImgUser(player.foto)}
             />
             <h2 className="align-center mt--2 overflow-ignore font-weight-bolder">{player.nombre}</h2>
-            <h4 className="align-center mt--1"><strong>{player.cartas}</strong>{player.cartas==1 ? " carta" : " cartas"}</h4>
+            <h4 className="align-center mt--1"><strong>{player.cartas}</strong>{player.cartas===1 ? " carta" : " cartas"}</h4>
           </Card>
         )
       })

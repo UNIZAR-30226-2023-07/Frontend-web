@@ -6,8 +6,6 @@ import {
   Button
 } from "reactstrap";
 
-import { useState } from "react";
-
 //import {  colors } from "../../data";
 //import useRandomValueFromArray from "../../hooks/useRandomValueFromArray";
 

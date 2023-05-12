@@ -2,21 +2,7 @@ import "./../assets/css/cartas_rabino.css";
 //import CardR from "components/Cartas_Rabino/card.js";
 import React, { useEffect, useState, memo } from 'react';
 import CardsWrapper from "components/Cartas_Rabino/CardWrapper.js";
-import { Container,
-  Row,
-  Col,
-  Card,
-  CardHeader,
-  Nav,
-  NavItem,
-  NavLink,
-  Button,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
-  DropdownToggle,
-  Media
-} from "reactstrap";
+import { Row, Card, Button, } from "reactstrap";
 
 import { Link, useLocation, useHistory } from "react-router-dom";
 
@@ -40,11 +26,6 @@ function Tablero_Rabino(props) {
     history.push("/admin/");
 
   //Esta parte guarda la información de los jugadores que hay
-  const json_j_default = '{"Nombre": "Sin jugador", "Foto": 6, "Mano": "4"}';
-  const j_default = JSON.parse(json_j_default);
-
-  const json_j_turno = '{"Nombre": "Pedro"}';
-  const j_turno = JSON.parse(json_j_turno);
 
   const { players, board, hand, setHand, myTurn, turn, wsGame, sessionUser, discard } = props;
 
@@ -141,13 +122,6 @@ function Tablero_Rabino(props) {
     document.body.style.overflow = 'hidden';
   }, []);
 
-  const descartes = [
-    {
-      number: 14, //JOKER
-      symbol: 5,
-    },
-  ];
-
   const jugadoresInfo = (jugadores) => {
     let turno = JSON.parse(localStorage.getItem("turno7reinas"));
     return jugadores?.map((jugador, ind) => {
@@ -162,7 +136,7 @@ function Tablero_Rabino(props) {
             <div className="game-player-card-text-name">{jugador.nombre}</div>
             <div className="game-player-card-text-cards">
               <span className="game-player-card-text-cards-num">{jugador.cartas}</span>
-              <span className="game-player-card-text-cards-word">{jugador.cartas==1?"carta":"cartas"}</span>
+              <span className="game-player-card-text-cards-word">{jugador.cartas===1?"carta":"cartas"}</span>
             </div>
           </p>
         </Card>

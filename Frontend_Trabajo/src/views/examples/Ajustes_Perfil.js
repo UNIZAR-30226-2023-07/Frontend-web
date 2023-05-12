@@ -85,7 +85,7 @@ import {
     xhr.open('POST', 'http://52.174.124.24:3001/api/jugador/mod')
         
     //Mandamos la request con el email y la contraseña
-    xhr.send(JSON.stringify({ email: sessionUser.correo, nombre: Nombre_U, foto: Imagen , descp: (Descrp_U==null || Descrp_U=="") ? " " : Descrp_U }));
+    xhr.send(JSON.stringify({ email: sessionUser.correo, nombre: Nombre_U, foto: Imagen , descp: (Descrp_U==null || Descrp_U==="") ? " " : Descrp_U }));
   };
 
     return (

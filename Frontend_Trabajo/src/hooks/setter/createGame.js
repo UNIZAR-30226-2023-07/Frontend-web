@@ -11,7 +11,8 @@ export default function createGame (me, tipoPartida, doNext, doOnError) {
         if (xhr.status === 200) {
             console.log("partida creada");
             const datos = JSON.parse(xhr.response);
-            localStorage.setItem('juego7reinas', datos.clave);
+            localStorage.setItem('chatjuego7reinas', datos.clave);
+            localStorage.setItem(tipoPartida==="amistosa"?'juego7reinas':'torneo7reinas', datos.clave);
             let jugadorxs = [{
                 codigo: me.codigo,
                 nombre: me.nombre,
@@ -19,6 +20,7 @@ export default function createGame (me, tipoPartida, doNext, doOnError) {
                 foto: me.foto
             }];
             localStorage.setItem("jugadorxs7reinas", JSON.stringify(jugadorxs));
+            localStorage.setItem("es_torneo7reinas", tipoPartida === "torneo");
             localStorage.setItem("anfitrion7reinas", JSON.stringify(true));
             doNext();
         } else {

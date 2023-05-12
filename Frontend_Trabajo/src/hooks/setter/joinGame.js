@@ -8,7 +8,7 @@ export default function joinGame (me, clavePartida, doNext, doOnError, amITheHos
         if (players == null) players = [meAsPlayer];
         else players.push(meAsPlayer);
         localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
-        localStorage.setItem("es_torneo7reinas", gameType == "torneo");
+        localStorage.setItem("es_torneo7reinas", gameType === "torneo");
         localStorage.setItem("anfitrion7reinas", JSON.stringify(amITheHost));
         doNext();
     }
@@ -22,10 +22,11 @@ export default function joinGame (me, clavePartida, doNext, doOnError, amITheHos
 
     xhr.onload = function () {
         if (xhr.status === 200) {
-            localStorage.setItem('juego7reinas', clavePartida);
-            localStorage.removeItem('jugadorxs7reinas');
             console.log("partida encontrada");
+            localStorage.removeItem('jugadorxs7reinas');
             let datos = JSON.parse(xhr.response);
+            localStorage.setItem('chatjuego7reinas', clavePartida);
+            localStorage.setItem(datos.tipo==="amistosa"?'juego7reinas':'torneo7reinas', clavePartida);
             if (datos.jugadores != null) {
                 getUserForGame(datos.jugadores[0], () => {
                     if (datos.jugadores.length > 1)
