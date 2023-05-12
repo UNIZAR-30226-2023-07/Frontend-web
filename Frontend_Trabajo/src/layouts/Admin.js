@@ -68,6 +68,7 @@ const Admin = (props) => {
   const [wsTorneo, setWsTorneo] = useState(null);
   const [wsChat, setWsChat] = useState(null);
   const [wsGameChat, setWsGameChat] = useState(null);
+  const [puntosTorneo, setpuntosTorneo] = useState(JSON.parse(localStorage.getItem("puntosTorneo7reinas")));
 
   const history = useHistory();//Permite cambiar de pantalla
 
@@ -482,6 +483,8 @@ const Admin = (props) => {
           let mensaje = JSON.parse(event.data);
           console.log("Mensaje de wsTorneo:");
           console.log(mensaje);
+          let puntos;
+
           if (mensaje.tipo === "Partida_iniciada") {
             
             let numNoBots = mensaje.turnos.filter((turn) => !(/^bot(\d+)$/).test(turn[0])).length;
@@ -527,9 +530,26 @@ const Admin = (props) => {
             localStorage.setItem("herobado7reinas", false); //Inicialmente es false
             console.log(sessionUser.codigo);
             setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]); //Ponemos un valor inicial para evitar error
-            
+            //Establecemos los puntos iniciales en el torneo
+            setpuntosTorneo([]);
+            localStorage.setItem("puntosTorneo7reinas", JSON.stringify([])); //Inicialmente es vacia
             // HARA FALTA CUANDO SE REANUDEN LAS PARTIDAS
             // ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
+          
+          } else if(mensaje.tipo === "Partida_terminada"){
+            //setpuntosTorneo([]);
+            //localStorage.setItem("puntosTorneo7reinas", JSON.stringify([]));
+            //Guardamos los puntos
+            puntos = mensaje.puntos.map((puntosInx, ind) => {
+              return puntosInx;
+            });
+            setpuntosTorneo(puntos);
+            localStorage.setItem("puntosTorneo7reinas", JSON.stringify(puntos));
+
+            if(mensaje.ganador != ""){
+              //El resto del código esta en este enlace
+              //https://github.com/UNIZAR-30226-2023-07/Frontend-movil/blob/4e6f853857d7e37a79a62eccdd462a874e2fe93b/Aplicacion/lib/pages/board_page.dart
+            }
           }
         }      
         ws.onerror = (error) => {

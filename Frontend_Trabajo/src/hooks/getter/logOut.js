@@ -17,4 +17,5 @@ export default function logOut () {
     localStorage.removeItem('herobado7reinas');
     localStorage.removeItem('part_pausadas7reinas');
     localStorage.removeItem("es_torneo7reinas");
+    localStorage.removeItem("puntosTorneo7reinas");
 }
