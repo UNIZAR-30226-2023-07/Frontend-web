@@ -435,6 +435,7 @@ const Admin = (props) => {
 
   const wsGameInstance = useMemo(() => {
     if (!wsGame/* && currentGame !== null && currentGame !== undefined && currentGame !== ""*/) {
+      console.log("WSgAME ES TORNEO: "+localStorage.getItem("es_torneo7reinas"));
       const ws = new WebSocket(`ws://13.93.90.135:3001/api/ws/partida/${currentGame}`);
       ws.onopen = () => {
         console.log(`Conectado a la partida ${currentGame}`);
@@ -481,6 +482,7 @@ const Admin = (props) => {
 
   const wsTorneoInstance = useMemo(() => {
     if (!wsTorneo/* && currentGame !== null && currentGame !== undefined && currentGame !== ""*/) {
+      //console.log("wSesTorneo-es_torneo: "+JSON.parse(localStorage.getItem("es_torneo7reinas")));
       if(JSON.parse(localStorage.getItem("es_torneo7reinas"))){
         const ws = new WebSocket(`ws://13.93.90.135:3001/api/ws/torneo/${currentGame}`);
         ws.onopen = () => {
@@ -653,20 +655,36 @@ const Admin = (props) => {
         wsChatInstance.close();
         setWsChat(null);
       }
+    }
+  }, [wsChatInstance]);
+
+  useEffect(() => {
+    return () => {
       if (wsGameInstance) {
         wsGameInstance.close();
         setWsGame(null);
       }
+    }
+  }, [wsGameInstance, currentGame]);
+
+  useEffect(() => {
+    return () => {
       if (wsTorneoInstance) {
         wsTorneoInstance.close();
         setWsTorneo(null);
       }
+    }
+  }, [wsTorneoInstance, currentGame]);
+
+  useEffect(() => {
+    return () => {
       if (wsGameChatInstance) {
         wsGameChatInstance.close();
         setWsGameChat(null);
       }
     }
-  }, [wsChatInstance, wsGameInstance, wsTorneoInstance, wsGameChatInstance, currentGame]);
+  }, [wsGameChatInstance, currentGame]);
+
 
 
   const getRoutes = (routes) => {
