@@ -27,7 +27,7 @@ function Tablero_Rabino(props) {
 
   //Esta parte guarda la información de los jugadores que hay
 
-  const { players, board, hand, setHand, myTurn, turn, wsGame, sessionUser, discard } = props;
+  const { players, board, hand, setHand, myTurn, turn, wsGame, sessionUser, discard, isTournament, roundWinner } = props;
 
   const [cardsPerComb, setCardsPerComb] = useState([0, 0, 0, 0, 0]);
   const [currentComb, setCurrentComb] = useState(0);
@@ -127,18 +127,32 @@ function Tablero_Rabino(props) {
     return jugadores?.map((jugador, ind) => {
       return jugador == null ? null : (
         <Card className={"game-player-card" + (ind==turno?" game-player-current":"") + (ind==myTurn?" game-player-me":"")}>
-            <img
-              alt="..."
-              className="game-player-card-pic avatar-lg rounded-circle"
-              src={SelectImgUser(jugador.foto)}
-            />
-          <p className="game-player-card-text">
-            <div className="game-player-card-text-name">{jugador.nombre}</div>
-            <div className="game-player-card-text-cards">
-              <span className="game-player-card-text-cards-num">{jugador.cartas}</span>
-              <span className="game-player-card-text-cards-word">{jugador.cartas===1?"carta":"cartas"}</span>
-            </div>
-          </p>
+          <img
+            alt="..."
+            className="game-player-card-pic avatar-lg rounded-circle"
+            src={SelectImgUser(jugador.foto)}
+          />
+          { isTournament ?
+            <p className="game-player-card-text">
+              <div className="game-player-card-text-name title-smaller">{jugador.nombre}</div>
+              <div className="game-player-card-text-cards text-smaller">
+                <span className="game-player-card-text-cards-num">{jugador.cartas}</span>
+                <span className="game-player-card-text-cards-word">{jugador.cartas===1?"carta":"cartas"}</span>
+              </div>
+              <div className="game-player-card-text-cards text-smaller">
+                <span className="game-player-card-text-cards-num">{jugador.ptsTorneo}</span>
+                <span className="game-player-card-text-cards-word">puntos</span>
+              </div>
+            </p>
+            :
+            <p className="game-player-card-text">
+              <div className="game-player-card-text-name">{jugador.nombre}</div>
+              <div className="game-player-card-text-cards">
+                <span className="game-player-card-text-cards-num">{jugador.cartas}</span>
+                <span className="game-player-card-text-cards-word">{jugador.cartas===1?"carta":"cartas"}</span>
+              </div>
+            </p>
+          }
         </Card>
       );
     });
@@ -146,7 +160,7 @@ function Tablero_Rabino(props) {
 
   const mostrarMano = () => {
     return (hand == null || hand == undefined) ? null :
-    <div className="d-flex flex-column align-items-flex-start game-my-hand">
+    <div className="d-flex flex-column align-items-flex-start fill-available">
       <CardsWrapper
         className=""
         cartas={hand}
@@ -173,7 +187,7 @@ function Tablero_Rabino(props) {
     return (
       <div className="d-flex flex-column align-items-center">
         <p className="mt-1 mb--3 font-weight-bold white-text">Descartes</p>
-        {descartes.length>0 ? 
+        { descartes!=null && descartes.length>0 ? 
           <CardsWrapper
             cartas={descartes}
             cardsNumber={descartes.length}
@@ -195,7 +209,7 @@ function Tablero_Rabino(props) {
     return board.map((fila, i) => (
       <div key={i} style={{ display: 'flex', flexDirection: 'row', justifyContent:'center', alignItems:"center" }}>
         <CardsWrapper cartas={fila} cardsNumber={fila.length} classes={"card-board"} accion_Carta={() => {}}/>
-        { hand==null || hand.length>=10 || cardsPerComb[0]!==1 ? null :
+        { hand==null || hand.length>=12 || cardsPerComb[0]!==1 ? null :
           <Card className="game-add-card-bar">
             <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); anyadirCarta(i);}}><i className="ni ni-fat-add" /></Button>
           </Card>
@@ -340,40 +354,49 @@ function Tablero_Rabino(props) {
           </div>
         </div>
       </div>
+      {roundWinner == null ? null :
+        roundWinner === myTurn ?
+        <Card className="game-action-bar round-winner me">
+          <h3 className="mx-4 my-0 white-text">¡Enhorabuena! <span className="font-weight-bolder">Has ganado</span> la ronda anterior.</h3>
+        </Card>
+        :
+        <Card className="game-action-bar round-winner another">
+          <h3 className="mx-4 my-0 white-text"><span className="font-weight-bolder">{players[turn].nombre}</span> ha ganado la ronda anterior</h3>
+        </Card>
+      }
       { turn!=myTurn ?
-      <Card className="game-action-bar game-action-bar-another">
+      <Card className="game-action-bar another">
         <h3 className="mx-4 my-0 white-text">Turno de <span className="font-weight-bolder">{players[turn].nombre}</span></h3>
-        
       </Card>
       : !JSON.parse(localStorage.getItem("herobado7reinas")) ?
-        <Card className="game-action-bar game-action-bar-me">
-          { hand!=null && hand.length<10 ?
+        <Card className="game-action-bar me">
+          { hand!=null && hand.length<12 ?
             <h3 className="mx-3 my-0 text-white">Roba una carta del mazo o de descartes.</h3> :
             <h3 className="mx-3 my-0 text-white">Roba una carta del mazo.</h3>
           }
         </Card>
-      : hand!=null && hand.length<10 ?
+      : hand!=null && hand.length<12 ?
       (cardsPerComb[0]===0 ?
-        <Card className="game-action-bar game-action-bar-me">
+        <Card className="game-action-bar me">
           <h3 className="mx-3 my-0 text-white">Selecciona cartas para colocarlas sobre la mesa.</h3>
         </Card>
         : 
-        <Card className="game-action-bar game-action-bar-me">
+        <Card className="game-action-bar me">
           {cardsPerComb[0]<3 ? null : <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); nuevaCombinacion();}}>Añadir combinación</Button>}
           <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); clearPlay();}}>Deseleccionar</Button>
         </Card>
 
       ):
       (numOfCombs === 0 ?
-        <Card className="game-action-bar game-action-bar-me">
+        <Card className="game-action-bar me">
           <h3 className="mx-3 my-0 text-white">Selecciona las cartas para abrir.</h3>
         </Card>
-        : cardsPerComb[0] < 3 || cardsPerComb[1] < 3 ?
-        <Card className="game-action-bar game-action-bar-me">
+        : (cardsPerComb[0] < 3 || cardsPerComb[1] < 3) && cardsPerComb[0] < 5 ?
+        <Card className="game-action-bar me">
           {botonesCombinaciones(numOfCombs)}
           <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); clearPlay();}}>Deseleccionar</Button>
         </Card> :
-        <Card className="game-action-bar game-action-bar-me">
+        <Card className="game-action-bar me">
           {botonesCombinaciones(numOfCombs)}
           <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); abrir()}}>Abrir</Button>
           <Button className="game-action-button" color='primary' onClick={() => {console.log('Boton pulsado'); clearPlay();}}>Deseleccionar</Button>

@@ -291,12 +291,24 @@
 	height: 3rem;
 }
 
-.game-action-bar-another {
+.game-action-bar.another {
 	background: #444c;
 }
 
-.game-action-bar-me {
-	background: #7386f2a0;
+.game-action-bar.me {
+	background: #7386f2c0;
+}
+
+.game-action-bar.round-winner {
+	bottom: 16rem;
+}
+
+.game-action-bar.round-winner.me {
+	background: #0f08;
+}
+
+.game-action-bar.round-winner.another {
+	background: #f008;
 }
 
 .game-add-card-bar {
@@ -454,8 +466,14 @@
 	line-height: 1 !important;
 }
 
-.game-my-hand {
-	width: -webkit-fill-available;
+.title-smaller {
+	font-size: 110%;
+	height: 1.3rem
+}
+
+.text-smaller {
+	font-size: 70%;
+	height: 1rem
 }
 
 .no-content::before {
@@ -534,4 +552,28 @@
 .comb-button-4-on {
 	background: rgb(255, 228, 181) !important;
 	color: rgb(255, 140, 0) !important;
+}
+
+.start-join-game {
+	margin-right: 5%;
+	width: 35%;
+	height: fit-content;
+}
+
+.start-create-game {
+	width: 60%;
+}
+
+.fill-available {
+	width: -webkit-fill-available;
+	width: -moz-available;
+	/* width: fill-available; */
+}
+
+.width-min {
+	width: min-content;
+}
+
+.start-card {
+	border-radius: 0.75rem;
 }

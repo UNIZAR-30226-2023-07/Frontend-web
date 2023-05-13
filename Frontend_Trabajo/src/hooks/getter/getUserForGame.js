@@ -11,7 +11,7 @@ export default function getUserForGame (player, doNext, order) {
         if (xhr.status === 200) {
             const datos = JSON.parse(xhr.response);
             let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
-            let user = {codigo: datos.codigo, nombre: datos.nombre, puntos: datos.puntos, foto: datos.foto};
+            let user = {codigo: datos.codigo, nombre: datos.nombre, puntos: datos.puntos, foto: datos.foto, ptsTorneo: 0};
             if (order != null) {
                 user.cartas = 14;
                 players[order] = user;

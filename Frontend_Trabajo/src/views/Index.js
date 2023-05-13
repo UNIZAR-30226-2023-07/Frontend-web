@@ -29,6 +29,7 @@ import {
   CardHeader,
   CardBody,
   CardTitle,
+  Form,
   FormGroup,
   Input,
   NavItem,
@@ -68,9 +69,6 @@ const Index = (props) => {
   const [ErrorUnirse, setErrorUnirse] = useState(false); //Señala si saca un mensaje de error
   const [ErrorCrear, setErrorCrear] = useState(false); //Señala si saca un mensaje de error
 
-  const [activeNav, setActiveNav] = useState(1);
-  const [chartExample1Data, setChartExample1Data] = useState("data1");
-
   //Codigo que tiene la lista de ranking
 
   //const json_r_default = '{ "ranking": [ {"Nombre": "Pedro", "Foto": 5, "P_vict": 34}, {"Nombre": "Javier", "Foto": 1, "P_vict": 35} ] }';
@@ -79,6 +77,7 @@ const Index = (props) => {
   const [ranking_jug, setRanking_jug] = useState(JSON.parse(localStorage.getItem("amigxs7reinas")));
   const [part_pausadas, setPart_pausadas] = useState(JSON.parse(localStorage.getItem("part_pausadas7reinas")));
 
+  let { setGame, setPlayers, setIsTournament } = props;
 
   const updateRanking = () => {
     setRanking_jug(JSON.parse(localStorage.getItem("amigxs7reinas")));
@@ -95,12 +94,6 @@ const Index = (props) => {
   if (window.Chart) {
     parseOptions(Chart, chartOptions());
   }
-
-  const toggleNavs = (e, index) => {
-    e.preventDefault();
-    setActiveNav(index);
-    setChartExample1Data("data" + index);
-  };
 
   //Función para mostrar el ranking
   const showRanking_jug = () => {
@@ -150,6 +143,7 @@ const Index = (props) => {
               joinGame(sessionUser, prop.Clave,
                 () => {
                   setGame(localStorage.getItem("juego7reinas"));
+                  setIsTournament(prop.Tipo == "Torneo");
                   setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
                   history.push("/admin/gamelobby");
                 },
@@ -164,163 +158,134 @@ const Index = (props) => {
     });
   };
 
-  let { setGame, setPlayers } = props;
-
   return (
     <>
-      <div className="pt-md-5">
-        <Container fluid>
-          <div className="header-body">
-            {/* Card stats */}
+      <Container fluid className="d-flex px-5 pt-5 pb-4 m-0">
+        <Card className="start-join-game start-card">
+          <CardTitle
+            tag="h5"
+            className="h2 font-weight-bold align-center mb-0 mt-2"
+            >
+            Unirse a partida
+          </CardTitle>
+          <CardBody className="p-2 px-4">
+            <Form role="form" onSubmit={(event) => {
+              event.preventDefault();
+              joinGame(sessionUser, Clave,
+                  () => {
+                    setGame(localStorage.getItem("juego7reinas"));
+                    setIsTournament(JSON.parse(localStorage.getItem("es_torneo7reinas")));
+                    setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+                    history.push("/admin/gamelobby");
+                  },
+                  () => setErrorUnirse(true),
+                  false
+            )}}>
+              <FormGroup className="d-flex flex-row-reverse">
+                <Button variant="primary" color="primary" className="m-0">
+                  Unirse
+                </Button>
+                <Input
+                  className="form-control-alternative mr-2"
+                  id="input-nombre_usiario"
+                  placeholder="Clave"
+                  type="text"
+                  onChange={handleClaveChange}
+                  value={Clave}
+                />
+              </FormGroup>
+            </Form>
+            {ErrorUnirse && <p className="text-red mb--1 align-center"> Error al unirse</p>}
+          </CardBody>
+        </Card>
+        <Card className="start-create-game start-card">
+          <CardTitle
+            tag="h5"
+            className="h2 font-weight-bold align-center mb-0 mt-2"
+            >
+              Crear Partida
+          </CardTitle>
+          <CardBody className="p-2 px-4">
+            <div className="d-flex justify-content-center">
+              <Button color="primary"
+                className="" onClick={() => {
+                createGame(sessionUser, "amistosa",
+                  () => {
+                    setGame(localStorage.getItem("juego7reinas"));
+                    setIsTournament(false);
+                    setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+                    history.push("/admin/gamelobby")
+                  },
+                  () => setErrorCrear(true)
+              )}}>
+                Partida Normal
+              </Button>
+              <Button color="primary"
+                className="" onClick={() => {
+                createGame(sessionUser, "torneo",
+                  () => {
+                    setGame(localStorage.getItem("juego7reinas"));
+                    setIsTournament(true);
+                    setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+                    history.push("/admin/gamelobby")
+                  },
+                  () => setErrorCrear(true)
+              )}}>
+                Partida Clasificatoria
+              </Button>
+            </div>
+            {ErrorCrear && <p className="text-red mb--1 align-center"> Error al crear una partida</p>}
+          </CardBody>
+        </Card>
+      </Container>
+      <Container className="d-flex px-5 pb-5 m-0">
+        <Card className="bg-secondary shadow start-card mx-0" style={{width:'100%', height: '25rem', overflowY: 'scroll', overflowX: 'hidden'}} >
+          <CardHeader className="border-0">
             <Row>
-              <Col xs="5">
-                  <Card className="card-stats mb-4 mb-xl-0 ml-5">
-                    <div className="col">
-                        <CardTitle
-                          tag="h5"
-                          className="h2 font-weight-bold align-center mb-0"
-                        >
-                          Unirse a partida
-                        </CardTitle>
-                      </div>
-                    <CardBody className="mt--1 mb--3">
-                      <Row>
-                        <Col xs="9">
-                          <FormGroup>
-                              <Input
-                                className="form-control-alternative"
-                                id="input-nombre_usiario"
-                                placeholder="#clave de partida"
-                                type="text"
-                                onChange={handleClaveChange}
-                                value={Clave}
-                              />
-                          </FormGroup>
-                        </Col>
-                        <Col xs="2" className="ml--6">
-                          <Button variant="primary" color="primary" className="ml-5" onClick={() => {
-                            joinGame(sessionUser, Clave,
-                              () => {
-                                setGame(localStorage.getItem("juego7reinas"));
-                                setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
-                                history.push("/admin/gamelobby");
-                              },
-                              () => setErrorUnirse(true),
-                              false
-                          )}}>
-                            Unirse
-                          </Button>
-                        </Col>
-                      </Row>
-                      {ErrorUnirse && <p className="red mb--1 mt--4"> Error al unirse</p>}
-                    </CardBody>
-                  </Card>
+              <Col style={{width:"50%"}}>
+                <h3 className="mb-0">Partidas Pausadas</h3>
               </Col>
-              <Col xs="6">
-                <Card className="card-stats mb-4 mb-xl-0 ml-3">
-                    <div className="col">
-                        <CardTitle
-                          tag="h5"
-                          className="h2 font-weight-bold align-center mb-0"
-                        >
-                          Crear Partida
-                        </CardTitle>
-                      </div>
-                    <CardBody className="mt--2">
-                      <Row>
-                      <Col xs="6">
-                        <Button color="primary" onClick={() => {
-                          createGame(sessionUser, "amistosa",
-                            () => {
-                              localStorage.setItem("es_torneo7reinas", false);
-                              setGame(localStorage.getItem("juego7reinas"));
-                              setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
-                              history.push("/admin/gamelobby")
-                            },
-                            () => setErrorCrear(true)
-                        )}}>
-                          Partida Normal
-                        </Button>
-                      </Col>
-                      <Col xs="6">
-                        <Button color="primary" onClick={() => {
-                          createGame(sessionUser, "torneo",
-                            () => {
-                              localStorage.setItem("es_torneo7reinas", true);
-                              setGame(localStorage.getItem("juego7reinas"));
-                              setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
-                              history.push("/admin/gamelobby")
-                            },
-                            () => setErrorCrear(true)
-                        )}}>
-                          Partida Clasificatoria
-                        </Button>
-                      </Col>
-
-                      </Row>
-                      {ErrorCrear && <p className="red ml-9 mb--3"> Error al crear una partida</p>}
-                      
-                    </CardBody>
-                  </Card>
+              <Col style={{width:"50%"}}>
+                <h3 className="mb-0">Ranking</h3>
               </Col>
-
-              <div className="mb-8"></div>
-              
-              <Col className="order-xl-1 ml-4" xl="11">
-              <Card className="bg-secondary shadow" style={{height: '400px', overflowY: 'scroll', overflowX: 'hidden'}} >
-                <CardHeader className="border-0">
-                  <Row>
-                    <Col>
-                      <h3 className="mb-0">Partidas Pausadas</h3>
-                    </Col>
-                    <Col>
-                      <h3 className="mb-0">Ranking</h3>
-                    </Col>
-                  </Row>
-                </CardHeader>
-                <Row>
-                  <Col style={{width:"50%"}}>
-                    <Table className="align-items-center table-flush" responsive>
-                      <thead className="thead-light">
-                        <tr>
-                          <th scope="col">Nombre</th>
-                          <th scope="col">Clave</th>
-                          <th scope="col" />
-                        </tr>
-                      </thead>
-
-                      <tbody>
-                        {showPart_Pausadas()}
-                      </tbody>
-                    </Table>
-                  </Col>
-                
-                  <Col>
-                    <Table className="align-items-center table-flush" responsive>
-                      <thead className="thead-light">
-                        <tr>
-                          <th scope="col">Puesto</th>
-                          <th scope="col">Foto de Perfil</th>
-                          <th scope="col">Nombre</th>
-                          <th scope="col">Puntos</th>
-                          <th scope="col" />
-                        </tr>
-                      </thead>
-
-                      <tbody>
-                        {showRanking_jug()}
-                      </tbody>
-                    </Table>
-                  </Col>
-                </Row>
-              </Card>
-              <div className="mb-5"></div>
-            </Col>
-
             </Row>
-          </div>
-        </Container>
-      </div>
+          </CardHeader>
+          <Row>
+            <Col style={{width:"50%"}}>
+              <Table className="align-items-center table-flush" responsive>
+                <thead className="thead-light">
+                  <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Clave</th>
+                    <th scope="col" />
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {showPart_Pausadas()}
+                </tbody>
+              </Table>
+            </Col>
+            <Col>
+              <Table className="align-items-center table-flush" responsive>
+                <thead className="thead-light">
+                  <tr>
+                    <th scope="col" className="px-1">Puesto</th>
+                    <th scope="col" className="px-1">Foto de Perfil</th>
+                    <th scope="col" className="px-1">Nombre</th>
+                    <th scope="col" className="px-1">Puntos</th>
+                    <th scope="col" className="px-1" />
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {showRanking_jug()}
+                </tbody>
+              </Table>
+            </Col>
+          </Row>
+        </Card>
+      </Container>
 
 
 

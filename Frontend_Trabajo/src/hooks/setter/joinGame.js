@@ -4,7 +4,7 @@ export default function joinGame (me, clavePartida, doNext, doOnError, amITheHos
 
     const doTheRest = (gameType) => {
         let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
-        let meAsPlayer = {codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto}
+        let meAsPlayer = {codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto, ptsTorneo: 0};
         if (players == null) players = [meAsPlayer];
         else players.push(meAsPlayer);
         localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
@@ -25,8 +25,7 @@ export default function joinGame (me, clavePartida, doNext, doOnError, amITheHos
             console.log("partida encontrada");
             localStorage.removeItem('jugadorxs7reinas');
             let datos = JSON.parse(xhr.response);
-            localStorage.setItem('chatjuego7reinas', clavePartida);
-            localStorage.setItem(datos.tipo==="amistosa"?'juego7reinas':'torneo7reinas', clavePartida);
+            localStorage.setItem('juego7reinas', clavePartida);
             if (datos.jugadores != null) {
                 getUserForGame(datos.jugadores[0], () => {
                     if (datos.jugadores.length > 1)
