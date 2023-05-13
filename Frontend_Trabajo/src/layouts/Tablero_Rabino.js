@@ -220,22 +220,30 @@ function Tablero_Rabino(props) {
 
   const robarCarta = () => {
     let turno = JSON.parse(localStorage.getItem("turno7reinas"));
-    if(turno == myTurn){
-      wsGame.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Robar_carta"}));
-      console.log('Enviar: Roba una carta');
+    if(!JSON.parse(localStorage.getItem("herobado7reinas"))){//Solo puede robar si no ha robado
+      if(turno == myTurn){
+        wsGame.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Robar_carta"}));
+        console.log('Enviar: Roba una carta');
+      } else {
+        console.log('No es tu turno de robar');
+      }
     } else {
-      console.log('No es tu turno de robar');
+      console.log("Ya has robado una carta")
     }
     return;
   }
 
   const robarDescarte = () => {
     let turno = JSON.parse(localStorage.getItem("turno7reinas"));
-    if(turno == myTurn){
-      wsGame.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Robar_carta_descartes"}));
-      console.log('Enviar: Robar de descarte');
+    if(!JSON.parse(localStorage.getItem("herobado7reinas"))){//Solo puede robar si no ha robado
+      if(turno == myTurn){
+        wsGame.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Robar_carta_descartes"}));
+        console.log('Enviar: Robar de descarte');
+      } else {
+        console.log('No es tu turno de robar descarte');
+      }
     } else {
-      console.log('No es tu turno de robar descarte');
+      console.log("Ya has robado una carta de descartes")
     }
     return;
   }
