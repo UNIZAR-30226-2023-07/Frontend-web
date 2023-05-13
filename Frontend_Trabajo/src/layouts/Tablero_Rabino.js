@@ -242,25 +242,29 @@ function Tablero_Rabino(props) {
 
   const descartar = () => {
     let turno = JSON.parse(localStorage.getItem("turno7reinas"));
-    if(turno == myTurn){
-      if (numOfCombs === 1 && cardsPerComb[0] === 1) {
-        wsGame.send(JSON.stringify({
-          "emisor": sessionUser.codigo,
-          "tipo": "Descarte",
-          "info": (hand.findIndex(card => card.comb === 0)).toString()
-        }));
-        console.log('Enviar: Descarte');
-        console.log(JSON.stringify({
-          "emisor": sessionUser.codigo,
-          "tipo": "Descarte",
-          "info": (hand.findIndex(card => card.comb === 0)).toString()
-        }));
+    if(JSON.parse(localStorage.getItem("herobado7reinas"))){ //Antes de descartar hay que robar
+      if(turno == myTurn){
+        if (numOfCombs === 1 && cardsPerComb[0] === 1) {
+          wsGame.send(JSON.stringify({
+            "emisor": sessionUser.codigo,
+            "tipo": "Descarte",
+            "info": (hand.findIndex(card => card.comb === 0)).toString()
+          }));
+          console.log('Enviar: Descarte');
+          console.log(JSON.stringify({
+            "emisor": sessionUser.codigo,
+            "tipo": "Descarte",
+            "info": (hand.findIndex(card => card.comb === 0)).toString()
+          }));
+        } else {
+          console.log('Para descartar, seleccione una sola carta.');
+        }
+      
       } else {
-        console.log('Para descartar, seleccione una sola carta.');
+        console.log('No es tu turno de descartar');
       }
-    
     } else {
-      console.log('No es tu turno de descartar');
+      console.log("Antes de descartar debes robar")
     }
     return;
   }
@@ -343,7 +347,7 @@ function Tablero_Rabino(props) {
 
 
                     {/* <p className="mb--2" style={{ color: 'white', textAlign: 'center'}} >Descartes</p> */}
-                    {mostrarDescartes(discard, () => {!JSON.parse(localStorage.getItem("herobado7reinas"))/* && JSON.parse(localStorage.getItem("heabierto7reinas"))*/? robarDescarte() : descartar()})}
+                    {mostrarDescartes(discard, () => {!JSON.parse(localStorage.getItem("herobado7reinas")) && hand.length<12 ? robarDescarte() : descartar()})}
                   
               
               

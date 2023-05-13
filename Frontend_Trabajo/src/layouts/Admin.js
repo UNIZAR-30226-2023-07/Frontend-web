@@ -151,7 +151,7 @@ const Admin = (props) => {
         // console.log("Turno inicial: "+mensaje.turnos[1][1]);
         let numNoBots = mensaje.turnos.filter((turn) => !(/^bot(\d+)$/).test(turn[0])).length;
         let gamePlayers = mensaje.turnos.map(() => null);
-        console.log(gamePlayers);
+        console.log("PartidaIniciada-GamePlayers: "+gamePlayers);
         localStorage.setItem("jugadorxs7reinas", JSON.stringify(gamePlayers));
         // for (let i = 0; i < 4; i++) {
         //   let playerBeingSorted = mensaje.turnos.find((turn) => turn[i][1] == i.toString);
@@ -161,7 +161,7 @@ const Admin = (props) => {
           if(elemento[0] === sessionUser.codigo){
             localStorage.setItem("miturno7reinas", JSON.stringify(elemento[1])); //Guardamos nuestro turno como String
             setMyTurn(elemento[1]);
-            //console.log("Mi turno: "+elemento[1]);
+            console.log("PartidaIniciada-turno: "+JSON.parse(JSON.stringify(elemento[1])));
             
           }
           const match = (/^bot(\d+)$/).exec(elemento[0]);
@@ -232,8 +232,13 @@ const Admin = (props) => {
       case "Mostrar_mano":
         if (mensaje.receptor === sessionUser.codigo) {
           //console.log("Mostrar mano: "+mensaje.mano);
-          gameplayers = JSON.parse(localStorage.getItem("jugadorxs7reinas"));
-          gameplayers[myTurn].cartas = mensaje.cartas.length;
+          let gameplayers = JSON.parse(localStorage.getItem("jugadorxs7reinas"));
+          let miTurno = JSON.parse(localStorage.getItem("miturno7reinas"));
+          // console.log("MostrarMano-myTurn: "+myTurn);
+          // console.log("MostrarMano-miTurno: "+miTurno);
+          // console.log("MostrarMano-msgCartasLength: "+mensaje.cartas.length);
+          // console.log("MostrarMano-GamePlayers: "+(gameplayers[myTurn].cartas).toString());
+          gameplayers[miTurno].cartas = mensaje.cartas.length;
           localStorage.setItem("jugadorxs7reinas", JSON.stringify(gameplayers));
           setPlayers(gameplayers);
           myHand = mensaje.cartas.map((card, ind) => {

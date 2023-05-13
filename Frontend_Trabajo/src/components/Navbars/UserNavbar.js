@@ -178,6 +178,25 @@ const UserNavbar = (props) => {
                   <i className="ni ni-user-run" />
                   <span>Cerrar sesión</span>
                 </DropdownItem>
+                <DropdownItem divider /> {/*Esto solo es para borrar localStorage de la Partida de forma rápida */}
+                <DropdownItem onClick={() =>{   localStorage.removeItem('juego7reinas');
+                                                localStorage.removeItem('pConectada7reinas');
+                                                localStorage.removeItem('jugadorxs7reinas');
+                                                localStorage.removeItem('jGetUser7reinas');
+                                                localStorage.removeItem('miturno7reinas');
+                                                localStorage.removeItem('mano7reinas');
+                                                localStorage.removeItem('tablero7reinas');
+                                                localStorage.removeItem('descarte7reinas');
+                                                localStorage.removeItem('turno7reinas');
+                                                localStorage.removeItem('heabierto7reinas');
+                                                localStorage.removeItem('herobado7reinas');
+                                                localStorage.removeItem('part_pausadas7reinas');
+                                                localStorage.removeItem("es_torneo7reinas");
+                                                localStorage.removeItem("puntosTorneo7reinas");
+                                                console.log("SE HAN BORRADO LAS VARIABLES DE PARTIDA")}}>
+                  <i className="ni ni-user-run" />
+                  <span>Borrar S Partida</span>
+                </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
           </Nav>
