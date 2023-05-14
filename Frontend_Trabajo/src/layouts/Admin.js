@@ -307,7 +307,7 @@ const Admin = (props) => {
       case "Robar_carta":
         localStorage.removeItem("ganadorxronda7reinas");
         setRoundWinner(null);
-        if(mensaje.receptor == sessionUser.codigo && (/^\d,\d,\d$/).test(mensaje.info)){//Así solo se pide una vez
+        if(mensaje.receptor == sessionUser.codigo && (/^(\d+),(\d+),(\d+)$/).test(mensaje.info)){//Así solo se pide una vez
           localStorage.setItem("herobado7reinas", true); //Indica si ha robado el jugador
           let card = mensaje.info.split(",");
           let myHand = JSON.parse(localStorage.getItem("mano7reinas"));
@@ -319,7 +319,7 @@ const Admin = (props) => {
         break;
 
       case "Robar_carta_descartes":
-        if(mensaje.receptor == sessionUser.codigo && (/^\d,\d,\d$/).test(mensaje.info)){//Así solo se pide una vez
+        if(mensaje.receptor == sessionUser.codigo && (/^(\d+),(\d+),(\d+)$/).test(mensaje.info)){//Así solo se pide una vez
           localStorage.setItem("herobado7reinas", true); //Indica si ha robado el jugador
           let card = mensaje.info.split(",");
           let myHand = JSON.parse(localStorage.getItem("mano7reinas"));
@@ -444,8 +444,8 @@ const Admin = (props) => {
         }*/
 
         // Actualizar las manos de los jugadores
-          if (!(/^bot(\d+)$/).test(JSON.parse(localStorage.getItem("jugadorxs7reinas"))[parseInt(mensaje.turno)].codigo))
-            ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+          if (!(/^bot(\d+)$/).test(JSON.parse(localStorage.getItem("jugadorxs7reinas"))[parseInt(mensaje.turno)].codigo) && parseInt(mensaje.turno)==myTurn)
+            {ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));}
           else console.log ("VA A JUGAR UN BOT. NO ACTUALIZAMOS.")
           localStorage.setItem("herobado7reinas", false); //Indica si ha robado el jugador
         }
