@@ -21,4 +21,5 @@ export default function logOut () {
     localStorage.removeItem("ganadorxronda7reinas");
     localStorage.removeItem("ganadorx7reinas");
     localStorage.removeItem("torneo_ganado7reinas");
+    localStorage.removeItem("reanudada7reinas");
 }

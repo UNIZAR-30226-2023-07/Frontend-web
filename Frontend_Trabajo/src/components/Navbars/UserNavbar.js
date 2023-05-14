@@ -195,7 +195,8 @@ const UserNavbar = (props) => {
                                                 localStorage.removeItem("puntosTorneo7reinas");
                                                 localStorage.removeItem("ganadorxronda7reinas");
                                                 localStorage.removeItem("ganadorx7reinas");
-                                                localStorage.removeItem("torneo_ganado7reinas");    
+                                                localStorage.removeItem("torneo_ganado7reinas");
+                                                localStorage.removeItem("reanudada7reinas");
                                                 console.log("SE HAN BORRADO LAS VARIABLES DE PARTIDA")}}>
                   <i className="ni ni-user-run" />
                   <span>Borrar S Partida</span>
