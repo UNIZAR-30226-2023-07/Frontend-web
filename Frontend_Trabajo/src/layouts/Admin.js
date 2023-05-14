@@ -146,7 +146,9 @@ const Admin = (props) => {
     localStorage.setItem("herobado7reinas", false); //Inicialmente es false
     console.log(sessionUser.codigo);
     setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]); //Ponemos un valor inicial para evitar error
-    console.log('PEDIMOS LAS MANOS AL INICIAR')
+    console.log('PEDIMOS LAS MANOS AL INICIAR');
+    ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+    //ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
     const ws2 = new WebSocket(`ws://13.93.90.135:3001/api/ws/partida/${currentGame}`);
     ws2.onopen = () => {
       console.log(`PEDIR CARTAS`);
@@ -630,7 +632,6 @@ const Admin = (props) => {
             //setpuntosTorneo([]);
             //localStorage.setItem("puntosTorneo7reinas", JSON.stringify([]));
             //Guardamos los puntos
-            localStorage.setItem("torneo_ganado7reinas", true); //Indica que se ha ganado el torneo
             let players = JSON.parse(localStorage.getItem("jugadorxs7reinas"));
             puntos = mensaje.puntos.forEach((pts, ind) => {
               players[ind].ptsTorneo = pts;
@@ -641,6 +642,8 @@ const Admin = (props) => {
             if(mensaje.ganador != ""){
               //El resto del código esta en este enlace
               //https://github.com/UNIZAR-30226-2023-07/Frontend-movil/blob/4e6f853857d7e37a79a62eccdd462a874e2fe93b/Aplicacion/lib/pages/board_page.dart
+              localStorage.setItem("torneo_ganado7reinas", true); //Indica que se ha ganado el torneo
+
               let usuario = JSON.parse(localStorage.getItem("usuario7reinas"));
               
               mensaje.puntos.forEach((pts, ind) => {
