@@ -130,6 +130,22 @@ const Admin = (props) => {
     return wsChat;
   }, [wsChat, chatOpen, chatUser, friends, sessionUser.codigo]);
 
+  //Se usa para resetar la partida cuando estas en un torneo
+  const resetear_partida_torneo = (ws) => {
+    console.log("RESETEAMOS PARTIDA DE TORNEO");
+    setBoard([]);
+    localStorage.setItem("tablero7reinas", JSON.stringify([])); //Inicialmente es vacia
+    setTurn(0);
+    localStorage.setItem("turno7reinas", JSON.stringify(0)); //Guardamos nuestro turno como String
+    setDiscard([]);
+    localStorage.setItem("descarte7reinas", JSON.stringify([])); //Inicialmente es vacia
+    localStorage.setItem("herobado7reinas", false); //Inicialmente es false
+    console.log(sessionUser.codigo);
+    setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]); //Ponemos un valor inicial para evitar error
+    console.log('PEDIMOS LAS MANOS AL INICIAR')
+    ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+
+  }
 
   const comportamiento_partida = (mensaje, ws) => {
     let myHand = [], mydescartes = [];
@@ -186,6 +202,7 @@ const Admin = (props) => {
         localStorage.setItem("herobado7reinas", false); //Inicialmente es false
         console.log(sessionUser.codigo);
         setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]); //Ponemos un valor inicial para evitar error
+        localStorage.setItem("torneo_ganado7reinas", false); //Indica que no se ha ganado el torneo
         if (!(JSON.parse(localStorage.getItem("reanudada7reinas")))) {
           console.log('PEDIMOS LAS MANOS AL INICIAR')
           ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
@@ -287,6 +304,8 @@ const Admin = (props) => {
         if(mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez
           localStorage.setItem("herobado7reinas", true); //Indica si ha robado el jugador
           ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_mano"}));
+          setDiscard([]);
+          localStorage.setItem("descarte7reinas", JSON.stringify([])); //Ponemos a vacio descartes
           console.log("RECEPCIÓN: Carta Robada de Descartes");
         }
         break;
@@ -297,9 +316,14 @@ const Admin = (props) => {
           ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_mano"}));
           ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
         } else if((/^\d+$/).test(mensaje.info)){
+
+          let torneo_ganado = JSON.parse(localStorage.getItem("torneo_ganado7reinas"));
           if (isTournament) {
-            localStorage.setItem("ganadorxronda7reinas", parseInt(mensaje.info));
-            setRoundWinner(parseInt(mensaje.info));
+            if(!torneo_ganado) {
+              localStorage.setItem("ganadorxronda7reinas", parseInt(mensaje.info));
+              setRoundWinner(parseInt(mensaje.info));
+              resetear_partida_torneo(ws);  
+            }
           } else {
             localStorage.setItem("ganadorx7reinas", parseInt(mensaje.info));
             history.push("/admin/gameend");
@@ -315,9 +339,14 @@ const Admin = (props) => {
           ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_mano"}));
           ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
         } else if((/^\d+$/).test(mensaje.info)){
+
+          let torneo_ganado = JSON.parse(localStorage.getItem("torneo_ganado7reinas"));
           if (isTournament) {
-            localStorage.setItem("ganadorxronda7reinas", parseInt(mensaje.info));
-            setRoundWinner(parseInt(mensaje.info));
+            if(!torneo_ganado) {
+              localStorage.setItem("ganadorxronda7reinas", parseInt(mensaje.info));
+              setRoundWinner(parseInt(mensaje.info));
+              resetear_partida_torneo(ws);  
+            }
           } else {
             localStorage.setItem("ganadorx7reinas", parseInt(mensaje.info));
             history.push("/admin/gameend");
@@ -334,9 +363,14 @@ const Admin = (props) => {
           ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_mano"}));
           ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
         } else if((/^\d+$/).test(mensaje.info)){
+          
+          let torneo_ganado = JSON.parse(localStorage.getItem("torneo_ganado7reinas"));
           if (isTournament) {
-            localStorage.setItem("ganadorxronda7reinas", parseInt(mensaje.info));
-            setRoundWinner(parseInt(mensaje.info));
+            if(!torneo_ganado) {
+              localStorage.setItem("ganadorxronda7reinas", parseInt(mensaje.info));
+              setRoundWinner(parseInt(mensaje.info));
+              resetear_partida_torneo(ws);  
+            }
           } else {
             localStorage.setItem("ganadorx7reinas", parseInt(mensaje.info));
             history.push("/admin/gameend");
@@ -397,9 +431,13 @@ const Admin = (props) => {
           localStorage.setItem("herobado7reinas", false); //Indica si ha robado el jugador
         }
         if ((/^\d+$/).test(mensaje.ganador)) {
+          let torneo_ganado = JSON.parse(localStorage.getItem("torneo_ganado7reinas"));
           if (isTournament) {
-            localStorage.setItem("ganadorxronda7reinas", parseInt(mensaje.ganador));
-            setRoundWinner(parseInt(mensaje.ganador));
+            if(!torneo_ganado) {
+              localStorage.setItem("ganadorxronda7reinas", parseInt(mensaje.ganador));
+              setRoundWinner(parseInt(mensaje.ganador));
+              resetear_partida_torneo(ws);  
+            }
           } else {
             localStorage.setItem("ganadorx7reinas", parseInt(mensaje.ganador));
             history.push("/admin/gameend");
@@ -561,6 +599,8 @@ const Admin = (props) => {
             localStorage.setItem("herobado7reinas", false); //Inicialmente es false
             console.log(sessionUser.codigo);
             setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]); //Ponemos un valor inicial para evitar error
+            localStorage.setItem("torneo_ganado7reinas", false); //Indica que no se ha ganado el torneo
+
             if (!(JSON.parse(localStorage.getItem("reanudada7reinas")))) {
               console.log('PEDIMOS LAS MANOS AL INICIAR')
               ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
@@ -569,6 +609,7 @@ const Admin = (props) => {
             //setpuntosTorneo([]);
             //localStorage.setItem("puntosTorneo7reinas", JSON.stringify([]));
             //Guardamos los puntos
+            localStorage.setItem("torneo_ganado7reinas", true); //Indica que se ha ganado el torneo
             let players = JSON.parse(localStorage.getItem("jugadorxs7reinas"));
             puntos = mensaje.puntos.forEach((pts, ind) => {
               players[ind].ptsTorneo = pts;
@@ -579,6 +620,14 @@ const Admin = (props) => {
             if(mensaje.ganador != ""){
               //El resto del código esta en este enlace
               //https://github.com/UNIZAR-30226-2023-07/Frontend-movil/blob/4e6f853857d7e37a79a62eccdd462a874e2fe93b/Aplicacion/lib/pages/board_page.dart
+              let usuario = JSON.parse(localStorage.getItem("usuario7reinas"));
+              
+              mensaje.puntos.forEach((pts, ind) => {
+                usuario.puntos = ( (parseInt(usuario.puntos) + parseInt(players[ind].ptsTorneo)).toString());
+              });
+              localStorage.setItem("usuario7reinas", JSON.stringify(usuario));
+              localStorage.setItem("ganadorx7reinas", parseInt(mensaje.ganador));
+              history.push("/admin/gameend");
             }
           }
         }      

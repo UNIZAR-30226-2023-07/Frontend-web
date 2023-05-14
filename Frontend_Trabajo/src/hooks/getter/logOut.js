@@ -18,4 +18,7 @@ export default function logOut () {
     localStorage.removeItem('part_pausadas7reinas');
     localStorage.removeItem("es_torneo7reinas");
     localStorage.removeItem("puntosTorneo7reinas");
+    localStorage.removeItem("ganadorxronda7reinas");
+    localStorage.removeItem("ganadorx7reinas");
+    localStorage.removeItem("torneo_ganado7reinas");
 }
