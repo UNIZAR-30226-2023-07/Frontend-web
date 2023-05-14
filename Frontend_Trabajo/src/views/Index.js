@@ -77,7 +77,7 @@ const Index = (props) => {
   const [ranking_jug, setRanking_jug] = useState(JSON.parse(localStorage.getItem("amigxs7reinas")));
   const [part_pausadas, setPart_pausadas] = useState(JSON.parse(localStorage.getItem("part_pausadas7reinas")));
 
-  let { setGame, setPlayers, setIsTournament, setAreWeResuming } = props;
+  let { setGame, setPlayers, setIsTournament, setAreWeResuming, setHand } = props;
 
   const updateRanking = () => {
     setRanking_jug(JSON.parse(localStorage.getItem("amigxs7reinas")));
@@ -147,6 +147,7 @@ const Index = (props) => {
                   setGame(localStorage.getItem("juego7reinas"));
                   setIsTournament(prop.Tipo == "Torneo");
                   setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+                  setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]);
                   history.push("/admin/gamelobby");
                 },
                 () => setErrorUnirse(true),
@@ -180,6 +181,7 @@ const Index = (props) => {
                     setGame(localStorage.getItem("juego7reinas"));
                     setIsTournament(JSON.parse(localStorage.getItem("es_torneo7reinas")));
                     setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+                    setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]);
                     history.push("/admin/gamelobby");
                   },
                   () => setErrorUnirse(true),
@@ -220,6 +222,7 @@ const Index = (props) => {
                     setGame(localStorage.getItem("juego7reinas"));
                     setIsTournament(false);
                     setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+                    setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]);
                     history.push("/admin/gamelobby")
                   },
                   () => setErrorCrear(true)
@@ -235,6 +238,7 @@ const Index = (props) => {
                     setGame(localStorage.getItem("juego7reinas"));
                     setIsTournament(true);
                     setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+                    setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]);
                     history.push("/admin/gamelobby")
                   },
                   () => setErrorCrear(true)

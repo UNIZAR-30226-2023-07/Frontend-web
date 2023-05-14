@@ -73,6 +73,10 @@ const Admin = (props) => {
 
   const history = useHistory();//Permite cambiar de pantalla
 
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   const updateFriends = () => {
     getFriends(sessionUser.codigo, () => {
       setFriends(JSON.parse(localStorage.getItem("amigxs7reinas")));
@@ -143,11 +147,18 @@ const Admin = (props) => {
     console.log(sessionUser.codigo);
     setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]); //Ponemos un valor inicial para evitar error
     console.log('PEDIMOS LAS MANOS AL INICIAR')
-    ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
-
+    const ws2 = new WebSocket(`ws://13.93.90.135:3001/api/ws/partida/${currentGame}`);
+    ws2.onopen = () => {
+      console.log(`PEDIR CARTAS`);
+      ws2.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+      ws2.close();
+    }
+    ws2.onclose = () => {
+      console.log(`SALIDO`);
+    }
   }
 
-  const comportamiento_partida = (mensaje, ws) => {
+  const comportamiento_partida = async (mensaje, ws) => {
     let myHand = [], mydescartes = [];
 
     if ( (mensaje.tipo).substring(0, 13) === "Nuevo_Jugador" ) {
@@ -202,7 +213,7 @@ const Admin = (props) => {
         localStorage.setItem("descarte7reinas", JSON.stringify([])); //Inicialmente es vacia
         localStorage.setItem("herobado7reinas", false); //Inicialmente es false
         console.log(sessionUser.codigo);
-        setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]); //Ponemos un valor inicial para evitar error
+        //setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]); //Ponemos un valor inicial para evitar error
         localStorage.setItem("torneo_ganado7reinas", false); //Indica que no se ha ganado el torneo
         if (!(JSON.parse(localStorage.getItem("reanudada7reinas")))) {
           console.log('PEDIMOS LAS MANOS AL INICIAR')
@@ -211,6 +222,7 @@ const Admin = (props) => {
         break;
 
       case "Partida_reanudada":
+        await sleep(1000);
         console.log('PEDIMOS LAS MANOS AL REANUDAR');
         ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
         console.log('PEDIMOS EL TABLERO AL REANUDAR');
@@ -599,12 +611,20 @@ const Admin = (props) => {
             localStorage.setItem("descarte7reinas", JSON.stringify([])); //Inicialmente es vacia
             localStorage.setItem("herobado7reinas", false); //Inicialmente es false
             console.log(sessionUser.codigo);
-            setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]); //Ponemos un valor inicial para evitar error
+            //setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]); //Ponemos un valor inicial para evitar error
             localStorage.setItem("torneo_ganado7reinas", false); //Indica que no se ha ganado el torneo
 
             if (!(JSON.parse(localStorage.getItem("reanudada7reinas")))) {
               console.log('PEDIMOS LAS MANOS AL INICIAR')
-              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+              const ws2 = new WebSocket(`ws://13.93.90.135:3001/api/ws/partida/${currentGame}`);
+              ws2.onopen = () => {
+                console.log(`PEDIR CARTAS`);
+                ws2.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+                ws2.close();
+              }
+              ws2.onclose = () => {
+                console.log(`SALIDO`);
+              }
             }
           } else if(mensaje.tipo === "Partida_terminada"){
             //setpuntosTorneo([]);
