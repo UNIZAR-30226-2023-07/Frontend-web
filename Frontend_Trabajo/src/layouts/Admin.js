@@ -307,17 +307,25 @@ const Admin = (props) => {
       case "Robar_carta":
         localStorage.removeItem("ganadorxronda7reinas");
         setRoundWinner(null);
-        if(mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez
+        if(mensaje.receptor == sessionUser.codigo && (/^\d,\d,\d$/).test(mensaje.info)){//Así solo se pide una vez
           localStorage.setItem("herobado7reinas", true); //Indica si ha robado el jugador
-          ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_mano"}));
+          let card = mensaje.info.split(",");
+          let myHand = JSON.parse(localStorage.getItem("mano7reinas"));
+          myHand.push({number: card[0], symbol: card[1], back: card[2], comb: -1, ord: -1});
+          setHand(myHand);
+          localStorage.setItem("mano7reinas", JSON.stringify(myHand));
           console.log("RECEPCIÓN: Carta Robada");
         }
         break;
 
       case "Robar_carta_descartes":
-        if(mensaje.receptor == sessionUser.codigo){//Así solo se pide una vez
+        if(mensaje.receptor == sessionUser.codigo && (/^\d,\d,\d$/).test(mensaje.info)){//Así solo se pide una vez
           localStorage.setItem("herobado7reinas", true); //Indica si ha robado el jugador
-          ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_mano"}));
+          let card = mensaje.info.split(",");
+          let myHand = JSON.parse(localStorage.getItem("mano7reinas"));
+          myHand.push({number: card[0], symbol: card[1], back: card[2], comb: -1, ord: -1});
+          setHand(myHand);
+          localStorage.setItem("mano7reinas", JSON.stringify(myHand));
           setDiscard([]);
           localStorage.setItem("descarte7reinas", JSON.stringify([])); //Ponemos a vacio descartes
           console.log("RECEPCIÓN: Carta Robada de Descartes");
@@ -461,9 +469,18 @@ const Admin = (props) => {
           });
           break;
       
-      case "jugadores":
-          console.log(mensaje.cartas);
-        break;
+        case "jugadores":
+            console.log(mensaje.cartas);
+          break;
+
+        case "Puntos":
+          let players = JSON.parse(localStorage.getItem("jugadorxs7reinas"));
+          mensaje.puntos.forEach((pts, ind) => {
+            players[ind].ptsTorneo = pts;
+          });
+          setPlayers(players);
+          localStorage.setItem("jugadorxs7reinas", JSON.stringify(players));
+          break;
 
       default:
         return 0;
@@ -628,7 +645,7 @@ const Admin = (props) => {
             //localStorage.setItem("puntosTorneo7reinas", JSON.stringify([]));
             //Guardamos los puntos
             let players = JSON.parse(localStorage.getItem("jugadorxs7reinas"));
-            puntos = mensaje.puntos.forEach((pts, ind) => {
+            mensaje.puntos.forEach((pts, ind) => {
               players[ind].ptsTorneo = pts;
             });
             setPlayers(players);
