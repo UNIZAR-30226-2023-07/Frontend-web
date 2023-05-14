@@ -290,6 +290,9 @@ const Admin = (props) => {
             setBoard(tablero);
             localStorage.setItem("tablero7reinas", JSON.stringify(tablero)); //Inicialmnete es vacia
           }
+        } else { //Vaciamos el tablero
+          setBoard([]);
+          localStorage.setItem("tablero7reinas", JSON.stringify([]));  
         }
         //Descartes
         if (mensaje.descartes != null) {
@@ -301,6 +304,9 @@ const Admin = (props) => {
           console.log(descartes);
           setDiscard(descartes);
           localStorage.setItem("descarte7reinas", JSON.stringify(descartes)); //Inicialmnete es vacia
+        } else { // Vaciamos descartes
+          setDiscard([]);
+          localStorage.setItem("descarte7reinas", JSON.stringify([])); //Inicialmente es vacia      
         }
         break;
       
