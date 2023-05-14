@@ -1,12 +1,15 @@
 import getUserForGame from "hooks/getter/getUserForGame";
 
-export default function joinGame (me, clavePartida, doNext, doOnError, amITheHost) {
+export default function joinGame (me, clavePartida, doNext, doOnError, amITheHost, addMyself) {
 
     const doTheRest = (gameType) => {
         let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
-        let meAsPlayer = {codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto, ptsTorneo: 0};
-        if (players == null) players = [meAsPlayer];
-        else players.push(meAsPlayer);
+        if (addMyself) {
+            console.log("ME AÑADO DE NUEVO")
+            let meAsPlayer = {codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto, ptsTorneo: 0};
+            if (players == null) players = [meAsPlayer];
+            else players.push(meAsPlayer);
+        }
         localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
         localStorage.setItem("es_torneo7reinas", gameType === "torneo");
         localStorage.setItem("anfitrion7reinas", JSON.stringify(amITheHost));

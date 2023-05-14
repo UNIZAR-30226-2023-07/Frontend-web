@@ -50,6 +50,7 @@ const Admin = (props) => {
   const [sessionUser, setSessionUser] = useState(JSON.parse(localStorage.getItem("usuario7reinas")));
   const [currentGame, setCurrentGame] = useState(JSON.parse(localStorage.getItem("juego7reinas")));
   const [isTournament, setIsTournament] = useState(JSON.parse(localStorage.getItem("es_torneo7reinas")));
+  const [areWeResuming, setAreWeResuming] = useState(JSON.parse(localStorage.getItem("reanudada7reinas")));
   const [players, setPlayers] = useState(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
   const [myTurn, setMyTurn] = useState(JSON.parse(localStorage.getItem("miturno7reinas")));
   const [turn, setTurn] = useState(JSON.parse(localStorage.getItem("turno7reinas")));
@@ -133,9 +134,9 @@ const Admin = (props) => {
   const comportamiento_partida = (mensaje, ws) => {
     let myHand = [], mydescartes = [];
 
-    if ( (mensaje.tipo).substring(0, 13) === "Nuevo_Jugador" ) {
-        let nuevoJugador = (mensaje.tipo).substring(15);
-        getUserForGame(nuevoJugador, () => {
+    if ( (mensaje.tipo).substring(0, 13) === "Nuevo_Jugador" && !(JSON.parse(localStorage.getItem("reanudada7reinas"))) ) {
+        let nuevoJugador = mensaje.tipo.split(":");
+        getUserForGame(nuevoJugador[1].trim(), () => {
           setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
           console.log("El nuevo jugador: "+(mensaje.tipo).substring(15));
           console.log("El nuevo jugador 2: "+JSON.stringify(players));
@@ -145,24 +146,16 @@ const Admin = (props) => {
     } else
     switch (mensaje.tipo) {
       case "Partida_Iniciada":
-        // console.log("Turno inicial: "+mensaje.turnos[0][0]);
-        // console.log("Turno inicial: "+mensaje.turnos[0][1]);
-        // console.log("Turno inicial: "+mensaje.turnos[1][0]);
-        // console.log("Turno inicial: "+mensaje.turnos[1][1]);
-        let numNoBots = mensaje.turnos.filter((turn) => !(/^bot(\d+)$/).test(turn[0])).length;
+        //let numNoBots = mensaje.turnos.filter((turn) => !(/^bot(\d+)$/).test(turn[0])).length;
+        let lobbyPlayers = JSON.parse(localStorage.getItem("jugadorxs7reinas"));
         let gamePlayers = mensaje.turnos.map(() => null);
         console.log("PartidaIniciada-GamePlayers: "+gamePlayers);
-        localStorage.setItem("jugadorxs7reinas", JSON.stringify(gamePlayers));
-        // for (let i = 0; i < 4; i++) {
-        //   let playerBeingSorted = mensaje.turnos.find((turn) => turn[i][1] == i.toString);
-
         mensaje.turnos.forEach((elemento, indice) => {
           console.log(elemento[0] + ' - ' + elemento[1]);
           if(elemento[0] === sessionUser.codigo){
             localStorage.setItem("miturno7reinas", JSON.stringify(elemento[1])); //Guardamos nuestro turno como String
             setMyTurn(elemento[1]);
-            console.log("PartidaIniciada-turno: "+JSON.parse(JSON.stringify(elemento[1])));
-            
+            console.log("Nuestro turno es el "+JSON.parse(JSON.stringify(elemento[1])));
           }
           const match = (/^bot(\d+)$/).exec(elemento[0]);
           if (match) {
@@ -170,30 +163,20 @@ const Admin = (props) => {
               codigo: elemento[0],
               nombre: "Bot " + match[1],
               foto: Math.floor(Math.random() * 9),
-              cartas: 14
+              cartas: 14,
+              ptsTorneo: 0
             };
-            let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
-            players[parseInt(elemento[1])] = bot;
-            localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
+            gamePlayers[parseInt(elemento[1])] = bot;
           } else {
-            getUserForGame(elemento[0], () => {
-              console.log("El nuevo jugador: "+(mensaje.tipo).substring(15));
-              console.log("El nuevo jugador 2: "+JSON.stringify(players));
-              numNoBots--;
-              if (numNoBots === 0) {
-                ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
-              }
-              //localStorage.setItem("jugadorxs7reinas", JSON.stringify(players)); //Inicialmnete es vacia
-            }, parseInt(elemento[1]));
+            lobbyPlayers.forEach((player) => {
+              console.log(player.codigo, elemento[0], elemento[1]);
+              if(player.codigo === elemento[0])
+                gamePlayers[parseInt(elemento[1])] = player;
+            });
           }
-          // gamePlayers.forEach((player) => {
-          //     console.log(player.codigo);
-          //     if(player.codigo === elemento[0]){
-          //       sortedPlayers.push(player);
-          //     }
-          //   });
         });
-        setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+        setPlayers(gamePlayers);
+        localStorage.setItem("jugadorxs7reinas", JSON.stringify(gamePlayers));
         setBoard([]);
         localStorage.setItem("tablero7reinas", JSON.stringify([])); //Inicialmente es vacia
         setTurn(0);
@@ -203,11 +186,19 @@ const Admin = (props) => {
         localStorage.setItem("herobado7reinas", false); //Inicialmente es false
         console.log(sessionUser.codigo);
         setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]); //Ponemos un valor inicial para evitar error
-        
-        // HARA FALTA CUANDO SE REANUDEN LAS PARTIDAS
-        // ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
+        if (!(JSON.parse(localStorage.getItem("reanudada7reinas")))) {
+          console.log('PEDIMOS LAS MANOS AL INICIAR')
+          ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+        }
         break;
-      
+
+      case "Partida_reanudada":
+        console.log('PEDIMOS LAS MANOS AL REANUDAR');
+        ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+        console.log('PEDIMOS LAS MANOS AL REANUDAR');
+        ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
+        break;
+
       case "Mostrar_manos":
         //console.log("Mostrar manos: "+mensaje.mano);
         let gameplayers = JSON.parse(localStorage.getItem("jugadorxs7reinas"));
@@ -410,7 +401,7 @@ const Admin = (props) => {
             localStorage.setItem("ganadorxronda7reinas", parseInt(mensaje.ganador));
             setRoundWinner(parseInt(mensaje.ganador));
           } else {
-            localStorage.setItem("ganadorx7reinas", parseInt(mensaje.info));
+            localStorage.setItem("ganadorx7reinas", parseInt(mensaje.ganador));
             history.push("/admin/gameend");
           }
         }
@@ -531,17 +522,15 @@ const Admin = (props) => {
             //setPlayers(players.push(nuevoJugador)); //Apilamos el nuevo jugador
           } else
           if (mensaje.tipo === "Partida_Iniciada") {
-            
-            let numNoBots = mensaje.turnos.filter((turn) => !(/^bot(\d+)$/).test(turn[0])).length;
+            let lobbyPlayers = JSON.parse(localStorage.getItem("jugadorxs7reinas"));
             let gamePlayers = mensaje.turnos.map(() => null);
-            console.log(gamePlayers);
-            localStorage.setItem("jugadorxs7reinas", JSON.stringify(gamePlayers));
-
+            console.log("PartidaIniciada-GamePlayers: "+gamePlayers);
             mensaje.turnos.forEach((elemento, indice) => {
               console.log(elemento[0] + ' - ' + elemento[1]);
               if(elemento[0] === sessionUser.codigo){
                 localStorage.setItem("miturno7reinas", JSON.stringify(elemento[1])); //Guardamos nuestro turno como String
                 setMyTurn(elemento[1]);
+                console.log("Nuestro turno es el "+JSON.parse(JSON.stringify(elemento[1])));
               }
               const match = (/^bot(\d+)$/).exec(elemento[0]);
               if (match) {
@@ -552,30 +541,17 @@ const Admin = (props) => {
                   cartas: 14,
                   ptsTorneo: 0
                 };
-                let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
-                players[parseInt(elemento[1])] = bot;
-                localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
+                gamePlayers[parseInt(elemento[1])] = bot;
               } else {
-                getUserForGame(elemento[0], () => {
-                  console.log("El nuevo jugador: "+(mensaje.tipo).substring(15));
-                  console.log("El nuevo jugador 2: "+JSON.stringify(players));
-                  numNoBots--;
-                  console.log("numNoBots: "+numNoBots);
-                  if (numNoBots == 0) {
-                    const ws2 = new WebSocket(`ws://13.93.90.135:3001/api/ws/partida/${currentGame}`);
-                    ws2.onopen = () => {
-                      console.log(`PEDIR CARTAS`);
-                      ws2.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
-                      ws2.close();
-                    }
-                    ws2.onclose = () => {
-                      console.log(`SALIDO`);
-                    }
-                  }
-                }, parseInt(elemento[1]));
+                lobbyPlayers.forEach((player) => {
+                  console.log(player.codigo, elemento[0], elemento[1]);
+                  if(player.codigo === elemento[0])
+                    gamePlayers[parseInt(elemento[1])] = player;
+                });
               }
             });
-            setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+            setPlayers(gamePlayers);
+            localStorage.setItem("jugadorxs7reinas", JSON.stringify(gamePlayers));
             setBoard([]);
             localStorage.setItem("tablero7reinas", JSON.stringify([])); //Inicialmente es vacia
             setTurn(0);
@@ -585,11 +561,10 @@ const Admin = (props) => {
             localStorage.setItem("herobado7reinas", false); //Inicialmente es false
             console.log(sessionUser.codigo);
             setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]); //Ponemos un valor inicial para evitar error
-            //Establecemos los puntos iniciales en el torneo
-            //setpuntosTorneo([]);
-            // HARA FALTA CUANDO SE REANUDEN LAS PARTIDAS
-            // ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
-          
+            if (!(JSON.parse(localStorage.getItem("reanudada7reinas")))) {
+              console.log('PEDIMOS LAS MANOS AL INICIAR')
+              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+            }
           } else if(mensaje.tipo === "Partida_terminada"){
             //setpuntosTorneo([]);
             //localStorage.setItem("puntosTorneo7reinas", JSON.stringify([]));
@@ -706,6 +681,7 @@ const Admin = (props) => {
                                     setGame={setCurrentGame}
                                     isTournament={isTournament}
                                     setIsTournament={setIsTournament}
+                                    setAreWeResuming={setAreWeResuming}
                                     players={players}
                                     setPlayers={setPlayers}
                                     hand={hand}

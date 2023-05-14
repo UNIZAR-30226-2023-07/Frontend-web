@@ -348,21 +348,11 @@ function Tablero_Rabino(props) {
             {mostrarTablero()}
           </div>
           <div style={{ backgroundColor:'brown', width:'calc(100vw - 15rem)', height:'11.25rem', display:'flex'}}>
-            
-                      {/* <p className="mb--2" style={{ color: 'white', textAlign: 'center'}} >Mazo</p> */}
-                      {mostrarMazo()}
-
-
-
-                    {/* <p className="mb--2" style={{ color: 'white', textAlign: 'center'}} >Descartes</p> */}
-                    {mostrarDescartes(discard, () => {!JSON.parse(localStorage.getItem("herobado7reinas")) && hand.length<12 ? robarDescarte() : descartar()})}
-                  
-              
-              
-                
-                  {mostrarMano()}
-                
-          {/* <button onClick={() => window.location.reload()}>Reload Cards</button> */}
+            {mostrarMazo()}
+            {mostrarDescartes(discard, () => {
+              !JSON.parse(localStorage.getItem("herobado7reinas")) && hand.length<12 ? robarDescarte() : descartar()})
+            }
+            {mostrarMano()}
           </div>
         </div>
       </div>

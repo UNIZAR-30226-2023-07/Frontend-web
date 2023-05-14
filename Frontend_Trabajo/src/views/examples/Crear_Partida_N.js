@@ -54,10 +54,10 @@ import {
                     startGame(sessionUser.codigo, currentGame, false,
                     () => history.push("/admin/partida")
                   )}}>
-                  INICIAR PARTIDA
+                  {JSON.parse(localStorage.getItem("reanudada7reinas")) ? "REANUDAR PARTIDA" : "INICIAR PARTIDA"}
                 </Button>
-                {(players && players.length < 4) ?
-                  <Button variant="primary" color="primary" onClick={() => {
+                {!(JSON.parse(localStorage.getItem("reanudada7reinas"))) ?
+                  <Button variant="primary" disabled={players.length == 4} color="primary" onClick={() => {
                       startGame(sessionUser.codigo, currentGame, true,
                       () => history.push("/admin/partida")
                     )}}>

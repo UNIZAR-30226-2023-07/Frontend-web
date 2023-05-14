@@ -77,7 +77,7 @@ const Index = (props) => {
   const [ranking_jug, setRanking_jug] = useState(JSON.parse(localStorage.getItem("amigxs7reinas")));
   const [part_pausadas, setPart_pausadas] = useState(JSON.parse(localStorage.getItem("part_pausadas7reinas")));
 
-  let { setGame, setPlayers, setIsTournament } = props;
+  let { setGame, setPlayers, setIsTournament, setAreWeResuming } = props;
 
   const updateRanking = () => {
     setRanking_jug(JSON.parse(localStorage.getItem("amigxs7reinas")));
@@ -142,13 +142,15 @@ const Index = (props) => {
             <Button variant="primary" color="primary" className="ml-5" onClick={() => {
               joinGame(sessionUser, prop.Clave,
                 () => {
+                  localStorage.setItem("reanudada7reinas", JSON.stringify(true));
+                  setAreWeResuming(true);
                   setGame(localStorage.getItem("juego7reinas"));
                   setIsTournament(prop.Tipo == "Torneo");
                   setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
                   history.push("/admin/gamelobby");
                 },
                 () => setErrorUnirse(true),
-                prop.Creador == sessionUser.codigo
+                prop.Creador == sessionUser.codigo, false
             )}}>
               Unirse
             </Button>
@@ -173,13 +175,15 @@ const Index = (props) => {
               event.preventDefault();
               joinGame(sessionUser, Clave,
                   () => {
+                    localStorage.setItem("reanudada7reinas", JSON.stringify(false));
+                    setAreWeResuming(false);
                     setGame(localStorage.getItem("juego7reinas"));
                     setIsTournament(JSON.parse(localStorage.getItem("es_torneo7reinas")));
                     setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
                     history.push("/admin/gamelobby");
                   },
                   () => setErrorUnirse(true),
-                  false
+                  false, true
             )}}>
               <FormGroup className="d-flex flex-row-reverse">
                 <Button variant="primary" color="primary" className="m-0">
@@ -211,6 +215,8 @@ const Index = (props) => {
                 className="" onClick={() => {
                 createGame(sessionUser, "amistosa",
                   () => {
+                    localStorage.setItem("reanudada7reinas", JSON.stringify(false));
+                    setAreWeResuming(false);
                     setGame(localStorage.getItem("juego7reinas"));
                     setIsTournament(false);
                     setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
@@ -224,6 +230,8 @@ const Index = (props) => {
                 className="" onClick={() => {
                 createGame(sessionUser, "torneo",
                   () => {
+                    localStorage.setItem("reanudada7reinas", JSON.stringify(false));
+                    setAreWeResuming(false);
                     setGame(localStorage.getItem("juego7reinas"));
                     setIsTournament(true);
                     setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
