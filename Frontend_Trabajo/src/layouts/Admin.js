@@ -150,13 +150,14 @@ const Admin = (props) => {
   const comportamiento_partida = (mensaje, ws) => {
     let myHand = [], mydescartes = [];
 
-    if ( (mensaje.tipo).substring(0, 13) === "Nuevo_Jugador" && !(JSON.parse(localStorage.getItem("reanudada7reinas"))) ) {
+    if ( (mensaje.tipo).substring(0, 13) === "Nuevo_Jugador" ) {
         let nuevoJugador = mensaje.tipo.split(":");
-        getUserForGame(nuevoJugador[1].trim(), () => {
-          setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
-          console.log("El nuevo jugador: "+(mensaje.tipo).substring(15));
-          console.log("El nuevo jugador 2: "+JSON.stringify(players));
-          //localStorage.setItem("jugadorxs7reinas", JSON.stringify(players)); //Inicialmnete es vacia
+        //if (nuevoJugador[1].trim() !== sessionUser.codigo)
+          getUserForGame(nuevoJugador[1].trim(), () => {
+            setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+            console.log("El nuevo jugador: "+(mensaje.tipo).substring(15));
+            console.log("El nuevo jugador 2: "+JSON.stringify(players));
+            //localStorage.setItem("jugadorxs7reinas", JSON.stringify(players)); //Inicialmnete es vacia
         });
         //setPlayers(players.push(nuevoJugador)); //Apilamos el nuevo jugador
     } else
@@ -212,7 +213,7 @@ const Admin = (props) => {
       case "Partida_reanudada":
         console.log('PEDIMOS LAS MANOS AL REANUDAR');
         ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
-        console.log('PEDIMOS LAS MANOS AL REANUDAR');
+        console.log('PEDIMOS EL TABLERO AL REANUDAR');
         ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_tablero"}));
         break;
 

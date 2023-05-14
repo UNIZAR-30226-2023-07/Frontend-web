@@ -50,7 +50,7 @@ import {
               </Row>
               { JSON.parse(localStorage.getItem("anfitrion7reinas")) ?
               <Row style={{marginTop: "3rem", justifyContent: "center"}}>
-                <Button variant="primary" disabled={players.length <= 1} color="primary" onClick={() => {
+                <Button variant="primary" disabled={players != null && players.length <= 1} color="primary" onClick={() => {
                     startGame(sessionUser.codigo, currentGame, false,
                     () => history.push("/admin/partida")
                   )}}>
