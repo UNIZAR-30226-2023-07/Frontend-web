@@ -18,7 +18,7 @@ export default function getUserByCode (code, container) {
             alert(`Se ha producido un error al obtener los datos del usuario.`);
         }
     }
-    xhr.open('GET', `http://13.93.90.135:3001/api/jugador/get2/${code}`);
+    xhr.open('GET', `http://20.160.173.253:3001/api/jugador/get2/${code}`);
     xhr.send();
 
     return datos_user;

@@ -15,6 +15,6 @@ export default function acceptFriendRequest (me, sender, doNext) {
             alert(`Se ha producido un error al enviar la solicitud de amistad.`);
         }
     }
-    xhr.open('POST', `http://13.93.90.135:3001/api/amistad/accept`);
+    xhr.open('POST', `http://20.160.173.253:3001/api/amistad/accept`);
     xhr.send(JSON.stringify({ emisor: me, receptor: sender }));
 }

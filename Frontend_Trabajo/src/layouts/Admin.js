@@ -94,7 +94,7 @@ const Admin = (props) => {
 
   const wsChatInstance = useMemo(() => {
     if (!wsChat) {
-      const ws = new WebSocket(`ws://13.93.90.135:3001/api/ws/chat/${sessionUser.codigo}`);
+      const ws = new WebSocket(`ws://20.160.173.253:3001/api/ws/chat/${sessionUser.codigo}`);
       ws.onopen = () => {
         console.log('Conexión abierta');
         setSePuedeEnviar(true);
@@ -135,7 +135,7 @@ const Admin = (props) => {
   }, [wsChat, chatOpen, chatUser, friends, sessionUser.codigo]);
 
   //Se usa para resetar la partida cuando estas en un torneo
-  const resetear_partida_torneo = (ws) => {
+  const resetear_partida_torneo = () => {
     console.log("RESETEAMOS PARTIDA DE TORNEO");
     setBoard([]);
     localStorage.setItem("tablero7reinas", JSON.stringify([])); //Inicialmente es vacia
@@ -147,15 +147,14 @@ const Admin = (props) => {
     console.log(sessionUser.codigo);
     setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]); //Ponemos un valor inicial para evitar error
     console.log('PEDIMOS LAS MANOS AL INICIAR');
-    ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
     //ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
-    const ws2 = new WebSocket(`ws://13.93.90.135:3001/api/ws/partida/${currentGame}`);
-    ws2.onopen = () => {
+    const wsTemp = new WebSocket(`ws://20.160.173.253:3001/api/ws/partida/${currentGame}`);
+    wsTemp.onopen = () => {
       console.log(`PEDIR CARTAS`);
-      ws2.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
-      ws2.close();
+      wsTemp.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+      wsTemp.close();
     }
-    ws2.onclose = () => {
+    wsTemp.onclose = () => {
       console.log(`SALIDO`);
     }
   }
@@ -217,13 +216,13 @@ const Admin = (props) => {
         console.log(sessionUser.codigo);
         //setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]); //Ponemos un valor inicial para evitar error
         localStorage.setItem("torneo_ganado7reinas", false); //Indica que no se ha ganado el torneo
-        if (!(JSON.parse(localStorage.getItem("reanudada7reinas")))) {
-          console.log('PEDIMOS LAS MANOS AL INICIAR')
-          ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
-        }
+        // if (!(JSON.parse(localStorage.getItem("reanudada7reinas")))) {
+        //   console.log('PEDIMOS LAS MANOS AL INICIAR')
+        //   ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+        // }
         break;
 
-      case "Partida_reanudada":
+      case "Partida_Creada":
         await sleep(1000);
         console.log('PEDIMOS LAS MANOS AL REANUDAR');
         ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
@@ -337,7 +336,6 @@ const Admin = (props) => {
             if(!torneo_ganado) {
               localStorage.setItem("ganadorxronda7reinas", parseInt(mensaje.info));
               setRoundWinner(parseInt(mensaje.info));
-              resetear_partida_torneo(ws);  
             }
           } else {
             localStorage.setItem("ganadorx7reinas", parseInt(mensaje.info));
@@ -360,7 +358,6 @@ const Admin = (props) => {
             if(!torneo_ganado) {
               localStorage.setItem("ganadorxronda7reinas", parseInt(mensaje.info));
               setRoundWinner(parseInt(mensaje.info));
-              resetear_partida_torneo(ws);  
             }
           } else {
             localStorage.setItem("ganadorx7reinas", parseInt(mensaje.info));
@@ -384,7 +381,6 @@ const Admin = (props) => {
             if(!torneo_ganado) {
               localStorage.setItem("ganadorxronda7reinas", parseInt(mensaje.info));
               setRoundWinner(parseInt(mensaje.info));
-              resetear_partida_torneo(ws);  
             }
           } else {
             localStorage.setItem("ganadorx7reinas", parseInt(mensaje.info));
@@ -451,7 +447,6 @@ const Admin = (props) => {
             if(!torneo_ganado) {
               localStorage.setItem("ganadorxronda7reinas", parseInt(mensaje.ganador));
               setRoundWinner(parseInt(mensaje.ganador));
-              resetear_partida_torneo(ws);  
             }
           } else {
             localStorage.setItem("ganadorx7reinas", parseInt(mensaje.ganador));
@@ -480,7 +475,7 @@ const Admin = (props) => {
   const wsGameInstance = useMemo(() => {
     if (!wsGame/* && currentGame !== null && currentGame !== undefined && currentGame !== ""*/) {
       console.log("WSgAME ES TORNEO: "+localStorage.getItem("es_torneo7reinas"));
-      const ws = new WebSocket(`ws://13.93.90.135:3001/api/ws/partida/${currentGame}`);
+      const ws = new WebSocket(`ws://20.160.173.253:3001/api/ws/partida/${currentGame}`);
       ws.onopen = () => {
         console.log(`Conectado a la partida ${currentGame}`);
         setSePuedeEnviarGame(true);
@@ -528,7 +523,7 @@ const Admin = (props) => {
     if (!wsTorneo/* && currentGame !== null && currentGame !== undefined && currentGame !== ""*/) {
       //console.log("wSesTorneo-es_torneo: "+JSON.parse(localStorage.getItem("es_torneo7reinas")));
       if(JSON.parse(localStorage.getItem("es_torneo7reinas"))){
-        const ws = new WebSocket(`ws://13.93.90.135:3001/api/ws/torneo/${currentGame}`);
+        const ws = new WebSocket(`ws://20.160.173.253:3001/api/ws/torneo/${currentGame}`);
         ws.onopen = () => {
           console.log(`Conectado a al Torneo: ${currentGame}`);
           setSePuedeEnviarGame(true);
@@ -616,18 +611,18 @@ const Admin = (props) => {
             //setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]); //Ponemos un valor inicial para evitar error
             localStorage.setItem("torneo_ganado7reinas", false); //Indica que no se ha ganado el torneo
 
-            if (!(JSON.parse(localStorage.getItem("reanudada7reinas")))) {
-              console.log('PEDIMOS LAS MANOS AL INICIAR')
-              const ws2 = new WebSocket(`ws://13.93.90.135:3001/api/ws/partida/${currentGame}`);
-              ws2.onopen = () => {
-                console.log(`PEDIR CARTAS`);
-                ws2.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
-                ws2.close();
-              }
-              ws2.onclose = () => {
-                console.log(`SALIDO`);
-              }
-            }
+            // if (!(JSON.parse(localStorage.getItem("reanudada7reinas")))) {
+            //   console.log('PEDIMOS LAS MANOS AL INICIAR')
+            //   const ws2 = new WebSocket(`ws://20.160.173.253:3001/api/ws/partida/${currentGame}`);
+            //   ws2.onopen = () => {
+            //     console.log(`PEDIR CARTAS`);
+            //     ws2.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+            //     ws2.close();
+            //   }
+            //   ws2.onclose = () => {
+            //     console.log(`SALIDO`);
+            //   }
+            // }
           } else if(mensaje.tipo === "Partida_terminada"){
             //setpuntosTorneo([]);
             //localStorage.setItem("puntosTorneo7reinas", JSON.stringify([]));
@@ -639,9 +634,11 @@ const Admin = (props) => {
             setPlayers(players);
             localStorage.setItem("jugadorxs7reinas", JSON.stringify(players));
 
-            if(mensaje.ganador != ""){
+            if(mensaje.ganador == ""){
               //El resto del código esta en este enlace
               //https://github.com/UNIZAR-30226-2023-07/Frontend-movil/blob/4e6f853857d7e37a79a62eccdd462a874e2fe93b/Aplicacion/lib/pages/board_page.dart
+              resetear_partida_torneo();
+            } else {
               localStorage.setItem("torneo_ganado7reinas", true); //Indica que se ha ganado el torneo
 
               let usuario = JSON.parse(localStorage.getItem("usuario7reinas"));
@@ -667,7 +664,7 @@ const Admin = (props) => {
 
   const wsGameChatInstance = useMemo(() => {
     if (!wsGameChat/* && currentGame !== null && currentGame !== undefined && currentGame !== ""*/) {
-      const ws = new WebSocket(`ws://13.93.90.135:3001/api/ws/chat/lobby/${currentGame}`);
+      const ws = new WebSocket(`ws://20.160.173.253:3001/api/ws/chat/lobby/${currentGame}`);
       ws.onopen = () => {
         console.log(`Conectado al chat de la partida ${currentGame}`);
         setWsGameChat(ws);

@@ -19,6 +19,6 @@ export default function startGame (me, clavePartida, conBots, doNext) {
             console.log("Error al iniciar la partida");
         }
     }
-    xhr.open('POST', `http://13.93.90.135:3001/api/partida/iniciar`);
+    xhr.open('POST', `http://20.160.173.253:3001/api/partida/iniciar`);
     xhr.send(JSON.stringify({ codigo: me, clave: clavePartida.toString(), bot:(conBots?"si":"no") }));
 }

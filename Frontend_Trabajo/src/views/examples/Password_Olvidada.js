@@ -64,7 +64,7 @@ import {
           }
         }
         // Abrimos una request de tipo post en nuestro servidor
-        xhr.open('POST', 'http://13.93.90.135:3001/api/auth/mod-login');
+        xhr.open('POST', 'http://20.160.173.253:3001/api/auth/mod-login');
     
         //Mandamos la request con el email y la contraseña
         xhr.send(JSON.stringify({ email: email, contra: encryptedPassword }));
