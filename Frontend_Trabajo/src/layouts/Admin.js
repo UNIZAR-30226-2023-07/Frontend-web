@@ -146,17 +146,17 @@ const Admin = (props) => {
     localStorage.setItem("herobado7reinas", false); //Inicialmente es false
     console.log(sessionUser.codigo);
     setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]); //Ponemos un valor inicial para evitar error
-    console.log('PEDIMOS LAS MANOS AL INICIAR');
-    //ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
-    const wsTemp = new WebSocket(`ws://20.160.173.253:3001/api/ws/partida/${currentGame}`);
-    wsTemp.onopen = () => {
-      console.log(`PEDIR CARTAS`);
-      wsTemp.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
-      wsTemp.close();
-    }
-    wsTemp.onclose = () => {
-      console.log(`SALIDO`);
-    }
+    // console.log('PEDIMOS LAS MANOS AL INICIAR');
+    // //ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+    // const wsTemp = new WebSocket(`ws://20.160.173.253:3001/api/ws/partida/${currentGame}`);
+    // wsTemp.onopen = () => {
+    //   console.log(`PEDIR CARTAS`);
+    //   wsTemp.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
+    //   wsTemp.close();
+    // }
+    // wsTemp.onclose = () => {
+    //   console.log(`SALIDO`);
+    // }
   }
 
   const comportamiento_partida = async (mensaje, ws) => {
