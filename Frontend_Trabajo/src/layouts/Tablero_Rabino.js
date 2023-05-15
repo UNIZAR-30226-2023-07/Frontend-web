@@ -359,7 +359,7 @@ function Tablero_Rabino(props) {
         </div>
       </div>
       {roundWinner == null ? null :
-        roundWinner === myTurn ?
+        roundWinner === parseInt(myTurn) ?
         <Card className="game-action-bar round-winner me">
           <h3 className="mx-4 my-0 white-text">¡Enhorabuena! <span className="font-weight-bolder">Has ganado</span> la ronda anterior.</h3>
         </Card>

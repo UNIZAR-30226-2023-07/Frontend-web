@@ -32,6 +32,7 @@ import routes from "routes.js";
 //import friends from "friends.js";
 //import friendRequests from "friendRequests.js";
 import informacion_Web from "informacion_Web.js";
+import getUser from "hooks/getter/getUser";
 import getUserForGame from "hooks/getter/getUserForGame";
 import getFriends from "hooks/getter/getFriends";
 import getFriendRequests from "hooks/getter/getFriendRequests";
@@ -353,7 +354,9 @@ const Admin = (props) => {
             }
           } else {
             localStorage.setItem("ganadorx7reinas", parseInt(mensaje.info));
-            history.push("/admin/gameend");
+            getUser(sessionUser.correo, () => {
+              history.push("/admin/gameend");
+            });
           }
         } else if (/*GANADOR*/true) {
           /*Acciones por ganar*/
@@ -375,7 +378,9 @@ const Admin = (props) => {
             }
           } else {
             localStorage.setItem("ganadorx7reinas", parseInt(mensaje.info));
-            history.push("/admin/gameend");
+            getUser(sessionUser.correo, () => {
+              history.push("/admin/gameend");
+            });
           }
         } else if (/*GANADOR*/false) {
           /*Acciones por ganar*/
@@ -398,7 +403,9 @@ const Admin = (props) => {
             }
           } else {
             localStorage.setItem("ganadorx7reinas", parseInt(mensaje.info));
-            history.push("/admin/gameend");
+            getUser(sessionUser.correo, () => {
+              history.push("/admin/gameend");
+            });
           }
         } else if (/*GANADOR*/false) {
           /*Acciones por ganar*/
@@ -451,7 +458,8 @@ const Admin = (props) => {
 
         // Actualizar las manos de los jugadores
           if (!(/^bot(\d+)$/).test(JSON.parse(localStorage.getItem("jugadorxs7reinas"))[parseInt(mensaje.turno)].codigo) && parseInt(mensaje.turno)==myTurn)
-            {ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));}
+            { console.log('PEDIMOS LAS MANOS AL DESCARTAR');
+              ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));}
           else console.log ("VA A JUGAR UN BOT. NO ACTUALIZAMOS.")
           localStorage.setItem("herobado7reinas", false); //Indica si ha robado el jugador
         }
@@ -464,7 +472,9 @@ const Admin = (props) => {
             }
           } else {
             localStorage.setItem("ganadorx7reinas", parseInt(mensaje.ganador));
-            history.push("/admin/gameend");
+            getUser(sessionUser.correo, () => {
+              history.push("/admin/gameend");
+            });
           }
         }
         break;
@@ -671,7 +681,9 @@ const Admin = (props) => {
               });
               localStorage.setItem("usuario7reinas", JSON.stringify(usuario));
               localStorage.setItem("ganadorx7reinas", parseInt(mensaje.ganador));
-              history.push("/admin/gameend");
+              getUser(sessionUser.correo, () => {
+                history.push("/admin/gameend");
+              });
             }
           }
         }      
