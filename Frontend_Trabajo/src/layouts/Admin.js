@@ -164,14 +164,13 @@ const Admin = (props) => {
     let myHand = [], mydescartes = [];
 
     if ( (mensaje.tipo).substring(0, 13) === "Nuevo_Jugador" ) {
-        let nuevoJugador = mensaje.tipo.split(":");
-        //if (nuevoJugador[1].trim() !== sessionUser.codigo)
-          getUserForGame(nuevoJugador[1].trim(), () => {
-            setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
-            console.log("El nuevo jugador: "+(mensaje.tipo).substring(15));
-            console.log("El nuevo jugador 2: "+JSON.stringify(players));
-            //localStorage.setItem("jugadorxs7reinas", JSON.stringify(players)); //Inicialmnete es vacia
-        });
+      let nuevoJugador = mensaje.tipo.slice(mensaje.tipo.indexOf(":")+2);
+      getUserForGame(nuevoJugador, () => {
+        setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+        console.log("El nuevo jugador: "+(mensaje.tipo).substring(15));
+        console.log("El nuevo jugador 2: "+JSON.stringify(players));
+        //localStorage.setItem("jugadorxs7reinas", JSON.stringify(players)); //Inicialmnete es vacia
+      });
         //setPlayers(players.push(nuevoJugador)); //Apilamos el nuevo jugador
     } else
     switch (mensaje.tipo) {
@@ -593,7 +592,7 @@ const Admin = (props) => {
           let puntos;
 
           if ( (mensaje.tipo).substring(0, 13) === "Nuevo_Jugador" ) {
-            let nuevoJugador = (mensaje.tipo).substring(15);
+            let nuevoJugador = mensaje.tipo.slice(mensaje.tipo.indexOf(" ")+3);
             getUserForGame(nuevoJugador, () => {
               setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
               console.log("El nuevo jugador: "+(mensaje.tipo).substring(15));
