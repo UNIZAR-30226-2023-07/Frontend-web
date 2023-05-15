@@ -92,7 +92,8 @@ const UserNavbar = (props) => {
               />
             </NavbarBrand>
           ) : null}
-          {(location.pathname == "/admin/partida" || location.pathname == "/admin/gamepaused" || location.pathname == "/admin/gameend")? 
+          {(location.pathname == "/admin/partida" || location.pathname == "/admin/gamepaused" || location.pathname == "/admin/gameend"
+            || location.pathname == "/admin/gamelobby")? 
           <span className="mr-1"></span>:(
           <Link
             className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block ml--7"
@@ -101,7 +102,8 @@ const UserNavbar = (props) => {
             Jugar
           </Link>
           )}
-          {(location.pathname == "/admin/partida" || location.pathname == "/admin/gamepaused" || location.pathname == "/admin/gameend")? 
+          {(location.pathname == "/admin/partida" || location.pathname == "/admin/gamepaused" || location.pathname == "/admin/gameend"
+            || location.pathname == "/admin/gamelobby")?  
           <span className="mr-1"></span>:(
           <Link
             className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block ml--7"
