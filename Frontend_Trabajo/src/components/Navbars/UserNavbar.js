@@ -16,7 +16,7 @@
 
 */
 //import { Link } from "react-router-dom";
-import { NavLink as NavLinkRRD, Link } from "react-router-dom";
+import { NavLink as NavLinkRRD, Link, useLocation } from "react-router-dom";
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
 import SoundEnvironment from "../SoundEnvironment/SoundEnvironment.js"
@@ -55,6 +55,8 @@ const UserNavbar = (props) => {
   const { bgColor, logo, informacion_Web} = props;
   let sessionUser = JSON.parse(localStorage.getItem("usuario7reinas"));
 
+  const location = useLocation();
+
   //Variable que guarda el volumen de la música
   const [Volumen_mus, setVolumen_mus] = useState(informacion_Web.volumen);
 
@@ -90,18 +92,24 @@ const UserNavbar = (props) => {
               />
             </NavbarBrand>
           ) : null}
+          {(location.pathname == "/admin/partida" || location.pathname == "/admin/gamepaused" || location.pathname == "/admin/gameend")? 
+          <span className="mr-1"></span>:(
           <Link
             className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block ml--7"
             to="/admin/"
           >
             Jugar
           </Link>
+          )}
+          {(location.pathname == "/admin/partida" || location.pathname == "/admin/gamepaused" || location.pathname == "/admin/gameend")? 
+          <span className="mr-1"></span>:(
           <Link
             className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block ml--7"
             to="/admin/perfil_usuario"
           >
             Perfil
           </Link>
+          )}
           {/* <Link
             className="h4 mb-0 text-white text-uppercase d-lg-none d-lg-inline-block ml--9"
             to="/admin/tables"

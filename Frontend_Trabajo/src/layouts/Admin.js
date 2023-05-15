@@ -135,6 +135,28 @@ const Admin = (props) => {
     return wsChat;
   }, [wsChat, chatOpen, chatUser, friends, sessionUser.codigo]);
 
+
+  const resetear_datos_partida = () => {
+    //Reseteamos los datos de la partida
+    localStorage.removeItem('juego7reinas');
+    localStorage.removeItem('pConectada7reinas');
+    localStorage.removeItem('jugadorxs7reinas');
+    localStorage.removeItem('jGetUser7reinas');
+    localStorage.removeItem('miturno7reinas');
+    localStorage.removeItem('mano7reinas');
+    localStorage.removeItem('tablero7reinas');
+    localStorage.removeItem('descarte7reinas');
+    localStorage.removeItem('turno7reinas');
+    localStorage.removeItem('heabierto7reinas');
+    localStorage.removeItem('herobado7reinas');
+    localStorage.removeItem('part_pausadas7reinas');
+    localStorage.removeItem("es_torneo7reinas");
+    localStorage.removeItem("puntosTorneo7reinas");
+    localStorage.removeItem("ganadorxronda7reinas");
+    localStorage.removeItem("ganadorx7reinas");
+    localStorage.removeItem("torneo_ganado7reinas");
+    localStorage.removeItem("reanudada7reinas");    
+  }
   //Se usa para resetar la partida cuando estas en un torneo
   const resetear_partida_torneo = () => {
     console.log("RESETEAMOS PARTIDA DE TORNEO");
