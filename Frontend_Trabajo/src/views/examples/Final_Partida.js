@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 // core components
 //import UserHeader from "components/Headers/UserHeader.js";
 import SelectImgUser from "hooks/SelectImgUser.js";
+import borrar_datos_partida from "hooks/getter/borrar_datos_partida.js";
 
 const Final_Partida = (props) => { 
 
@@ -77,7 +78,7 @@ const Final_Partida = (props) => {
               {showPlayers(players, winner)}
             </Row>
             <Row style={{marginTop: "3rem", justifyContent: "center"}}>
-              <Button variant="primary" color="primary" onClick={() => history.push("/admin")}>
+              <Button variant="primary" color="primary" onClick={() => {history.push("/admin"); borrar_datos_partida();}}>
                 VOLVER A INICIO
               </Button>
             </Row>
