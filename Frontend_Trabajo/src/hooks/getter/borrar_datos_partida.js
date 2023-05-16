@@ -10,7 +10,6 @@ export default function borrar_datos_partida () {
     sessionStorage.removeItem('turno7reinas');
     sessionStorage.removeItem('heabierto7reinas');
     sessionStorage.removeItem('herobado7reinas');
-    sessionStorage.removeItem('part_pausadas7reinas');
     sessionStorage.removeItem("es_torneo7reinas");
     sessionStorage.removeItem("puntosTorneo7reinas");
     sessionStorage.removeItem("ganadorxronda7reinas");
