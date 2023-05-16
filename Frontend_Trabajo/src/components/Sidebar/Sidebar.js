@@ -253,7 +253,7 @@ const Sidebar = (props) => {
     if (friends != null) {
       return (
         <h6 className="text-center navbar-heading text-muted my-2">
-          Amistades
+          Ranking
         </h6>
       );
     }
@@ -284,11 +284,11 @@ const Sidebar = (props) => {
                     src={SelectImgUser(prop.Foto)}
                   />
                 </span>
-                <Media className="ml-2 d-none d-lg-block">
+                <span className="ml-2 d-none d-block">
                   <span className="mb-0 text-sm font-weight-bold">
                   {prop.Nombre}{notSeenMsgs(prop.Codigo, messages)}<br/>{prop.Puntos} <span className="text-xs">puntos</span>
                   </span>
-                </Media>
+                </span>
               </Media>
             </DropdownToggle>
             <DropdownMenu className="dropdown-menu-arrow" positionFixed style={{width:"5rem"}}>
@@ -350,7 +350,7 @@ const Sidebar = (props) => {
   return (
     <Navbar
       className="user-sidebar navbar-vertical fixed-right bg-white no-content"
-      expand="md"
+      expand="sm"
       id="sidenav-main"
       // style={{"overflow":"hidden"}}
     >

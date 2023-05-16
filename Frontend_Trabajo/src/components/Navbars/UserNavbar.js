@@ -84,7 +84,13 @@ const UserNavbar = (props) => {
       <Navbar className="navbar-top navbar-dark py-4" expand="md" id="navbar-main">
         <Container fluid className="navbar-reinas">
           {logo ? (
-            <NavbarBrand className="pt-0" {...navbarBrandProps}>
+            <NavbarBrand className="pt-0" {...navbarBrandProps}
+              onClick={event => {if(location.pathname == "/admin/partida" ||
+                                    location.pathname == "/admin/gamepaused" ||
+                                    location.pathname == "/admin/gameend" ||
+                                    location.pathname == "/admin/gamelobby")
+                                  event.preventDefault();
+              }}>
               <img
                 alt={logo.imgAlt}
                 className="navbar-brand-img logo-7-reinas"

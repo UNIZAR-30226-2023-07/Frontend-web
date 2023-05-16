@@ -138,7 +138,7 @@ const Index = (props) => {
           <td>
               <span className="h3">{prop.Clave}</span>
           </td>
-          <td>
+          <td style={{padding:0}}>
             <Button variant="primary" color="primary" className="ml-5" onClick={() => {
               joinGame(sessionUser, prop.Clave,
                 () => {
@@ -165,10 +165,11 @@ const Index = (props) => {
   return (
     <>
       <Container fluid className="d-flex px-5 pt-5 pb-4 m-0">
-        <Card className="start-join-game start-card">
+        <Card className="start-join-game rounded-card">
           <CardTitle
             tag="h5"
-            className="h2 font-weight-bold align-center mb-0 mt-2"
+            className="h2 font-weight-bolder justify-content-center mb-0 mt-2 d-flex overflow-hidden"
+            style={{textOverflow:"ellipsis", whiteSpace:"nowrap"}}
             >
             Unirse a partida
           </CardTitle>
@@ -188,8 +189,9 @@ const Index = (props) => {
                   () => setErrorUnirse(true),
                   false, true
             )}}>
-              <FormGroup className="d-flex flex-row-reverse">
-                <Button variant="primary" color="primary" className="m-0">
+              <FormGroup className="d-flex flex-row-reverse justify-content-center">
+                <Button variant="primary" color="primary" className="m-0 d-flex justify-content-center"
+                  style={{width:"30%", minWidth:"5rem", textOverflow:"ellipsis"}}>
                   Unirse
                 </Button>
                 <Input
@@ -205,81 +207,91 @@ const Index = (props) => {
             {ErrorUnirse && <p className="text-red mb--1 align-center"> Error al unirse</p>}
           </CardBody>
         </Card>
-        <Card className="start-create-game start-card">
+        <Card className="start-create-game rounded-card">
           <CardTitle
             tag="h5"
-            className="h2 font-weight-bold align-center mb-0 mt-2"
+            className="h2 font-weight-bolder justify-content-center mb-0 mt-2 d-flex overflow-hidden"
+            style={{textOverflow:"ellipsis", whiteSpace:"nowrap"}}
             >
               Crear Partida
           </CardTitle>
           <CardBody className="p-2 px-4">
             <div className="d-flex justify-content-center">
-              <Button color="primary"
-                className="" onClick={() => {
-                createGame(sessionUser, "amistosa",
-                  () => {
-                    localStorage.setItem("reanudada7reinas", JSON.stringify(false));
-                    setAreWeResuming(false);
-                    setGame(localStorage.getItem("juego7reinas"));
-                    setIsTournament(false);
-                    setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
-                    setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]);
-                    history.push("/admin/gamelobby")
-                  },
-                  () => setErrorCrear(true)
+              <Button color="primary" className="d-flex justify-content-end"
+                style={{minWidth:"4rem", whiteSpace:"nowrap", textOverflow:"ellipsis"}}
+                onClick={() => {
+                  createGame(sessionUser, "amistosa",
+                    () => {
+                      localStorage.setItem("reanudada7reinas", JSON.stringify(false));
+                      setAreWeResuming(false);
+                      setGame(localStorage.getItem("juego7reinas"));
+                      setIsTournament(false);
+                      setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+                      setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]);
+                      history.push("/admin/gamelobby")
+                    },
+                    () => setErrorCrear(true)
               )}}>
-                Partida Normal
+                <span className="d-flex justify-content-end overflow-hidden w-100">Partida Normal</span>
               </Button>
-              <Button color="primary"
-                className="" onClick={() => {
-                createGame(sessionUser, "torneo",
-                  () => {
-                    localStorage.setItem("reanudada7reinas", JSON.stringify(false));
-                    setAreWeResuming(false);
-                    setGame(localStorage.getItem("juego7reinas"));
-                    setIsTournament(true);
-                    setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
-                    setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]);
-                    history.push("/admin/gamelobby")
-                  },
-                  () => setErrorCrear(true)
+              <Button color="primary" className="d-flex justify-content-end"
+                style={{minWidth:"4rem", whiteSpace:"nowrap", textOverflow:"ellipsis"}}
+                onClick={() => {
+                  createGame(sessionUser, "torneo",
+                    () => {
+                      localStorage.setItem("reanudada7reinas", JSON.stringify(false));
+                      setAreWeResuming(false);
+                      setGame(localStorage.getItem("juego7reinas"));
+                      setIsTournament(true);
+                      setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+                      setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]);
+                      history.push("/admin/gamelobby")
+                    },
+                    () => setErrorCrear(true)
               )}}>
-                Partida Clasificatoria
+                <span className="d-flex justify-content-end overflow-hidden w-100">Partida Clasificatoria</span>
               </Button>
             </div>
             {ErrorCrear && <p className="text-red mb--1 align-center"> Error al crear una partida</p>}
           </CardBody>
         </Card>
       </Container>
-      <Container className="d-flex px-5 pb-5 m-0">
-        <Card className="bg-secondary shadow start-card mx-0" style={{width:'100%', height: '25rem', overflowY: 'scroll', overflowX: 'hidden'}} >
-          <CardHeader className="border-0">
-            <Row>
-              <Col style={{width:"50%"}}>
-                <h3 className="mb-0">Partidas Pausadas</h3>
-              </Col>
+      <Container className="d-flex px-5 pb-5 m-0 paused-games">
+        <Card className="bg-secondary shadow rounded-card mx-0 paused-games-card" >
+          <CardTitle
+            tag="h5"
+            className="h2 font-weight-bolder justify-content-center mb-0 mt-2 d-flex overflow-hidden"
+            style={{textOverflow:"ellipsis", whiteSpace:"nowrap"}}
+            >
+              Partidas Pausadas
+          </CardTitle>
+          {/* <CardHeader className="border-0"> */}
+            {/* <Row>
+              <Col style={{width:"50%"}}> */}
+                {/* <h3 className="mb-0">Partidas Pausadas</h3> */}
+              {/* </Col>
               <Col style={{width:"50%"}}>
                 <h3 className="mb-0">Ranking</h3>
               </Col>
-            </Row>
-          </CardHeader>
-          <Row>
-            <Col style={{width:"50%"}}>
+            </Row> */}
+          {/* </CardHeader> */}
+          {/* <Row>
+            <Col style={{width:"50%"}}> */}
               <Table className="align-items-center table-flush" responsive>
-                <thead className="thead-light">
+                {/* <thead className="thead-light">
                   <tr>
                     <th scope="col">Nombre</th>
                     <th scope="col">Clave</th>
                     <th scope="col" />
                   </tr>
-                </thead>
+                </thead> */}
 
                 <tbody>
                   {showPart_Pausadas()}
                 </tbody>
               </Table>
-            </Col>
-            <Col>
+            {/* </Col> */}
+            {/* <Col>
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>
@@ -295,8 +307,8 @@ const Index = (props) => {
                   {showRanking_jug()}
                 </tbody>
               </Table>
-            </Col>
-          </Row>
+            </Col> */}
+          {/* </Row> */}
         </Card>
       </Container>
     </>

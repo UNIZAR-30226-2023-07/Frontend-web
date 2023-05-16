@@ -3,12 +3,14 @@ import {
     Card,
     CardHeader,
     CardBody,
+    CardTitle,
     FormGroup,
     Input,
     Table,
     Container,
     Row,
     Col,
+    Progress
   } from "reactstrap";
 
   import React, { useState } from "react"
@@ -32,6 +34,7 @@ import {
 
   
   import SelectImgUser from "hooks/SelectImgUser.js";
+import deleteAccount from "hooks/setter/deleteAccount";
 
   const Ajustes_Perfil = (props) => {
     const history = useHistory();
@@ -40,6 +43,7 @@ import {
 
     const [Nombre_U, setNombre_U] = useState(sessionUser.nombre);
     const [Descrp_U, setDescrp_U] = useState(sessionUser.descrp);
+    const [Passwd_U, setPasswd_U] = useState(sessionUser.descrp);
     const [Imagen, setImagen] = useState(sessionUser.foto);
 
     const handleNombre_UChange = event => {
@@ -48,6 +52,10 @@ import {
 
     const handleDescrp_UChange = event => {
       setDescrp_U(event.target.value)
+    };
+
+    const handlePasswd_UChange = event => {
+      setPasswd_U(event.target.value)
     };
 
 
@@ -88,69 +96,97 @@ import {
     xhr.send(JSON.stringify({ email: sessionUser.correo, nombre: Nombre_U, foto: Imagen , descp: (Descrp_U==null || Descrp_U==="") ? " " : Descrp_U }));
   };
 
+  function porcentaje_victorias(vic, der){
+    return ((vic*1.0)/(vic + der))*100;
+  };
+
     return (
       <>
         {/* <Header /> */}
         {/* Page content */}
-        <Container className="mt-6" fluid>
+        <Container className="mt-5 p-5" fluid>
           <Row>
             <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
-              <Card className="card-profile shadow">
+              <Card className="card-profile shadow rounded-card">
                 <Row className="justify-content-center">
                   <Col className="order-lg-2" lg="3">
                     <div className="card-profile-image">
-                      <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                      {/* <a href="#pablo" onClick={(e) => e.preventDefault()}> */}
                         <img
                           alt="..."
                           className="rounded-circle"
-                          src={SelectImgUser(Imagen)}
+                          src={SelectImgUser(sessionUser.foto)}
                         />
-                      </a>
+                      {/* </a> */}
                     </div>
                   </Col>
                 </Row>
-                <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-                </CardHeader>
-                <CardBody className="pt-0 pt-md-5">
-                  <Row>
-                    <div className="col">
-                      <div className="card-profile-stats d-flex justify-content-center mt-md-4">
-                        <div>
-                          <span className="heading">{sessionUser.codigo}</span>
-                          <span className="description">Código</span>
-                        </div>
-                        <div>
-                          <span className="heading">{sessionUser.puntos}</span>
-                          <span className="description">#Puntos</span>
-                        </div>
-                      </div>
+                <CardBody className="pt-0 pt-md-4">
+                  <Row className="mt-8 d-flex justify-content-center">
+                    <h1 className="font-weight-bolder">
+                      {sessionUser.nombre}
+                    </h1>
+                  </Row>
+                  <Row className="d-flex justify-content-center">
+                    <h2 className="font-weight-normal">
+                      {sessionUser.codigo} · {sessionUser.puntos} puntos
+                    </h2>
+                  </Row>
+                  {sessionUser.descrp === "" || sessionUser.descrp === " " || sessionUser.descrp === null ? null :
+                    <Row className="d-flex justify-content-center align-center">
+                      <h3 className="font-weight-normal">
+                        {sessionUser.descrp}
+                      </h3>
+                    </Row>
+                  }
+                  <Row className="d-flex justify-content-center">
+                    <h3 className="font-weight-light">
+                      {sessionUser.correo}
+                    </h3>
+                  </Row>
+                  <Row className="d-flex card-profile-stats py-0 justify-content-center">
+                    <div>
+                      <span className="heading">{sessionUser.pjugadas}</span>
+                      <span className="description">Jugadas</span>
+                    </div>
+                    <div>
+                      <span className="heading">{sessionUser.pganadas}</span>
+                      <span className="description">Ganadas</span>
+                    </div>
+                    <div>
+                      <span className="heading">{sessionUser.pperdidas}</span>
+                      <span className="description">Perdidas</span>
                     </div>
                   </Row>
-                  <div className="text-left">
-                    <h3>
-                      <span className="font-weight-bold">Usuario:</span>
-                      <div>
-                      <span className="font-weight-light">{sessionUser.nombre}</span>
-                      </div>
-                    </h3>
-                    <h3>
-                      <span className="font-weight-bold">Correo:</span>
-                      <div>
-                      <span className="font-weight-light">{sessionUser.correo}</span>
-                      </div>
-                    </h3>
-                  </div>
+                  <Row className="d-flex align-items-center justify-content-center">
+                    <span className="mr-2">{sessionUser.pjugadas > 0 ? Math.round(porcentaje_victorias(sessionUser.pganadas, sessionUser.pperdidas)) : 50}%</span>
+                    <Progress
+                      max="100"
+                      value={porcentaje_victorias(sessionUser.ppganadas, sessionUser.pperdidas)}
+                      style={{width: "15vw"}}
+                      className="mb-0"
+                      barClassName={Math.round(porcentaje_victorias(sessionUser.ppganadas, sessionUser.pperdidas)) < 10 ? "percent10" :
+                                    Math.round(porcentaje_victorias(sessionUser.ppganadas, sessionUser.pperdidas)) < 30 ? "percent30" :
+                                    Math.round(porcentaje_victorias(sessionUser.ppganadas, sessionUser.pperdidas)) < 50 ? "percent50" :
+                                    Math.round(porcentaje_victorias(sessionUser.ppganadas, sessionUser.pperdidas)) < 70 ? "percent70" :
+                                    Math.round(porcentaje_victorias(sessionUser.ppganadas, sessionUser.pperdidas)) < 90 ? "percent90" : "percent100"}
+                    />
+                  </Row>
                 </CardBody>
               </Card>
             </Col>
             <Col className="order-xl-1" xl="8">
-              <Card className="bg-secondary shadow">
-                <CardHeader className="border-0">
-                    <h3 className="mb-0">Modificar Datos de Perfil</h3>
-                </CardHeader>
-                  <div className="pl-lg-4">
+              <Card className="bg-secondary shadow rounded-card mb-4">
+                <CardTitle
+                  tag="h5"
+                  className="h2 font-weight-bolder justify-content-center mb-0 mt-2 d-flex overflow-hidden"
+                  style={{textOverflow:"ellipsis", whiteSpace:"nowrap"}}
+                  >
+                    Modificar perfil
+                </CardTitle>
+                  <div className="px-4">
                     <Row>
-                      <Col lg="5">
+                      <Col>
                         <FormGroup>
                           <label
                             className="form-control-label"
@@ -171,7 +207,7 @@ import {
                       </Col>
                     </Row>
                     <Row>
-                      <Col md="10">
+                      <Col>
                         <FormGroup>
                           <label
                             className="form-control-label"
@@ -191,11 +227,13 @@ import {
                         </FormGroup>
                       </Col>
                     </Row>
+                    <span
+                      className="form-control-label"
+                      style={{width:"15rem"}}>
+                        Imágenes de Usuario
+                    </span>
                   </div>
                 <Table className="align-items-center table-flush" responsive>
-                    <Row className="ml-4">
-                      <span className="form-control-label">Imágenes de Usuario</span>
-                    </Row>
                     <tbody>
                     <tr>
                       <td>
@@ -331,6 +369,52 @@ import {
                 <Col lg="4" md={{ span: 4, offset: 4 }}>
                   <Button className="my-4 mx-5" color="primary" onClick={modificar_usuario}>
                     Modificar
+                  </Button>
+                </Col>
+              </Card>
+
+
+
+              <Card className="bg-secondary shadow rounded-card">
+                <CardTitle
+                  tag="h5"
+                  className="h2 font-weight-bolder justify-content-center mb-0 mt-2 d-flex overflow-hidden"
+                  style={{textOverflow:"ellipsis", whiteSpace:"nowrap"}}
+                  >
+                    Eliminar cuenta
+                </CardTitle>
+                  <p4 className="align-center">Introduce de nuevo la contraseña para borrar la cuenta.</p4>
+                  <div className="px-8">
+                    <Row>
+                      <Col>
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-username"
+                          >
+                            Contraseña
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            // defaultValue={sessionUser.nombre}
+                            id="input-contrasenya"
+                            placeholder="Contraseña"
+                            type="password"
+                            onChange={handlePasswd_UChange}
+                            value={Passwd_U}
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </div>
+                
+                <Col lg="4" md={{ span: 4, offset: 4 }}>
+                  <Button className="mb-4 mx-5" color="primary" onClick={() => {
+                    deleteAccount(sessionUser.codigo, sessionUser.correo, Passwd_U, () => {
+                      history.push("/");
+                    });
+                  }}>
+                    Borrar cuenta
                   </Button>
                 </Col>
               </Card>

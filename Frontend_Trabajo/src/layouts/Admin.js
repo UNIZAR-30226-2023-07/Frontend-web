@@ -107,18 +107,9 @@ const Admin = (props) => {
       ws.onmessage = (event) => {
         console.log(event.data);
         let msg = JSON.parse(event.data);
-        if (msg.emisor === "Servidor")
-          switch(msg.contenido) {
-            case "Accept":
-              updateFriends();
-              updateFriendRequests();
-              break;
-            case "Remove":
-              updateFriends();
-              break;
-            default:
-              updateFriendRequests();
-              break;
+        if (msg.emisor === "Servidor"){
+          updateFriends();
+          updateFriendRequests();
         }
         else {
           msg = {Emisor: msg.Emisor, Receptor: msg.Receptor, Contenido: msg.Contenido, Leido: (chatOpen && chatUser>=0 && friends[chatUser].Codigo===msg.emisor) ? 1 : 0};

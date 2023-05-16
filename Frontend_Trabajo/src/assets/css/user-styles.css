@@ -574,6 +574,19 @@
 	width: min-content;
 }
 
-.start-card {
+.rounded-card {
 	border-radius: 0.75rem;
+}
+
+.paused-games {
+	display: flex;
+	justify-content: center;
+}
+
+.paused-games-card {
+	width: 60%;
+	height: 25rem;
+	min-width: 30rem;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
