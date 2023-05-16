@@ -266,6 +266,12 @@ function Tablero_Rabino(props) {
             "tipo": "Descarte",
             "info": (hand.findIndex(card => card.comb === 0)).toString()
           }));
+          let mano = hand;
+          mano.splice(hand.findIndex(card => card.comb === 0), 1); //Borramos ese elemento
+          sessionStorage.setItem("mano7reinas", JSON.stringify(mano)); //Inicialmnete es vacia
+          setHand(mano);
+          console.log('Mano al descartar: ');
+          console.log(JSON.stringify(mano));
         } else {
           console.log('Para descartar, seleccione una sola carta.');
         }
