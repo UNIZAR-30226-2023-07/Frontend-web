@@ -11,8 +11,6 @@ import BastosSota from "assets/img/cards/bastosSota.png";
 import BastosCaballo from "assets/img/cards/bastosCaballo.png";
 import BastosRey from "assets/img/cards/bastosRey.png";
 import Comodin from "assets/img/cards/comodinFigura.png";
-//NUEVO
-import Joker from "../figureComponents/Joker_rabino";
 
 const FigureCardCenter = ({ name, number }) => {
   const FigureContent = () => {

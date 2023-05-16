@@ -81,7 +81,7 @@ const UserNavbar = (props) => {
 
   return (
     <>
-      <Navbar className="navbar-top navbar-dark py-4" expand="md" id="navbar-main">
+      <Navbar className="navbar-top navbar-dark p-4" expand="xs" id="navbar-main">
         <Container fluid className="navbar-reinas">
           {logo ? (
             <NavbarBrand className="pt-0" {...navbarBrandProps}

@@ -13,8 +13,12 @@ import {
 	Media
 } from "reactstrap";
 
+import markAsSeen from "hooks/markAsSeen";
+
 const Chat = (props) => {
 	const [message, setMessage] = useState("");
+
+	let { chatOpen, setChatOpen, chatUser, messages, setMessages, sePuedeEnviar, wsChat, sessionUser, friends } = props;
 
 	const obtenerMensajesDeChat = (amigx, mensajes) => {
 		if (mensajes == null)
@@ -35,16 +39,6 @@ const Chat = (props) => {
 		});
 	}
 
-	let { chatOpen, setChatOpen, chatUser, messages, setMessages, sePuedeEnviar, wsChat, sessionUser, friends } = props;
-
-	// if (wsChat)
-	// 	wsChat.onmessage = (event) => {
-	// 		let msg = JSON.parse(event.data);
-	// 		msg = {Emisor: msg.emisor, Receptor: msg.receptor, Contenido: msg.contenido, Leido: (chatUser>=0 && friends[chatUser].Codigo===msg.emisor) ? 1 : 0};
-	// 		setMessages(messages === null ? [msg] : [...messages, msg]);
-	// 		sessionStorage.setItem("mensajes7reinas", JSON.stringify(messages === null ? [msg] : [...messages, msg]));
-	// }
-
 	const handleMsgChange = event => {
 		setMessage(event.target.value);
 	};
@@ -52,7 +46,17 @@ const Chat = (props) => {
 	if (chatOpen)
 	return (
 		<>
-			<Card className={"chat-header chat-friends chat-header-open" + (chatUser < 0 ? " chat-text-xxl" : "")} color="primary" onClick = {() => setChatOpen(!chatOpen)}>
+			<Card
+				className={"chat-header chat-friends chat-header-open" + (chatUser < 0 ? " chat-text-xxl" : "")}
+				color="primary"
+				onClick = {() => {
+					setChatOpen(!chatOpen);
+					let msgs = JSON.parse(sessionStorage.getItem("mensajes7reinas"));
+					markAsSeen(msgs, friends[chatUser].Codigo);
+					setMessages (msgs);
+					sessionStorage.setItem("mensajes7reinas", JSON.stringify(msgs));
+				}}
+			>
 				{chatUser < 0 ? "Chat" :
 					<Media className="align-items-center">
 						<span className="avatar avatar-sm rounded-circle">
@@ -61,7 +65,7 @@ const Chat = (props) => {
 								src={SelectImgUser(friends[chatUser].Foto)}
 							/>
 						</span>
-						<Media className="ml-2 d-none d-lg-block">
+						<Media className="ml-2 d-none d-block">
 							<span className="mb-0 text-lg font-weight-bold">
 								{friends[chatUser].Nombre}
 							</span>
@@ -77,9 +81,12 @@ const Chat = (props) => {
 				event.preventDefault();
 				if (sePuedeEnviar && message !== "") {
 					wsChat.send(JSON.stringify({emisor: sessionUser.codigo, receptor: friends[chatUser].Codigo, contenido:message}));
+					let msgs = JSON.parse(sessionStorage.getItem("mensajes7reinas"));
 					let msg = {Emisor: sessionUser.codigo, Receptor: friends[chatUser].Codigo, Contenido: message, Leido: 1};
-					setMessages (messages === null ? [msg] : [...messages, msg]);
-					sessionStorage.setItem("mensajes7reinas", JSON.stringify(messages === null ? [msg] : [...messages, msg]));
+					msgs = msgs === null ? [msg] : [...msgs, msg];
+					markAsSeen(msgs, friends[chatUser].Codigo);
+					setMessages (msgs);
+					sessionStorage.setItem("mensajes7reinas", JSON.stringify(msgs));
 				}
 				setMessage("");
 			}}>

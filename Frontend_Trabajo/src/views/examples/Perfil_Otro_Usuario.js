@@ -8,6 +8,9 @@ import {
     FormGroup,
     Form,
     Input,
+    InputGroup,
+    InputGroupAddon,
+    InputGroupText,
     Table,
     Media,
     Badge,
@@ -22,7 +25,7 @@ import {
     DropdownItem
   } from "reactstrap";
   import { PropTypes } from "prop-types";
-  import { Link, useParams, useLocation } from "react-router-dom";
+  import { Link, useParams, useLocation, useHistory } from "react-router-dom";
 
   // core components
   //import UserHeader from "components/Headers/UserHeader.js";
@@ -33,14 +36,18 @@ import {
 import { get } from "jquery";
 import getHistorial from "hooks/getter/getHistorial";
   
-  const Perfil_Otro_Usuario = () => {
+  const Perfil_Otro_Usuario = (props) => {
 
     const [ anotherUser, setAnotherUser ] = React.useState({});
     const [ historial, setHistorial ] = React.useState([]);
+    const history = useHistory();
 
     const location = useLocation();
     const params = useParams();
     console.log(params.id);
+    const { sessionUser } = props;
+    if (params.id === sessionUser.codigo)
+      history.push("/admin/perfil_usuario");
 
     React.useEffect(() => {
       getUserByCode(params.id)
@@ -69,10 +76,30 @@ import getHistorial from "hooks/getter/getHistorial";
 
     return (
       <>
-        {/* <Header /> */}
-        {/* Page content */}
-        <Container className="mt-5 p-5" fluid>
-          <Row>
+        <Container className="p-5" fluid>
+          <Row className="d-flex justify-content-center">
+
+            <Form role="form" onSubmit={(event) => {
+              event.preventDefault();
+              history.push(`/admin/usuario/${event.target[0].value}`);
+            }}>
+              <FormGroup className="d-flex flex-row justify-content-center">
+                <InputGroup className="d-flex d-row flex-nowrap">
+                  <InputGroupAddon addonType="prepend">
+                    <InputGroupText>
+                      <i className="fas fa-search" />
+                    </InputGroupText>
+                  </InputGroupAddon>
+                  <Input className="h-auto" placeholder="Código de usuario" type="text" />
+                </InputGroup>
+                <Button className="ml-3" color="primary" type="submit">
+                  Buscar
+                </Button>
+                
+              </FormGroup>
+            </Form>
+          </Row>
+          <Row className="mt-5">
             <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
             <Card className="card-profile shadow rounded-card">
                 <Row className="justify-content-center">
@@ -101,7 +128,7 @@ import getHistorial from "hooks/getter/getHistorial";
                   </Row>
                   {anotherUser.descrp === "" || anotherUser.descrp === " " || anotherUser.descrp === null ? null :
                     <Row className="d-flex justify-content-center align-center">
-                      <h3 className="font-weight-normal">
+                      <h3 className="font-weight-normal px-4">
                         {anotherUser.descrp}
                       </h3>
                     </Row>
@@ -155,28 +182,37 @@ import getHistorial from "hooks/getter/getHistorial";
                     {historial ?
                       <thead className="thead-normal">
                         <tr>
-                          <th scope="col">Clave</th>
-                          <th scope="col">Tipo</th>
-                          <th scope="col">Anfitrión</th>
-                          <th scope="col">Resultado</th>
+                          <th scope="col" className="text-center" style={{width:"15%"}}>Clave</th>
+                          <th scope="col" className="text-center" style={{width:"20%"}}>Tipo</th>
+                          <th scope="col" className="text-center">Anfitrión</th>
+                          <th scope="col" className="text-center" style={{width:"30%"}}>Resultado</th>
                         </tr>
                       </thead>
                     : null}
                     <tbody>
-                      {historial ? historial.map((partida, index) => {
+                      {historial ? historial.reverse().map((partida, index) => {
                         return (
                           <tr key={index}>
-                            <td>
-                              {partida.Clave}
+                            <td className="text-center">
+                              <h4>
+                                {partida.Clave}
+                              </h4>
                             </td>
-                            <td>
-                              {partida.Tipo}
+                            <td className="text-center">
+                              <h4>
+                                {partida.Tipo=="amistosa" ? "Amistosa" : "Torneo"}
+                              </h4>
                             </td>
-                            <td>
-                              {partida.Creador}
+                            <td className="text-center">
+                              <h4>
+                                {partida.Creador}
+                              </h4>
                             </td>
-                            <td>
-                              {partida.Ganador ? "Victoria" : "Derrota"}
+                            <td className="text-center">
+                              <h4>
+                                {partida.Ganador ? <span className="text-green">Victoria</span> : <span className="text-red">Derrota</span>}
+                                {partida.Tipo=="torneo" ? <span className="small text-center"> {partida.Puntos} puntos</span> : null}
+                              </h4>
                             </td>
                           </tr>
                         );

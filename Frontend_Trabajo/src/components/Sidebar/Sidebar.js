@@ -109,7 +109,7 @@ const Sidebar = (props) => {
     if (show) return (
       <Card className="m-0 p-2">
         <CardBody className="m-0 p-0">
-          <Button className="w-100" color="primary" onClick={toggleShowAddFriend}>
+          <Button className="w-100 m-0" color="primary" onClick={toggleShowAddFriend}>
             Cerrar
           </Button>
           <Form role="form" onSubmit={event => {
@@ -136,7 +136,7 @@ const Sidebar = (props) => {
               </InputGroup>
             </FormGroup>
             <div className="text-center">
-              <Button className="w-100" color="primary" type="submit">
+              <Button className="w-100 m-0" color="primary" type="submit">
                 Añadir amig@
               </Button>
             </div>
@@ -146,14 +146,14 @@ const Sidebar = (props) => {
       </Card>
     );
     else return (
-      <Button color="primary" onClick={() => {toggleShowAddFriend()}}>
+      <Button color="primary" className="w-100 m-0" onClick={() => {toggleShowAddFriend()}}>
         Añadir amig@
       </Button>)
   }
   const showFriendRqsTitle = () => {
     if (friendRequests != null) {
       return (
-        <h6 className="text-center navbar-heading text-muted my-2">
+        <h6 className="text-center navbar-heading text-muted mt-3 mb-1">
           Peticiones de amistad
         </h6>
       );
@@ -166,7 +166,7 @@ const Sidebar = (props) => {
     }
     return friendRequests.map((prop, key) => {
       if (prop.Estado == "pendiente") return (
-        <Nav className="d-md-flex" navbar key={key}>
+        <Nav className="d-flex" navbar key={key}>
           <UncontrolledDropdown nav>
             <DropdownToggle className="py-1" nav>
               <Media className="align-items-center">
@@ -176,7 +176,7 @@ const Sidebar = (props) => {
                     src={SelectImgUser(prop.Foto)}
                   />
                 </span>
-                <Media className="ml-2 d-none d-lg-block">
+                <Media className="ml-2 d-none d-block">
                   <span className="mb-0 text-sm font-weight-bold">
                   {prop.Nombre}<span className="text-xs"><br/>Petición recibida</span>
                   </span>
@@ -189,8 +189,8 @@ const Sidebar = (props) => {
                 <h5 className="user-card-code text-overflow m-0 mt--1">{prop.Codigo}</h5>
                 <h6 className="user-card-desc text-overflow m-0 mt--0">Petición recibida</h6>
               </DropdownItem>
-              <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-single-02" />
+              <DropdownItem to={`/admin/usuario/${prop.Codigo}`} tag={Link}>
+                <i className="ni ni-circle-08" />
                 <span>Perfil</span>
               </DropdownItem>
               <DropdownItem onClick={() => {acceptFriendRequest(sessionUser.codigo, prop.Codigo, () => {
@@ -233,8 +233,8 @@ const Sidebar = (props) => {
                 <h5 className="user-card-code text-overflow m-0 mt--1">{prop.Codigo}</h5>
                 <h6 className="user-card-desc text-overflow m-0 mt--0">Petición enviada</h6>
               </DropdownItem>
-              <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-single-02" />
+              <DropdownItem to={`/admin/usuario/${prop.Codigo}`} tag={Link}>
+                <i className="ni ni-circle-08" />
                 <span>Perfil</span>
               </DropdownItem>
               <DropdownItem onClick={() => {unfriend(prop.Codigo, sessionUser.codigo, () => {
@@ -252,7 +252,7 @@ const Sidebar = (props) => {
   const showFriendsTitle = () => {
     if (friends != null) {
       return (
-        <h6 className="text-center navbar-heading text-muted my-2">
+        <h6 className="text-center navbar-heading text-muted mt-3 mb-1">
           Ranking
         </h6>
       );
@@ -274,7 +274,7 @@ const Sidebar = (props) => {
     }
     return friends.map((prop, key) => {
       return (
-        <Nav className="d-md-flex" navbar key={key}>
+        <Nav className="d-flex" navbar key={key}>
           <UncontrolledDropdown nav>
             <DropdownToggle className="py-1" nav>
               <Media className="align-items-center">
@@ -314,7 +314,7 @@ const Sidebar = (props) => {
               </DropdownItem>
               <DropdownItem to={`/admin/usuario/${prop.Codigo}`} tag={Link}>
                 <i className="ni ni-circle-08" />
-                <span>Profile</span>
+                <span>Perfil</span>
               </DropdownItem>
               <DropdownItem onClick={() => {unfriend(sessionUser.codigo, prop.Codigo, () => {
                 updateFriends();
@@ -322,7 +322,7 @@ const Sidebar = (props) => {
                 // sessionStorage.setItem("amigxs7reinas", JSON.stringify(friends));
               })}}>
                 <i className="ni ni-fat-remove" />
-                <span>Unfriend</span>
+                <span>Eliminar amig@</span>
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
@@ -349,19 +349,17 @@ const Sidebar = (props) => {
 
   return (
     <Navbar
-      className="user-sidebar navbar-vertical fixed-right bg-white no-content"
-      expand="sm"
+      className="user-sidebar navbar-vertical right-0 bg-white position-fixed d-block px-4"
+      style={{overflowY:"auto"}}
       id="sidenav-main"
       // style={{"overflow":"hidden"}}
     >
-      <Container fluid >
-        <Collapse navbar isOpen={collapseOpen}>
-          {addFriendInterface (showAddFriend)}
-          {showFriendRqsTitle()}
-          {showFriendRequests()}
-          {showFriendsTitle()}
-          {showFriends()}
-        </Collapse>
+      <Container fluid className="d-flex flex-column justify-content-start align-items-stretch p-0">
+        {addFriendInterface (showAddFriend)}
+        {showFriendRqsTitle()}
+        {showFriendRequests()}
+        {showFriendsTitle()}
+        {showFriends()}
       </Container>
     </Navbar>
   );

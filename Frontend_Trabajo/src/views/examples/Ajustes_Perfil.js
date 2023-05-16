@@ -134,7 +134,7 @@ import deleteAccount from "hooks/setter/deleteAccount";
                   </Row>
                   {sessionUser.descrp === "" || sessionUser.descrp === " " || sessionUser.descrp === null ? null :
                     <Row className="d-flex justify-content-center align-center">
-                      <h3 className="font-weight-normal">
+                      <h3 className="font-weight-normal px-4">
                         {sessionUser.descrp}
                       </h3>
                     </Row>

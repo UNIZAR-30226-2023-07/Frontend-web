@@ -476,10 +476,6 @@
 	height: 1rem
 }
 
-.no-content::before {
-	content: none !important;
-}
-
 .text-condensed {
 	line-height: 1 !important;
 }

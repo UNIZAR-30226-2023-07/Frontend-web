@@ -127,7 +127,7 @@ const Admin = (props) => {
       return ws;
     }
     return wsChat;
-  }, [wsChat, chatOpen, chatUser, friends, sessionUser.codigo]);
+  }, [wsChat, chatOpen, chatUser, friends, sessionUser]);
 
   //Se usa para resetar la partida cuando estas en un torneo
   const resetear_partida_torneo = () => {
@@ -522,7 +522,7 @@ const Admin = (props) => {
       return ws;
     }
     return wsGame;
-  }, [wsGame, sessionUser.codigo, currentGame, history, myTurn, players]);
+  }, [wsGame, sessionUser, currentGame, history, myTurn, players]);
 
   const wsTorneoInstance = useMemo(() => {
     if (!wsTorneo/* && currentGame !== null && currentGame !== undefined && currentGame !== ""*/) {
@@ -562,10 +562,9 @@ const Admin = (props) => {
           let mensaje = JSON.parse(event.data);
           console.log("Mensaje de wsTorneo:");
           console.log(mensaje);
-          let puntos;
 
           if ( (mensaje.tipo).substring(0, 13) === "Nuevo_Jugador" ) {
-            let nuevoJugador = mensaje.tipo.slice(mensaje.tipo.indexOf(" ")+3);
+            let nuevoJugador = mensaje.tipo.slice(mensaje.tipo.indexOf(":")+2);
             getUserForGame(nuevoJugador, () => {
               setPlayers(JSON.parse(sessionStorage.getItem("jugadorxs7reinas")));
               console.log("El nuevo jugador: "+(mensaje.tipo).substring(15));
@@ -666,7 +665,7 @@ const Admin = (props) => {
       }
     }
     return wsTorneo;
-  }, [wsTorneo, sessionUser.codigo, currentGame, history, myTurn, players]);
+  }, [wsTorneo, sessionUser, currentGame, history, myTurn, players]);
 
 
   const wsGameChatInstance = useMemo(() => {
@@ -792,6 +791,12 @@ const Admin = (props) => {
     }
     return "Brand";
   };
+
+  if (sessionUser === null) {
+    return (
+      null
+    );
+  }
 
   if (currentGame !== null && currentGame !== undefined && currentGame !== "") {
 
