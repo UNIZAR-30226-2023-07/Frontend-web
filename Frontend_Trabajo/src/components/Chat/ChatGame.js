@@ -57,7 +57,7 @@ const ChatGame = (props) => {
 
 	if (chatOpen) return (
 		<>
-			<Card className="chat-header chat-game chat-header-open chat-text-xxl" color="primary" onClick = {() => setChatOpen(!chatOpen)}>
+			<Card className="popup-header chat-game popup-header-open chat-text-xxl" color="primary" onClick = {() => setChatOpen(!chatOpen)}>
 				Chat de partida
 			</Card>
 			<Card className="chat-body chat-game" color="contrast">
@@ -98,7 +98,7 @@ const ChatGame = (props) => {
 		</>
 	);
 	else return (
-		<Card className="chat-header chat-game chat-header-closed chat-text-xxl" color="primary" onClick = {() => setChatOpen(!chatOpen)}>
+		<Card className="popup-header chat-game popup-header-closed chat-text-xxl" color="primary" onClick = {() => setChatOpen(!chatOpen)}>
 			Chat de partida
 		</Card>
 	);

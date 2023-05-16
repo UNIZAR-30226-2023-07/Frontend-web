@@ -39,6 +39,7 @@ import getFriendRequests from "hooks/getter/getFriendRequests";
 import getPausedGames from "hooks/getter/getPausedGames";
 
 import setAppIcon from "hooks/setAppIcon";
+import RulesPopup from "components/Chat/RulesPopup";
 
 const Admin = (props) => {
 
@@ -65,6 +66,7 @@ const Admin = (props) => {
   const [roundWinner, setRoundWinner] = useState(JSON.parse(sessionStorage.getItem("ganadorxronda7reinas")));
 	const [chatOpen, setChatOpen] = useState(false);
 	const [chatGameOpen, setChatGameOpen] = useState(false);
+  const [rulesOpen, setRulesOpen] = useState(false);
   const [chatUser, setChatUser] = useState(-1);
 	const [sePuedeEnviar, setSePuedeEnviar] = useState(false);
 	const [messages, setMessages] = useState(JSON.parse(sessionStorage.getItem("mensajes7reinas")));
@@ -860,6 +862,11 @@ const Admin = (props) => {
           wsChat={wsGameChat}
           sePuedeEnviar={sePuedeEnviarGame}
         />
+        <RulesPopup
+          {...props}
+          rulesOpen={rulesOpen}
+          setRulesOpen={setRulesOpen}
+        />
       </>
     );
   } else {
@@ -911,6 +918,11 @@ const Admin = (props) => {
           sePuedeEnviar={sePuedeEnviar}
           sessionUser={sessionUser}
           friends={friends}
+        />
+        <RulesPopup
+          {...props}
+          rulesOpen={rulesOpen}
+          setRulesOpen={setRulesOpen}
         />
       </>
     );

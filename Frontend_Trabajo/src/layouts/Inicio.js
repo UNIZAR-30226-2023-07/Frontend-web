@@ -14,7 +14,7 @@ import {
 
 import "./../assets/css/inicio-styles.css";
 
-import logo from './../assets/img/Imgs_7_Reinas/logo.png';
+import logo from './../assets/img/brand/large-white.png';
 //import fonfo_pantalla from './../assets/img/Imgs_7_Reinas/Fondo_Pantalla_Inicio.png';
 import { Link, useHistory } from "react-router-dom";
 
@@ -23,9 +23,13 @@ import getFriends from "hooks/getter/getFriends";
 import getFriendRequests from "hooks/getter/getFriendRequests";
 import getFriendMessages from "hooks/getter/getFriendMessages";
 import getPausedGames from "hooks/getter/getPausedGames";
+import setAppIcon from "hooks/setAppIcon.js";
+import rules from "hooks/rules";
 
 
 function Inicio() {
+
+  setAppIcon();
 
   const history = useHistory();
   let email = JSON.parse(localStorage.getItem('sesionrecordada7reinas'));
@@ -44,44 +48,42 @@ function Inicio() {
     });
   }
 
-    const containerStyle = {
-      /*backgroundImage:
-        url(${fonfo_pantalla})`,*/
-      
-      width: "600px",
-      height: "600px",
-
-    };
-
+  const loginIface =
+    <div className="d-flex align-items-center my-5 text-white">
+      <Button onClick={e => {
+          e.preventDefault(); 
+          history.push("/pagina_login/register_reinas");
+        }}
+        variant="primary"
+        className="inicio-boton mr-3"
+      >
+        Empezar a jugar
+      </Button>
+      o
+      <Button onClick={e => {
+          e.preventDefault(); 
+          history.push("/pagina_login/login_reinas");
+        }}
+        variant="primary"
+        className="inicio-boton ml-3"
+      >
+        Iniciar sesión
+      </Button>
+    </div>;
 
   return (
-    <div className="inicio_fondo_pantalla">
-      <header className="Inicio-header">
+    <div className="inicio_fondo_pantalla py-5 d-flex flex-column">
 
-      <img src={logo} className="inicio--logo" alt="Logo del sistema de juego
-        Rabino 7 Reinas"/>
+      <img src={logo} className="inicio-logo" alt="Logo de Rabino 7 Reinas"/>
 
-      <Col lg="4" md="20" className = "inicio--cuadro">
-        <Card className="bg-secondary shadow border-0">
-          <CardBody className="px-lg-5 py-lg-2">
+      <p2 className="text-center text-white display-4 pt-3">Bienvenid@ a la primera versión online gratuita de rabino.</p2>
 
-          
+      {loginIface}
 
-          <p className="inicio--texto">
-            <span className="inicio--titulo">¡¡EL ENTRETENIMIENTO TE ESPERA!!</span><br/>
-            Pulse INICIAR para entrar
-          </p>
-          <p>
-            <Link to= "/pagina_login/login_reinas"><Button as={Link} variant="primary" className="inicio--boton">
-              INICIAR
-            </Button>
-            </Link>
-          </p>
+      {rules}
 
-          </CardBody>
-        </Card>
-      </Col>
-      </header>
+      {loginIface}
+
     </div>
   );
 }

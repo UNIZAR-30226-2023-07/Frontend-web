@@ -1,9 +1,7 @@
 /* styles.css */
 
 .inicio_fondo_pantalla{
-    background-color: #5240d3;
-    height: 100vh;
-    width: 100vw;
+    background: linear-gradient(87deg, #5e72e4 0, #825ee4 100%);
 }
 
 .inicio--cuadro{
@@ -13,8 +11,9 @@
     padding-top: 3rem !important;
 }
 
-.inicio--logo{
+.inicio-logo{
     display: block;
+    width: 60%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -27,13 +26,27 @@
     width: 60%
 }
 
-.inicio--boton{
+.inicio-boton{
+    font-size: 150%;
+    font-weight: bold;
     display: block;
     margin-left: auto;
     margin-right: auto;
-    border-style: solid;
-    border-color:#5240d3;
-    border-width: 10px;
+    border-radius: 0.75rem;
+    border: none;
+    letter-spacing: 0;
+}
+
+.inicio-reglas-titulo {
+    font-size: 150%;
+    font-weight: 900;
+    margin-top: 2rem;
+}
+
+.inicio-reglas-cuerpo {
+    font-size: 100%;
+    font-weight: 100;
+    margin-top: 1rem;
 }
 
 .inicio--texto{

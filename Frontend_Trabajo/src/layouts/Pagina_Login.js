@@ -9,8 +9,11 @@ import AuthFooter from "components/Footers/AuthFooter.js";
 import routes from "routes.js";
 import logo from './../assets/img/Imgs_7_Reinas/logo.png';
 import friends from "friends.js";
+import setAppIcon from "hooks/setAppIcon.js";
 
 const Pagina_Login = (props) => {
+
+  setAppIcon();
   const mainContent = React.useRef(null);
   const location = useLocation();
 

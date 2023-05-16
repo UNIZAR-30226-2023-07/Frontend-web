@@ -47,7 +47,7 @@ const Chat = (props) => {
 	return (
 		<>
 			<Card
-				className={"chat-header chat-friends chat-header-open" + (chatUser < 0 ? " chat-text-xxl" : "")}
+				className={"popup-header chat-friends popup-header-open" + (chatUser < 0 ? " chat-text-xxl" : "")}
 				color="primary"
 				onClick = {() => {
 					setChatOpen(!chatOpen);
@@ -124,7 +124,7 @@ const Chat = (props) => {
 	);
 	else
 	return (
-		<Card className={"chat-header chat-friends chat-header-closed " + (chatUser < 0 ? "chat-text-xxl" : "")} color="primary" onClick = {() => setChatOpen(!chatOpen)}>
+		<Card className={"popup-header chat-friends popup-header-closed " + (chatUser < 0 ? "chat-text-xxl" : "")} color="primary" onClick = {() => setChatOpen(!chatOpen)}>
 			{chatUser < 0 ? "Chat" :
 				<Media className="align-items-center">
 					<span className="avatar avatar-sm rounded-circle">
