@@ -67,7 +67,7 @@ import {
 
             <Form role="form" onSubmit={(event) => {
               event.preventDefault();
-              history.push(`/admin/usuario/${event.target[0].value}`);
+              history.push(`/user/profile/${event.target[0].value}`);
             }}>
               <FormGroup className="d-flex flex-row justify-content-center">
                 <InputGroup className="d-flex d-row flex-nowrap">
@@ -103,7 +103,7 @@ import {
                 </Row>
                 <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4" style={{background:"transparent"}}>
                   <div className="d-flex justify-content-between">
-                    <Link to= "/admin/ajustes_perfil"><Button as={Link} variant="primary" className="mr-4" color="info" size="sm">
+                    <Link to= "/user/settings"><Button as={Link} variant="primary" className="mr-4" color="info" size="sm">
                       Ajustar
                     </Button>
                     </Link>

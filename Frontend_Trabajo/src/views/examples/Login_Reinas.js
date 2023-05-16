@@ -77,7 +77,7 @@ const Login_Reinas = () => {
     //Mandamos la request con el email y la contraseña
     xhr.send(JSON.stringify({ email: email, contra: password }))
 
-    //history.push("/admin/perfil_usuario");
+    //history.push("/user/profile");
   };
 
 
@@ -104,7 +104,7 @@ const Login_Reinas = () => {
                 getFriendMessages(sessionUser.codigo, () => {
                   if (remember)
                     localStorage.setItem('sesionrecordada7reinas', JSON.stringify(email));
-                  history.push("/admin/");
+                  history.push("/user/");
                 });
               });
             });
@@ -199,7 +199,7 @@ const Login_Reinas = () => {
               <NavItem>
                 <NavLink
                   className="nav-link-icon text-light"
-                  to="/pagina_login/register_reinas"
+                  to="/auth/register"
                   tag={Link}
                 >
                   <small>Crear una cuenta</small>
@@ -212,7 +212,7 @@ const Login_Reinas = () => {
               <NavItem>
                 <NavLink
                   className="nav-link-icon text-light"
-                  to="/pagina_login/password_olvidada"
+                  to="/auth/password"
                   tag={Link}
                 >
                   <small>¿Ha olvidado su contraseña?</small>

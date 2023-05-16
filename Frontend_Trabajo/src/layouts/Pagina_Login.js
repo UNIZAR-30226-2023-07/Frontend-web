@@ -8,7 +8,6 @@ import AuthFooter from "components/Footers/AuthFooter.js";
 
 import routes from "routes.js";
 import logo from './../assets/img/Imgs_7_Reinas/logo.png';
-import friends from "friends.js";
 import setAppIcon from "hooks/setAppIcon.js";
 
 const Pagina_Login = (props) => {
@@ -31,7 +30,7 @@ const Pagina_Login = (props) => {
 
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/pagina_login") {
+      if (prop.layout === "/auth") {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -82,7 +81,7 @@ const Pagina_Login = (props) => {
           <Row className="justify-content-center">
             <Switch>
               {getRoutes(routes)}
-              <Redirect from="*" to="/pagina_login/login_reinas" />
+              <Redirect from="*" to="/auth/login" />
             </Switch>
           </Row>
         </Container>

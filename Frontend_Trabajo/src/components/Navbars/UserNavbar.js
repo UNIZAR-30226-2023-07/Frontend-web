@@ -85,10 +85,10 @@ const UserNavbar = (props) => {
         <Container fluid className="navbar-reinas">
           {logo ? (
             <NavbarBrand className="pt-0" {...navbarBrandProps}
-              onClick={event => {if(location.pathname == "/admin/partida" ||
-                                    location.pathname == "/admin/gamepaused" ||
-                                    location.pathname == "/admin/gameend" ||
-                                    location.pathname == "/admin/gamelobby")
+              onClick={event => {if(location.pathname == "/user/game" ||
+                                    location.pathname == "/user/paused" ||
+                                    location.pathname == "/user/end" ||
+                                    location.pathname == "/user/lobby")
                                   event.preventDefault();
               }}>
               <img
@@ -98,29 +98,29 @@ const UserNavbar = (props) => {
               />
             </NavbarBrand>
           ) : null}
-          {(location.pathname == "/admin/partida" || location.pathname == "/admin/gamepaused" || location.pathname == "/admin/gameend"
-            || location.pathname == "/admin/gamelobby")? 
+          {(location.pathname == "/user/game" || location.pathname == "/user/paused" || location.pathname == "/user/end"
+            || location.pathname == "/user/lobby")? 
           <span className="mr-1"></span>:(
           <Link
             className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block ml--7"
-            to="/admin/"
+            to="/user/"
           >
             Jugar
           </Link>
           )}
-          {(location.pathname == "/admin/partida" || location.pathname == "/admin/gamepaused" || location.pathname == "/admin/gameend"
-            || location.pathname == "/admin/gamelobby")?  
+          {(location.pathname == "/user/game" || location.pathname == "/user/paused" || location.pathname == "/user/end"
+            || location.pathname == "/user/lobby")?  
           <span className="mr-1"></span>:(
           <Link
             className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block ml--7"
-            to="/admin/perfil_usuario"
+            to="/user/profile"
           >
             Perfil
           </Link>
           )}
           {/* <Link
             className="h4 mb-0 text-white text-uppercase d-lg-none d-lg-inline-block ml--9"
-            to="/admin/tables"
+            to="/user/tables"
           >
             Amig@s
           </Link> */}

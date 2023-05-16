@@ -40,7 +40,7 @@ function Inicio() {
         getFriendRequests(sessionUser.codigo, () => {
           getPausedGames(sessionUser.codigo, () => {
             getFriendMessages(sessionUser.codigo, () => {
-              history.push("/admin/");
+              history.push("/user/");
             });
           });
         });
@@ -52,7 +52,7 @@ function Inicio() {
     <div className="d-flex align-items-center my-5 text-white">
       <Button onClick={e => {
           e.preventDefault(); 
-          history.push("/pagina_login/register_reinas");
+          history.push("/auth/register");
         }}
         variant="primary"
         className="inicio-boton mr-3"
@@ -62,7 +62,7 @@ function Inicio() {
       o
       <Button onClick={e => {
           e.preventDefault(); 
-          history.push("/pagina_login/login_reinas");
+          history.push("/auth/login");
         }}
         variant="primary"
         className="inicio-boton ml-3"

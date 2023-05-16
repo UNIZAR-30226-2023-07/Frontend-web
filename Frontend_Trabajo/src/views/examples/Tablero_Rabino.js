@@ -1,4 +1,4 @@
-import "./../assets/css/cartas_rabino.css";
+import "./../../assets/css/cartas_rabino.css";
 //import CardR from "components/Cartas_Rabino/card.js";
 import React, { useEffect, useState, memo } from 'react';
 import CardsWrapper from "components/Cartas_Rabino/CardWrapper.js";
@@ -8,7 +8,7 @@ import { Link, useLocation, useHistory } from "react-router-dom";
 
 import SelectImgUser from "hooks/SelectImgUser.js";
 
-import Reverso_carta from "../assets/img/Imgs_7_Reinas/Reverso_carta.png";
+import Reverso_carta from "../../assets/img/Imgs_7_Reinas/Reverso_carta.png";
 
 import pauseGame from "hooks/setter/pauseGame";
 
@@ -23,7 +23,7 @@ function Tablero_Rabino(props) {
   const history = useHistory();
 
   if (sessionStorage.getItem("turno7reinas") == null)
-    history.push("/admin/");
+    history.push("/user/");
 
   //Esta parte guarda la información de los jugadores que hay
 

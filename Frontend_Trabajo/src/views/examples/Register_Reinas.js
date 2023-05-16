@@ -60,7 +60,7 @@ import {
               getFriends(sessionUser.codigo, () => {
                 getFriendRequests(sessionUser.codigo, () => {
                   getFriendMessages(sessionUser.codigo, () => {
-                    history.push("/admin/");
+                    history.push("/user/");
                   });
                 })
               });

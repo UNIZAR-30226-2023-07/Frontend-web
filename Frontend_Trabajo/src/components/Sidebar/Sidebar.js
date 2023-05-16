@@ -189,7 +189,7 @@ const Sidebar = (props) => {
                 <h5 className="user-card-code text-overflow m-0 mt--1">{prop.Codigo}</h5>
                 <h6 className="user-card-desc text-overflow m-0 mt--0">Petición recibida</h6>
               </DropdownItem>
-              <DropdownItem to={`/admin/usuario/${prop.Codigo}`} tag={Link}>
+              <DropdownItem to={`/user/profile/${prop.Codigo}`} tag={Link}>
                 <i className="ni ni-circle-08" />
                 <span>Perfil</span>
               </DropdownItem>
@@ -233,7 +233,7 @@ const Sidebar = (props) => {
                 <h5 className="user-card-code text-overflow m-0 mt--1">{prop.Codigo}</h5>
                 <h6 className="user-card-desc text-overflow m-0 mt--0">Petición enviada</h6>
               </DropdownItem>
-              <DropdownItem to={`/admin/usuario/${prop.Codigo}`} tag={Link}>
+              <DropdownItem to={`/user/profile/${prop.Codigo}`} tag={Link}>
                 <i className="ni ni-circle-08" />
                 <span>Perfil</span>
               </DropdownItem>
@@ -312,7 +312,7 @@ const Sidebar = (props) => {
                 <i className="ni ni-send" />
                 <span>Chat</span>
               </DropdownItem>
-              <DropdownItem to={`/admin/usuario/${prop.Codigo}`} tag={Link}>
+              <DropdownItem to={`/user/profile/${prop.Codigo}`} tag={Link}>
                 <i className="ni ni-circle-08" />
                 <span>Perfil</span>
               </DropdownItem>

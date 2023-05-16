@@ -149,7 +149,7 @@ const Index = (props) => {
                   sessionStorage.setItem("es_torneo7reinas", JSON.stringify(prop.Tipo === "Torneo"));
                   setPlayers(JSON.parse(sessionStorage.getItem("jugadorxs7reinas")));
                   setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]);
-                  history.push("/admin/gamelobby");
+                  history.push("/user/lobby");
                 },
                 () => setErrorUnirse(true),
                 prop.Creador === sessionUser.codigo, false
@@ -184,7 +184,7 @@ const Index = (props) => {
                     setIsTournament(JSON.parse(sessionStorage.getItem("es_torneo7reinas")));
                     setPlayers(JSON.parse(sessionStorage.getItem("jugadorxs7reinas")));
                     setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]);
-                    history.push("/admin/gamelobby");
+                    history.push("/user/lobby");
                   },
                   () => setErrorUnirse(true),
                   false, true
@@ -228,7 +228,7 @@ const Index = (props) => {
                       setIsTournament(false);
                       setPlayers(JSON.parse(sessionStorage.getItem("jugadorxs7reinas")));
                       setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]);
-                      history.push("/admin/gamelobby")
+                      history.push("/user/lobby")
                     },
                     () => setErrorCrear(true)
               )}}>
@@ -245,7 +245,7 @@ const Index = (props) => {
                       setIsTournament(true);
                       setPlayers(JSON.parse(sessionStorage.getItem("jugadorxs7reinas")));
                       setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]);
-                      history.push("/admin/gamelobby")
+                      history.push("/user/lobby")
                     },
                     () => setErrorCrear(true)
               )}}>

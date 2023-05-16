@@ -16,12 +16,6 @@
 
 */
 import Index from "views/Index.js";
-import Profile from "views/examples/Profile.js";
-import Maps from "views/examples/Maps.js";
-import Register from "views/examples/Register.js";
-import Login from "views/examples/Login.js";
-import Tables from "views/examples/Tables.js";
-import Icons from "views/examples/Icons.js";
 //NUEVO
 import Login_R from "views/examples/Login_Reinas.js";
 import Register_R from "views/examples/Register_Reinas.js";
@@ -30,139 +24,89 @@ import Perfil_Otro_Usuario from "views/examples/Perfil_Otro_Usuario";
 import Password_O from "views/examples/Password_Olvidada";
 import Ajustes_Perfil from "views/examples/Ajustes_Perfil";
 import Crear_Partida_N from "views/examples/Crear_Partida_N";
-import Tablero_Rabino from "layouts/Tablero_Rabino";
+import Tablero_Rabino from "views/examples/Tablero_Rabino";
 import Final_Partida from "views/examples/Final_Partida";
 import Pausa_Partida from "views/examples/Pausa_Partida";
 
 
 var routes = [
   {
-    path: "/index",
+    path: "/home",
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
     component: Index,
-    layout: "/admin"
+    layout: "/user"
   },
-  {
-    path: "/icons",
-    name: "Icons",
-    icon: "ni ni-planet text-blue",
-    component: Icons,
-    layout: "/admin"
-  },
-  {
-    path: "/maps",
-    name: "Maps",
-    icon: "ni ni-pin-3 text-orange",
-    component: Maps,
-    layout: "/admin"
-  },
-  {
-    path: "/user-profile",
-    name: "User Profile",
-    icon: "ni ni-single-02 text-yellow",
-    component: Profile,
-    layout: "/admin"
-  },
-  {
-    path: "/tables",
-    name: "Tables",
-    icon: "ni ni-bullet-list-67 text-red",
-    component: Tables,
-    layout: "/admin"
-  },
+  //Rutas nuevas para 7 Reinas
   {
     path: "/login",
-    name: "Login",
+    name: "Login_R",
     icon: "ni ni-key-25 text-info",
-    component: Login,
+    component: Login_R,
     layout: "/auth"
   },
   {
     path: "/register",
-    name: "Register",
-    icon: "ni ni-circle-08 text-pink",
-    component: Register,
-    layout: "/auth"
-  },
-  //Rutas nuevas para 7 Reinas
-  {
-    path: "/login_reinas",
-    name: "Login_R",
-    icon: "ni ni-key-25 text-info",
-    component: Login_R,
-    layout: "/pagina_login"
-  },
-  {
-    path: "/register_reinas",
     name: "Register_R",
     icon: "ni ni-circle-08 text-pink",
     component: Register_R,
-    layout: "/pagina_login"
+    layout: "/auth"
   },
   {
-    path: "/password_olvidada",
+    path: "/password",
     name: "Password_O",
     icon: "ni ni-circle-08 text-pink",
     component: Password_O,
-    layout: "/pagina_login"
+    layout: "/auth"
   },
   {
-    path: "/perfil_usuario",
-    name: "Perfil_Usuario",
-    icon: "ni ni-single-02 text-yellow",
-    component: Perfil_Usuario,
-    layout: "/admin"
-  },
-  {
-    path: "/usuario/:id",
+    path: "/profile/:id",
     name: "Perfil_Otro_Usuario",
     icon: "ni ni-single-02 text-yellow",
     component: Perfil_Otro_Usuario,
-    layout: "/admin"
+    layout: "/user"
   },
   {
-    path: "/ajustes_perfil",
+    path: "/profile",
+    name: "Perfil_Usuario",
+    icon: "ni ni-single-02 text-yellow",
+    component: Perfil_Usuario,
+    layout: "/user"
+  },
+  {
+    path: "/settings",
     name: "Ajustes_Perfil",
     icon: "ni ni-single-02 text-yellow",
     component: Ajustes_Perfil,
-    layout: "/admin"
+    layout: "/user"
   },
   {
-    path: "/gamelobby",
+    path: "/lobby",
     name: "Crear_Partida_N",
     icon: "ni ni-single-02 text-yellow",
     component: Crear_Partida_N,
-    layout: "/admin"
+    layout: "/user"
   },
   {
-    path: "/partida",
+    path: "/game",
     name: "Partida",
     icon: "ni ni-single-02 text-yellow",
     component: Tablero_Rabino,
-    layout: "/admin"
+    layout: "/user"
   },
   {
-    path: "/gameend",
+    path: "/end",
     name: "Resultados",
     icon: "ni ni-single-02 text-yellow",
     component: Final_Partida,
-    layout: "/admin"
+    layout: "/user"
   },
   {
-    path: "/gamepaused",
+    path: "/paused",
     name: "Partida pausada",
     icon: "ni ni-single-02 text-yellow",
     component: Pausa_Partida,
-    layout: "/admin"
+    layout: "/user"
   },
-
-  /*{
-    path: "",
-    name: "",
-    icon: "ni ni-circle-08 text-pink",
-    component: ,
-    layout: "/tablero_rabino"
-  },*/
 ];
 export default routes;

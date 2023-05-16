@@ -47,7 +47,7 @@ import getHistorial from "hooks/getter/getHistorial";
     console.log(params.id);
     const { sessionUser } = props;
     if (params.id === sessionUser.codigo)
-      history.push("/admin/perfil_usuario");
+      history.push("/user/profile");
 
     React.useEffect(() => {
       getUserByCode(params.id)
@@ -81,7 +81,7 @@ import getHistorial from "hooks/getter/getHistorial";
 
             <Form role="form" onSubmit={(event) => {
               event.preventDefault();
-              history.push(`/admin/usuario/${event.target[0].value}`);
+              history.push(`/user/profile/${event.target[0].value}`);
             }}>
               <FormGroup className="d-flex flex-row justify-content-center">
                 <InputGroup className="d-flex d-row flex-nowrap">

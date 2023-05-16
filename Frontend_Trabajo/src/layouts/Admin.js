@@ -29,8 +29,6 @@ import Chat from "components/Chat/Chat.js";
 import ChatGame from "components/Chat/ChatGame.js";
 
 import routes from "routes.js";
-//import friends from "friends.js";
-//import friendRequests from "friendRequests.js";
 import informacion_Web from "informacion_Web.js";
 import getUser from "hooks/getter/getUser";
 import getUserForGame from "hooks/getter/getUserForGame";
@@ -243,8 +241,8 @@ const Admin = (props) => {
         console.log(myHand);
         setHand(myHand);
         sessionStorage.setItem("mano7reinas", JSON.stringify(myHand)); //Inicialmnete es vacia
-        if (location.pathname !== "/admin/partida")
-          history.push("/admin/partida");
+        if (location.pathname !== "/user/game")
+          history.push("/user/game");
         break;
 
       case "Mostrar_mano":
@@ -350,7 +348,7 @@ const Admin = (props) => {
           } else {
             sessionStorage.setItem("ganadorx7reinas", parseInt(mensaje.info));
             getUser(sessionUser.correo, () => {
-              history.push("/admin/gameend");
+              history.push("/user/end");
             });
           }
         } else if (/*GANADOR*/true) {
@@ -374,7 +372,7 @@ const Admin = (props) => {
           } else {
             sessionStorage.setItem("ganadorx7reinas", parseInt(mensaje.info));
             getUser(sessionUser.correo, () => {
-              history.push("/admin/gameend");
+              history.push("/user/end");
             });
           }
         } else if (/*GANADOR*/false) {
@@ -399,7 +397,7 @@ const Admin = (props) => {
           } else {
             sessionStorage.setItem("ganadorx7reinas", parseInt(mensaje.info));
             getUser(sessionUser.correo, () => {
-              history.push("/admin/gameend");
+              history.push("/user/end");
             });
           }
         } else if (/*GANADOR*/false) {
@@ -468,7 +466,7 @@ const Admin = (props) => {
           } else {
             sessionStorage.setItem("ganadorx7reinas", parseInt(mensaje.ganador));
             getUser(sessionUser.correo, () => {
-              history.push("/admin/gameend");
+              history.push("/user/end");
             });
           }
         }
@@ -476,7 +474,7 @@ const Admin = (props) => {
 
         case "Partida_Pausada":
           getPausedGames(sessionUser.codigo, () => {
-            history.push("/admin/gamepaused");
+            history.push("/user/paused");
           });
           break;
       
@@ -536,7 +534,7 @@ const Admin = (props) => {
           setSePuedeEnviarGame(true);
           setWsTorneo(ws);
 
-          /*if(location.pathname != "/admin/partida"){//Comprobamos que no estemos en una partida
+          /*if(location.pathname != "/user/game"){//Comprobamos que no estemos en una partida
             console.log("Reseteamos LStorage Partida: "+location.pathname);
             sessionStorage.removeItem('miturno7reinas');
             sessionStorage.removeItem('mano7reinas');
@@ -655,7 +653,7 @@ const Admin = (props) => {
               sessionStorage.setItem("usuario7reinas", JSON.stringify(usuario));
               sessionStorage.setItem("ganadorx7reinas", parseInt(mensaje.ganador));
               getUser(sessionUser.correo, () => {
-                history.push("/admin/gameend");
+                history.push("/user/end");
               });
             }
           }
@@ -742,13 +740,13 @@ const Admin = (props) => {
 
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
+      if (prop.layout === "/user") {
         return (
 
           <Route
             path={prop.layout + prop.path}
             // Añadir props: https://ui.dev/react-router-pass-props-to-components
-            render={(props) => <div className={"user-content" + (prop.path==="/partida"?" game-content":"")} ref={mainContent}>
+            render={(props) => <div className={"user-content" + (prop.path==="/game"?" game-content":"")} ref={mainContent}>
                                   <prop.component
                                     {...props}
                                     sessionUser={sessionUser}
@@ -809,7 +807,7 @@ const Admin = (props) => {
             {...props}
             brandText={getBrandText(props.location.pathname)}
             logo={{
-              innerLink: "/admin/index",
+              innerLink: "/user/home",
               imgSrc: require("../assets/img/brand/large-white.png"),
               imgAlt: "..."
             }}
@@ -834,7 +832,7 @@ const Admin = (props) => {
         <div className={"game-content user-content"} ref={mainContent}>
           <Switch>
             {getRoutes(routes)}
-            <Redirect from="*" to="/admin/index" />
+            <Redirect from="*" to="/user/home" />
           </Switch>
           {/* <Container fluid>
             <AdminFooter />
@@ -877,7 +875,7 @@ const Admin = (props) => {
             {...props}
             brandText={getBrandText(props.location.pathname)}
             logo={{
-              innerLink: "/admin/index",
+              innerLink: "/user/home",
               imgSrc: require("../assets/img/brand/large-white.png"),
               imgAlt: "..."
             }}
@@ -902,7 +900,7 @@ const Admin = (props) => {
         
           <Switch>
             {getRoutes(routes)}
-            <Redirect from="*" to="/admin/index" />
+            <Redirect from="*" to="/user/home" />
           </Switch>
           {/* <Container fluid>
             <AdminFooter />

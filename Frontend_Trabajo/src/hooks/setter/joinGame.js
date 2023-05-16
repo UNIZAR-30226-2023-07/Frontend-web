@@ -23,22 +23,44 @@ export default function joinGame (me, clavePartida, doNext, doOnError, amITheHos
         //console.log(xhr.responseText);
     });
 
+    const anyadirBot = (num) => {
+        let players = JSON.parse(sessionStorage.getItem('jugadorxs7reinas'));
+        let bot = {
+            codigo: `bot${num}`,
+            nombre: `Bot ${num}`,
+            puntos: 0,
+            foto: Math.floor(Math.random() * 9),
+            cartas: 14,
+            ptsTorneo: 0
+        };
+        players = players == null ? [bot] : [...players, bot];
+        sessionStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
+    }
+
+    const obtenerInfoJugadorxs = (jugadores, ind) => {
+        let match = (/^bot(\d+)$/).exec(jugadores[ind]);
+        if (match) {
+            anyadirBot(match[1]);
+            if (ind < jugadores.length - 1)
+                obtenerInfoJugadorxs(jugadores, ind + 1);
+            else doTheRest();
+        }
+        else getUserForGame(jugadores[ind], () => {
+            if (ind < jugadores.length - 1)
+                obtenerInfoJugadorxs(jugadores, ind + 1);
+            else doTheRest();
+        });
+    }
+
     xhr.onload = function () {
         if (xhr.status === 200) {
             console.log("partida encontrada");
             sessionStorage.removeItem('jugadorxs7reinas');
             let datos = JSON.parse(xhr.response);
+            console.log(JSON.parse(xhr.response));
             sessionStorage.setItem('juego7reinas', clavePartida);
             if (datos.jugadores != null) {
-                getUserForGame(datos.jugadores[0], () => {
-                    if (datos.jugadores.length > 1)
-                        getUserForGame(datos.jugadores[1], () => {
-                            if (datos.jugadores.length > 2)
-                                getUserForGame(datos.jugadores[2], () => {doTheRest(datos.tipo);});
-                            else doTheRest(datos.tipo);
-                        });
-                    else doTheRest(datos.tipo);
-                });
+                obtenerInfoJugadorxs(datos.jugadores, 0);
             } else doTheRest(datos.tipo);
         } else {
             doOnError();
