@@ -56,7 +56,7 @@ import {
           //console.log(xhr.status);
           if (xhr.status === 202) { //Si recibe un OK
             getUser(email, () => {
-              let sessionUser = JSON.parse(localStorage.getItem('usuario7reinas'));
+              let sessionUser = JSON.parse(sessionStorage.getItem('usuario7reinas'));
               getFriends(sessionUser.codigo, () => {
                 getFriendRequests(sessionUser.codigo, () => {
                   getFriendMessages(sessionUser.codigo, () => {

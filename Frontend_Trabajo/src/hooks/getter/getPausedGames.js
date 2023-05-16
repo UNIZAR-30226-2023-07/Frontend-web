@@ -11,8 +11,8 @@ export default function getPausedGames (user, doNext) {
         if (xhr.status === 200) {
             const datosPartidas = JSON.parse(xhr.response);
             console.log("Datos Partidas Pausadas: "+ datosPartidas.partidas);
-            localStorage.setItem('part_pausadas7reinas', JSON.stringify(datosPartidas.partidas));
-            //console.log(localStorage.getItem('amigxs7reinas'));
+            sessionStorage.setItem('part_pausadas7reinas', JSON.stringify(datosPartidas.partidas));
+            //console.log(sessionStorage.getItem('amigxs7reinas'));
             doNext();
         } else {
             alert(`Se ha producido un error al obtener los datos de partidas pausadas.`);

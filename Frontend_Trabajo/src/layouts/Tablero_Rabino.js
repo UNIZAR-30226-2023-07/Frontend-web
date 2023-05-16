@@ -22,7 +22,7 @@ function Tablero_Rabino(props) {
   const location = useLocation();
   const history = useHistory();
 
-  if (localStorage.getItem("turno7reinas") == null)
+  if (sessionStorage.getItem("turno7reinas") == null)
     history.push("/admin/");
 
   //Esta parte guarda la información de los jugadores que hay
@@ -33,7 +33,7 @@ function Tablero_Rabino(props) {
   const [currentComb, setCurrentComb] = useState(0);
   const [numOfCombs, setNumOfCombs] = useState(0);
   const [action, setAction] = useState(0);
-  const [heRobado, setheRobado] = useState(localStorage.getItem("herobado7reinas") == null? false:localStorage.getItem("herobado7reinas"));
+  const [heRobado, setheRobado] = useState(sessionStorage.getItem("herobado7reinas") == null? false:sessionStorage.getItem("herobado7reinas"));
 
   const combinaciones = (hand, cardsPerComb, numOfCombs) => {
     let estructura = [];
@@ -123,7 +123,7 @@ function Tablero_Rabino(props) {
   }, []);
 
   const jugadoresInfo = (jugadores) => {
-    let turno = JSON.parse(localStorage.getItem("turno7reinas"));
+    let turno = JSON.parse(sessionStorage.getItem("turno7reinas"));
     return jugadores?.map((jugador, ind) => {
       return jugador == null ? null : (
         <Card className={"game-player-card" + (ind==turno?" game-player-current":"") + (ind==myTurn?" game-player-me":"")}>
@@ -219,10 +219,10 @@ function Tablero_Rabino(props) {
   }
 
   const robarCarta = () => {
-    let turno = JSON.parse(localStorage.getItem("turno7reinas"));
-    if(!JSON.parse(localStorage.getItem("herobado7reinas"))){//Solo puede robar si no ha robado
+    let turno = JSON.parse(sessionStorage.getItem("turno7reinas"));
+    if(!JSON.parse(sessionStorage.getItem("herobado7reinas"))){//Solo puede robar si no ha robado
       if(turno == myTurn){
-        localStorage.setItem("herobado7reinas", true); //Indica si ha robado el jugador
+        sessionStorage.setItem("herobado7reinas", true); //Indica si ha robado el jugador
         wsGame.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Robar_carta"}));
         console.log('Enviar: Roba una carta');
       } else {
@@ -235,10 +235,10 @@ function Tablero_Rabino(props) {
   }
 
   const robarDescarte = () => {
-    let turno = JSON.parse(localStorage.getItem("turno7reinas"));
-    if(!JSON.parse(localStorage.getItem("herobado7reinas"))){//Solo puede robar si no ha robado
+    let turno = JSON.parse(sessionStorage.getItem("turno7reinas"));
+    if(!JSON.parse(sessionStorage.getItem("herobado7reinas"))){//Solo puede robar si no ha robado
       if(turno == myTurn){
-        localStorage.setItem("herobado7reinas", true); //Indica si ha robado el jugador
+        sessionStorage.setItem("herobado7reinas", true); //Indica si ha robado el jugador
         wsGame.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Robar_carta_descartes"}));
         console.log('Enviar: Robar de descarte');
       } else {
@@ -251,8 +251,8 @@ function Tablero_Rabino(props) {
   }
 
   const descartar = () => {
-    let turno = JSON.parse(localStorage.getItem("turno7reinas"));
-    if(JSON.parse(localStorage.getItem("herobado7reinas"))){ //Antes de descartar hay que robar
+    let turno = JSON.parse(sessionStorage.getItem("turno7reinas"));
+    if(JSON.parse(sessionStorage.getItem("herobado7reinas"))){ //Antes de descartar hay que robar
       if(turno == myTurn){
         if (numOfCombs === 1 && cardsPerComb[0] === 1) {
           wsGame.send(JSON.stringify({
@@ -333,11 +333,11 @@ function Tablero_Rabino(props) {
       <div style={{ position: "relative", height: '5rem', width: 'calc(100vw - 17.25rem)', right: '0', zIndex:'1'}}
       className="mt-0">
         <Row className="game-player-container">
-          {(turn==myTurn && JSON.parse(localStorage.getItem("anfitrion7reinas")) && !JSON.parse(localStorage.getItem("herobado7reinas"))) ?
+          {(turn==myTurn && JSON.parse(sessionStorage.getItem("anfitrion7reinas")) && !JSON.parse(sessionStorage.getItem("herobado7reinas"))) ?
           <Button
             className="game-exit-button"
             color='primary'
-            onClick={() => {console.log('Salir pulsado'); pauseGame(sessionUser, `${JSON.parse(localStorage.getItem("juego7reinas"))}`, ()=>{}, ()=>{});}}
+            onClick={() => {console.log('Salir pulsado'); pauseGame(sessionUser, `${JSON.parse(sessionStorage.getItem("juego7reinas"))}`, ()=>{}, ()=>{});}}
           >
             <i className="ni flip-y ni-user-run" />
           </Button> : null}
@@ -352,7 +352,7 @@ function Tablero_Rabino(props) {
           <div style={{ backgroundColor:'brown', width:'calc(100vw - 15rem)', height:'11.25rem', display:'flex'}}>
             {mostrarMazo()}
             {mostrarDescartes(discard, () => {
-              !JSON.parse(localStorage.getItem("herobado7reinas")) && hand.length<12 ? robarDescarte() : descartar()})
+              !JSON.parse(sessionStorage.getItem("herobado7reinas")) && hand.length<12 ? robarDescarte() : descartar()})
             }
             {mostrarMano()}
           </div>
@@ -372,7 +372,7 @@ function Tablero_Rabino(props) {
       <Card className="game-action-bar another">
         <h3 className="mx-4 my-0 white-text">Turno de <span className="font-weight-bolder">{players[turn].nombre}</span></h3>
       </Card>
-      : !JSON.parse(localStorage.getItem("herobado7reinas")) ?
+      : !JSON.parse(sessionStorage.getItem("herobado7reinas")) ?
         <Card className="game-action-bar me">
           { hand!=null && hand.length<12 ?
             <h3 className="mx-3 my-0 text-white">Roba una carta del mazo o de descartes.</h3> :

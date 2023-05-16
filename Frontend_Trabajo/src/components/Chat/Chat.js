@@ -42,7 +42,7 @@ const Chat = (props) => {
 	// 		let msg = JSON.parse(event.data);
 	// 		msg = {Emisor: msg.emisor, Receptor: msg.receptor, Contenido: msg.contenido, Leido: (chatUser>=0 && friends[chatUser].Codigo===msg.emisor) ? 1 : 0};
 	// 		setMessages(messages === null ? [msg] : [...messages, msg]);
-	// 		localStorage.setItem("mensajes7reinas", JSON.stringify(messages === null ? [msg] : [...messages, msg]));
+	// 		sessionStorage.setItem("mensajes7reinas", JSON.stringify(messages === null ? [msg] : [...messages, msg]));
 	// }
 
 	const handleMsgChange = event => {
@@ -79,7 +79,7 @@ const Chat = (props) => {
 					wsChat.send(JSON.stringify({emisor: sessionUser.codigo, receptor: friends[chatUser].Codigo, contenido:message}));
 					let msg = {Emisor: sessionUser.codigo, Receptor: friends[chatUser].Codigo, Contenido: message, Leido: 1};
 					setMessages (messages === null ? [msg] : [...messages, msg]);
-					localStorage.setItem("mensajes7reinas", JSON.stringify(messages === null ? [msg] : [...messages, msg]));
+					sessionStorage.setItem("mensajes7reinas", JSON.stringify(messages === null ? [msg] : [...messages, msg]));
 				}
 				setMessage("");
 			}}>

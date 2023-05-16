@@ -12,8 +12,8 @@ export default async function getFriendMessages (user, doNext) {
         if (xhr.status === 202) {
             const datosMensajes = JSON.parse(xhr.response);
             //console.log(datosSolicitudes.amistad);
-            localStorage.setItem('mensajes7reinas', JSON.stringify(datosMensajes.msg));
-            //console.log(localStorage.getItem('solicitudes7reinas'));
+            sessionStorage.setItem('mensajes7reinas', JSON.stringify(datosMensajes.msg));
+            //console.log(sessionStorage.getItem('solicitudes7reinas'));
             doNext();
         } else {
             alert(`Se ha producido un error al obtener los mensajes.`);

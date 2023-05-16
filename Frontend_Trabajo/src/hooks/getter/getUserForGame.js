@@ -10,7 +10,7 @@ export default function getUserForGame (player, doNext, order) {
     xhr.onload = function () {
         if (xhr.status === 200) {
             const datos = JSON.parse(xhr.response);
-            let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
+            let players = JSON.parse(sessionStorage.getItem('jugadorxs7reinas'));
             let user = {codigo: datos.codigo, nombre: datos.nombre, puntos: datos.puntos, foto: datos.foto, ptsTorneo: 0};
             if (order != null) {
                 user.cartas = 14;
@@ -18,7 +18,7 @@ export default function getUserForGame (player, doNext, order) {
             } else {
                 players = players == null ? [user] : [...players, user];
             }
-            localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
+            sessionStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
             //console.log("Juagador de código: "+datos.codigo+" añadido");
             doNext();
         } else {

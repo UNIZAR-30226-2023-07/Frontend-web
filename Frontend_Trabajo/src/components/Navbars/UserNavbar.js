@@ -53,7 +53,7 @@ import logOut from "hooks/getter/logOut.js";
 const UserNavbar = (props) => {
 
   const { bgColor, logo, informacion_Web} = props;
-  let sessionUser = JSON.parse(localStorage.getItem("usuario7reinas"));
+  let sessionUser = JSON.parse(sessionStorage.getItem("usuario7reinas"));
 
   const location = useLocation();
 
@@ -194,25 +194,25 @@ const UserNavbar = (props) => {
                   <i className="ni ni-user-run" />
                   <span>Cerrar sesión</span>
                 </DropdownItem>
-                <DropdownItem divider /> {/*Esto solo es para borrar localStorage de la Partida de forma rápida */}
-                <DropdownItem onClick={() =>{   localStorage.removeItem('juego7reinas');
-                                                localStorage.removeItem('pConectada7reinas');
-                                                localStorage.removeItem('jugadorxs7reinas');
-                                                localStorage.removeItem('jGetUser7reinas');
-                                                localStorage.removeItem('miturno7reinas');
-                                                localStorage.removeItem('mano7reinas');
-                                                localStorage.removeItem('tablero7reinas');
-                                                localStorage.removeItem('descarte7reinas');
-                                                localStorage.removeItem('turno7reinas');
-                                                localStorage.removeItem('heabierto7reinas');
-                                                localStorage.removeItem('herobado7reinas');
-                                                localStorage.removeItem('part_pausadas7reinas');
-                                                localStorage.removeItem("es_torneo7reinas");
-                                                localStorage.removeItem("puntosTorneo7reinas");
-                                                localStorage.removeItem("ganadorxronda7reinas");
-                                                localStorage.removeItem("ganadorx7reinas");
-                                                localStorage.removeItem("torneo_ganado7reinas");
-                                                localStorage.removeItem("reanudada7reinas");
+                <DropdownItem divider /> {/*Esto solo es para borrar sessionStorage de la Partida de forma rápida */}
+                <DropdownItem onClick={() =>{   sessionStorage.removeItem('juego7reinas');
+                                                sessionStorage.removeItem('pConectada7reinas');
+                                                sessionStorage.removeItem('jugadorxs7reinas');
+                                                sessionStorage.removeItem('jGetUser7reinas');
+                                                sessionStorage.removeItem('miturno7reinas');
+                                                sessionStorage.removeItem('mano7reinas');
+                                                sessionStorage.removeItem('tablero7reinas');
+                                                sessionStorage.removeItem('descarte7reinas');
+                                                sessionStorage.removeItem('turno7reinas');
+                                                sessionStorage.removeItem('heabierto7reinas');
+                                                sessionStorage.removeItem('herobado7reinas');
+                                                sessionStorage.removeItem('part_pausadas7reinas');
+                                                sessionStorage.removeItem("es_torneo7reinas");
+                                                sessionStorage.removeItem("puntosTorneo7reinas");
+                                                sessionStorage.removeItem("ganadorxronda7reinas");
+                                                sessionStorage.removeItem("ganadorx7reinas");
+                                                sessionStorage.removeItem("torneo_ganado7reinas");
+                                                sessionStorage.removeItem("reanudada7reinas");
                                                 console.log("SE HAN BORRADO LAS VARIABLES DE PARTIDA")}}>
                   <i className="ni ni-user-run" />
                   <span>Borrar S Partida</span>

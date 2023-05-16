@@ -3,16 +3,16 @@ import getUserForGame from "hooks/getter/getUserForGame";
 export default function joinGame (me, clavePartida, doNext, doOnError, amITheHost, addMyself) {
 
     const doTheRest = (gameType) => {
-        let players = JSON.parse(localStorage.getItem('jugadorxs7reinas'));
+        let players = JSON.parse(sessionStorage.getItem('jugadorxs7reinas'));
         if (addMyself) {
             console.log("ME AÑADO DE NUEVO")
             let meAsPlayer = {codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto, ptsTorneo: 0};
             if (players == null) players = [meAsPlayer];
             else players.push(meAsPlayer);
         }
-        localStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
-        localStorage.setItem("es_torneo7reinas", gameType === "torneo");
-        localStorage.setItem("anfitrion7reinas", JSON.stringify(amITheHost));
+        sessionStorage.setItem('jugadorxs7reinas', JSON.stringify(players));
+        sessionStorage.setItem("es_torneo7reinas", gameType === "torneo");
+        sessionStorage.setItem("anfitrion7reinas", JSON.stringify(amITheHost));
         doNext();
     }
 
@@ -26,9 +26,9 @@ export default function joinGame (me, clavePartida, doNext, doOnError, amITheHos
     xhr.onload = function () {
         if (xhr.status === 200) {
             console.log("partida encontrada");
-            localStorage.removeItem('jugadorxs7reinas');
+            sessionStorage.removeItem('jugadorxs7reinas');
             let datos = JSON.parse(xhr.response);
-            localStorage.setItem('juego7reinas', clavePartida);
+            sessionStorage.setItem('juego7reinas', clavePartida);
             if (datos.jugadores != null) {
                 getUserForGame(datos.jugadores[0], () => {
                     if (datos.jugadores.length > 1)

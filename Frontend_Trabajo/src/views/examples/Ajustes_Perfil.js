@@ -81,7 +81,7 @@ import deleteAccount from "hooks/setter/deleteAccount";
 
       if(xhr.status === 202 && respuesta.res === "ok"){ //Si recibe un OK
         getUser(sessionUser.correo, () => {
-          setSessionUser(JSON.parse(localStorage.getItem("usuario7reinas")));
+          setSessionUser(JSON.parse(sessionStorage.getItem("usuario7reinas")));
           history.push("/admin/perfil_usuario");
         });
         //history.push("/admin/perfil_usuario");

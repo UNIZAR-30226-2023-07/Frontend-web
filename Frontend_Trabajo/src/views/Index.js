@@ -64,7 +64,7 @@ import joinGame from "hooks/setter/joinGame";
 const Index = (props) => {
   const history = useHistory();//Permite cambiar de pantalla
 
-  let sessionUser = JSON.parse(localStorage.getItem("usuario7reinas"));
+  let sessionUser = JSON.parse(sessionStorage.getItem("usuario7reinas"));
   const [Clave, setClave] = useState(""); //Guarda el clave de la partida a unirse
   const [ErrorUnirse, setErrorUnirse] = useState(false); //Señala si saca un mensaje de error
   const [ErrorCrear, setErrorCrear] = useState(false); //Señala si saca un mensaje de error
@@ -74,17 +74,17 @@ const Index = (props) => {
   //const json_r_default = '{ "ranking": [ {"Nombre": "Pedro", "Foto": 5, "P_vict": 34}, {"Nombre": "Javier", "Foto": 1, "P_vict": 35} ] }';
   //const r_default = JSON.parse(json_r_default);
   //const [ranking_jug, setRanking_jug] = useState(JSON.parse(JSON.stringify(r_default.ranking)));
-  const [ranking_jug, setRanking_jug] = useState(JSON.parse(localStorage.getItem("amigxs7reinas")));
-  const [part_pausadas, setPart_pausadas] = useState(JSON.parse(localStorage.getItem("part_pausadas7reinas")));
+  const [ranking_jug, setRanking_jug] = useState(JSON.parse(sessionStorage.getItem("amigxs7reinas")));
+  const [part_pausadas, setPart_pausadas] = useState(JSON.parse(sessionStorage.getItem("part_pausadas7reinas")));
 
   let { setGame, setPlayers, setIsTournament, setAreWeResuming, setHand } = props;
 
   const updateRanking = () => {
-    setRanking_jug(JSON.parse(localStorage.getItem("amigxs7reinas")));
+    setRanking_jug(JSON.parse(sessionStorage.getItem("amigxs7reinas")));
   }
 
   const updatePart_Pausadas = () => {
-    setPart_pausadas(JSON.parse(localStorage.getItem("part_pausadas7reinas")));
+    setPart_pausadas(JSON.parse(sessionStorage.getItem("part_pausadas7reinas")));
   }
 
   const handleClaveChange = event => {
@@ -142,12 +142,12 @@ const Index = (props) => {
             <Button variant="primary" color="primary" className="ml-5" onClick={() => {
               joinGame(sessionUser, prop.Clave,
                 () => {
-                  localStorage.setItem("reanudada7reinas", JSON.stringify(true));
+                  sessionStorage.setItem("reanudada7reinas", JSON.stringify(true));
                   setAreWeResuming(true);
-                  setGame(localStorage.getItem("juego7reinas"));
+                  setGame(sessionStorage.getItem("juego7reinas"));
                   setIsTournament(prop.Tipo === "Torneo");
-                  localStorage.setItem("es_torneo7reinas", JSON.stringify(prop.Tipo === "Torneo"));
-                  setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+                  sessionStorage.setItem("es_torneo7reinas", JSON.stringify(prop.Tipo === "Torneo"));
+                  setPlayers(JSON.parse(sessionStorage.getItem("jugadorxs7reinas")));
                   setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]);
                   history.push("/admin/gamelobby");
                 },
@@ -178,11 +178,11 @@ const Index = (props) => {
               event.preventDefault();
               joinGame(sessionUser, Clave,
                   () => {
-                    localStorage.setItem("reanudada7reinas", JSON.stringify(false));
+                    sessionStorage.setItem("reanudada7reinas", JSON.stringify(false));
                     setAreWeResuming(false);
-                    setGame(localStorage.getItem("juego7reinas"));
-                    setIsTournament(JSON.parse(localStorage.getItem("es_torneo7reinas")));
-                    setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+                    setGame(sessionStorage.getItem("juego7reinas"));
+                    setIsTournament(JSON.parse(sessionStorage.getItem("es_torneo7reinas")));
+                    setPlayers(JSON.parse(sessionStorage.getItem("jugadorxs7reinas")));
                     setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]);
                     history.push("/admin/gamelobby");
                   },
@@ -222,11 +222,11 @@ const Index = (props) => {
                 onClick={() => {
                   createGame(sessionUser, "amistosa",
                     () => {
-                      localStorage.setItem("reanudada7reinas", JSON.stringify(false));
+                      sessionStorage.setItem("reanudada7reinas", JSON.stringify(false));
                       setAreWeResuming(false);
-                      setGame(localStorage.getItem("juego7reinas"));
+                      setGame(sessionStorage.getItem("juego7reinas"));
                       setIsTournament(false);
-                      setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+                      setPlayers(JSON.parse(sessionStorage.getItem("jugadorxs7reinas")));
                       setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]);
                       history.push("/admin/gamelobby")
                     },
@@ -239,11 +239,11 @@ const Index = (props) => {
                 onClick={() => {
                   createGame(sessionUser, "torneo",
                     () => {
-                      localStorage.setItem("reanudada7reinas", JSON.stringify(false));
+                      sessionStorage.setItem("reanudada7reinas", JSON.stringify(false));
                       setAreWeResuming(false);
-                      setGame(localStorage.getItem("juego7reinas"));
+                      setGame(sessionStorage.getItem("juego7reinas"));
                       setIsTournament(true);
-                      setPlayers(JSON.parse(localStorage.getItem("jugadorxs7reinas")));
+                      setPlayers(JSON.parse(sessionStorage.getItem("jugadorxs7reinas")));
                       setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]);
                       history.push("/admin/gamelobby")
                     },

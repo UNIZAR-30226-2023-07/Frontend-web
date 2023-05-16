@@ -36,8 +36,9 @@ console.log(cookies.get('myCat')); // Pacman
 const Login_Reinas = () => {
 
   //Cosas que vamos a guardar para el formulario
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [remember, setRemember] = useState(false);
 
   //Elemento para cambiar de pantalla de forma imperativa
   const history = useHistory();
@@ -49,6 +50,10 @@ const Login_Reinas = () => {
 
   const handlePasswordChange = event => {
     setPassword(event.target.value)
+  };
+
+  const handleRememberChange = event => {
+    setRemember(!remember)
   };
 
   //Submit al servidor
@@ -92,11 +97,13 @@ const Login_Reinas = () => {
       //console.log(xhr.status);
       if (xhr.status === 202) { //Si recibe un OK
         getUser(email, () => {
-          let sessionUser = JSON.parse(localStorage.getItem('usuario7reinas'));
+          let sessionUser = JSON.parse(sessionStorage.getItem('usuario7reinas'));
           getFriends(sessionUser.codigo, () => {
             getFriendRequests(sessionUser.codigo, () => {
               getPausedGames(sessionUser.codigo, () => {
                 getFriendMessages(sessionUser.codigo, () => {
+                  if (remember)
+                    localStorage.setItem('sesionrecordada7reinas', JSON.stringify(email));
                   history.push("/admin/");
                 });
               });
@@ -167,12 +174,14 @@ const Login_Reinas = () => {
                   className="custom-control-input"
                   id=" customCheckLogin"
                   type="checkbox"
+                  checked={remember}
+                  onChange={handleRememberChange}
                 />
                 <label
                   className="custom-control-label"
                   htmlFor=" customCheckLogin"
                 >
-                  <span className="text-muted">Recordar datos</span>
+                  <span className="text-muted">Recuérdame</span>
                 </label>
               </div>
               <div className="text-center">

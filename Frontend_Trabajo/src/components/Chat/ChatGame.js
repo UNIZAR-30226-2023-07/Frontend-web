@@ -69,7 +69,7 @@ const ChatGame = (props) => {
 					let msg = {codigo: sessionUser.codigo, nombre: sessionUser.nombre, foto: sessionUser.foto, mensaje: message};
 					wsChat.send(JSON.stringify(msg));
 					// setMessages(messages == null ? [msg] : [...messages, msg]);
-					// localStorage.setItem("msjsjuego7reinas", JSON.stringify(messages == null ? [msg] : [...messages, msg]));
+					// sessionStorage.setItem("msjsjuego7reinas", JSON.stringify(messages == null ? [msg] : [...messages, msg]));
 				}
 				setMessage("");
 			}}>

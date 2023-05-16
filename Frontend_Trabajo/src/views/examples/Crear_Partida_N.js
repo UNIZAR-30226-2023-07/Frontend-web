@@ -48,15 +48,15 @@ import {
               <Row style={{marginTop: "3rem", justifyContent: "center"}}>
                 {showPlayers(players)}
               </Row>
-              { JSON.parse(localStorage.getItem("anfitrion7reinas")) ?
+              { JSON.parse(sessionStorage.getItem("anfitrion7reinas")) ?
               <Row style={{marginTop: "3rem", justifyContent: "center"}}>
                 <Button variant="primary" disabled={players != null && players.length <= 1} color="primary" onClick={() => {
                     startGame(sessionUser.codigo, currentGame, false,
                     () => history.push("/admin/partida")
                   )}}>
-                  {JSON.parse(localStorage.getItem("reanudada7reinas")) ? "REANUDAR PARTIDA" : "INICIAR PARTIDA"}
+                  {JSON.parse(sessionStorage.getItem("reanudada7reinas")) ? "REANUDAR PARTIDA" : "INICIAR PARTIDA"}
                 </Button>
-                {!(JSON.parse(localStorage.getItem("reanudada7reinas"))) ?
+                {!(JSON.parse(sessionStorage.getItem("reanudada7reinas"))) ?
                   <Button variant="primary" disabled={players.length == 4} color="primary" onClick={() => {
                       startGame(sessionUser.codigo, currentGame, true,
                       () => history.push("/admin/partida")

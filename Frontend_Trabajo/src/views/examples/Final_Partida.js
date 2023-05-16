@@ -12,7 +12,7 @@ const Final_Partida = (props) => {
   const { players, myTurn, isTournament } = props;
   console.log(players);
 
-  const winner = JSON.parse(localStorage.getItem("ganadorx7reinas"));
+  const winner = JSON.parse(sessionStorage.getItem("ganadorx7reinas"));
   console.log(winner);
 
   const history = useHistory();//Permite cambiar de pantalla

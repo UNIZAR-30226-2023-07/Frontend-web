@@ -11,7 +11,7 @@ export default function startGame (me, clavePartida, conBots, doNext) {
         if (xhr.status === 200) {
             console.log("partida iniciada");
             const datos = JSON.parse(xhr.response);
-            //localStorage.setItem('juego7reinas', datos.clave);
+            //sessionStorage.setItem('juego7reinas', datos.clave);
 
             console.log("Datos de la partida iniciada: "+JSON.stringify(datos));
             doNext();

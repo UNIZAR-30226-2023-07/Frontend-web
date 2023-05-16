@@ -72,13 +72,13 @@ const Sidebar = (props) => {
 
   const updateFriends = () => {
     getFriends(sessionUser.codigo, () => {
-      setFriends(JSON.parse(localStorage.getItem("amigxs7reinas")));
+      setFriends(JSON.parse(sessionStorage.getItem("amigxs7reinas")));
       console.log(friends);
     });
   }
   const updateFriendRequests = () => {
     getFriendRequests(sessionUser.codigo, () => {
-      setFriendRequests(JSON.parse(localStorage.getItem("solicitudes7reinas")));
+      setFriendRequests(JSON.parse(sessionStorage.getItem("solicitudes7reinas")));
       console.log(friendRequests);
     });
   }
@@ -304,7 +304,7 @@ const Sidebar = (props) => {
                     if (msg.Emisor == friends[chatUser].Codigo) msg.Leido = 1;
                     return msg;
                   }));
-                  localStorage.setItem("mensajes7reinas", JSON.stringify(messages));
+                  sessionStorage.setItem("mensajes7reinas", JSON.stringify(messages));
                 setChatUser(key);
                 markAsRead(sessionUser.codigo, prop.Codigo, () => {});
                 setChatOpen(true);
@@ -319,7 +319,7 @@ const Sidebar = (props) => {
               <DropdownItem onClick={() => {unfriend(sessionUser.codigo, prop.Codigo, () => {
                 updateFriends();
                 // setFriends(friends.filter(fr => fr.Codigo != prop.Codigo));
-                // localStorage.setItem("amigxs7reinas", JSON.stringify(friends));
+                // sessionStorage.setItem("amigxs7reinas", JSON.stringify(friends));
               })}}>
                 <i className="ni ni-fat-remove" />
                 <span>Unfriend</span>
