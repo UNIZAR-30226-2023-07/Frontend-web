@@ -66,9 +66,9 @@ function Start() {
     <div className="inicio_fondo_pantalla py-5 d-flex flex-column">
 
       <img src={logo} className="inicio-logo" alt="Logo de Rabino 7 Reinas"/>
-      <p2 className="text-center text-white display-4 pt-3">
+      <h2 className="text-center text-white display-4 pt-3">
         Bienvenid@ a la primera versión online gratuita de rabino.
-      </p2>
+      </h2>
       {loginIface}
       {rules}
       {loginIface}

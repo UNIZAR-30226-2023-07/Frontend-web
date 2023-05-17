@@ -98,7 +98,8 @@ const User = (props) => {
   // Construcción de los WebSockets.
 
   const wsChatInstance = useMemo(() => {
-    if (!wsChat) {
+    if (!wsChat && sessionUser!=null) {
+      console.log(`ws://20.160.173.253:3001/api/ws/chat/${sessionUser?sessionUser.codigo:""}`)
       const ws = new WebSocket(`ws://20.160.173.253:3001/api/ws/chat/${sessionUser?sessionUser.codigo:""}`);
       ws.onopen = () => {
         console.log('Conexión abierta');
@@ -199,7 +200,7 @@ const User = (props) => {
         break;
 
       case "Partida_Creada":
-        await sleep(1000);
+        await sleep(600);
         console.log('PEDIMOS LAS MANOS AL REANUDAR');
         ws.send(JSON.stringify({"emisor":sessionUser.codigo, "tipo":"Mostrar_manos"}));
         console.log('PEDIMOS EL TABLERO AL REANUDAR');
@@ -610,7 +611,7 @@ const User = (props) => {
       return ws;
     }
     return wsGameChat;
-  }, [wsGameChat, currentGame]);
+  }, [wsGameChat]);
 
 
   useEffect(() => {
@@ -625,7 +626,7 @@ const User = (props) => {
         setWsChat(null);
       }
     }
-  }, [wsChatInstance]);
+  }, [wsChatInstance, sessionUser]);
 
   useEffect(() => {
     return () => {
