@@ -129,7 +129,7 @@ const User = (props) => {
       return ws;
     }
     return wsChat;
-  }, [wsChat, chatOpen, chatUser, friends, sessionUser, updateFriends, updateFriendRequests]);
+  }, [wsChat, chatOpen, chatUser, friends, sessionUser]);
 
   //Se usa para resetar la partida cuando estas en un torneo
   const resetear_partida_torneo = () => {
