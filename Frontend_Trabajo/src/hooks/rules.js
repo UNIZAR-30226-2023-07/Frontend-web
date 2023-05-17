@@ -1,9 +1,9 @@
 const rules =
 <div className="d-flex flex-column px-7 text-white">
 
-    <p1 className="text-center font-weight-bolder text-white display-2">
+    <h1 className="text-center font-weight-bolder text-white display-2">
     Reglas
-    </p1>
+    </h1>
 
     <p2 className="text-justify inicio-reglas-titulo">
     Resumen

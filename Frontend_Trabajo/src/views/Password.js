@@ -54,7 +54,7 @@ const Password = () => {
         //console.log(xhr.status);
         if (xhr.status === 202) { //Si recibe un OK
           alert(`La contraseña ha sido cambiada correctamente. Vuelve a iniciar sesión.`);
-          history.push('/pagina_login/');
+          history.push('/auth/');
         } else {
           alert(`Se ha producido un error al cambiar la contraseña, vuelve a intentarlo.`);
         }
