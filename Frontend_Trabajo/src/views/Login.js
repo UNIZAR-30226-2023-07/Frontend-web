@@ -10,14 +10,11 @@ import {
   InputGroup,
   Row,
   Col,
-  NavItem,
-  NavLink,
-  Nav
 } from "reactstrap";
 
 import React, { useState } from "react"
 import { PropTypes } from "prop-types";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import encryptPassword from "hooks/encryptPassword";
 import getUser from "hooks/getter/getUser";
 import getFriends from "hooks/getter/getFriends";
@@ -25,15 +22,7 @@ import getFriendRequests from "hooks/getter/getFriendRequests";
 import getFriendMessages from "hooks/getter/getFriendMessages";
 import getPausedGames from "hooks/getter/getPausedGames";
 
-/*
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
-cookies.set('myCat', 'Pacman', { path: '/' });
-console.log(cookies.get('myCat')); // Pacman
-*/
-
-
-const Login_Reinas = () => {
+const Login = () => {
 
   //Cosas que vamos a guardar para el formulario
   const [email, setEmail] = useState('');
@@ -55,31 +44,6 @@ const Login_Reinas = () => {
   const handleRememberChange = event => {
     setRemember(!remember)
   };
-
-  //Submit al servidor
-  const loginSubmit = event => {
-    event.preventDefault();
-    alert(`Your state values: 
-              email: ${email} 
-              password: ${password}
-              Se ha mandado al servidor la información`);
-
-    //Petición http
-    var xhr = new XMLHttpRequest()
-    xhr.addEventListener('load', () => {
-      // update the state of the component with the result here
-      //console.log(xhr.responseText)
-    })
-
-    // Abrimos una request de tipo post en nuestro servidor
-    xhr.open('POST', 'http://20.160.173.253:3001/api/auth/login')
-
-    //Mandamos la request con el email y la contraseña
-    xhr.send(JSON.stringify({ email: email, contra: password }))
-
-    //history.push("/user/profile");
-  };
-
 
   const login_user = event => {
     event.preventDefault();
@@ -125,17 +89,16 @@ const Login_Reinas = () => {
 
   return (
     <>
-      <Col lg="5" md="7">
-        <Card className="bg-secondary shadow border-0">
-          <CardBody className="px-lg-5 py-lg-5">
+      <Col style={{maxWidth:"80%"}} className="d-flex flex-column align-items-center">
+        <Card className="bg-secondary shadow border-0 extra-rounded-card"
+          style={{width:"75%"}}
+        >
+          <CardBody className="p-5">
             <div className="text-center text-darker mb-4 f-size-2">
-              <strong>RABINO 7 REINAS</strong>
-            </div>
-            <div className="text-center text-muted mb-4">
-              <small>Inicie Sesión introduciendo sus datos</small>
+              <strong>Iniciar sesión</strong>
             </div>
             <Form role="form" onSubmit={login_user}>
-              <FormGroup className="mb-3">
+              <FormGroup>
                 <InputGroup className="input-group-alternative">
                   <InputGroupAddon addonType="prepend">
                     <InputGroupText>
@@ -149,6 +112,7 @@ const Login_Reinas = () => {
                     //
                     onChange={handleEmailChange}
                     value={email}
+                    maxLength="64"
                   />
                 </InputGroup>
               </FormGroup>
@@ -185,41 +149,34 @@ const Login_Reinas = () => {
                 </label>
               </div>
               <div className="text-center">
-                <Button className="my-4" color="primary" type="submit">
+                <Button className="mt-4" color="primary" type="submit">
                   Iniciar Sesión
                 </Button>
               </div>
             </Form>
           </CardBody>
         </Card>
-        <Row className="mt-3">
-
-          <Col className="text-right" xs="4">
-            <Nav className="m-auto" navbar>
-              <NavItem>
-                <NavLink
-                  className="nav-link-icon text-light"
-                  to="/auth/register"
-                  tag={Link}
-                >
-                  <small>Crear una cuenta</small>
-                </NavLink>
-              </NavItem>
-            </Nav>
-          </Col>
-          <Col className="text-right" xs="6">
-            <Nav className="m-auto" navbar>
-              <NavItem>
-                <NavLink
-                  className="nav-link-icon text-light"
-                  to="/auth/password"
-                  tag={Link}
-                >
-                  <small>¿Ha olvidado su contraseña?</small>
-                </NavLink>
-              </NavItem>
-            </Nav>
-          </Col>
+        <Row className="mt-1 d-flex justify-content-center">
+          <div className="d-flex align-items-center mt-3 mb-0 text-white">
+            <Button onClick={e => {
+                e.preventDefault(); 
+                history.push("/auth/register");
+              }}
+              variant="primary"
+              className="inicio-boton mr-4"
+            >
+              Registrarse
+            </Button>
+            <Button onClick={e => {
+                e.preventDefault(); 
+                history.push("/auth/password");
+              }}
+              variant="primary"
+              className="inicio-boton"
+            >
+              Recuperar contraseña
+            </Button>
+          </div>
         </Row>
       </Col>
     </>
@@ -227,14 +184,14 @@ const Login_Reinas = () => {
 
 };
 
-Login_Reinas.propTypes = {
+Login.propTypes = {
   sessionUser: PropTypes.object,
   friends: PropTypes.arrayOf(PropTypes.object)
 };
 
-Login_Reinas.defaultProps = {
+Login.defaultProps = {
   sessionUser: {},
   friends: [{}]
 };
 
-export default Login_Reinas;
+export default Login;

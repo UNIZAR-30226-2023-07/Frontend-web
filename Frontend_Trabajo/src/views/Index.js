@@ -1,65 +1,21 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.2.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import { useState } from "react";
-// node.js library that concatenates classes (strings)
-import classnames from "classnames";
-// javascipt plugin for creating charts
-import Chart from "chart.js";
-// react plugin used to create charts
-import { Line, Bar } from "react-chartjs-2";
-// reactstrap components
 import {
   Button,
   Card,
-  CardHeader,
   CardBody,
   CardTitle,
   Form,
   FormGroup,
   Input,
-  NavItem,
-  NavLink,
-  Nav,
-  Progress,
   Table,
   Container,
-  Row,
-  Col,
-  Media
 } from "reactstrap";
+import { useHistory } from "react-router-dom";
 
-import "assets/css/user-styles.css";
-
-// core components
-import {
-  chartOptions,
-  parseOptions,
-  chartExample1,
-  chartExample2
-} from "variables/charts.js";
-
-import { Link, useHistory } from "react-router-dom";
-
-import Header from "components/Headers/Header.js";
-import SelectImgUser from "hooks/SelectImgUser.js";
 import createGame from "hooks/setter/createGame";
 import joinGame from "hooks/setter/joinGame";
 
+import "assets/css/user-styles.css";
 
 const Index = (props) => {
   const history = useHistory();//Permite cambiar de pantalla
@@ -69,59 +25,12 @@ const Index = (props) => {
   const [ErrorUnirse, setErrorUnirse] = useState(false); //Señala si saca un mensaje de error
   const [ErrorCrear, setErrorCrear] = useState(false); //Señala si saca un mensaje de error
 
-  //Codigo que tiene la lista de ranking
+  let part_pausadas = JSON.parse(sessionStorage.getItem("part_pausadas7reinas"));
 
-  //const json_r_default = '{ "ranking": [ {"Nombre": "Pedro", "Foto": 5, "P_vict": 34}, {"Nombre": "Javier", "Foto": 1, "P_vict": 35} ] }';
-  //const r_default = JSON.parse(json_r_default);
-  //const [ranking_jug, setRanking_jug] = useState(JSON.parse(JSON.stringify(r_default.ranking)));
-  const [ranking_jug, setRanking_jug] = useState(JSON.parse(sessionStorage.getItem("amigxs7reinas")));
-  const [part_pausadas, setPart_pausadas] = useState(JSON.parse(sessionStorage.getItem("part_pausadas7reinas")));
-
-  let { setGame, setPlayers, setIsTournament, setAreWeResuming, setHand } = props;
-
-  const updateRanking = () => {
-    setRanking_jug(JSON.parse(sessionStorage.getItem("amigxs7reinas")));
-  }
-
-  const updatePart_Pausadas = () => {
-    setPart_pausadas(JSON.parse(sessionStorage.getItem("part_pausadas7reinas")));
-  }
+  let { setGame, setPlayers, setIsTournament, setHand } = props;
 
   const handleClaveChange = event => {
     setClave(event.target.value)
-  };
-
-  if (window.Chart) {
-    parseOptions(Chart, chartOptions());
-  }
-
-  //Función para mostrar el ranking
-  const showRanking_jug = () => {
-    if (ranking_jug == null) {
-      return;
-    }
-    return ranking_jug.map((prop, key) => {
-      return (
-        <tr key={key}>
-          <td>
-              <span className="h1">{key+1+"º"}</span>
-          </td>
-          <td>
-            <img
-            alt="..."
-            className="avatar-lg rounded-circle mr-3"
-            src={SelectImgUser(prop.Foto)}
-            />
-          </td>
-          <td>
-              <span className="h3">{prop.Nombre}</span>
-          </td>
-          <td>
-              <span className="h3">{prop.Puntos}</span>
-          </td>
-        </tr>
-      );
-    });
   };
 
   //Función para mostrar las partidas pausadas
@@ -143,10 +52,9 @@ const Index = (props) => {
               joinGame(sessionUser, prop.Clave,
                 () => {
                   sessionStorage.setItem("reanudada7reinas", JSON.stringify(true));
-                  setAreWeResuming(true);
                   setGame(sessionStorage.getItem("juego7reinas"));
-                  setIsTournament(prop.Tipo === "Torneo");
-                  sessionStorage.setItem("es_torneo7reinas", JSON.stringify(prop.Tipo === "Torneo"));
+                  setIsTournament(prop.Tipo === "torneo");
+                  sessionStorage.setItem("es_torneo7reinas", JSON.stringify(prop.Tipo === "torneo"));
                   setPlayers(JSON.parse(sessionStorage.getItem("jugadorxs7reinas")));
                   setHand([{number: '0', symbol: '0', back: '2', comb: -1, ord: -1}]);
                   history.push("/user/lobby");
@@ -179,7 +87,6 @@ const Index = (props) => {
               joinGame(sessionUser, Clave,
                   () => {
                     sessionStorage.setItem("reanudada7reinas", JSON.stringify(false));
-                    setAreWeResuming(false);
                     setGame(sessionStorage.getItem("juego7reinas"));
                     setIsTournament(JSON.parse(sessionStorage.getItem("es_torneo7reinas")));
                     setPlayers(JSON.parse(sessionStorage.getItem("jugadorxs7reinas")));
@@ -223,7 +130,6 @@ const Index = (props) => {
                   createGame(sessionUser, "amistosa",
                     () => {
                       sessionStorage.setItem("reanudada7reinas", JSON.stringify(false));
-                      setAreWeResuming(false);
                       setGame(sessionStorage.getItem("juego7reinas"));
                       setIsTournament(false);
                       setPlayers(JSON.parse(sessionStorage.getItem("jugadorxs7reinas")));
@@ -240,7 +146,6 @@ const Index = (props) => {
                   createGame(sessionUser, "torneo",
                     () => {
                       sessionStorage.setItem("reanudada7reinas", JSON.stringify(false));
-                      setAreWeResuming(false);
                       setGame(sessionStorage.getItem("juego7reinas"));
                       setIsTournament(true);
                       setPlayers(JSON.parse(sessionStorage.getItem("jugadorxs7reinas")));
@@ -260,55 +165,16 @@ const Index = (props) => {
         <Card className="bg-secondary shadow rounded-card mx-0 paused-games-card" >
           <CardTitle
             tag="h5"
-            className="h2 font-weight-bolder justify-content-center mb-0 mt-2 d-flex overflow-hidden"
-            style={{textOverflow:"ellipsis", whiteSpace:"nowrap"}}
-            >
-              Partidas Pausadas
+            className="h2 font-weight-bolder justify-content-center mb-0 mt-2 mb-3 d-flex overflow-hidden"
+            style={{textOverflow:"ellipsis", whiteSpace:"nowrap", height:"2.3rem"}}
+          >
+            Partidas Pausadas
           </CardTitle>
-          {/* <CardHeader className="border-0"> */}
-            {/* <Row>
-              <Col style={{width:"50%"}}> */}
-                {/* <h3 className="mb-0">Partidas Pausadas</h3> */}
-              {/* </Col>
-              <Col style={{width:"50%"}}>
-                <h3 className="mb-0">Ranking</h3>
-              </Col>
-            </Row> */}
-          {/* </CardHeader> */}
-          {/* <Row>
-            <Col style={{width:"50%"}}> */}
-              <Table className="align-items-center table-flush" responsive>
-                {/* <thead className="thead-light">
-                  <tr>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Clave</th>
-                    <th scope="col" />
-                  </tr>
-                </thead> */}
-
-                <tbody>
-                  {showPart_Pausadas()}
-                </tbody>
-              </Table>
-            {/* </Col> */}
-            {/* <Col>
-              <Table className="align-items-center table-flush" responsive>
-                <thead className="thead-light">
-                  <tr>
-                    <th scope="col" className="px-1">Puesto</th>
-                    <th scope="col" className="px-1">Foto de Perfil</th>
-                    <th scope="col" className="px-1">Nombre</th>
-                    <th scope="col" className="px-1">Puntos</th>
-                    <th scope="col" className="px-1" />
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {showRanking_jug()}
-                </tbody>
-              </Table>
-            </Col> */}
-          {/* </Row> */}
+          <Table className="align-items-center table-flush" responsive>
+            <tbody>
+              {showPart_Pausadas()}
+            </tbody>
+          </Table>
         </Card>
       </Container>
     </>

@@ -7,9 +7,9 @@ import { useHistory } from "react-router-dom";
 import SelectImgUser from "hooks/SelectImgUser.js";
 import borrar_datos_partida from "hooks/getter/borrar_datos_partida.js";
 
-const Final_Partida = (props) => { 
+const GameEnd = (props) => { 
 
-  const { players, myTurn, isTournament } = props;
+  const { players, myTurn, isTournament, setGame } = props;
   console.log(players);
 
   const winner = JSON.parse(sessionStorage.getItem("ganadorx7reinas"));
@@ -21,7 +21,7 @@ const Final_Partida = (props) => {
     console.log(winner);
     let sortedPlayers = players.map(p => p);
     sortedPlayers[winner].cartas = 0;
-    if (isTournament) {
+    if (!isTournament) {
       sortedPlayers.sort((a, b) => {
         return a.cartas - b.cartas;
       });
@@ -55,8 +55,6 @@ const Final_Partida = (props) => {
 
   return (
     <>
-      {/* <Header /> */}
-      {/* Page content */}
       <Container fluid>
         <Row>
           <Col className="order-xl-1" xl="11">
@@ -71,14 +69,14 @@ const Final_Partida = (props) => {
               <div style={{textAlign:"center"}}>
                 <h4 style={{color:"white"}} className="text-condensed">Ha ganado</h4>
                 <h1 style={{color:"white"}} className="text-condensed"><strong style={{fontSize:"200%"}}>{players[winner].nombre}</strong>{/*JSON.stringify(jugPartida)*/}</h1>
-                { winner==myTurn ? <h4 style={{color:"white"}} className="text-condensed">¡Enhorabuena!</h4> : null}
+                { winner===myTurn ? <h4 style={{color:"white"}} className="text-condensed">¡Enhorabuena!</h4> : null}
               </div>
             </Row>
             <Row style={{marginTop: "3rem", justifyContent: "center"}}>
               {showPlayers(players, winner)}
             </Row>
             <Row style={{marginTop: "3rem", justifyContent: "center"}}>
-              <Button variant="primary" color="primary" onClick={() => {history.push("/user"); borrar_datos_partida();}}>
+              <Button variant="primary" color="primary" onClick={() => {history.push("/user"); borrar_datos_partida(); setGame(null);}}>
                 VOLVER A INICIO
               </Button>
             </Row>
@@ -89,4 +87,4 @@ const Final_Partida = (props) => {
   );
 };
 
-export default Final_Partida;
+export default GameEnd;

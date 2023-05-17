@@ -4,8 +4,7 @@ export default function joinGame (me, clavePartida, doNext, doOnError, amITheHos
 
     const doTheRest = (gameType) => {
         let players = JSON.parse(sessionStorage.getItem('jugadorxs7reinas'));
-        if (addMyself) {
-            console.log("ME AÑADO DE NUEVO")
+        if (!(players.some(p => p.codigo === me.codigo))) {
             let meAsPlayer = {codigo: me.codigo, nombre: me.nombre, puntos: me.puntos, foto: me.foto, ptsTorneo: 0};
             if (players == null) players = [meAsPlayer];
             else players.push(meAsPlayer);
@@ -18,10 +17,7 @@ export default function joinGame (me, clavePartida, doNext, doOnError, amITheHos
 
     let xhr = new XMLHttpRequest();
 
-    xhr.addEventListener('load', () => {
-        // update the state of the component with the result here
-        //console.log(xhr.responseText);
-    });
+    xhr.addEventListener('load', () => {});
 
     const anyadirBot = (num) => {
         let players = JSON.parse(sessionStorage.getItem('jugadorxs7reinas'));

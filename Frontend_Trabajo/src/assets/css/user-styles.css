@@ -213,6 +213,7 @@
 	margin-bottom: 0.5rem;
 	padding: 0.3rem;
 	border-radius: 0.75rem;
+	white-space: pre-line;
 }
 
 .chat-msg-friend-read {
@@ -379,7 +380,7 @@
 	width: 15rem;
 	border-radius: 0.75rem;
 	border: none;
-	background: white;
+	background: #ddd;
 	flex-direction: row;
 	padding: 0.3rem;
 	display: flex;
@@ -583,15 +584,39 @@
 	border-radius: 0.75rem;
 }
 
+.extra-rounded-card {
+	border-radius: 1.5rem;
+}
+
 .paused-games {
 	display: flex;
 	justify-content: center;
 }
 
 .paused-games-card {
-	width: 60%;
 	height: 25rem;
-	min-width: 30rem;
+	width: 30rem;
 	overflow-x: hidden;
 	overflow-y: auto;
+}
+
+.sidebar-avatar {
+	min-width: 36px;
+	min-height: 36px;
+}
+
+.sidebar-not-seen-msgs {
+	background-color: #5168e9;
+	color: white;
+	font-weight:700;
+	font-size: 120%;
+	border-radius: 50%;
+	padding-left: 0.35rem;
+	padding-right: 0.35rem;
+}
+
+@media (min-width: 800px) {
+	.navbar-menu {
+		display: inline-block !important;
+	}
 }

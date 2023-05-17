@@ -15,5 +15,7 @@ export default function borrar_datos_partida () {
     sessionStorage.removeItem("ganadorxronda7reinas");
     sessionStorage.removeItem("ganadorx7reinas");
     sessionStorage.removeItem("torneo_ganado7reinas");
-    sessionStorage.removeItem("reanudada7reinas");    
+    sessionStorage.removeItem("reanudada7reinas");
+    sessionStorage.removeItem("anfitrion7reinas");
+    
 }

@@ -1,22 +1,13 @@
 import React from "react";
 //import { useLocation, Route, Switch, Redirect } from "react-router-dom";
 // reactstrap components
-import { 
-  Container,
-  Col,
-  Card,
-  CardBody,
-  Button,
-  NavItem,
-  NavLink,
-  Nav
-} from "reactstrap";
+import { Button } from "reactstrap";
 
 import "./../assets/css/inicio-styles.css";
 
 import logo from './../assets/img/brand/large-white.png';
 //import fonfo_pantalla from './../assets/img/Imgs_7_Reinas/Fondo_Pantalla_Inicio.png';
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import getUser from "hooks/getter/getUser";
 import getFriends from "hooks/getter/getFriends";
@@ -27,7 +18,7 @@ import setAppIcon from "hooks/setAppIcon.js";
 import rules from "hooks/rules";
 
 
-function Inicio() {
+function Start() {
 
   setAppIcon();
 
@@ -75,16 +66,14 @@ function Inicio() {
     <div className="inicio_fondo_pantalla py-5 d-flex flex-column">
 
       <img src={logo} className="inicio-logo" alt="Logo de Rabino 7 Reinas"/>
-
-      <p2 className="text-center text-white display-4 pt-3">Bienvenid@ a la primera versión online gratuita de rabino.</p2>
-
+      <p2 className="text-center text-white display-4 pt-3">
+        Bienvenid@ a la primera versión online gratuita de rabino.
+      </p2>
       {loginIface}
-
       {rules}
-
       {loginIface}
 
     </div>
   );
 }
-export default Inicio;
+export default Start;

@@ -68,12 +68,16 @@ const Sidebar = (props) => {
   const [newFriend, setNewFriend] = useState("");
   const [addFriendState, setAddFriendState] = useState("");
 
-  let { sessionUser, setChatOpen, chatUser, setChatUser, messages, setMessages, friends, setFriends, friendRequests, setFriendRequests } = props;
+  let { sessionUser, chatOpen, setChatOpen, chatUser, setChatUser, messages, setMessages, friends, setFriends, friendRequests, setFriendRequests } = props;
 
   const updateFriends = () => {
+    let currentChatUser;
+    if (chatUser !== -1) currentChatUser = friends[chatUser].Codigo;
     getFriends(sessionUser.codigo, () => {
-      setFriends(JSON.parse(sessionStorage.getItem("amigxs7reinas")));
-      console.log(friends);
+      let newFriends = JSON.parse(sessionStorage.getItem("amigxs7reinas"));
+      setFriends(newFriends);
+      if (chatUser !== -1)
+        setChatUser(newFriends.findIndex((friend) => friend.Codigo === currentChatUser));
     });
   }
   const updateFriendRequests = () => {
@@ -166,7 +170,7 @@ const Sidebar = (props) => {
     }
     return friendRequests.map((prop, key) => {
       if (prop.Estado == "pendiente") return (
-        <Nav className="d-flex" navbar key={key}>
+        <Nav className="d-flex fill-available" navbar key={key}>
           <UncontrolledDropdown nav>
             <DropdownToggle className="py-1" nav>
               <Media className="align-items-center">
@@ -176,9 +180,9 @@ const Sidebar = (props) => {
                     src={SelectImgUser(prop.Foto)}
                   />
                 </span>
-                <Media className="ml-2 d-none d-block">
+                <Media className="ml-2 d-none d-block overflow-hidden">
                   <span className="mb-0 text-sm font-weight-bold">
-                  {prop.Nombre}<span className="text-xs"><br/>Petición recibida</span>
+                    {prop.Nombre}<span className="text-xs"><br/>Petición recibida</span>
                   </span>
                 </Media>
               </Media>
@@ -220,9 +224,9 @@ const Sidebar = (props) => {
                     src={SelectImgUser(prop.Foto)}
                   />
                 </span>
-                <Media className="ml-2 d-none d-lg-block">
+                <Media className="ml-2 d-none d-block overflow-hidden">
                   <span className="mb-0 text-sm font-weight-bold">
-                  {prop.Nombre}<span className="text-xs"><br/>Petición enviada</span>
+                    {prop.Nombre}<span className="text-xs"><br/>Petición enviada</span>
                   </span>
                 </Media>
               </Media>
@@ -259,12 +263,12 @@ const Sidebar = (props) => {
     }
   };
   const notSeenMsgs = (friend, messages) => {
-    if (messages !== null) {
+    if (messages !== null && (!chatOpen || chatUser < 0 || friend != friends[chatUser].Codigo)) {
       let notSeen = 0;
       messages.forEach((msg) => {
         if (msg.Emisor == friend && msg.Leido == 0) notSeen++;
       });
-      if (notSeen > 0) return (<span> ({notSeen})</span>);
+      if (notSeen > 0) return (<span className="sidebar-not-seen-msgs">{notSeen}</span>);
     }
   };
   // creates the links that appear in the right menu / Sidebar
@@ -274,21 +278,22 @@ const Sidebar = (props) => {
     }
     return friends.map((prop, key) => {
       return (
-        <Nav className="d-flex" navbar key={key}>
+        <Nav className="d-flex fill-available" navbar key={key}>
           <UncontrolledDropdown nav>
             <DropdownToggle className="py-1" nav>
-              <Media className="align-items-center">
-                <span className="avatar avatar-sm rounded-circle">
+              <Media className="align-items-center w-100">
+                <span className="sidebar-avatar avatar avatar-sm rounded-circle">
                   <img
                     alt="Imagen de perfil"
                     src={SelectImgUser(prop.Foto)}
                   />
                 </span>
-                <span className="ml-2 d-none d-block">
+                <span className="ml-2 d-none d-block fill-available overflow-hidden">
                   <span className="mb-0 text-sm font-weight-bold">
-                  {prop.Nombre}{notSeenMsgs(prop.Codigo, messages)}<br/>{prop.Puntos} <span className="text-xs">puntos</span>
+                    {prop.Nombre}<br/>{prop.Puntos} <span className="text-xs">puntos</span>
                   </span>
                 </span>
+                {notSeenMsgs(prop.Codigo, messages)}
               </Media>
             </DropdownToggle>
             <DropdownMenu className="dropdown-menu-arrow" positionFixed style={{width:"5rem"}}>

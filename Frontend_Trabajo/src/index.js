@@ -23,19 +23,19 @@ import "assets/plugins/nucleo/css/nucleo.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "assets/scss/argon-dashboard-react.scss";
 
-import AdminLayout from "layouts/Admin.js";
-import InicioLayout from "layouts/Inicio.js";
-import LoginLayout from "layouts/Pagina_Login.js";
+import UserLayout from "layouts/User.js";
+import StartLayout from "layouts/Start.js";
+import LoginLayout from "layouts/Login.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <BrowserRouter>
     <Switch>
-      <Route path="/user" render={(props) => <AdminLayout {...props} />} />
+      <Route path="/user" render={(props) => <UserLayout {...props} />} />
       <Route path="/auth" render={(props) => <LoginLayout {...props} />} />
-      <Route path="/inicio" render={(props) => <InicioLayout {...props} />} />
-      <Redirect from="/" to="/inicio" /> {/* Indicamos que es la redireccion a hacer inicialmente */}
+      <Route path="/start" render={(props) => <StartLayout {...props} />} />
+      <Redirect from="/" to="/start" /> {/* Indicamos que es la redireccion a hacer inicialmente */}
     </Switch>
   </BrowserRouter>
 );

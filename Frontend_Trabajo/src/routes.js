@@ -17,22 +17,22 @@
 */
 import Index from "views/Index.js";
 //NUEVO
-import Login_R from "views/examples/Login_Reinas.js";
-import Register_R from "views/examples/Register_Reinas.js";
-import Perfil_Usuario from "views/examples/Perfil_Usuario";
-import Perfil_Otro_Usuario from "views/examples/Perfil_Otro_Usuario";
-import Password_O from "views/examples/Password_Olvidada";
-import Ajustes_Perfil from "views/examples/Ajustes_Perfil";
-import Crear_Partida_N from "views/examples/Crear_Partida_N";
-import Tablero_Rabino from "views/examples/Tablero_Rabino";
-import Final_Partida from "views/examples/Final_Partida";
-import Pausa_Partida from "views/examples/Pausa_Partida";
+import Login from "views/Login.js";
+import Register from "views/Register";
+import Profile from "views/Profile";
+import AnotherProfile from "views/AnotherProfile";
+import Password from "views/Password";
+import Settings from "views/Settings";
+import Lobby from "views/Lobby";
+import Game from "views/Game";
+import GameEnd from "views/GameEnd";
+import GamePaused from "views/GamePaused";
 
 
 var routes = [
   {
     path: "/home",
-    name: "Dashboard",
+    name: "Hub",
     icon: "ni ni-tv-2 text-primary",
     component: Index,
     layout: "/user"
@@ -40,72 +40,72 @@ var routes = [
   //Rutas nuevas para 7 Reinas
   {
     path: "/login",
-    name: "Login_R",
+    name: "Iniciar sesión",
     icon: "ni ni-key-25 text-info",
-    component: Login_R,
+    component: Login,
     layout: "/auth"
   },
   {
     path: "/register",
-    name: "Register_R",
+    name: "Registrarse",
     icon: "ni ni-circle-08 text-pink",
-    component: Register_R,
+    component: Register,
     layout: "/auth"
   },
   {
     path: "/password",
-    name: "Password_O",
+    name: "Recuperar contraseña",
     icon: "ni ni-circle-08 text-pink",
-    component: Password_O,
+    component: Password,
     layout: "/auth"
   },
   {
     path: "/profile/:id",
-    name: "Perfil_Otro_Usuario",
+    name: "Perfil",
     icon: "ni ni-single-02 text-yellow",
-    component: Perfil_Otro_Usuario,
+    component: AnotherProfile,
     layout: "/user"
   },
   {
     path: "/profile",
-    name: "Perfil_Usuario",
+    name: "Perfil",
     icon: "ni ni-single-02 text-yellow",
-    component: Perfil_Usuario,
+    component: Profile,
     layout: "/user"
   },
   {
     path: "/settings",
-    name: "Ajustes_Perfil",
+    name: "Ajustes de usuario",
     icon: "ni ni-single-02 text-yellow",
-    component: Ajustes_Perfil,
+    component: Settings,
     layout: "/user"
   },
   {
     path: "/lobby",
-    name: "Crear_Partida_N",
+    name: "Lobby",
     icon: "ni ni-single-02 text-yellow",
-    component: Crear_Partida_N,
+    component: Lobby,
     layout: "/user"
   },
   {
     path: "/game",
     name: "Partida",
     icon: "ni ni-single-02 text-yellow",
-    component: Tablero_Rabino,
+    component: Game,
     layout: "/user"
   },
   {
     path: "/end",
-    name: "Resultados",
+    name: "Partida finalizada",
     icon: "ni ni-single-02 text-yellow",
-    component: Final_Partida,
+    component: GameEnd,
     layout: "/user"
   },
   {
     path: "/paused",
     name: "Partida pausada",
     icon: "ni ni-single-02 text-yellow",
-    component: Pausa_Partida,
+    component: GamePaused,
     layout: "/user"
   },
 ];

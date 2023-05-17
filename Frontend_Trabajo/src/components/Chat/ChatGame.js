@@ -7,10 +7,6 @@ import {
 	Card,
 	Form,
 	Input,
-	InputGroup,
-	InputGroupAddon,
-	InputGroupText,
-	Media,
 	Row,
 	Col
 } from "reactstrap";
@@ -24,9 +20,9 @@ const ChatGame = (props) => {
 		if (mensajes == null)
 			return;
 		return mensajes.map((mensaje, key) => {
-			if (mensaje.codigo == sessionUser.codigo)
+			if (mensaje.codigo === sessionUser.codigo)
 				return (
-					<Card className="chat-msg chat-msg-mine" key={key}>
+					<Card className="chat-msg chat-msg-mine d-flex flex-column" key={key}>
 						{mensaje.mensaje}
 					</Card>
 				);
@@ -54,6 +50,16 @@ const ChatGame = (props) => {
 		setMessage(event.target.value);
 	};
 
+	const handleSubmit = event => {
+		event.preventDefault();
+		if (sePuedeEnviar && message !== "") {
+			let msg = {codigo: sessionUser.codigo, nombre: sessionUser.nombre, foto: sessionUser.foto, mensaje: message};
+			wsChat.send(JSON.stringify(msg));
+			// setMessages(messages == null ? [msg] : [...messages, msg]);
+			// sessionStorage.setItem("msjsjuego7reinas", JSON.stringify(messages == null ? [msg] : [...messages, msg]));
+		}
+		setMessage("");
+	};
 
 	if (chatOpen) return (
 		<>
@@ -63,21 +69,18 @@ const ChatGame = (props) => {
 			<Card className="chat-body chat-game" color="contrast">
 				{obtenerMensajesDePartida(messages)}
 			</Card>
-			<Form onSubmit={event => {
-				event.preventDefault();
-				if (sePuedeEnviar && message !== "") {
-					let msg = {codigo: sessionUser.codigo, nombre: sessionUser.nombre, foto: sessionUser.foto, mensaje: message};
-					wsChat.send(JSON.stringify(msg));
-					// setMessages(messages == null ? [msg] : [...messages, msg]);
-					// sessionStorage.setItem("msjsjuego7reinas", JSON.stringify(messages == null ? [msg] : [...messages, msg]));
-				}
-				setMessage("");
-			}}>
+			<Form onSubmit={event => { handleSubmit(event); }}>
 				<Input
 					className="chat-input chat-input-game"
 					type="textarea"
 					placeholder="Escribe un mensaje"
 					onChange={handleMsgChange}
+					onKeyPress={event => {
+						if (event.key === "Enter" && !event.shiftKey && sePuedeEnviar && message !== "") {
+							event.preventDefault();
+							handleSubmit(event);
+						}
+					}}
 					// onKeyDown={event => {
 					// 	if (event.keyCode === 13 && !event.shiftKey && !event.ctrlKey) {
 					// 	// Presionó Enter sin mantener Shift o Ctrl

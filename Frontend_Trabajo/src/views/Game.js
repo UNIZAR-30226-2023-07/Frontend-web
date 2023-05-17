@@ -1,14 +1,14 @@
-import "./../../assets/css/cartas_rabino.css";
+import "./../assets/css/cartas_rabino.css";
 //import CardR from "components/Cartas_Rabino/card.js";
 import React, { useEffect, useState, memo } from 'react';
 import CardsWrapper from "components/Cartas_Rabino/CardWrapper.js";
 import { Row, Card, Button, } from "reactstrap";
 
-import { Link, useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 
 import SelectImgUser from "hooks/SelectImgUser.js";
 
-import Reverso_carta from "../../assets/img/Imgs_7_Reinas/Reverso_carta.png";
+import Reverso_carta from "../assets/img/Imgs_7_Reinas/Reverso_carta.png";
 
 import pauseGame from "hooks/setter/pauseGame";
 
@@ -17,7 +17,7 @@ import pauseGame from "hooks/setter/pauseGame";
 //import GuardarSalir from "hooks/getter/logOut.js";
 
 
-function Tablero_Rabino(props) {
+function Game(props) {
 
   const location = useLocation();
   const history = useHistory();
@@ -33,8 +33,7 @@ function Tablero_Rabino(props) {
   const [currentComb, setCurrentComb] = useState(0);
   const [numOfCombs, setNumOfCombs] = useState(0);
   const [action, setAction] = useState(0);
-  const [heRobado, setheRobado] = useState(sessionStorage.getItem("herobado7reinas") == null? false:sessionStorage.getItem("herobado7reinas"));
-
+  
   const combinaciones = (hand, cardsPerComb, numOfCombs) => {
     let estructura = [];
     for (let i = 0; i < numOfCombs; i++) {
@@ -82,24 +81,14 @@ function Tablero_Rabino(props) {
     let partialCardsPerComb = cardsPerComb;
     let partialCombs = {num:numOfCombs, current:currentComb}
     if (partialOpenPlay[card].comb === -1) {
-      //console.log('añadiendo');
       addCardIntoComb(card, partialOpenPlay, partialCardsPerComb, partialCombs);
     } else if (partialOpenPlay[card].comb === currentComb) {
-      //console.log('quitando');
       removeCardFromComb(card, partialOpenPlay, partialCardsPerComb, partialCombs);
     } else {
-      //console.log('cambiando');
       removeCardFromComb(card, partialOpenPlay, partialCardsPerComb, partialCombs);
       addCardIntoComb(card, partialOpenPlay, partialCardsPerComb, partialCombs);
     }
-    // console.log("Combinaciones");
-    // console.log(partialOpenPlay);
-    // console.log("Cartas por combinacion");
-    // console.log(partialCardsPerComb);
-    // console.log("Numero de combinaciones");
-    // console.log(partialCombs.num);
-    // console.log("Combinacion actual");
-    // console.log(partialCombs.current);
+
     setAction(action+1);
     setHand(partialOpenPlay);
     setCardsPerComb(partialCardsPerComb);
@@ -110,12 +99,6 @@ function Tablero_Rabino(props) {
   useEffect(() => {
     clearPlay();
   }, [hand, location]);
-
-  // useEffect(() => {
-  // }, [currentComb, cardsPerComb]);
-  // // actualizar el componente cuando cambie hand
-  // useEffect(() => {
-  // }, [hand]);
 
   useEffect(() => {
     // Set the overflow property to hidden on the body element
@@ -160,14 +143,16 @@ function Tablero_Rabino(props) {
 
   const mostrarMano = () => {
     return (hand == null || hand == undefined) ? null :
-    <div className="d-flex flex-column align-items-flex-start fill-available">
-      <CardsWrapper
-        className=""
-        cartas={hand}
-        cardsNumber={hand==null ? 0 : hand.length}
-        classes={"hand-cards card-button"}
-        accion_Carta={(index) => {handleCardSelect(index)}}
-      />
+    <div className="d-flex flex-column align-items-center fill-available">
+      <div style={{width:`${100*(hand.length+5)/20}%`}}>
+        <CardsWrapper
+          className=""
+          cartas={hand}
+          cardsNumber={hand==null ? 0 : hand.length}
+          classes={"hand-cards card-button"}
+          accion_Carta={(index) => {handleCardSelect(index)}}
+        />
+      </div>
     </div>;
   }
 
@@ -268,7 +253,7 @@ function Tablero_Rabino(props) {
           }));
           let mano = hand;
           mano.splice(hand.findIndex(card => card.comb === 0), 1); //Borramos ese elemento
-          sessionStorage.setItem("mano7reinas", JSON.stringify(mano)); //Inicialmnete es vacia
+          sessionStorage.setItem("mano7reinas", JSON.stringify(mano));
           setHand(mano);
           console.log('Mano al descartar: ');
           console.log(JSON.stringify(mano));
@@ -422,4 +407,4 @@ function Tablero_Rabino(props) {
   
 }
 
-export default memo(Tablero_Rabino);
+export default memo(Game);

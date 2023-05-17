@@ -7,9 +7,6 @@ import {
 	Card,
 	Form,
 	Input,
-	InputGroup,
-	InputGroupAddon,
-	InputGroupText,
 	Media
 } from "reactstrap";
 
@@ -36,11 +33,26 @@ const Chat = (props) => {
 						{mensaje.Contenido}
 					</Card>
 				);
+			else return null;
 		});
 	}
 
 	const handleMsgChange = event => {
 		setMessage(event.target.value);
+	};
+
+	const handleSubmit = event => {
+		event.preventDefault();
+		if (sePuedeEnviar && message !== "") {
+			wsChat.send(JSON.stringify({emisor: sessionUser.codigo, receptor: friends[chatUser].Codigo, contenido:message}));
+			let msgs = JSON.parse(sessionStorage.getItem("mensajes7reinas"));
+			let msg = {Emisor: sessionUser.codigo, Receptor: friends[chatUser].Codigo, Contenido: message, Leido: 1};
+			msgs = msgs === null ? [msg] : [...msgs, msg];
+			markAsSeen(msgs, friends[chatUser].Codigo);
+			setMessages (msgs);
+			sessionStorage.setItem("mensajes7reinas", JSON.stringify(msgs));
+		}
+		setMessage("");
 	};
 
 	if (chatOpen)
@@ -77,24 +89,18 @@ const Chat = (props) => {
 				{chatUser < 0 ? (<h4 className="no-selected-chat-user">Selecciona un@ amig@ de la lista de amig@s y pulsa "Chat".</h4>) :
 								obtenerMensajesDeChat(friends[chatUser].Codigo, messages)}
 			</Card>
-			<Form onSubmit={event => {
-				event.preventDefault();
-				if (sePuedeEnviar && message !== "") {
-					wsChat.send(JSON.stringify({emisor: sessionUser.codigo, receptor: friends[chatUser].Codigo, contenido:message}));
-					let msgs = JSON.parse(sessionStorage.getItem("mensajes7reinas"));
-					let msg = {Emisor: sessionUser.codigo, Receptor: friends[chatUser].Codigo, Contenido: message, Leido: 1};
-					msgs = msgs === null ? [msg] : [...msgs, msg];
-					markAsSeen(msgs, friends[chatUser].Codigo);
-					setMessages (msgs);
-					sessionStorage.setItem("mensajes7reinas", JSON.stringify(msgs));
-				}
-				setMessage("");
-			}}>
+			<Form onSubmit={event => { handleSubmit(event);	}}>
 				<Input
 					className="chat-input chat-input-friends"
 					type="textarea"
 					placeholder="Escribe un mensaje"
 					onChange={handleMsgChange}
+					onKeyPress={event => {
+						if (event.key === "Enter" && !event.shiftKey && sePuedeEnviar && message !== "") {
+							event.preventDefault();
+							handleSubmit(event);
+						}
+					}}
 					value={message}
 				/>
 				<Button
@@ -133,7 +139,7 @@ const Chat = (props) => {
 							src={SelectImgUser(friends[chatUser].Foto)}
 						/>
 					</span>
-					<Media className="ml-2 d-none d-lg-block">
+					<Media className="ml-2 d-none d-block">
 						<span className="mb-0 text-lg font-weight-bold">
 							{friends[chatUser].Nombre}
 						</span>

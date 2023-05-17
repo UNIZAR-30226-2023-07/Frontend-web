@@ -2,6 +2,7 @@
 
 .inicio_fondo_pantalla{
     background: linear-gradient(87deg, #5e72e4 0, #825ee4 100%);
+    min-height: 100vh;
 }
 
 .inicio--cuadro{
@@ -18,6 +19,17 @@
     margin-right: auto;
 }
 
+.login-logo{
+    display: block;
+    width: 45%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-logo:hover {
+    cursor: pointer;
+}
+
 .p_login--logo{
     display: block;
     margin-left: auto;
@@ -26,7 +38,7 @@
     width: 60%
 }
 
-.inicio-boton{
+.inicio-boton {
     font-size: 150%;
     font-weight: bold;
     display: block;

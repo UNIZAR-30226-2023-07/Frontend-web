@@ -22,5 +22,6 @@ export default function logOut () {
     sessionStorage.removeItem("ganadorx7reinas");
     sessionStorage.removeItem("torneo_ganado7reinas");
     sessionStorage.removeItem("reanudada7reinas");
+    sessionStorage.removeItem("anfitrion7reinas");
     localStorage.removeItem('sesionrecordada7reinas');
 }

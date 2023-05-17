@@ -1,5 +1,3 @@
-import getUserForGame from "hooks/getter/getUserForGame";
-
 export default function pauseGame (me, clavePartida, doNext, doOnError) {
 
     let xhr = new XMLHttpRequest();
